@@ -26,6 +26,11 @@
 
 <span id="searchHelp"><a href="${urls.base}/searchHelp" title="${i18n().search_help}">${i18n().not_expected_results}</a></span>
 <div class="contentsBrowseGroup">
+    <div class="virtualArticleSwitch">
+      <label class="switch">Показать виртуальную статью
+        <input id="virtualArticleCheck" type="checkbox" checked="false" onclick="showVirtualArticles();">
+	    </label>
+    </div>
 
     <#-- Refinement links -->
     <#if classGroupLinks?has_content>
@@ -108,6 +113,66 @@
 
 </div> <!-- end contentsBrowseGroup -->
 
+<script>
+$('input[type=checkbox]').removeAttr('checked');
+  function showVirtualArticles(){
+    var checkBox = document.getElementById("virtualArticleCheck");
+    if (checkBox.checked == true){
+      $('.excerptSearchResult').hide();
+      $('.virtualArticlePart').show();
+    } else {
+      $('.excerptSearchResult').show();
+      $('.virtualArticlePart').hide();
+    }
+
+  }
+</script>
+<script>
+  let workSet = new Set(); 
+  let biblioSet = new Set(); 
+  var workDivs = $('.virtualArticleWork');
+  var biblioDivs = $('.virtualArticleBibliography');
+  biblioDivs.each(function() {
+   biblioSet.add($(this).html());
+  });
+  workDivs.each(function() {
+   workSet.add($(this).html());
+  });
+  var workArr = Array.from(workSet);
+  workArr.sort();
+  var biblioArr = Array.from(biblioSet);
+  biblioArr.sort();
+  if (workArr.length > 0 ) {
+    $('<div class="virtualArticlePart"><button type="button" style="margin-top:16px;border:none;padding: 18px;width: 100%; text-align:left;" class="collapsible">Работы</button><div class="virtualWorks"></div></div>').insertAfter($('.virtualArticlePart').last());
+    for (let value of workArr){
+      $('.virtualWorks').last().append( '<div class="work"><p>' + value + '</p></div>' );
+    }
+  }
+  if (biblioArr.length > 0 ) {
+    $('<div class="virtualArticlePart"><button type="button" style="margin-top:16px;border:none;padding: 18px;width: 100%; text-align:left;" class="collapsible">Литература</button><div class="virtualBibliography"></div></div>').insertAfter($('.virtualArticlePart').last());
+    for (let value of biblioArr){
+      $('.virtualBibliography').last().append( '<div class="bibliography"><p>' + value + '</p></div>' );
+    }
+  }
+</script>
+<script>
+  $('.virtualWorks').hide();
+  $('.virtualBibliography').hide();
+  $('.virtualArticlePart').hide();
+  var coll = document.getElementsByClassName("collapsible");
+  var i;
+  for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var content = this.nextElementSibling;
+      if (content.style.display === "block") {
+        content.style.display = "none";
+      } else {
+        content.style.display = "block";
+      }
+    });
+  }
+</script>
 ${stylesheets.add('<link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />',
   				  '<link rel="stylesheet" href="${urls.base}/css/search.css" />',
                   '<link rel="stylesheet" type="text/css" href="${urls.base}/css/jquery_plugins/qtip/jquery.qtip.min.css" />')}
