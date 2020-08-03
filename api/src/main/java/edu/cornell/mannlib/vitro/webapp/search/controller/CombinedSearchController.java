@@ -370,7 +370,7 @@ public class CombinedSearchController extends FreemarkerHttpServlet {
       Set<String> labels = new HashSet<String>();
       try {
       	//We want to get the labels for all the languages, not just the display language
-          ResultSet results = QueryUtils.getLanguageNeutralQueryResults(GET_FILTERS_QUERY, vreq);
+          ResultSet results = QueryUtils.getLanguageNeutralQueryResults(FILTERS_QUERY, vreq);
           while (results.hasNext()) {
               QuerySolution solution = results.nextSolution();
               String nodeLiteral = solution.get("individualUri").toString();
