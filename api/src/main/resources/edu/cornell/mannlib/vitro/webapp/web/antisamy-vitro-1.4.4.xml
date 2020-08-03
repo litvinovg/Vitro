@@ -557,12 +557,24 @@ http://www.w3.org/TR/html401/struct/global.html
 
         <!-- All formatting tags -->
 
-        <tag name="h1" action="validate"/>
-        <tag name="h2" action="validate"/>
-        <tag name="h3" action="validate"/>
-        <tag name="h4" action="validate"/>
-        <tag name="h5" action="validate"/>
-        <tag name="h6" action="validate"/>
+        <tag name="h1" action="validate">
+            <attribute name="dir"/>
+        </tag>
+        <tag name="h2" action="validate">
+            <attribute name="dir"/>
+        </tag>
+        <tag name="h3" action="validate">
+            <attribute name="dir"/>
+        </tag>
+        <tag name="h4" action="validate">
+            <attribute name="dir"/>
+        </tag>
+        <tag name="h5" action="validate">
+            <attribute name="dir"/>
+        </tag>
+        <tag name="h6" action="validate">
+            <attribute name="dir"/>
+        </tag>
 
         <tag name="p" action="validate">
 

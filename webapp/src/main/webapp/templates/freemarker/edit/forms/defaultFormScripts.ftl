@@ -39,7 +39,7 @@
                 theme_advanced_resizing : true,
                 height : "${height}",
                 width  : "${width}",
-                valid_elements : "a[href|name|title],br,p,i,em,cite,strong/b,u,sub,sup,ul,ol,li",
+                valid_elements : "a[href|name|title],br,p[style],i,em,cite,strong/b,u,sub,sup,ul,ol,li,h1[dir|style|id],h2[dir|style|id],h3[dir|style|id],h4,h5,h6,div[style|class],span[dir|style|class]",
                 fix_list_elements : true,
                 fix_nesting : true,
                 cleanup_on_startup : true,
@@ -49,7 +49,7 @@
                 paste_use_dialog : false,
                 paste_auto_cleanup_on_paste : true,
                 paste_convert_headers_to_strong : true,
-                paste_strip_class_attributes : "all",
+                paste_strip_class_attributes : "mso",
                 paste_remove_spans : true,
                 paste_remove_styles : true,
                 paste_retain_style_properties : ""
