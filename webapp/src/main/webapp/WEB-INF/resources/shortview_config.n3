@@ -11,7 +11,7 @@
 # Find out how to use this file at
 # https://wiki.duraspace.org/display/VIVO/Using+Short+Views+in+Release+1.5
 #
-@prefix ts_:    <https://iph.ras.ru/text_structures#> .
+@prefix ts_:    <https://litvinovg.pro/text_structures#> .
 @prefix display: <http://vitro.mannlib.cornell.edu/ontologies/display/1.1#> .
 @prefix mydomain: <http://vivo.mydomain.edu/individual/> .
 
@@ -31,7 +31,7 @@ mydomain:elenphExcerptShortViewDataGetter
        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
        PREFIX vivo: <http://vivoweb.org/ontology/core#>
        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-       PREFIX ts_:  <https://iph.ras.ru/text_structures#> 
+       PREFIX ts_:  <https://litvinovg.pro/text_structures#> 
        SELECT ?property ?value
        WHERE {
           ?individualUri ?property ?value .
