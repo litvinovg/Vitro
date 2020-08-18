@@ -304,6 +304,7 @@ public class FreemarkerConfigurationImpl extends Configuration {
 			urls.put("home", UrlBuilder.getHomeUrl());
 			urls.put("about", UrlBuilder.getUrl(Route.ABOUT));
 			urls.put("search", UrlBuilder.getUrl(Route.SEARCH));
+			urls.put("customsearch", UrlBuilder.getUrl(Route.CUSTOMSEARCH));
 			urls.put("termsOfUse", UrlBuilder.getUrl(Route.TERMS_OF_USE));
 			urls.put("login", UrlBuilder.getLoginUrl());
 			urls.put("logout", UrlBuilder.getLogoutUrl());

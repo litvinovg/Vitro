@@ -63,11 +63,11 @@ import org.apache.jena.rdf.model.Literal;
  * Paged search controller that uses the search engine
  */
 
-@WebServlet(name = "CombinedSearchController", urlPatterns = {"/combinedsearch","/combinedsearch.jsp","/combinedfedsearch","/combinedsearchcontroller"} )
-public class CombinedSearchController extends FreemarkerHttpServlet {
+@WebServlet(name = "CustomSearchController", urlPatterns = {"/customsearch","/customsearch.jsp","/customfedsearch","/customsearchcontroller"} )
+public class CustomSearchController extends FreemarkerHttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private static final Log log = LogFactory.getLog(CombinedSearchController.class);
+    private static final Log log = LogFactory.getLog(CustomSearchController.class);
 
     protected static final int DEFAULT_HITS_PER_PAGE = 25;
     protected static final int DEFAULT_MAX_HIT_COUNT = 1000;
@@ -581,7 +581,7 @@ public class CombinedSearchController extends FreemarkerHttpServlet {
     public static class VClassGroupSearchLink extends LinkTemplateModel {
         long count = 0;
         VClassGroupSearchLink(String querytext, VClassGroup classgroup, long count) {
-            super(classgroup.getPublicName(), "/search", PARAM_QUERY_TEXT, querytext, PARAM_CLASSGROUP, classgroup.getURI());
+            super(classgroup.getPublicName(), "/customsearch", PARAM_QUERY_TEXT, querytext, PARAM_CLASSGROUP, classgroup.getURI());
             this.count = count;
         }
 
@@ -591,7 +591,7 @@ public class CombinedSearchController extends FreemarkerHttpServlet {
     public static class VClassSearchLink extends LinkTemplateModel {
         long count = 0;
         VClassSearchLink(String querytext, VClass type, long count) {
-            super(type.getName(), "/search", PARAM_QUERY_TEXT, querytext, PARAM_RDFTYPE, type.getURI());
+            super(type.getName(), "/customsearch", PARAM_QUERY_TEXT, querytext, PARAM_RDFTYPE, type.getURI());
             this.count = count;
         }
 

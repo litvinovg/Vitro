@@ -37,6 +37,7 @@ public class UrlBuilder {
         LOGIN("/login"),
         LOGOUT("/logout"),
         OBJECT_PROPERTY_EDIT("/propertyEdit"),
+        CUSTOMSEARCH("/customsearch"),
         SEARCH("/search"),
         SITE_ADMIN("/siteAdmin"),
         TERMS_OF_USE("/termsOfUse"),
