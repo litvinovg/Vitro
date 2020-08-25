@@ -9,4 +9,5 @@
 <p>
 ${message?html}
 </p>
+<#include "queryBuilder.ftl">
 <#include "search-help.ftl" >

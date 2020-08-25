@@ -3,6 +3,9 @@
 <#-- Template for displaying paged search results -->
 
 <h2 class="searchResultsHeader">
+
+<#include "queryBuilder.ftl">
+
 <#escape x as x?html>
     ${i18n().search_results_for} '${querytext}'
     <#if classGroupName?has_content>${i18n().limited_to_type} '${classGroupName}'</#if>
