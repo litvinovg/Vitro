@@ -7,9 +7,9 @@
 <#include "queryBuilder.ftl">
 
 <#escape x as x?html>
-    ${i18n().search_results_for} '${querytext}'
-    <#if classGroupName?has_content>${i18n().limited_to_type} '${classGroupName}'</#if>
-    <#if typeName?has_content>${i18n().limited_to_type} '${typeName}'</#if>
+    <div id='searchQueryResults'> ${i18n().search_results_for} '${querytext}'</div>
+    <div id='limitedToClassGroup'> <#if classGroupName?has_content>${i18n().limited_to_type} '${classGroupName}'</#if> </div>
+    <div id='limitedToType'> <#if typeName?has_content>${i18n().limited_to_type} '${typeName}'</#if> </div>
 </#escape>
 <script type="text/javascript">
 	var url = window.location.toString();
@@ -29,14 +29,9 @@
 
 <span id="searchHelp"><a href="${urls.base}/searchHelp" title="${i18n().search_help}">${i18n().not_expected_results}</a></span>
 <div class="contentsBrowseGroup">
-    <div class="virtualArticleSwitch">
-      <label class="switch">Показать виртуальную статью
-        <input id="virtualArticleCheck" type="checkbox" checked="false" onclick="showVirtualArticles();">
-	    </label>
-    </div>
 
     <#-- Refinement links -->
-    <#if classGroupLinks?has_content>
+    <#if classGroupLinks?has_content && classGroupLinks?size gt 1>
         <div class="searchTOC">
             <h4>${i18n().display_only}</h4>
             <ul>
@@ -47,7 +42,7 @@
         </div>
     </#if>
 
-    <#if classLinks?has_content>
+    <#if classLinks?has_content && classLinks?size gt 1 >
         <div class="searchTOC">
             <#if classGroupName?has_content>
                 <h4>${i18n().limit} ${classGroupName} ${i18n().to}</h4>
@@ -62,6 +57,11 @@
         </div>
     </#if>
 
+    <div class="virtualArticleSwitch">
+      <label class="switch">Показать виртуальную статью
+        <input id="virtualArticleCheck" type="checkbox" checked="false" onclick="showVirtualArticles();">
+	    </label>
+    </div>
     <#-- Search results -->
     <ul class="searchhits">
         <#list individuals as individual>
