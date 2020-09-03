@@ -4,7 +4,7 @@
 
 <h2 class="searchResultsHeader">
 
-<#include "queryBuilder.ftl">
+<#include "searchSelector.ftl">
 
 <#escape x as x?html>
     <div id='searchQueryResults'> ${i18n().search_results_for} '${querytext}'</div>
