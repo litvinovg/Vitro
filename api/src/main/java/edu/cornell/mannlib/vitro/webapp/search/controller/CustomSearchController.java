@@ -77,8 +77,6 @@ public class CustomSearchController extends FreemarkerHttpServlet {
     private static final String PARAM_START_INDEX = "startIndex";
     private static final String PARAM_HITS_PER_PAGE = "hitsPerPage";
     private static final String PARAM_CLASSGROUP = "classgroup";
-    private static final String PARAM_RDF_FILTER = "filterRDF";
-
     private static final String PARAM_RDFTYPE = "type";
     private static final String PARAM_QUERY_TEXT = "querytext";
 
@@ -93,27 +91,6 @@ public class CustomSearchController extends FreemarkerHttpServlet {
         +	"	 ?filterStatement search:id ?filterID ."
         +	"	 ?filterStatement rdfs:label ?filterLabel ."
         +	"} ORDER BY ?fileterLabel";
-  	private static String SORT_QUERY = ""
-        + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
-        +	"PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>" 
-        + "PREFIX search:   <https://dideside.com/searchOntology#>" 
-        + "SELECT ?filterID ?fieldField ?filterLabel"
-        + "WHERE"
-        + "{ ?sortStatement rdf:type search:sort ."
-        +	"	 ?sortStatement search:field ?sortField ."
-        +	"	 ?sortStatement rdfs:label ?sortLabel ."
-        +	"} ORDER BY ?sortLabel";
-  	private static String FIELDS_QUERY = ""
-      	+"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
-      	+"PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
-      	+"PREFIX search:   <https://dideside.com/searchOntology#>"
-      	+"SELECT ?searchFieldName ?indexFieldName"
-      	+"WHERE {"
-      	+"  ?searchField rdf:type search:searchField ."
-      	+"  ?searchField rdfs:label ?searchFieldName ."
-      	+"  ?searchField search:field ?indexFieldName ."
-      	+"} ";
-
 
     protected static final Map<Format,Map<Result,String>> templateTable;
 
@@ -177,12 +154,7 @@ public class CustomSearchController extends FreemarkerHttpServlet {
         boolean wasCSVRequested = Format.CSV == format;
         log.debug("Requested format was " + (wasXmlRequested ? "xml" : "html"));
         boolean wasHtmlRequested = ! (wasXmlRequested || wasCSVRequested);
-
-        String rdfFilter = getRDFFilter(vreq);
-        log.info("REQUEST HAS FILTER PARAM = " + rdfFilter);
-        
-
-        
+          
         try {
 
             //make sure an IndividualDao is available
@@ -240,9 +212,6 @@ public class CustomSearchController extends FreemarkerHttpServlet {
             if ( hitCount < 1 ) {
                 return doNoHits(queryText,format, vreq);
             }        
-            if (rdfFilter != null) {
-            	Set<String> possibleExcerpts = this.getExistingExcerpts(vreq);	
-            }
             
             List<Individual> individuals = new ArrayList<Individual>(docs.size());
             for (SearchResultDocument doc : docs) {
@@ -319,6 +288,7 @@ public class CustomSearchController extends FreemarkerHttpServlet {
 
             body.put("hitCount", hitCount);
             body.put("startIndex", startIndex);
+            body.put(PARAM_HITS_PER_PAGE, hitsPerPage);
 
             body.put("pagingLinks",
                     getPagingLinks(startIndex, hitsPerPage, hitCount,
@@ -397,11 +367,6 @@ public class CustomSearchController extends FreemarkerHttpServlet {
         return hitsPerPage;
     }
     
-    private String getRDFFilter(VitroRequest vreq) {
-    	String filter = vreq.getParameter(PARAM_RDF_FILTER);
-    	return filter;
-    }
-
     private int getStartIndex(VitroRequest vreq) {
         int startIndex = 0;
         try{
