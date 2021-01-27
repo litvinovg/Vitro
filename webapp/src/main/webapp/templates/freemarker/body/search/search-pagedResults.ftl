@@ -60,8 +60,14 @@
     <div class="virtualArticleSwitch">
       <label class="switch">Показать виртуальную статью
         <input id="virtualArticleCheck" type="checkbox" checked="false" onclick="showVirtualArticles();">
-	    </label>
+	  </label>
     </div>
+    <#if user.loggedIn>
+	    <div>
+	      <button onclick="createNewCompilation()">Сохранить</button>
+	    </div>
+    </#if>>
+    
     <#-- Search results -->
     <ul class="searchhits">
         <#list individuals as individual>
@@ -127,8 +133,50 @@ $('input[type=checkbox]').removeAttr('checked');
       $('.excerptSearchResult').show();
       $('.virtualArticlePart').hide();
     }
-
   }
+	function createNewCompilation() {
+	    var compilationName = window.prompt("Введите название подборки.");
+	    if (!compilationName){
+	       alert("Для создания подоборки необходимо ввести её название.");
+	       return;
+	    }
+	    var iframe = document.createElement("iframe");
+	    var excerptsCounter = $('.virtualArticlePart').length;
+	    iframe.setAttribute("src", "${urls.base}/editRequestDispatch?typeOfNew=https%3A%2F%2Flitvinovg.pro%2Ftext_structures%23compilation&editForm=edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators.CompilationGenerator&excerptsCount=" + excerptsCounter);
+	    iframe.style.width = "1px";
+	    iframe.style.height = "1px";
+	    iframe.id="newCompilationIframe";
+	    //iframe.style.display="none";
+	    document.body.appendChild(iframe);
+	    $('#newCompilationIframe').on('load', function(){
+	      fillOutForm(compilationName);
+	    });
+	  }
+	function fillOutForm(compilationName){
+	    var iframeDoc = document.getElementById('newCompilationIframe').contentWindow.document;
+	    iframeDoc.getElementById('newCompilationLabel').value = compilationName;
+	    var excerpts = $('.virtualArticlePart').toArray();
+	    for (i = 0;i < excerpts.length;i++){
+	      var excerptUri = excerpts[i].getAttribute('parturi');
+	      var excerptName = $(excerpts[i]).children('button').html();
+	      var number = i + 1;
+	      iframeDoc.getElementById("tocLevel" + number + "Name").value = excerptName + " (" + compilationName + ")";
+	      iframeDoc.getElementById("tocItem" + number + "Name").value = excerptName + " (" + compilationName + ")";
+	      iframeDoc.getElementById("excerpt" + number).value = excerptUri;
+	    }
+	    $('#newCompilationIframe').off('load');
+	    iframeDoc.getElementById('submit').click();
+	    $('#newCompilationIframe').on('load', function(){
+	      redirectToNewCompilation();
+	    });
+	
+	  }
+	function redirectToNewCompilation(){
+	  var newURL = document.getElementById('newCompilationIframe').contentWindow.location.href;
+	  window.open(newURL,"_self");
+	}
+
+
 </script>
 <script>
   let workSet = new Set(); 
@@ -146,13 +194,13 @@ $('input[type=checkbox]').removeAttr('checked');
   var biblioArr = Array.from(biblioSet);
   biblioArr.sort();
   if (workArr.length > 0 ) {
-    $('<div class="virtualArticlePart"><button type="button" style="margin-top:16px;border:none;padding: 18px;width: 100%; text-align:left;" class="collapsible">Работы</button><div class="virtualWorks"></div></div>').insertAfter($('.virtualArticlePart').last());
+    $('<div class="virtualArticleWorks"><button type="button" style="margin-top:16px;border:none;padding: 18px;width: 100%; text-align:left;" class="collapsible">Работы</button><div class="virtualWorks"></div></div>').insertAfter($('.virtualArticlePart').last());
     for (let value of workArr){
       $('.virtualWorks').last().append( '<div class="work"><p>' + value + '</p></div>' );
     }
   }
   if (biblioArr.length > 0 ) {
-    $('<div class="virtualArticlePart"><button type="button" style="margin-top:16px;border:none;padding: 18px;width: 100%; text-align:left;" class="collapsible">Литература</button><div class="virtualBibliography"></div></div>').insertAfter($('.virtualArticlePart').last());
+    $('<div class="virtualArticleBiblio"><button type="button" style="margin-top:16px;border:none;padding: 18px;width: 100%; text-align:left;" class="collapsible">Литература</button><div class="virtualBibliography"></div></div>').insertAfter($('.virtualArticlePart').last());
     for (let value of biblioArr){
       $('.virtualBibliography').last().append( '<div class="bibliography"><p>' + value + '</p></div>' );
     }
