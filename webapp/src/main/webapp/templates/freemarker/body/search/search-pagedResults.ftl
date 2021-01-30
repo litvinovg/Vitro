@@ -66,7 +66,7 @@
 	    <div>
 	      <button onclick="createNewCompilation()">Сохранить</button>
 	    </div>
-    </#if>>
+    </#if>
     
     <#-- Search results -->
     <ul class="searchhits">
