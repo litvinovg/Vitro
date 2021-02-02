@@ -61,6 +61,10 @@ public class EditConfigurationUtils {
         return vreq.getParameter("rangeUri");
     }
 
+    public static String getTypeOfNew(VitroRequest vreq) {
+        return vreq.getParameter("typeOfNew");
+    }
+
     public static VClass getRangeVClass(VitroRequest vreq) {
         // This needs a WebappDaoFactory with no filtering/RDFService
         // funny business because it needs to be able to retrieve anonymous union
