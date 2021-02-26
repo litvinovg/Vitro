@@ -65,10 +65,14 @@ public class AdditionalURIsForObjectProperties implements IndexingUriFinder, Con
 
         // Also, context nodes are not handled here. They are
         // taken care of in AdditionalURIsForContextNodex.
-        if( stmt.getObject().isURIResource() )
-            return Collections.singletonList( stmt.getObject().as(Resource.class).getURI() );
-        else
-            return Collections.emptyList();
+        List<String> uris = new ArrayList<String>();
+        if( stmt.getObject().isURIResource() ) {
+          uris.add(stmt.getObject().as(Resource.class).getURI() );
+        }
+        if( stmt.getSubject().isURIResource() ) {
+          uris.add(stmt.getSubject().as(Resource.class).getURI() );
+        }
+        return uris;
     }
 
     protected List<String> doDataPropertyStmt(Statement stmt) {
