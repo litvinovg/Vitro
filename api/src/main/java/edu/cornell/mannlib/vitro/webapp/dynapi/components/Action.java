@@ -7,9 +7,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import edu.cornell.mannlib.vitro.webapp.dynapi.OperationData;
+import edu.cornell.mannlib.vitro.webapp.dynapi.components.scopes.OperationNode;
+import edu.cornell.mannlib.vitro.webapp.dynapi.components.scopes.Scopes;
 import edu.cornell.mannlib.vitro.webapp.utils.configuration.Property;
 
-public class Action implements Poolable<String>, Operation, Link {
+public class Action implements Poolable<String>, Operation, OperationNode {
 
 	private Step firstStep = null;
 	private RPC rpc;
@@ -92,7 +94,7 @@ public class Action implements Poolable<String>, Operation, Link {
 	}
 
 	@Override
-	public Set<Link> getNextLinks() {
+	public Set<OperationNode> getNextLinks() {
 		return Collections.singleton(firstStep);
 	}
 

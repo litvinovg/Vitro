@@ -7,6 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.dynapi.OperationData;
+import edu.cornell.mannlib.vitro.webapp.dynapi.components.scopes.OperationNode;
 import edu.cornell.mannlib.vitro.webapp.utils.configuration.Property;
 
 public class OperationalStep implements Step{
@@ -64,7 +65,7 @@ public class OperationalStep implements Step{
 	}
 
   @Override
-  public Set<Link> getNextLinks() {
+  public Set<OperationNode> getNextLinks() {
     return Collections.singleton(nextStep);
   }
 

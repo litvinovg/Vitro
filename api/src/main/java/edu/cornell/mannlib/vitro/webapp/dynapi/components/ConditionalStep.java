@@ -3,6 +3,7 @@ package edu.cornell.mannlib.vitro.webapp.dynapi.components;
 import java.util.Set;
 
 import edu.cornell.mannlib.vitro.webapp.dynapi.OperationData;
+import edu.cornell.mannlib.vitro.webapp.dynapi.components.scopes.OperationNode;
 
 public class ConditionalStep implements Step {
 
@@ -20,7 +21,7 @@ public class ConditionalStep implements Step {
 	}
 
   @Override
-  public Set<Link> getNextLinks() {
+  public Set<OperationNode> getNextLinks() {
     // TODO Auto-generated method stub
     return null;
   }

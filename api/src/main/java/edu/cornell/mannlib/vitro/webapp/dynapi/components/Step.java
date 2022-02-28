@@ -1,5 +1,7 @@
 package edu.cornell.mannlib.vitro.webapp.dynapi.components;
 
-public interface Step extends RunnableComponent, Link{
+import edu.cornell.mannlib.vitro.webapp.dynapi.components.scopes.OperationNode;
+
+public interface Step extends RunnableComponent, OperationNode{
 
 }
