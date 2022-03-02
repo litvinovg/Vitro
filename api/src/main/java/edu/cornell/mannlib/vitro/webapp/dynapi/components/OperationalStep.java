@@ -65,7 +65,7 @@ public class OperationalStep implements Step{
 	}
 
   @Override
-  public Set<OperationNode> getNextLinks() {
+  public Set<OperationNode> getNextNodes() {
     return Collections.singleton(nextStep);
   }
 

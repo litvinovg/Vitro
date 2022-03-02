@@ -21,7 +21,7 @@ public class ConditionalStep implements Step {
 	}
 
   @Override
-  public Set<OperationNode> getNextLinks() {
+  public Set<OperationNode> getNextNodes() {
     // TODO Auto-generated method stub
     return null;
   }

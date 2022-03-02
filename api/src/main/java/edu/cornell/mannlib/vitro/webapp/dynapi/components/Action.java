@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import edu.cornell.mannlib.vitro.webapp.dynapi.OperationData;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.scopes.OperationNode;
-import edu.cornell.mannlib.vitro.webapp.dynapi.components.scopes.Scopes;
+import edu.cornell.mannlib.vitro.webapp.dynapi.components.scopes.Computer;
 import edu.cornell.mannlib.vitro.webapp.utils.configuration.Property;
 
 public class Action implements Poolable<String>, Operation, OperationNode {
@@ -61,6 +61,7 @@ public class Action implements Poolable<String>, Operation, OperationNode {
 
 	@Override
 	public boolean isValid() {
+		computeScopes();
 		return true;
 	}
 
@@ -94,7 +95,7 @@ public class Action implements Poolable<String>, Operation, OperationNode {
 	}
 
 	@Override
-	public Set<OperationNode> getNextLinks() {
+	public Set<OperationNode> getNextNodes() {
 		return Collections.singleton(firstStep);
 	}
 
@@ -104,7 +105,7 @@ public class Action implements Poolable<String>, Operation, OperationNode {
 	}
 
 	public void computeScopes() {
-		requiredParams = Scopes.computeInitialRequirements(this);
+		requiredParams = Computer.computeRequirements(this);
 	}
 
 	@Override
