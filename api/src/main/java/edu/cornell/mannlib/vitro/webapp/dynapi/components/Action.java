@@ -11,7 +11,7 @@ import edu.cornell.mannlib.vitro.webapp.dynapi.components.scopes.OperationNode;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.scopes.Computer;
 import edu.cornell.mannlib.vitro.webapp.utils.configuration.Property;
 
-public class Action implements Poolable<String>, Operation, OperationNode {
+public class Action  extends AbstractOperation implements Poolable<String>, Operation, OperationNode{
 
 	private Step firstStep = null;
 	private RPC rpc;
@@ -20,6 +20,8 @@ public class Action implements Poolable<String>, Operation, OperationNode {
 
 	private Parameters providedParams = new Parameters();
 	private Parameters requiredParams;
+	private Parameters optionalParams;
+
 
 	@Override
 	public void dereference() {
@@ -40,7 +42,7 @@ public class Action implements Poolable<String>, Operation, OperationNode {
 	}
 
 	@Property(uri = "https://vivoweb.org/ontology/vitro-dynamic-api#hasFirstStep", minOccurs = 1, maxOccurs = 1)
-	public void setStep(OperationalStep step) {
+	public void setStep(Step step) {
 		this.firstStep = step;
 	}
 
@@ -99,13 +101,17 @@ public class Action implements Poolable<String>, Operation, OperationNode {
 		return Collections.singleton(firstStep);
 	}
 
+	public void setRequiredParams(Parameters requiredParams) {
+		this.requiredParams = requiredParams;
+	}
+	
 	@Override
 	public Parameters getRequiredParams() {
 		return requiredParams;
 	}
 
 	public void computeScopes() {
-		requiredParams = Computer.computeRequirements(this);
+		Computer.computeScopes(this);
 	}
 
 	@Override
@@ -116,6 +122,19 @@ public class Action implements Poolable<String>, Operation, OperationNode {
 	@Override
 	public boolean isRoot() {
 		return true;
+	}
+
+	public Parameters getOptionalParams() {
+		return optionalParams;
+	}
+
+	public void setOptionalParams(Parameters optionalParams) {
+		this.optionalParams = optionalParams;
+	}
+
+	@Override
+	public boolean isOptional() {
+		return false;
 	}
 
 }

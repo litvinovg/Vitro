@@ -52,6 +52,16 @@ public class Parameter implements Removable{
 	public boolean isValid(String name, String[] values) {
 		return validators.isAllValid(name, values);
 	}
+	
+	public boolean equals(Parameter param) {
+		if(name == null || !name.equals(param.getName())) {
+			return false;
+		}
+		if (!type.equals(param.getType())) {
+			return false;
+		}
+		return true;
+	}
 
 	@Override
 	public void dereference() {

@@ -12,6 +12,10 @@ public class Parameters implements Removable {
 		params = new HashMap<String,Parameter>();
 	}
 	
+	public Parameters(Map<String,Parameter> params) {
+		params = new HashMap<String,Parameter>(params);
+	}
+	
 	public void add(Parameter param) {
 		params.put(param.getName(), param);
 	}
@@ -32,5 +36,31 @@ public class Parameters implements Removable {
 		params = null;
 	}
 	
-	
+	public Parameters shallowCopy() {
+		return new Parameters(params);
+	}
+
+	public void remove(Parameters paramsToRemove) {
+		Set<String> names = paramsToRemove.getNames();
+		for (String name : names) {
+			if (params.containsKey(name)){
+				Parameter param = params.get(name);
+				if (param.equals(paramsToRemove.get(name))) {
+					params.remove(name);
+				}
+			}
+		}
+	}
+
+	public void add(Parameters paramsToAdd) {
+		Set<String> names = paramsToAdd.getNames();
+		for (String name : names) {
+			if (params.containsKey(name)){
+				Parameter param = params.get(name);
+				if (!param.equals(paramsToAdd.get(name))) {
+					add(paramsToAdd.get(name));
+				}
+			}
+		}		
+	}
 }

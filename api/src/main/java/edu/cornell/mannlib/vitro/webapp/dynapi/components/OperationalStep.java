@@ -10,7 +10,7 @@ import edu.cornell.mannlib.vitro.webapp.dynapi.OperationData;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.scopes.OperationNode;
 import edu.cornell.mannlib.vitro.webapp.utils.configuration.Property;
 
-public class OperationalStep implements Step{
+public class OperationalStep extends AbstractOperation implements Step{
 
  	private static final Log log = LogFactory.getLog(OperationalStep.class);
 
@@ -83,4 +83,10 @@ public class OperationalStep implements Step{
   public boolean isRoot() {
     return false;
   }
+
+	@Override
+	public boolean isOptional() {
+		return optional;
+	}
+
 }

@@ -12,7 +12,9 @@ public class OperationGraph {
 	private Map<OperationNode, List<OperationNode>> backwardMap;
 	
 	public OperationGraph() {
+		//map from tails to list of heads
 		forwardMap = new HashMap<OperationNode, List<OperationNode>>();
+		//map from head to list of tails
 		backwardMap = new HashMap<OperationNode, List<OperationNode>>();
 	}
 	
@@ -32,6 +34,10 @@ public class OperationGraph {
 				initialize(head);
 			}
 		}
+	}
+	
+	public List<OperationNode> getLeafs(){
+		return getTailsOf(null);
 	}
 
 	public List<OperationNode>getTailsOf(OperationNode head){
