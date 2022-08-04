@@ -7,10 +7,9 @@
             <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
     rdfs:label "multilingual sort document modifier" ;
     :hasTargetSuffix "_label_sort" ;
-	:multiValued "false";
     :hasSelectQuery """
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-        SELECT ?label WHERE {
+        SELECT ( MIN(?label) as ?singleLabel ) WHERE {
             ?uri rdfs:label ?label .
         }
     """ .

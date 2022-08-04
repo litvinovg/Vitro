@@ -5,11 +5,9 @@ package edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding;
 import static edu.cornell.mannlib.vitro.webapp.utils.sparqlrunner.SparqlQueryRunner.createSelectQueryContext;
 import static edu.cornell.mannlib.vitro.webapp.i18n.selection.LocaleSelectionSetup.PROPERTY_SELECTABLE_LOCALES;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -20,7 +18,6 @@ import edu.cornell.mannlib.vitro.webapp.beans.Individual;
 import edu.cornell.mannlib.vitro.webapp.config.ConfigurationProperties;
 import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchInputDocument;
 import edu.cornell.mannlib.vitro.webapp.rdfservice.filter.LanguageFilteringRDFService;
-import edu.cornell.mannlib.vitro.webapp.utils.LocaleUtility;
 import edu.cornell.mannlib.vitro.webapp.utils.configuration.ConfigurationReader;
 import edu.cornell.mannlib.vitro.webapp.utils.configuration.ContextModelsUser;
 import edu.cornell.mannlib.vitro.webapp.utils.configuration.Property;
@@ -37,9 +34,6 @@ import edu.cornell.mannlib.vitro.webapp.utils.sparqlrunner.QueryHolder;
  * 
  * All of the other result fields in each row of each query will be converted to
  * strings and added to the field.
- * 
- * By default only the first value is added to the field. To save all values
- * specify :multiValued "true" in document modifier configuration. 
  *
  */
 public class SelectQueryDocumentModifierDynamicTargetField extends SelectQueryDocumentModifier
@@ -50,16 +44,9 @@ public class SelectQueryDocumentModifierDynamicTargetField extends SelectQueryDo
 
 	private ArrayList<String> locales = new ArrayList<>();
 
-	private boolean multiValued = false;
-
 	@Property(uri = "http://vitro.mannlib.cornell.edu/ns/vitro/ApplicationSetup#hasTargetSuffix")
 	public void setTargetSuffix(String fieldSuffix) {
 		this.fieldSuffix = fieldSuffix;
-	}
-
-	@Property(uri = "http://vitro.mannlib.cornell.edu/ns/vitro/ApplicationSetup#multiValued")
-	public void setMultiValued(String multiValued) {
-		this.multiValued = Boolean.parseBoolean(multiValued);
 	}
 
 	@Override
@@ -70,17 +57,10 @@ public class SelectQueryDocumentModifierDynamicTargetField extends SelectQueryDo
 				for (String locale : map.keySet()) {
 					List<String> values = map.get(locale);
 					String fieldName = locale + fieldSuffix; 
-					doc.addField(fieldName, filterValues(values));
+					doc.addField(fieldName, values);
 				}
 			}
 		}
-	}
-
-	private List<String> filterValues(List<String> values) {
-		if (!values.isEmpty() && !multiValued ) {
-			values = Arrays.asList(values.get(0));
-		}
-		return values;
 	}
 
 	protected List<Map<String, List<String>>> getTextForQueries(Individual ind) {
