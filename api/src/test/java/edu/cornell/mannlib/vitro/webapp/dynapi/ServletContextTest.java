@@ -1,6 +1,6 @@
 package edu.cornell.mannlib.vitro.webapp.dynapi;
 
-import static edu.cornell.mannlib.vitro.webapp.modelaccess.ModelNames.FULL_UNION;
+import static edu.cornell.mannlib.vitro.webapp.modelaccess.ModelNames.DYNAMIC_API;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -45,7 +45,7 @@ public abstract class ServletContextTest {
 
         ontModel = ModelFactory.createOntologyModel();
 
-        contentModelAccess.setOntModel(FULL_UNION, ontModel);
+        contentModelAccess.setOntModel(DYNAMIC_API, ontModel);
 
         loader = new ConfigurationBeanLoader(ontModel, servletContext);
     }
@@ -53,21 +53,21 @@ public abstract class ServletContextTest {
     protected void loadTestModel() throws IOException {
         // all actions reuse testSparqlQuery1 from testing action
         loadModel(
-            new RDFFile("N3", "src/test/resources/rdf/abox/filegraph/dynamic-api-individuals-collection.n3"),
-            new RDFFile("N3", "src/test/resources/rdf/abox/filegraph/dynamic-api-individuals-concept.n3"),
-            new RDFFile("N3", "src/test/resources/rdf/abox/filegraph/dynamic-api-individuals-document.n3"),
-            new RDFFile("N3", "src/test/resources/rdf/abox/filegraph/dynamic-api-individuals-organization.n3"),
-            new RDFFile("N3", "src/test/resources/rdf/abox/filegraph/dynamic-api-individuals-person.n3"),
-            new RDFFile("N3", "src/test/resources/rdf/abox/filegraph/dynamic-api-individuals-process.n3"),
-            new RDFFile("N3", "src/test/resources/rdf/abox/filegraph/dynamic-api-individuals-relationship.n3")
+            new RDFFile("N3", "src/test/resources/rdf/dynapi/filegraph/dynamic-api-individuals-collection.n3"),
+            new RDFFile("N3", "src/test/resources/rdf/dynapi/filegraph/dynamic-api-individuals-concept.n3"),
+            new RDFFile("N3", "src/test/resources/rdf/dynapi/filegraph/dynamic-api-individuals-document.n3"),
+            new RDFFile("N3", "src/test/resources/rdf/dynapi/filegraph/dynamic-api-individuals-organization.n3"),
+            new RDFFile("N3", "src/test/resources/rdf/dynapi/filegraph/dynamic-api-individuals-person.n3"),
+            new RDFFile("N3", "src/test/resources/rdf/dynapi/filegraph/dynamic-api-individuals-process.n3"),
+            new RDFFile("N3", "src/test/resources/rdf/dynapi/filegraph/dynamic-api-individuals-relationship.n3")
         );
     }
     
     protected void loadDefaultModel() throws IOException {
         loadModel(
             new RDFFile("N3", "../home/src/main/resources/rdf/tbox/filegraph/dynamic-api-implementation.n3"),
-            new RDFFile("N3", "../home/src/main/resources/rdf/abox/filegraph/dynamic-api-individuals.n3"),
-            new RDFFile("N3", "src/test/resources/rdf/abox/filegraph/dynamic-api-individuals-testing.n3")
+            new RDFFile("N3", "../home/src/main/resources/rdf/dynapi/firsttime/dynamic-api-individuals.n3"),
+            new RDFFile("N3", "src/test/resources/rdf/dynapi/filegraph/dynamic-api-individuals-testing.n3")
         );
     }
 
@@ -94,21 +94,21 @@ public abstract class ServletContextTest {
     protected void loadPersonVersion1_1Model() throws IOException {
         // versioning action reuses testSparqlQuery1 from testing action
         loadModel(
-            new RDFFile("N3", "src/test/resources/rdf/abox/filegraph/dynamic-api-individuals-person1_1.n3")
+            new RDFFile("N3", "src/test/resources/rdf/dynapi/filegraph/dynamic-api-individuals-person1_1.n3")
         );
     }
 
     protected void loadPersonVersion2Model() throws IOException {
         // versioning action reuses testSparqlQuery1 from testing action
         loadModel(
-            new RDFFile("N3", "src/test/resources/rdf/abox/filegraph/dynamic-api-individuals-person2.n3")
+            new RDFFile("N3", "src/test/resources/rdf/dynapi/filegraph/dynamic-api-individuals-person2.n3")
         );
     }
 
     protected void loadPersonVersion4_3_7Model() throws IOException {
         // versioning action reuses testSparqlQuery1 from testing action
         loadModel(
-            new RDFFile("N3", "src/test/resources/rdf/abox/filegraph/dynamic-api-individuals-person4_3_7.n3")
+            new RDFFile("N3", "src/test/resources/rdf/dynapi/filegraph/dynamic-api-individuals-person4_3_7.n3")
         );
     }
 

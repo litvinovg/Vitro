@@ -1,7 +1,7 @@
 package edu.cornell.mannlib.vitro.webapp.dynapi;
 
 import static edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary.RDF_TYPE;
-import static edu.cornell.mannlib.vitro.webapp.modelaccess.ModelNames.FULL_UNION;
+import static edu.cornell.mannlib.vitro.webapp.modelaccess.ModelNames.DYNAMIC_API;
 import static edu.cornell.mannlib.vitro.webapp.utils.configuration.ConfigurationBeanLoader.toJavaUri;
 import static java.lang.String.format;
 
@@ -152,7 +152,7 @@ public abstract class AbstractPool<K, C extends Poolable<K>, P extends Pool<K, C
     public void init(ServletContext ctx) {
         this.ctx = ctx;
         ContextModelAccess modelAccess = ModelAccess.on(ctx);
-        dynamicAPIModel = modelAccess.getOntModel(FULL_UNION);
+        dynamicAPIModel = modelAccess.getOntModel(DYNAMIC_API);
         loader = new ConfigurationBeanLoader(dynamicAPIModel, ctx);
         log.debug("Context Initialization ...");
         loadComponents(components);

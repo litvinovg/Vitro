@@ -1,6 +1,6 @@
 package edu.cornell.mannlib.vitro.webapp.dynapi;
 
-import static edu.cornell.mannlib.vitro.webapp.modelaccess.ModelNames.FULL_UNION;
+import static edu.cornell.mannlib.vitro.webapp.modelaccess.ModelNames.DYNAMIC_API;
 import static java.lang.String.format;
 
 import java.util.Collection;
@@ -71,7 +71,7 @@ public class DynamicAPIDocumentation {
 
     public void init(ServletContext ctx) {
         modelAccess = ModelAccess.on(ctx);
-        dynamicAPIModel = modelAccess.getOntModel(FULL_UNION);
+        dynamicAPIModel = modelAccess.getOntModel(DYNAMIC_API);
         loader = new ConfigurationBeanLoader(dynamicAPIModel, ctx);
     }
 
