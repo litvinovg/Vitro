@@ -105,7 +105,14 @@ public class FauxProperty extends BaseResourceBean implements ResourceBean,
 	}
 
 	public String getRangeLabel() {
-		return (rangeLabel == null) ? localName(rangeURI) : rangeLabel;
+		if  (rangeLabel == null) {
+			if (rangeURI == null) {
+				return "not defined";
+			}
+			return localName(rangeURI);
+		} else {
+			return rangeLabel;
+		}
 	}
 
 	public void setRangeLabel(String rangeLabel) {
