@@ -40,7 +40,7 @@
         <tbody>
           <tr>
             <td class="classDetail">${i18n().base_property_capitalized}:</td>
-	        <td><a href='propertyEdit?uri=${ks["baseURI"]?url!}'>${ks["base"]!}</a></td>
+	        <td><a href='${ks["editUrl"]}?uri=${ks["baseURI"]?url!}'>${ks["base"]!}</a></td>
 	      </tr>
 	      <tr>
             <td class="classDetail">${i18n().group_capitalized}:</td>
@@ -66,7 +66,7 @@
 		<#assign baseLabel = key?substring(0,key?index_of("|")) />
 		<#assign baseUri = key?substring(key?index_of("|")+1) />
         <div>
-          <a href='propertyEdit?uri=${baseUri?url}'>${baseLabel}</a>
+          <a href='${ks["editUrl"]}?uri=${baseUri?url}'>${baseLabel}</a>
         </div>
 	    <#assign keysTwo = fauxList?keys />
 		<#assign firstLoop = true />

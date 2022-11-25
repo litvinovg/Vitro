@@ -157,6 +157,8 @@ public class ListFauxPropertiesController extends FreemarkerHttpServlet {
 								tmpHash.put("rangeURI", rangeURI);
 								tmpHash.put("domain", domainLabel);
 								tmpHash.put("domainURI", domainURI);
+								tmpHash.put("editUrl", "propertyEdit");
+
 								// add the faux and its details to the treemap
 								theFauxProps.put(fauxLabel + "@@" + domainLabel, tmpHash);
 							}
@@ -213,6 +215,8 @@ public class ListFauxPropertiesController extends FreemarkerHttpServlet {
 								tmpHash.put("rangeURI", rangeURI);
 								tmpHash.put("domain", domainLabel);
 								tmpHash.put("domainURI", domainURI);
+								tmpHash.put("editUrl", "propertyEdit");
+
 								// add the faux and its details to the treemap
 								fauxForGivenBase.put(fauxLabel + "@@" + domainLabel, tmpHash);
 							}
@@ -271,6 +275,7 @@ public class ListFauxPropertiesController extends FreemarkerHttpServlet {
 								tmpHash.put("rangeURI", rangeURI);
 								tmpHash.put("domain", domainLabel);
 								tmpHash.put("domainURI", domainURI);
+								tmpHash.put("editUrl", "datapropEdit");
 								// add the faux and its details to the treemap
 								theFauxProps.put(fauxLabel + "@@" + domainLabel, tmpHash);
 							}
@@ -327,6 +332,7 @@ public class ListFauxPropertiesController extends FreemarkerHttpServlet {
 								tmpHash.put("rangeURI", rangeURI);
 								tmpHash.put("domain", domainLabel);
 								tmpHash.put("domainURI", domainURI);
+								tmpHash.put("editUrl", "datapropEdit");
 								// add the faux and its details to the treemap
 								fauxForGivenBase.put(fauxLabel + "@@" + domainLabel, tmpHash);
 							}
