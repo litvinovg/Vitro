@@ -66,12 +66,13 @@
 		<#assign baseLabel = key?substring(0,key?index_of("|")) />
 		<#assign baseUri = key?substring(key?index_of("|")+1) />
         <div>
-          <a href='${ks["editUrl"]}?uri=${baseUri?url}'>${baseLabel}</a>
+          <a href='${fauxList["editUrl"]}?uri=${baseUri?url}'>${baseLabel}</a>
         </div>
 	    <#assign keysTwo = fauxList?keys />
 		<#assign firstLoop = true />
 	    <#list keysTwo as k2>
 	      <#assign faux = fauxList[k2] />
+              <#if faux?is_hash >
         <table id="classHierarchy1" class="classHierarchy" <#if !firstLoop >style="margin-top:-16px"</#if>>
           <tbody>
               <tr>
@@ -94,6 +95,7 @@
 		    </tbody>
 		  </table>
 		  <#assign firstLoop = false />
+		</#if>
       </#list>
       </section>
 	</#list>

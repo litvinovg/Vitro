@@ -173,6 +173,7 @@ public class ListFauxPropertiesController extends FreemarkerHttpServlet {
 	private TreeMap<String, Object> getFauxByBaseList(List<ObjectProperty> objectProps, VitroRequest vreq) {
 		List<FauxProperty> fauxProps = null;
 		TreeMap<String, Object> fauxByBaseProps = new TreeMap<String, Object>();
+
         if ( objectProps != null ) {
             Iterator<ObjectProperty> opIt = objectProps.iterator();
             if ( !opIt.hasNext()) {
@@ -215,10 +216,10 @@ public class ListFauxPropertiesController extends FreemarkerHttpServlet {
 								tmpHash.put("rangeURI", rangeURI);
 								tmpHash.put("domain", domainLabel);
 								tmpHash.put("domainURI", domainURI);
-								tmpHash.put("editUrl", "propertyEdit");
 
 								// add the faux and its details to the treemap
 								fauxForGivenBase.put(fauxLabel + "@@" + domainLabel, tmpHash);
+								fauxForGivenBase.put("editUrl", "propertyEdit");
 							}
 							 fauxByBaseProps.put(baseLabel, fauxForGivenBase);
 						}
@@ -332,9 +333,9 @@ public class ListFauxPropertiesController extends FreemarkerHttpServlet {
 								tmpHash.put("rangeURI", rangeURI);
 								tmpHash.put("domain", domainLabel);
 								tmpHash.put("domainURI", domainURI);
-								tmpHash.put("editUrl", "datapropEdit");
 								// add the faux and its details to the treemap
 								fauxForGivenBase.put(fauxLabel + "@@" + domainLabel, tmpHash);
+								fauxForGivenBase.put("editUrl", "datapropEdit");
 							}
 							 fauxByBaseProps.put(baseLabel, fauxForGivenBase);
 						}
