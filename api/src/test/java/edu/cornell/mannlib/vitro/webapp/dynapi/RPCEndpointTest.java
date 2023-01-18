@@ -29,7 +29,7 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
-import edu.cornell.mannlib.vitro.webapp.dynapi.components.Action;
+import edu.cornell.mannlib.vitro.webapp.dynapi.components.Procedure;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.OperationResult;
 import edu.cornell.mannlib.vitro.webapp.dynapi.data.DataStore;
 
@@ -42,7 +42,7 @@ public class RPCEndpointTest {
     
     private ByteArrayOutputStream baos;
 
-    private MockedStatic<ActionPool> actionPoolStatic;
+    private MockedStatic<ProcedurePool> actionPoolStatic;
 
     private RPCEndpoint rpcEndpoint;
 
@@ -53,10 +53,10 @@ public class RPCEndpointTest {
     private UserAccount user;
     
     @Mock
-    private ActionPool actionPool;
+    private ProcedurePool actionPool;
 
     @Spy
-    private Action action;
+    private Procedure action;
 
     @Mock
     private HttpServletRequest request;
@@ -67,8 +67,8 @@ public class RPCEndpointTest {
     @Before
     public void beforeEach() {
         baos = new ByteArrayOutputStream();
-        actionPoolStatic = mockStatic(ActionPool.class);
-        when(ActionPool.getInstance()).thenReturn(actionPool);
+        actionPoolStatic = mockStatic(ProcedurePool.class);
+        when(ProcedurePool.getInstance()).thenReturn(actionPool);
         when(actionPool.get(any(String.class))).thenReturn(action);
 
         when(request.getParameterMap()).thenReturn(params);

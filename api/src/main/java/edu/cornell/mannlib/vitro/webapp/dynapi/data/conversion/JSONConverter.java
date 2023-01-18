@@ -34,7 +34,7 @@ import com.networknt.schema.SpecVersion;
 import com.networknt.schema.ValidationMessage;
 
 import edu.cornell.mannlib.vitro.webapp.dynapi.RESTEndpoint;
-import edu.cornell.mannlib.vitro.webapp.dynapi.components.Action;
+import edu.cornell.mannlib.vitro.webapp.dynapi.components.Procedure;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.Parameter;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.Parameters;
 import edu.cornell.mannlib.vitro.webapp.dynapi.data.DataStore;
@@ -56,7 +56,7 @@ public class JSONConverter {
 	//private static final String DEFAULT_OUTPUT_JSON = "{ \"result\" : [ {} ] }";
 	private static final String DEFAULT_OUTPUT_JSON = "{}";
 
-	public static void convert(HttpServletRequest request, Action action, DataStore dataStore)
+	public static void convert(HttpServletRequest request, Procedure action, DataStore dataStore)
 			throws ConversionException {
 		JsonSchema schema = getInputSchema(action, dataStore.getResourceId());
 		String jsonString = readRequest(request);
@@ -73,7 +73,7 @@ public class JSONConverter {
 		}
 	}
 
-	public static void convert(HttpServletResponse response, Action action,
+	public static void convert(HttpServletResponse response, Procedure action,
 			DataStore dataStore) throws ConversionException {
 		response.setContentType(dataStore.getResponseType().toString());
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
@@ -100,7 +100,7 @@ public class JSONConverter {
 		}
 	}
 
-	private static String createOutputJson(DataStore dataStore, Action action) throws ConversionException {
+	private static String createOutputJson(DataStore dataStore, Procedure action) throws ConversionException {
 		Parameters params = action.getOutputParams();
 		DocumentContext ctx = getOutputTemplate(action);
 		for (String name : params.getNames()) {
@@ -134,7 +134,7 @@ public class JSONConverter {
         return mapper.convertValue(serializedValue, TextNode.class);
     }
 
-	private static DocumentContext getOutputTemplate(Action action) {
+	private static DocumentContext getOutputTemplate(Procedure action) {
 		String template = action.getOutputTemplate();
 		DocumentContext ctx = null;
 		if (StringUtils.isBlank(template)) {
@@ -148,7 +148,7 @@ public class JSONConverter {
 		return ctx;
 	}
 
-	public static void readParam(DataStore dataStore, ReadContext ctx, String name, Parameter param, Action action) throws ConversionException {
+	public static void readParam(DataStore dataStore, ReadContext ctx, String name, Parameter param, Procedure action) throws ConversionException {
 		String paramPath = getReadPath(name, param, action);
 		JsonNode node = ctx.read(paramPath, JsonNode.class);
 		Data data = new Data(param);
@@ -157,7 +157,7 @@ public class JSONConverter {
 		dataStore.addData(name, data);
 	}
 
-	private static JsonNode injectResourceId(String jsonString, DataStore dataStore, Action action)
+	private static JsonNode injectResourceId(String jsonString, DataStore dataStore, Procedure action)
 			throws ConversionException {
 		final String resourceId = dataStore.getResourceId();
 
@@ -192,11 +192,11 @@ public class JSONConverter {
 		return node;
 	}
 
-	private static String getReadPath(String name, Parameter param, Action action) {
+	private static String getReadPath(String name, Parameter param, Procedure action) {
 		return getInputPathPrefix(param, action) + "." + name;
 	}
 
-	private static String getInputPathPrefix(Parameter param, Action action) {
+	private static String getInputPathPrefix(Parameter param, Procedure action) {
 		String paramPath = param.getInputPath();
 		if (StringUtils.isBlank(paramPath)) {
 			paramPath = action.getInputPath();
@@ -207,7 +207,7 @@ public class JSONConverter {
 		return paramPath;
 	}
 
-	private static String getOutputPathPrefix(Parameter param, Action action) {
+	private static String getOutputPathPrefix(Parameter param, Procedure action) {
 		String paramPath = param.getOutputPath();
 		if (StringUtils.isBlank(paramPath)) {
 			paramPath = action.getOutputPath();
@@ -236,7 +236,7 @@ public class JSONConverter {
 		return jsonString;
 	}
 
-	private static JsonSchema getInputSchema(Action action, String resourceId) throws ConversionException {
+	private static JsonSchema getInputSchema(Procedure action, String resourceId) throws ConversionException {
 		String serializedSchema = action.getInputSerializedSchema();
 		Parameters params = action.getInputParams();
 		JsonNode nativeSchema = deserializeSchema(serializedSchema);

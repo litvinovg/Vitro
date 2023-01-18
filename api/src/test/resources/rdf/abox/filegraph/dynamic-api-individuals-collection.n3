@@ -6,10 +6,9 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://vivoweb.org/ontology/vitro-dynamic-api/action/testCollectionAction1>
-        a                                   dynapi:Action ;
+        a                                   dynapi:Procedure ;
         rdfs:label                          "Test collection action 1"@en-US ;
         dynapi:providesParameter            <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/resultParam1> ;
-        dynapi:hasAssignedRPC               <https://vivoweb.org/ontology/vitro-dynamic-api/rpc/testCreateCollectionRPC1> ;
         dynapi:hasFirstStep                 <https://vivoweb.org/ontology/vitro-dynamic-api/step/testCollectionStep1> .
 
 <https://vivoweb.org/ontology/vitro-dynamic-api/step/testCollectionStep1>
@@ -22,6 +21,7 @@
         rdfs:label                          "Test rpc create collection 1"@en-US ;
         dynapi:name                         "test_collection" ;
         dynapi:hasDefaultMethod             <https://vivoweb.org/ontology/vitro-dynamic-api/http_method/post> ;
+        dynapi:procedure                    <https://vivoweb.org/ontology/vitro-dynamic-api/action/testCollectionAction1> ;
         dynapi:minAPIVersion                "1.0.0" .
 
 <https://vivoweb.org/ontology/vitro-dynamic-api/rpc/testGetCollectionRPC1>

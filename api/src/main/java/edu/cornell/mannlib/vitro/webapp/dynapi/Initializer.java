@@ -27,7 +27,7 @@ public class Initializer implements ServletContextListener {
     }
 
     private void initializeActionPool(ServletContext ctx) {
-        ActionPool actionPool = ActionPool.getInstance();
+        ProcedurePool actionPool = ProcedurePool.getInstance();
         actionPool.init(ctx);
     }
 

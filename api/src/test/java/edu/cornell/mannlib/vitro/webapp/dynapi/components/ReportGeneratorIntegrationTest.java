@@ -60,7 +60,7 @@ public class ReportGeneratorIntegrationTest extends ServletContextTest {
 		loadModel(ontModel, RESOURCES_PATH + actionPath);
 		loadModel(storeModel, RESOURCES_PATH + storePath);
 		DataStore store = new DataStore();
-		Action action = loader.loadInstance("test:action", Action.class);
+		Procedure action = loader.loadInstance("test:action", Procedure.class);
 		assertTrue(action.isValid());
 		Parameters inputParameters = action.getInputParams();
 		Parameter paramQueryModel = inputParameters.get(QUERY_MODEL);

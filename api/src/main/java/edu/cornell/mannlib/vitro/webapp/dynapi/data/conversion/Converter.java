@@ -17,7 +17,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.http.entity.ContentType;
 import org.apache.http.HttpHeaders;
 
-import edu.cornell.mannlib.vitro.webapp.dynapi.components.Action;
+import edu.cornell.mannlib.vitro.webapp.dynapi.components.Procedure;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.Parameters;
 import edu.cornell.mannlib.vitro.webapp.dynapi.data.DataStore;
 import edu.cornell.mannlib.vitro.webapp.dynapi.data.Data;
@@ -32,7 +32,7 @@ public class Converter {
 			ContentType.MULTIPART_FORM_DATA.getMimeType().toString(), 
 			ContentType.WILDCARD.getMimeType().toString()));
 
-	public static void convert(HttpServletRequest request, Action action, DataStore dataStore)
+	public static void convert(HttpServletRequest request, Procedure action, DataStore dataStore)
 			throws ConversionException {
 		ContentType contentType = getContentType(request.getContentType());
 		ContentType responseType = getResponseType(request.getHeader(HttpHeaders.ACCEPT), contentType);
@@ -112,7 +112,7 @@ public class Converter {
 		return mostAppropriateType;
 	}
 
-	public static void convert(HttpServletResponse response, Action action, DataStore dataStore) throws ConversionException {
+	public static void convert(HttpServletResponse response, Procedure action, DataStore dataStore) throws ConversionException {
 		if (!action.isOutputValid(dataStore)) {
 		    throw new ConversionException(String.format("Action uri %s output is invalid", action.getUri()));
 		}

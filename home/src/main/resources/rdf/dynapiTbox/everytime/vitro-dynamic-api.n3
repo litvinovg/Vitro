@@ -614,11 +614,11 @@
 #    Classes
 #################################################################
 
-###  https://vivoweb.org/ontology/vitro-dynamic-api#Action
-:Action rdf:type owl:Class ;
+###  https://vivoweb.org/ontology/vitro-dynamic-api#Procedure
+:Procedure rdf:type owl:Class ;
         rdfs:subClassOf :Operation ,
                         :ParameterProvider ;
-        rdfs:label "Action"@en-US .
+        rdfs:label "Procedure"@en-US .
 
 
 ###  https://vivoweb.org/ontology/vitro-dynamic-api#Api

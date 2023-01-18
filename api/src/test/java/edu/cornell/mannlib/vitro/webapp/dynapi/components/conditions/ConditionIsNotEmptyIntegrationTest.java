@@ -18,7 +18,7 @@ import org.junit.runners.Parameterized;
 import org.mockito.MockitoAnnotations;
 
 import edu.cornell.mannlib.vitro.webapp.dynapi.ServletContextTest;
-import edu.cornell.mannlib.vitro.webapp.dynapi.components.Action;
+import edu.cornell.mannlib.vitro.webapp.dynapi.components.Procedure;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.OperationResult;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.Parameters;
 import edu.cornell.mannlib.vitro.webapp.dynapi.data.DataStore;
@@ -59,7 +59,7 @@ public class ConditionIsNotEmptyIntegrationTest extends ServletContextTest{
         loadModel(ontModel, TEST_ACTION);
         loadModel(storeModel, TEST_STORE);
         servletContext = new ServletContextStub();
-        Action action = loader.loadInstance("test:action", Action.class);
+        Procedure action = loader.loadInstance("test:action", Procedure.class);
         assertTrue(action.isValid());
         Parameters parameters = action.getInputParams();
         DataStore store = new DataStore();

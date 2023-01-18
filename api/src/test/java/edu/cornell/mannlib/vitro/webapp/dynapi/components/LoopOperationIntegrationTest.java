@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import edu.cornell.mannlib.vitro.webapp.dynapi.ActionPool;
+import edu.cornell.mannlib.vitro.webapp.dynapi.ProcedurePool;
 import edu.cornell.mannlib.vitro.webapp.dynapi.Endpoint;
 import edu.cornell.mannlib.vitro.webapp.dynapi.ResourceAPIPool;
 import edu.cornell.mannlib.vitro.webapp.dynapi.ServletContextTest;
@@ -56,24 +56,24 @@ public class LoopOperationIntegrationTest extends ServletContextTest {
 	@Before
 	public void beforeEach() {
         Logger.getLogger(ResourceAPIPool.class).setLevel(Level.OFF);
-        Logger.getLogger(ActionPool.class).setLevel(Level.OFF);
+        Logger.getLogger(ProcedurePool.class).setLevel(Level.OFF);
 		storeModel = new OntModelImpl(OntModelSpec.OWL_MEM);
 	}
 	
     @After
     public void reset() {
         setup();
-        ActionPool rpcPool = ActionPool.getInstance();
+        ProcedurePool rpcPool = ProcedurePool.getInstance();
         rpcPool.init(servletContext);
         rpcPool.reload();
         assertEquals(0, rpcPool.count());
         Logger.getLogger(ResourceAPIPool.class).setLevel(Level.OFF);
-        Logger.getLogger(ActionPool.class).setLevel(Level.OFF);
+        Logger.getLogger(ProcedurePool.class).setLevel(Level.OFF);
     }
 
-    private ActionPool initWithDefaultModel() throws IOException {
+    private ProcedurePool initWithDefaultModel() throws IOException {
         loadOntology(ontModel);
-        ActionPool rpcPool = ActionPool.getInstance();
+        ProcedurePool rpcPool = ProcedurePool.getInstance();
         rpcPool.init(servletContext);
         return rpcPool;
     }
@@ -81,12 +81,12 @@ public class LoopOperationIntegrationTest extends ServletContextTest {
     @Test
     public void test() throws ConfigurationBeanLoaderException, IOException, ConversionException, InitializationException {
         loadModel(ontModel, TEST_ACTION);
-        ActionPool rpcPool = initWithDefaultModel();
-        Action action = null;
+        ProcedurePool rpcPool = initWithDefaultModel();
+        Procedure action = null;
         DataStore store = null;
         try { 
             action = rpcPool.getByUri("test:loop_action");
-            assertFalse(action instanceof NullAction);
+            assertFalse(action instanceof NullProcedure);
             assertTrue(action.isValid());
             store = new DataStore();
             addInputContainer(store);

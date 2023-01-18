@@ -11,7 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-import edu.cornell.mannlib.vitro.webapp.dynapi.components.Action;
+import edu.cornell.mannlib.vitro.webapp.dynapi.components.Procedure;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.Parameter;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.Parameters;
 import edu.cornell.mannlib.vitro.webapp.dynapi.data.DataStore;
@@ -23,7 +23,7 @@ public class FormDataConverter {
     private static final Log log = LogFactory.getLog(FormDataConverter.class);
 	private static ObjectMapper mapper = new ObjectMapper();
 
-	public static void convert(HttpServletRequest request, Action action, DataStore dataStore) throws ConversionException {
+	public static void convert(HttpServletRequest request, Procedure action, DataStore dataStore) throws ConversionException {
 		Parameters required = action.getInputParams();
 		Map<String, String[]> received = request.getParameterMap();
 		for (String name : required.getNames()) {
@@ -64,7 +64,7 @@ public class FormDataConverter {
 		dataStore.addData(name, data);
 	}
 
-	public static void convert(HttpServletResponse response, Action action, DataStore dataStore) throws ConversionException {
+	public static void convert(HttpServletResponse response, Procedure action, DataStore dataStore) throws ConversionException {
 		throw new ConversionException("Not implemented!");		
 	}
 

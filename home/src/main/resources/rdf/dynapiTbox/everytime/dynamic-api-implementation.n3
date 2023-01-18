@@ -6,7 +6,7 @@
 @prefix dynapi: <https://vivoweb.org/ontology/vitro-dynamic-api#> .
 @prefix dynapi_types: <java:edu.cornell.mannlib.vitro.webapp.dynapi.data.types#> .
 
-dynapi:Action rdfs:subClassOf dynapi_java:Action .
+dynapi:Procedure rdfs:subClassOf dynapi_java:Procedure .
 
 dynapi:OperationalStep rdfs:subClassOf dynapi_java:OperationalStep .
 

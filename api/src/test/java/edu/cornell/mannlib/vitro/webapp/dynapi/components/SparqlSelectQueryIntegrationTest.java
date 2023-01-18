@@ -33,7 +33,7 @@ public class SparqlSelectQueryIntegrationTest extends ServletContextTest {
 	private static final String URI = "uri";
 
 	private static final String RESOURCES_PATH = "src/test/resources/edu/cornell/mannlib/vitro/webapp/dynapi/components/";
-	private static final String TEST_ACTION = RESOURCES_PATH + "sparql-select-test-action.n3";
+	private static final String TEST_PROCEDURE = RESOURCES_PATH + "sparql-select-test-action.n3";
 	private static final String TEST_STORE = RESOURCES_PATH + "sparql-select-test-store.n3";
 
 	Model storeModel;
@@ -52,12 +52,12 @@ public class SparqlSelectQueryIntegrationTest extends ServletContextTest {
 	@Test
 	public void test() throws ConfigurationBeanLoaderException, IOException, ConversionException {
 		loadOntology(ontModel);
-		loadModel(ontModel, TEST_ACTION);
+		loadModel(ontModel, TEST_PROCEDURE);
 		loadModel(storeModel, TEST_STORE);
 		// servletContext = new ServletContextStub();
-		Action action = loader.loadInstance("test:action", Action.class);
-		assertTrue(action.isValid());
-		Parameters inputParameters = action.getInputParams();
+		Procedure procedure = loader.loadInstance("test:procedure", Procedure.class);
+		assertTrue(procedure.isValid());
+		Parameters inputParameters = procedure.getInputParams();
 		DataStore store = new DataStore();
 
 		Parameter paramQuery = inputParameters.get(QUERY);
@@ -72,7 +72,7 @@ public class SparqlSelectQueryIntegrationTest extends ServletContextTest {
 		store.addData(URI, uriData);
 
 		TestView.setObject(uriData, uri);
-		OperationResult opResult = action.run(store);
+		OperationResult opResult = procedure.run(store);
 		assertFalse(opResult.hasError());
 		assertTrue(store.contains(OBJECT));
 		final Data data = store.getData(OBJECT);

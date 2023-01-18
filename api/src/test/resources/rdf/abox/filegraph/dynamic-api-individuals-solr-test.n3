@@ -6,7 +6,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://vivoweb.org/ontology/vitro-dynamic-api/action/solrTestAction>
-        a                           dynapi:Action ;
+        a                           dynapi:Procedure ;
         rdfs:label                  "Solr test action"@en-US ;
         dynapi:hasAssignedRPC       <https://vivoweb.org/ontology/vitro-dynamic-api/rpc/solrTestRPC1> ;
         dynapi:hasFirstStep         <https://vivoweb.org/ontology/vitro-dynamic-api/step/solrTestStep1> .

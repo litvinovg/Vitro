@@ -6,7 +6,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://vivoweb.org/ontology/vitro-dynamic-api/action/reload_action>
-        a                                   dynapi:Action ;
+        a                                   dynapi:Procedure ;
         rdfs:label                          "Reload action"@en-US ;
         dynapi:hasFirstStep                 <https://vivoweb.org/ontology/vitro-dynamic-api/action/reload_action/step1> ;
         dynapi:hasAssignedRPC               <https://vivoweb.org/ontology/vitro-dynamic-api/action/reload_action/rpc1> .

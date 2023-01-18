@@ -7,7 +7,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.cornell.mannlib.vitro.webapp.dynapi.components.Action;
+import edu.cornell.mannlib.vitro.webapp.dynapi.components.Procedure;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.Parameter;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.Parameters;
 
@@ -15,7 +15,7 @@ public class AutoConfiguration {
 
     private static final Log log = LogFactory.getLog(AutoConfiguration.class);
 
-    public static void computeParams(Action action) {
+    public static void computeParams(Procedure action) {
         Parameters required = action.getInputParams();
         Parameters provided = action.getOutputParams();
         Parameters internal = action.getInternalParams();

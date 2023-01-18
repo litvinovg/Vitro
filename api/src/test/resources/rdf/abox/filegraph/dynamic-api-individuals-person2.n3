@@ -7,7 +7,7 @@
 
 
 <https://vivoweb.org/ontology/vitro-dynamic-api/action/testPersonAction2>
-        a                                   dynapi:Action ;
+        a                                   dynapi:Procedure ;
         rdfs:label                          "Test person action 2"@en-US ;
         dynapi:providesParameter            <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/resultParam1> ;
         dynapi:hasAssignedRPC               <https://vivoweb.org/ontology/vitro-dynamic-api/rpc/testCreatePersonRPC2> ;
