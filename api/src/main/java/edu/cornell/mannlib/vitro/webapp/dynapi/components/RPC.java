@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.cornell.mannlib.vitro.webapp.utils.configuration.Property;
 
-public class RPC extends AbstractPoolable implements Removable, Poolable<String> {
+public class RPC extends AbstractPoolComponent implements Removable, Poolable<String> {
 
     private String name;
     private String minVersion;

@@ -35,11 +35,6 @@ public class RPCEndpoint extends Endpoint {
         String rpcKey = requestPath.getRpcKey();
         
         try(RPC rpc = rpcAPIPool.get(rpcKey)) {
-            if (NullRPC.getInstance().equals(rpc)) {
-                log.error(format("RPC %s not found", rpcKey));
-                OperationResult.notFound().prepareResponse(response);
-                return;
-            }
             //TODO Implement version negotiations
             processRequest(request, response, requestPath, rpc.getProcedureUri());
         } catch (Exception e) {

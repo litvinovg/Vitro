@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import edu.cornell.mannlib.vitro.webapp.utils.configuration.Property;
 
-public class ResourceAPI extends AbstractPoolable implements Versionable<ResourceAPIKey> {
+public class ResourceAPI extends AbstractPoolComponent implements Versionable<ResourceAPIKey> {
 
     private String name;
     private String versionMin;
@@ -110,7 +110,7 @@ public class ResourceAPI extends AbstractPoolable implements Versionable<Resourc
         return procedureUriOnPatch;
     }
 
-    @Property(uri = "https://vivoweb.org/ontology/vitro-dynamic-api#onPatch", minOccurs = 0, maxOccurs = 1)
+    @Property(uri = "https://vivoweb.org/ontology/vitro-dynamic-api#onPatch", minOccurs = 0, maxOccurs = 1, asString = true)
     public void setProcedureUriOnPatch(String procedureOnPatch) {
         this.procedureUriOnPatch = procedureOnPatch;
     }

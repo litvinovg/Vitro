@@ -89,9 +89,9 @@ public class DataStore {
 
     public void removeDependencies() {
         for (Procedure dependencyComponent : dependencyComponents.values()) {
-            dependencyComponents.remove(dependencyComponent.getKey());
             dependencyComponent.removeClient();
         }
+        dependencyComponents.clear();
     }
 
     public boolean containsData(DataStore expectedDatas) {

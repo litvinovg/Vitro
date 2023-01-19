@@ -59,10 +59,15 @@ public class RPCDocumentationEndpointIntegrationTest extends ServletContextInteg
 
         loadModels("n3", TEST_PREFIX + "dynamic-api-individuals-api.n3");
 
-        ProcedurePool actionPool = ProcedurePool.getInstance();
+        ProcedurePool procedurePool = ProcedurePool.getInstance();
 
-        actionPool.init(servletContext);
-        actionPool.reload();
+        procedurePool.init(servletContext);
+        procedurePool.reload();
+        
+        RpcAPIPool rpcPool = RpcAPIPool.getInstance();
+
+        rpcPool.init(servletContext);
+        rpcPool.reload();
 
         DynamicAPIDocumentation dynamicAPIDocumentation = DynamicAPIDocumentation.getInstance();
 
@@ -107,13 +112,22 @@ public class RPCDocumentationEndpointIntegrationTest extends ServletContextInteg
     @Parameterized.Parameters
     public static Collection<Object[]> requests() {
         final String action = "test_action";
+        final String actionUri = "https://vivoweb.org/ontology/vitro-dynamic-api/action/testAction1";
         final String collection = "test_collection";
+        final String collectionUri = "https://vivoweb.org/ontology/vitro-dynamic-api/action/testCollectionAction1";
         final String concept = "test_concept";
+        final String conceptUri = "https://vivoweb.org/ontology/vitro-dynamic-api/action/testConceptAction1";
         final String document = "test_document";
+        final String documentUri = "https://vivoweb.org/ontology/vitro-dynamic-api/action/testDocumentAction1";
         final String organization = "test_organization";
+        final String organizationUri = "https://vivoweb.org/ontology/vitro-dynamic-api/action/testOrganizationAction1";
         final String person = "test_person";
+        final String personUri = "thttps://vivoweb.org/ontology/vitro-dynamic-api/action/testPersonAction1";
         final String process = "test_process";
+        final String processUri = "https://vivoweb.org/ontology/vitro-dynamic-api/action/testProcessAction1";
         final String relationship = "test_relationship";
+        final String relationshipUri = "https://vivoweb.org/ontology/vitro-dynamic-api/action/testRelationshipAction1";
+
 
         return Arrays.asList(new Object[][] {
             // action,      json,  expected response,     message

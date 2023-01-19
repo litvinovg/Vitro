@@ -30,6 +30,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.Procedure;
+import edu.cornell.mannlib.vitro.webapp.dynapi.components.RPC;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.OperationResult;
 import edu.cornell.mannlib.vitro.webapp.dynapi.data.DataStore;
 
@@ -43,6 +44,9 @@ public class RPCEndpointTest {
     private ByteArrayOutputStream baos;
 
     private MockedStatic<ProcedurePool> actionPoolStatic;
+    
+    private MockedStatic<RpcAPIPool> rpcPoolStatic;
+
 
     private RPCEndpoint rpcEndpoint;
 
@@ -53,10 +57,16 @@ public class RPCEndpointTest {
     private UserAccount user;
     
     @Mock
-    private ProcedurePool actionPool;
+    private ProcedurePool procedurePool;
+    
+    @Mock
+    private RpcAPIPool rpcApiPool;
+    
+    @Mock
+    private RPC rpc;
 
     @Spy
-    private Procedure action;
+    private Procedure procedure;
 
     @Mock
     private HttpServletRequest request;
@@ -68,8 +78,16 @@ public class RPCEndpointTest {
     public void beforeEach() {
         baos = new ByteArrayOutputStream();
         actionPoolStatic = mockStatic(ProcedurePool.class);
-        when(ProcedurePool.getInstance()).thenReturn(actionPool);
-        when(actionPool.get(any(String.class))).thenReturn(action);
+        rpcPoolStatic = mockStatic(RpcAPIPool.class);
+
+        when(ProcedurePool.getInstance()).thenReturn(procedurePool);
+        when(RpcAPIPool.getInstance()).thenReturn(rpcApiPool);
+
+        when(procedurePool.get(any(String.class))).thenReturn(procedure);
+        
+        when(rpcApiPool.get(any(String.class))).thenReturn(rpc);
+        when(rpc.getProcedureUri()).thenReturn("procedure_uri");
+
 
         when(request.getParameterMap()).thenReturn(params);
         when(request.getSession(false)).thenReturn(session);
@@ -83,6 +101,8 @@ public class RPCEndpointTest {
     @After
     public void afterEach() {
         actionPoolStatic.close();
+        rpcPoolStatic.close();
+
         try {
             baos.close();
         } catch (IOException e) {
@@ -93,7 +113,7 @@ public class RPCEndpointTest {
     @Test
     public void doGetTest() {
         rpcEndpoint.doGet(request, response);
-        verify(action, times(0)).run(any());
+        verify(procedure, times(0)).run(any());
         verify(response, times(1)).setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
     }
 
@@ -106,9 +126,9 @@ public class RPCEndpointTest {
         when(request.getHeader(HttpHeaders.ACCEPT)).thenReturn(ContentType.APPLICATION_JSON.toString());
         PrintWriter writer = new PrintWriter(baos, true);
         when(response.getWriter()).thenReturn(writer);
-        when(action.run(any(DataStore.class))).thenReturn(result);
+        when(procedure.run(any(DataStore.class))).thenReturn(result);
         rpcEndpoint.doPost(request, response);
-        verify(action, times(1)).run(any());
+        verify(procedure, times(1)).run(any());
         verify(response, times(1)).setStatus(HttpServletResponse.SC_OK);
     }
 
@@ -117,21 +137,21 @@ public class RPCEndpointTest {
         when(request.getPathInfo()).thenReturn(EMPTY);
 
         rpcEndpoint.doPost(request, response);
-        verify(action, times(0)).run(any());
+        verify(procedure, times(0)).run(any());
         verify(response, times(1)).setStatus(HttpServletResponse.SC_NOT_FOUND);
     }
 
     @Test
     public void doDeleteTest() {
         rpcEndpoint.doDelete(request, response);
-        verify(action, times(0)).run(any());
+        verify(procedure, times(0)).run(any());
         verify(response, times(1)).setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
     }
 
     @Test
     public void doPutTest() {
         rpcEndpoint.doPut(request, response);
-        verify(action, times(0)).run(any());
+        verify(procedure, times(0)).run(any());
         verify(response, times(1)).setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
     }
 

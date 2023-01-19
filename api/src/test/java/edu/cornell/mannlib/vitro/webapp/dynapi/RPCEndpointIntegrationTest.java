@@ -56,7 +56,9 @@ public class RPCEndpointIntegrationTest extends ServletContextIntegrationTest {
     
     private RPCEndpoint rpcEndpoint;
 
-    private ProcedurePool actionPool;
+    private ProcedurePool procedurePool;
+    private RpcAPIPool rpcPool;
+
 
     @Mock
     private HttpServletRequest request;
@@ -71,7 +73,7 @@ public class RPCEndpointIntegrationTest extends ServletContextIntegrationTest {
     private UserAccount user;
 
     @Parameter(0)
-    public String testAction;
+    public String testProcedureName;
 
     @Parameter(1)
     public String testLimit;
@@ -103,14 +105,18 @@ public class RPCEndpointIntegrationTest extends ServletContextIntegrationTest {
     
     @Before
     public void beforeEach() throws Exception {
-        actionPool = ProcedurePool.getInstance();
+        procedurePool = ProcedurePool.getInstance();
+        rpcPool = RpcAPIPool.getInstance();
 
         rpcEndpoint = new RPCEndpoint();
 
         loadDefaultModel();
 
-        actionPool.init(servletContext);
-        actionPool.reload();
+        procedurePool.init(servletContext);
+        procedurePool.reload();
+        
+        rpcPool.init(servletContext);
+        rpcPool.reload();
 
         MockitoAnnotations.openMocks(this);
         
@@ -126,10 +132,10 @@ public class RPCEndpointIntegrationTest extends ServletContextIntegrationTest {
         when(user.isRootUser()).thenReturn(true);
         dynapiModelFactory.when(() -> DynapiModelFactory.getModel(any(String.class))).thenReturn(ontModel);
         
-        if (testAction != null) {
-            StringBuffer buffer = new StringBuffer(URI_BASE + "/" + testAction);
+        if (testProcedureName != null) {
+            StringBuffer buffer = new StringBuffer(URI_BASE + "/" + testProcedureName);
             when(request.getRequestURL()).thenReturn(buffer);
-            when(request.getPathInfo()).thenReturn("/" + testAction);
+            when(request.getPathInfo()).thenReturn("/" + testProcedureName);
         }
 
         when(request.getParameterMap()).thenReturn(parameterMap);
@@ -201,7 +207,7 @@ public class RPCEndpointIntegrationTest extends ServletContextIntegrationTest {
 
         String actionIsEmpty = "";
         String actionIsUnknown = "unknown";
-        String actionIsGood = TEST_ACTION_NAME;
+        String actionIsGood = "test_action";
         String limitIsEmpty = "";
         String limitIsBad = "-1";
         String limitIsGood = "10";

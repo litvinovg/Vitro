@@ -55,20 +55,20 @@ public class LoopOperationIntegrationTest extends ServletContextTest {
 
 	@Before
 	public void beforeEach() {
-        Logger.getLogger(ResourceAPIPool.class).setLevel(Level.OFF);
-        Logger.getLogger(ProcedurePool.class).setLevel(Level.OFF);
+        //Logger.getLogger(ResourceAPIPool.class).setLevel(Level.OFF);
+        //Logger.getLogger(ProcedurePool.class).setLevel(Level.OFF);
 		storeModel = new OntModelImpl(OntModelSpec.OWL_MEM);
 	}
 	
     @After
     public void reset() {
         setup();
-        ProcedurePool rpcPool = ProcedurePool.getInstance();
-        rpcPool.init(servletContext);
-        rpcPool.reload();
-        assertEquals(0, rpcPool.count());
-        Logger.getLogger(ResourceAPIPool.class).setLevel(Level.OFF);
-        Logger.getLogger(ProcedurePool.class).setLevel(Level.OFF);
+        ProcedurePool procedurePool = ProcedurePool.getInstance();
+        procedurePool.init(servletContext);
+        procedurePool.reload();
+        assertEquals(0, procedurePool.count());
+        //Logger.getLogger(ResourceAPIPool.class).setLevel(Level.OFF);
+        //Logger.getLogger(ProcedurePool.class).setLevel(Level.OFF);
     }
 
     private ProcedurePool initWithDefaultModel() throws IOException {
@@ -81,17 +81,17 @@ public class LoopOperationIntegrationTest extends ServletContextTest {
     @Test
     public void test() throws ConfigurationBeanLoaderException, IOException, ConversionException, InitializationException {
         loadModel(ontModel, TEST_ACTION);
-        ProcedurePool rpcPool = initWithDefaultModel();
+        ProcedurePool procedurePool = initWithDefaultModel();
         Procedure action = null;
         DataStore store = null;
         try { 
-            action = rpcPool.getByUri("test:loop_action");
+            action = procedurePool.getByUri("test:loop_action");
             assertFalse(action instanceof NullProcedure);
             assertTrue(action.isValid());
             store = new DataStore();
             addInputContainer(store);
             
-            Endpoint.getDependencies(action, store, rpcPool);
+            Endpoint.getDependencies(action, store, procedurePool);
             assertTrue(OperationResult.ok().equals(action.run(store))) ;
             assertTrue(store.contains(OUTPUT_CONTAINER));
             Data output = store.getData(OUTPUT_CONTAINER);

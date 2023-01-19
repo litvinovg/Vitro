@@ -42,7 +42,7 @@ public class ProcedurePoolTest extends ServletContextTest {
     @Test
     public void testGetBeforeInit() {
         ProcedurePool procedurePool = ProcedurePool.getInstance();
-        Procedure procedure = procedurePool.get(TEST_ACTION_NAME);
+        Procedure procedure = procedurePool.get(TEST_PROCEDURE_URI);
         assertNotNull(procedure);
         assertTrue(procedure instanceof NullProcedure);
     }
@@ -67,7 +67,7 @@ public class ProcedurePoolTest extends ServletContextTest {
         assertEquals(1, procedurePool.count());
         assertEquals(0, procedurePool.obsoleteCount());
 
-        assertProcedure(TEST_ACTION_NAME, procedurePool.get(TEST_ACTION_NAME));
+        assertProcedure(TEST_PROCEDURE_URI, procedurePool.get(TEST_PROCEDURE_URI));
     }
 
     @Test
@@ -85,12 +85,14 @@ public class ProcedurePoolTest extends ServletContextTest {
         loadTestModel();
 
         Procedure procedure = loader.loadInstance(TEST_PERSON_ACTION_URI, Procedure.class);
+        
+        procedure.setUri(TEST_PERSON_ACTION_URI);
 
         procedurePool.add(TEST_PERSON_ACTION_URI, procedure);
 
         assertEquals(0, procedurePool.obsoleteCount());
 
-        assertProcedure(TEST_PERSON_ACTION_NAME, procedurePool.get(TEST_PERSON_ACTION_NAME));
+        assertProcedure(TEST_PERSON_ACTION_URI, procedurePool.get(TEST_PERSON_ACTION_URI));
     }
 
     @Test
@@ -105,7 +107,7 @@ public class ProcedurePoolTest extends ServletContextTest {
 
         assertEquals(0, procedurePool.obsoleteCount());
 
-        Procedure procedureHasClient = procedurePool.get(TEST_PERSON_ACTION_NAME);
+        Procedure procedureHasClient = procedurePool.get(TEST_PERSON_ACTION_URI);
 
         procedurePool.add(TEST_PERSON_ACTION_URI, procedure);
 
@@ -124,7 +126,7 @@ public class ProcedurePoolTest extends ServletContextTest {
 
         reset();
 
-        assertTrue(procedurePool.get(TEST_PERSON_ACTION_NAME) instanceof NullProcedure);
+        assertTrue(procedurePool.get(TEST_PERSON_PROCEDURE_URI_1) instanceof NullProcedure);
 
         procedurePool.add(TEST_PERSON_ACTION_URI, procedure);
     }
@@ -137,7 +139,7 @@ public class ProcedurePoolTest extends ServletContextTest {
 
         procedurePool.reload();
 
-        Procedure procedure = procedurePool.get(TEST_PERSON_ACTION_NAME);
+        Procedure procedure = procedurePool.get(TEST_PERSON_ACTION_URI);
 
         assertFalse(procedure instanceof NullProcedure);
 
@@ -149,7 +151,7 @@ public class ProcedurePoolTest extends ServletContextTest {
 
         assertEquals(0, procedurePool.obsoleteCount());
 
-        assertTrue(procedurePool.get(TEST_PERSON_ACTION_NAME) instanceof NullProcedure);
+        assertTrue(procedurePool.get(TEST_PERSON_ACTION_URI) instanceof NullProcedure);
     }
 
     @Test
@@ -160,7 +162,7 @@ public class ProcedurePoolTest extends ServletContextTest {
 
         procedurePool.reload();
 
-        Procedure procedureHasClient = procedurePool.get(TEST_PERSON_ACTION_NAME);
+        Procedure procedureHasClient = procedurePool.get(TEST_PERSON_ACTION_URI);
 
         assertFalse(procedureHasClient instanceof NullProcedure);
 
@@ -172,7 +174,7 @@ public class ProcedurePoolTest extends ServletContextTest {
 
         assertEquals(1, procedurePool.obsoleteCount());
 
-        assertTrue(procedurePool.get(TEST_PERSON_ACTION_NAME) instanceof NullProcedure);
+        assertTrue(procedurePool.get(TEST_PERSON_ACTION_URI) instanceof NullProcedure);
 
         procedureHasClient.removeClient();
     }
@@ -194,20 +196,20 @@ public class ProcedurePoolTest extends ServletContextTest {
 
         loadTestModel();
 
-        Procedure procedure = procedurePool.get(TEST_PERSON_ACTION_NAME);
+        Procedure procedure = procedurePool.get(TEST_PERSON_PROCEDURE_URI_1);
 
         assertTrue(procedure instanceof NullProcedure);
 
         procedurePool.load(TEST_PERSON_ACTION_URI);
 
-        assertProcedure(TEST_PERSON_ACTION_NAME, procedurePool.get(TEST_PERSON_ACTION_NAME));
+        assertProcedure(TEST_PERSON_ACTION_URI, procedurePool.get(TEST_PERSON_ACTION_URI));
     }
 
     @Test
     public void testReload() throws IOException {
         ProcedurePool procedurePool = initWithDefaultModel();
 
-        assertProcedure(TEST_ACTION_NAME, procedurePool.get(TEST_ACTION_NAME));
+        assertProcedure(TEST_PROCEDURE_URI, procedurePool.get(TEST_PROCEDURE_URI));
 
         loadTestModel();
 
@@ -216,14 +218,14 @@ public class ProcedurePoolTest extends ServletContextTest {
         assertEquals(8, procedurePool.count());
         assertEquals(0, procedurePool.obsoleteCount());
 
-        assertProcedure(TEST_PERSON_ACTION_NAME, procedurePool.get(TEST_PERSON_ACTION_NAME));
+        assertProcedure(TEST_PERSON_ACTION_URI, procedurePool.get(TEST_PERSON_ACTION_URI));
     }
     
     @Test
     public void testUnload() throws IOException {
         ProcedurePool procedurePool = initWithDefaultModel();
 
-        assertProcedure(TEST_ACTION_NAME, procedurePool.get(TEST_ACTION_NAME));
+        assertProcedure(TEST_PROCEDURE_URI, procedurePool.get(TEST_PROCEDURE_URI));
 
         procedurePool.unload();
 
@@ -236,7 +238,7 @@ public class ProcedurePoolTest extends ServletContextTest {
 
         long procedureCount = procedurePool.count();
         
-        assertProcedure(TEST_ACTION_NAME, procedurePool.get(TEST_ACTION_NAME));
+        assertProcedure(TEST_PROCEDURE_URI, procedurePool.get(TEST_PROCEDURE_URI));
 
         procedurePool.unload("https://vivoweb.org/ontology/vitro-dynamic-api/action/testAction1");
 
@@ -248,19 +250,19 @@ public class ProcedurePoolTest extends ServletContextTest {
     public void testReloadThreadSafety() throws IOException {
         ProcedurePool procedurePool = initWithDefaultModel();
 
-        assertProcedure(TEST_ACTION_NAME, procedurePool.get(TEST_ACTION_NAME));
+        assertProcedure(TEST_PROCEDURE_URI, procedurePool.get(TEST_PROCEDURE_URI));
 
         loadTestModel();
 
         CompletableFuture<Void> reloadFuture = CompletableFuture.runAsync(() -> procedurePool.reload());
 
         while (!reloadFuture.isDone()) {
-            assertProcedure(TEST_ACTION_NAME, procedurePool.get(TEST_ACTION_NAME));
+            assertProcedure(TEST_PROCEDURE_URI, procedurePool.get(TEST_PROCEDURE_URI));
         }
 
-        assertProcedure(TEST_ACTION_NAME, procedurePool.get(TEST_ACTION_NAME));
+        assertProcedure(TEST_PROCEDURE_URI, procedurePool.get(TEST_PROCEDURE_URI));
 
-        assertProcedure(TEST_PERSON_ACTION_NAME, procedurePool.get(TEST_PERSON_ACTION_NAME));
+        assertProcedure(TEST_PERSON_ACTION_URI, procedurePool.get(TEST_PERSON_ACTION_URI));
     }
 
     @Test
@@ -269,12 +271,12 @@ public class ProcedurePoolTest extends ServletContextTest {
 
         loadTestModel();
 
-        Procedure procedure = procedurePool.get(TEST_ACTION_NAME);
+        Procedure procedure = procedurePool.get(TEST_PROCEDURE_URI);
 
         CompletableFuture<Void> reloadFuture = CompletableFuture.runAsync(() -> procedurePool.reload());
 
         while (!reloadFuture.isDone()) {
-            assertEquals(TEST_ACTION_NAME, procedure.getKey());
+            assertEquals(TEST_PROCEDURE_URI, procedure.getKey());
         }
 
         procedure.removeClient();
@@ -287,13 +289,13 @@ public class ProcedurePoolTest extends ServletContextTest {
         procedurePool.reload();
 
         long initalCount = procedurePool.obsoleteCount();
-        Procedure procedure = procedurePool.get(TEST_ACTION_NAME);
+        Procedure procedure = procedurePool.get(TEST_PROCEDURE_URI);
 
         procedure.removeClient();
 
         assertFalse(procedure.hasClients());
 
-        Thread t1 = getProcedureInThread(procedurePool, TEST_ACTION_NAME);
+        Thread t1 = getProcedureInThread(procedurePool, TEST_PROCEDURE_URI);
 
         t1.join();
 
@@ -330,7 +332,7 @@ public class ProcedurePoolTest extends ServletContextTest {
 
     private void assertProcedure(String expectedName, Procedure actualProcedure) {
         assertNotNull(actualProcedure);
-        assertFalse(format("%s not loaded!", expectedName), actualProcedure instanceof NullProcedure);
+        assertFalse(format("%s not loaded!", expectedName), NullProcedure.getInstance().equals(actualProcedure));
         assertTrue(actualProcedure.isValid());
         assertEquals(expectedName, actualProcedure.getKey());
         assertTrue(actualProcedure.hasClients());

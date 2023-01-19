@@ -123,7 +123,7 @@ public class ApiRequestPath {
                 if (pathParts.length == 3) {
                     isValid = hasVersionAndName;
                 } else if (pathParts.length > 3) {
-                    boolean hasActionName = isNotEmpty(rpcKey);
+                    boolean hasActionName = isNotEmpty(customRestActionName);
                     boolean hasResourceId = isNotEmpty(resourceId);
 
                     if (pathParts.length == 4) {

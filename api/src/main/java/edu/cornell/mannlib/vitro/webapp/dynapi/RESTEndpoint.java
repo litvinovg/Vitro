@@ -14,15 +14,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.NullResourceAPI;
-import edu.cornell.mannlib.vitro.webapp.dynapi.components.HTTPMethod;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.OperationResult;
-import edu.cornell.mannlib.vitro.webapp.dynapi.components.RPC;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.ResourceAPI;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.ResourceAPIKey;
 import edu.cornell.mannlib.vitro.webapp.dynapi.request.ApiRequestPath;
 
 @WebServlet(name = "RESTEndpoint", urlPatterns = { REST_SERVLET_PATH + "/*" })
-public class RESTEndpoint extends Endpoint{
+public class RESTEndpoint extends Endpoint {
 
     private static final Log log = LogFactory.getLog(RESTEndpoint.class);
 
@@ -98,12 +96,16 @@ public class RESTEndpoint extends Endpoint{
         String procedureUri = null;
 
         if (requestPath.isCustomRestAction()) {
+            
+            if (!"PUT".equals(method)) {
+                resourceAPI.removeClient();
+                OperationResult.methodNotAllowed().prepareResponse(response); return;
+            }
             String actionName = requestPath.getCustomRestActionName();
             try {
                 procedureUri = resourceAPI.getProcedureUriByActionName(actionName);
             } catch (UnsupportedOperationException e) {
-                log.error(format("Custom REST action %s not implemented for resource %s", actionName, key),
-                        e);
+                log.error(format("Custom REST action %s not implemented for resource %s", actionName, key), e);
                 OperationResult.methodNotAllowed().prepareResponse(response);
                 return;
             } finally {
@@ -120,18 +122,6 @@ public class RESTEndpoint extends Endpoint{
                 resourceAPI.removeClient();
             }
         }
-
-        /*
-         * HTTPMethod rpcMethod = procedureUri.getHttpMethod();
-         * 
-         * if (rpcMethod == null ||
-         * !rpcMethod.getName().toUpperCase().equals(method)) { log.error(
-         * format("Remote Procedure Call not implemented for resource %s with method %s"
-         * , key, method));
-         * OperationResult.methodNotAllowed().prepareResponse(response); return;
-         * }
-         */
-
         processRequest(request, response, requestPath, procedureUri);
     }
 

@@ -113,7 +113,7 @@ public class RequestPathTest {
         assertEquals("1", requestPath.getResourceVersion());
         assertEquals("persons", requestPath.getResourceName());
         assertEquals(null, requestPath.getResourceId());
-        assertEquals("dedupe", requestPath.getRpcKey());
+        assertEquals("dedupe", requestPath.getCustomRestActionName());
     }
 
     @Test
@@ -145,7 +145,7 @@ public class RequestPathTest {
         assertEquals("1", requestPath.getResourceVersion());
         assertEquals("persons", requestPath.getResourceName());
         assertEquals(resourceId, requestPath.getResourceId());
-        assertEquals("patch", requestPath.getRpcKey());
+        assertEquals("patch", requestPath.getCustomRestActionName());
     }
 
     @Test

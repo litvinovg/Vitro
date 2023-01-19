@@ -22,10 +22,12 @@ public class APIResponseMatcher implements ArgumentMatcher<String>{
     }
 
     @Override
-    public boolean matches(String argument) {
-        OpenAPI expected = readSpec(true, readJson(path));
-        OpenAPI actual = readSpec(json, argument);
-
+    public boolean matches(String actualString) {
+        String expectedJson = readJson(path);
+        OpenAPI expected = readSpec(true, expectedJson);
+        OpenAPI actual = readSpec(json, actualString);
+        //System.out.println(expectedJson);
+        //System.out.println(actualString);
         return actual.equals(expected);
     }
 

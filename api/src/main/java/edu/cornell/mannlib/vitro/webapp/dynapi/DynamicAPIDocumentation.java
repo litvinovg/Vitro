@@ -13,6 +13,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.APIInformation;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.Procedure;
+import edu.cornell.mannlib.vitro.webapp.dynapi.components.RPC;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.CustomRESTAction;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.NullProcedure;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.NullResourceAPI;
@@ -184,41 +185,52 @@ public class DynamicAPIDocumentation {
 
         openApi.setInfo(info(apiInformation));
 
-        if (requestPath.getActionName() == null) {
+        if (requestPath.getRPCName() == null) {
 
-            Map<String, Procedure> actions = ProcedurePool.getInstance().getComponents();
+            Map<String, RPC> rpcs = RpcAPIPool.getInstance().getComponents();
 
             Tag tag = tag();
             openApi.addTagsItem(tag);
 
-            for (Procedure action : actions.values()) {
+            for (RPC rpc : rpcs.values()) {
 
-                String actionName = action.getKey();
-
-                String actionPathKey = format("%s/%s", servletPath, actionName);
-
-                paths.put(actionPathKey, actionPathItem(action, tag));
+                String actionPathKey = format("%s/%s", servletPath, rpc.getKey());
+                
+                Procedure procedure = ProcedurePool.getInstance().get(rpc.getProcedureUri());
+                
+                if (!(NullProcedure.getInstance().equals(procedure))) {
+                    paths.put(actionPathKey, actionPathItem(procedure, tag));
+                }
+                
+                procedure.removeClient();
             }
 
         } else {
 
-            String actionName = requestPath.getActionName();
+            String rpcName = requestPath.getRPCName();
 
-            Procedure action = ProcedurePool.getInstance().get(actionName);
+            RpcAPIPool rpcPool = RpcAPIPool.getInstance();
+            RPC rpc = rpcPool.get(rpcName);
+            if (NullRPC.getInstance().equals(rpc)) {
+                log.warn(format("RPC %s not found", rpcName));
+                return openApi;
+            }
+            Procedure procedure = ProcedurePool.getInstance().get(rpc.getProcedureUri());
 
-            if (!(action instanceof NullProcedure)) {
-                Tag tag = tag(action);
+            if (!(NullProcedure.getInstance().equals(procedure))) {
+                Tag tag = tag(rpc);
                 openApi.addTagsItem(tag);
 
-                String actionPathKey = format("%s/%s", servletPath, actionName);
+                String actionPathKey = format("%s/%s", servletPath, rpcName);
 
-                paths.put(actionPathKey, actionPathItem(action, tag));
+                paths.put(actionPathKey, actionPathItem(procedure, tag));
 
-                action.removeClient();
+                procedure.removeClient();
 
             } else {
-                log.warn(format("Action %s not found", actionName));
+                log.warn(format("Action %s not found", rpcName));
             }
+            rpc.removeClient();
 
         }
 
@@ -271,14 +283,14 @@ public class DynamicAPIDocumentation {
         return tag;
     }
 
-    private Tag tag(Procedure action) {
+    private Tag tag(RPC procedure) {
         Tag tag = new Tag();
 
         try {
-            tag.setName(action.getKey());
+            tag.setName(procedure.getKey());
 
             // No description available per action
-            tag.setDescription(format("RPC %s", action.getKey()));
+            tag.setDescription(format("RPC %s", procedure.getKey()));
         } catch (NullPointerException e) {
             log.error("RPC not defined for action");
         }
@@ -287,26 +299,26 @@ public class DynamicAPIDocumentation {
     }
 
     private PathItem collectionPathItem(ResourceAPI resourceAPI, Tag tag) {
-        ProcedurePool actionPool = ProcedurePool.getInstance();
+        ProcedurePool procedurePool = ProcedurePool.getInstance();
         PathItem pathItem = new PathItem();
 
         String collectionGetProcedure = resourceAPI.getProcedureUriOnGetAll();
         if (collectionGetProcedure != null) {
-            Procedure action = actionPool.get(collectionGetProcedure);
-            pathItem.setGet(collectionGetOperation(action, tag));
+            Procedure procedure = procedurePool.get(collectionGetProcedure);
+            pathItem.setGet(collectionGetOperation(procedure, tag));
         }
 
         String collectionPostProcedure = resourceAPI.getProcedureUriOnPost();
         if (collectionPostProcedure != null) {
-            Procedure action = actionPool.get(collectionPostProcedure);
-            pathItem.setPost(collectionPostOperation(action, tag));
+            Procedure procedure = procedurePool.get(collectionPostProcedure);
+            pathItem.setPost(collectionPostOperation(procedure, tag));
         }
 
         return pathItem;
     }
 
     private PathItem individualPathItem(ResourceAPI resourceAPI, Tag tag) {
-        ProcedurePool actionPool = ProcedurePool.getInstance();
+        ProcedurePool procedurePool = ProcedurePool.getInstance();
 
         PathItem pathItem = new PathItem();
 
@@ -314,26 +326,26 @@ public class DynamicAPIDocumentation {
 
         String individualGetProcedure = resourceAPI.getProcedureUriOnGet();
         if (individualGetProcedure != null) {
-            Procedure action = actionPool.get(individualGetProcedure);
-            pathItem.setGet(individualGetOperation(action, tag));
+            Procedure procedure = procedurePool.get(individualGetProcedure);
+            pathItem.setGet(individualGetOperation(procedure, tag));
         }
 
         String individualPutProcedure = resourceAPI.getProcedureUriOnPut();
         if (individualPutProcedure != null) {
-            Procedure action = actionPool.get(individualPutProcedure);
-            pathItem.setPut(individualPutOperation(action, tag));
+            Procedure procedure = procedurePool.get(individualPutProcedure);
+            pathItem.setPut(individualPutOperation(procedure, tag));
         }
 
         String individualPatchProcedure = resourceAPI.getProcedureUriOnPatch();
         if (individualPatchProcedure != null) {
-            Procedure action = actionPool.get(individualPatchProcedure);
-            pathItem.setPatch(individualPatchOperation(action, tag));
+            Procedure procedure = procedurePool.get(individualPatchProcedure);
+            pathItem.setPatch(individualPatchOperation(procedure, tag));
         }
 
         String individualDeleteProcedure = resourceAPI.getProcedureUriOnDelete();
         if (individualDeleteProcedure != null) {
-            Procedure action = actionPool.get(individualDeleteProcedure);
-            pathItem.setDelete(individualDeleteOperation(action, tag));
+            Procedure procedure = procedurePool.get(individualDeleteProcedure);
+            pathItem.setDelete(individualDeleteOperation(procedure, tag));
         }
 
         return pathItem;
@@ -347,7 +359,7 @@ public class DynamicAPIDocumentation {
         String targetRPC = customRESTAction.getTargetProcedureUri();
         if (targetRPC != null) {
             Procedure action = actionPool.get(targetRPC);
-            pathItem.setPost(customRESTActionPostOperation(action, tag));
+            pathItem.setPut(customRESTActionPutOperation(action, tag));
             /*
              * HTTPMethod httpMethod = targetRPC.getHttpMethod(); if (httpMethod
              * != null) { switch (httpMethod.getName().toUpperCase()) { case
@@ -367,10 +379,10 @@ public class DynamicAPIDocumentation {
         return pathItem;
     }
 
-    private PathItem actionPathItem(Procedure action, Tag tag) {
+    private PathItem actionPathItem(Procedure procedure, Tag tag) {
         PathItem pathItem = new PathItem();
 
-        pathItem.setPost(actionPostOperation(action, tag));
+        pathItem.setPost(actionPostOperation(procedure, tag));
 
         return pathItem;
     }
@@ -528,23 +540,26 @@ public class DynamicAPIDocumentation {
         return operation;
     }
 
+    private Operation customRESTActionPutOperation(Procedure action, Tag tag) {
+        return individualPutOperation(action, tag);
+    }
+    
     private Operation customRESTActionPostOperation(Procedure action, Tag tag) {
         return collectionPostOperation(action, tag);
     }
-    
-    /*
-     * private Operation customRESTActionGetOperation(Action action, Tag tag) {
-     * return collectionGetOperation(action, tag); }
-     * 
-     * private Operation customRESTActionPutOperation(Action action, Tag tag) {
-     * return individualPutOperation(action, tag); }
-     * 
-     * private Operation customRESTActionPatchOperation(Action action, Tag tag)
-     * { return individualPatchOperation(action, tag); }
-     * 
-     * private Operation customRESTActionDeleteOperation(Action action, Tag tag)
-     * { return individualDeleteOperation(action, tag); }
-     */
+
+    private Operation customRESTActionGetOperation(Procedure action, Tag tag) {
+        return collectionGetOperation(action, tag);
+    }
+
+    private Operation customRESTActionPatchOperation(Procedure action, Tag tag) {
+        return individualPatchOperation(action, tag);
+    }
+
+    private Operation customRESTActionDeleteOperation(Procedure action, Tag tag) {
+        return individualDeleteOperation(action, tag);
+    }
+     
 
     private Operation actionPostOperation(Procedure action, Tag tag) {
         Operation operation = new Operation();

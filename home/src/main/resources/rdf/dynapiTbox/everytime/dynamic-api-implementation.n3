@@ -76,11 +76,11 @@ dynapi:PoolAtomicOperation rdfs:subClassOf dynapi_java:PoolAtomicOperation .
 
 dynapi:PoolBulkOperation rdfs:subClassOf dynapi_java:PoolBulkOperation .
 
-dynapi:ActionPoolBulkOperation rdfs:subClassOf dynapi_java:ActionPoolBulkOperation .
+dynapi:ProcedurePoolBulkOperation rdfs:subClassOf dynapi_java:ProcedurePoolBulkOperation .
 
 dynapi:ResourceAPIPoolBulkOperation rdfs:subClassOf dynapi_java:ResourceAPIPoolBulkOperation .
 
-dynapi:ActionPoolAtomicOperation rdfs:subClassOf dynapi_java:ActionPoolAtomicOperation .
+dynapi:ProcedurePoolAtomicOperation rdfs:subClassOf dynapi_java:ProcedurePoolAtomicOperation .
 
 dynapi:ResourceAPIPoolAtomicOperation rdfs:subClassOf dynapi_java:ResourceAPIPoolAtomicOperation .
 

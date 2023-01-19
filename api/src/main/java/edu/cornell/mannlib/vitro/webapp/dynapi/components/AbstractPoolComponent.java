@@ -9,20 +9,27 @@ import java.util.stream.Collectors;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public abstract class AbstractPoolable implements AutoCloseable {
+public abstract class AbstractPoolComponent implements AutoCloseable {
 
-    private static final Log log = LogFactory.getLog(AbstractPoolable.class);
+    private static final Log log = LogFactory.getLog(AbstractPoolComponent.class);
 
     private Set<Long> clients = ConcurrentHashMap.newKeySet();
 
     private String uri;
     
     public void addClient() {
-        clients.add(Thread.currentThread().getId());
+        final long id = Thread.currentThread().getId();
+        log.error(String.format("Client added to %s , client id %s", uri, id));
+        for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
+            log.error(ste + "\n");
+        }
+        clients.add(id);
     }
     
     public void removeClient() {
-        clients.remove(Thread.currentThread().getId());
+        final long id = Thread.currentThread().getId();
+        log.error(String.format("Client removed from %s , client id %s", uri, id));
+        clients.remove(id);
     }
     
     public void removeDeadClients() {
