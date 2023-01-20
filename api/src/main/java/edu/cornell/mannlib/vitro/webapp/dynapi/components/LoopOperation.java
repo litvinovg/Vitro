@@ -14,7 +14,7 @@ import edu.cornell.mannlib.vitro.webapp.dynapi.data.DataStore;
 import edu.cornell.mannlib.vitro.webapp.dynapi.data.conversion.ConversionException;
 import edu.cornell.mannlib.vitro.webapp.utils.configuration.Property;
 
-public class LoopOperation extends Operation {
+public class LoopOperation extends AbstractOperation {
 
     private static final Log log = LogFactory.getLog(LoopOperation.class.getName());
     private Parameters outputParams = new Parameters();

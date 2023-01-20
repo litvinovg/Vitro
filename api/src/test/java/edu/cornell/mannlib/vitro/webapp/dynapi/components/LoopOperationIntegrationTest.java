@@ -17,7 +17,9 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -52,11 +54,18 @@ public class LoopOperationIntegrationTest extends ServletContextTest {
 	@org.junit.runners.Parameterized.Parameter(1)
 	public String expectedValues;
 
+    @AfterClass
+    public static void after() {
+        restoreLogs();
+    }
+    
+    @BeforeClass
+    public static void before() {
+        offLogs();
+    }
 
 	@Before
 	public void beforeEach() {
-        //Logger.getLogger(ResourceAPIPool.class).setLevel(Level.OFF);
-        //Logger.getLogger(ProcedurePool.class).setLevel(Level.OFF);
 		storeModel = new OntModelImpl(OntModelSpec.OWL_MEM);
 	}
 	
@@ -67,8 +76,6 @@ public class LoopOperationIntegrationTest extends ServletContextTest {
         procedurePool.init(servletContext);
         procedurePool.reload();
         assertEquals(0, procedurePool.count());
-        //Logger.getLogger(ResourceAPIPool.class).setLevel(Level.OFF);
-        //Logger.getLogger(ProcedurePool.class).setLevel(Level.OFF);
     }
 
     private ProcedurePool initWithDefaultModel() throws IOException {

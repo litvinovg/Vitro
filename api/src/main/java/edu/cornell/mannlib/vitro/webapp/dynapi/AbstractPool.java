@@ -228,7 +228,8 @@ public abstract class AbstractPool<K, C extends Poolable<K>, P extends Pool<K, C
     private void unloadObsoleteComponents() {
         for (C component : obsoleteComponents) {
             if (isComponentInUse(component)) {
-                log.error(String.format("Obsolete component %s is in use, can't unload.", component.getUri() ));
+                List<String> clients = component.getClients();
+                log.debug(String.format("Obsolete component %s is in use by %s, can't unload.", component.getUri(), String.join(", ", clients) ));
             } else {
                 component.dereference();
                 obsoleteComponents.remove(component);

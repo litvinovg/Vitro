@@ -2,16 +2,16 @@ package edu.cornell.mannlib.vitro.webapp.dynapi;
 
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.RPC;
 
-public class RpcAPIPool extends AbstractPool<String, RPC, RpcAPIPool> {
+public class RPCPool extends AbstractPool<String, RPC, RPCPool> {
 
-    private static RpcAPIPool INSTANCE = new RpcAPIPool();
+    private static RPCPool INSTANCE = new RPCPool();
 
-    public static RpcAPIPool getInstance() {
+    public static RPCPool getInstance() {
         return INSTANCE;
     }
 
     @Override
-    public RpcAPIPool getPool() {
+    public RPCPool getPool() {
         return getInstance();
     }
 

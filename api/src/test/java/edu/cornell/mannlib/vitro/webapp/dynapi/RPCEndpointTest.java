@@ -45,7 +45,7 @@ public class RPCEndpointTest {
 
     private MockedStatic<ProcedurePool> actionPoolStatic;
     
-    private MockedStatic<RpcAPIPool> rpcPoolStatic;
+    private MockedStatic<RPCPool> rpcPoolStatic;
 
 
     private RPCEndpoint rpcEndpoint;
@@ -60,7 +60,7 @@ public class RPCEndpointTest {
     private ProcedurePool procedurePool;
     
     @Mock
-    private RpcAPIPool rpcApiPool;
+    private RPCPool rpcApiPool;
     
     @Mock
     private RPC rpc;
@@ -78,10 +78,10 @@ public class RPCEndpointTest {
     public void beforeEach() {
         baos = new ByteArrayOutputStream();
         actionPoolStatic = mockStatic(ProcedurePool.class);
-        rpcPoolStatic = mockStatic(RpcAPIPool.class);
+        rpcPoolStatic = mockStatic(RPCPool.class);
 
         when(ProcedurePool.getInstance()).thenReturn(procedurePool);
-        when(RpcAPIPool.getInstance()).thenReturn(rpcApiPool);
+        when(RPCPool.getInstance()).thenReturn(rpcApiPool);
 
         when(procedurePool.get(any(String.class))).thenReturn(procedure);
         

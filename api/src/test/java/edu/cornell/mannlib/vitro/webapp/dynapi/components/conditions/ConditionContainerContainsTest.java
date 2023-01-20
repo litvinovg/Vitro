@@ -41,7 +41,7 @@ public class ConditionContainerContainsTest {
     public String testedKey;
     
     @Before
-    public void init() {
+    public void before() {
         Logger.getLogger(JsonContainer.class).setLevel(Level.OFF);
     }
     

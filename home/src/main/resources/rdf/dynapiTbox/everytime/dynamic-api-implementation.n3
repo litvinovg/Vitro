@@ -14,7 +14,7 @@ dynapi:ConditionalStep rdfs:subClassOf dynapi_java:conditions.ConditionalStep .
 
 dynapi:Step rdfs:subClassOf dynapi_java:Step .
 
-dynapi:Operation rdfs:subClassOf dynapi_java:Operation .
+dynapi:Operation rdfs:subClassOf dynapi_java:AbstractOperation .
 
 dynapi:N3Template rdfs:subClassOf dynapi_java:N3Template .
 
@@ -83,6 +83,10 @@ dynapi:ResourceAPIPoolBulkOperation rdfs:subClassOf dynapi_java:ResourceAPIPoolB
 dynapi:ProcedurePoolAtomicOperation rdfs:subClassOf dynapi_java:ProcedurePoolAtomicOperation .
 
 dynapi:ResourceAPIPoolAtomicOperation rdfs:subClassOf dynapi_java:ResourceAPIPoolAtomicOperation .
+
+dynapi:RPCPoolAtomicOperation rdfs:subClassOf dynapi_java:RPCPoolAtomicOperation .
+
+dynapi:RPCPoolAtomicOperation rdfs:subClassOf dynapi_java:RPCPoolAtomicOperation .
 
 dynapi:ProcedureDescriptor rdfs:subClassOf dynapi_java:ProcedureDescriptor .
 

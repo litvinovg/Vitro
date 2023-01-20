@@ -872,6 +872,11 @@
             rdfs:subClassOf :PoolAtomicOperation ; 
             rdfs:label "Procedure pool atomic operation"@en-US .
             
+###  https://vivoweb.org/ontology/vitro-dynamic-api#RpcPoolAtomicOperation
+:RPCPoolAtomicOperation rdf:type owl:Class ;
+            rdfs:subClassOf :PoolAtomicOperation ; 
+            rdfs:label "RPC pool atomic operation"@en-US .
+            
 ###  https://vivoweb.org/ontology/vitro-dynamic-api#ResourceAPIPoolAtomicOperation
 :ResourceAPIPoolAtomicOperation rdf:type owl:Class ;
             rdfs:subClassOf :PoolAtomicOperation ; 
@@ -881,6 +886,11 @@
 :ProcedurePoolBulkOperation rdf:type owl:Class ;
             rdfs:subClassOf :PoolBulkOperation ; 
             rdfs:label "Procedure pool bulk operation"@en-US .
+            
+###  https://vivoweb.org/ontology/vitro-dynamic-api#RpcPoolBulkOperation
+:RPCPoolBulkOperation rdf:type owl:Class ;
+            rdfs:subClassOf :PoolBulkOperation ; 
+            rdfs:label "RPC pool bulk operation"@en-US .
             
 ###  https://vivoweb.org/ontology/vitro-dynamic-api#ResourceAPIPoolBulkOperation
 :ResourceAPIPoolBulkOperation rdf:type owl:Class ;

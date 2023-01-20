@@ -187,7 +187,7 @@ public class DynamicAPIDocumentation {
 
         if (requestPath.getRPCName() == null) {
 
-            Map<String, RPC> rpcs = RpcAPIPool.getInstance().getComponents();
+            Map<String, RPC> rpcs = RPCPool.getInstance().getComponents();
 
             Tag tag = tag();
             openApi.addTagsItem(tag);
@@ -209,7 +209,7 @@ public class DynamicAPIDocumentation {
 
             String rpcName = requestPath.getRPCName();
 
-            RpcAPIPool rpcPool = RpcAPIPool.getInstance();
+            RPCPool rpcPool = RPCPool.getInstance();
             RPC rpc = rpcPool.get(rpcName);
             if (NullRPC.getInstance().equals(rpc)) {
                 log.warn(format("RPC %s not found", rpcName));
@@ -357,23 +357,11 @@ public class DynamicAPIDocumentation {
         PathItem pathItem = new PathItem();
 
         String targetRPC = customRESTAction.getTargetProcedureUri();
+       
         if (targetRPC != null) {
-            Procedure action = actionPool.get(targetRPC);
-            pathItem.setPut(customRESTActionPutOperation(action, tag));
-            /*
-             * HTTPMethod httpMethod = targetRPC.getHttpMethod(); if (httpMethod
-             * != null) { switch (httpMethod.getName().toUpperCase()) { case
-             * "POST": pathItem.setPost(customRESTActionPostOperation(action,
-             * tag)); break; case "GET":
-             * pathItem.setGet(customRESTActionGetOperation(action, tag));
-             * break; case "PUT":
-             * pathItem.setPut(customRESTActionPutOperation(action, tag));
-             * break; case "PATCH":
-             * pathItem.setPatch(customRESTActionPatchOperation(action, tag));
-             * break; case "DELETE":
-             * pathItem.setDelete(customRESTActionDeleteOperation(action, tag));
-             * break; default: break; } }
-             */
+            try (Procedure action = actionPool.get(targetRPC)) {
+                pathItem.setPut(customRESTActionPutOperation(action, tag));
+            }
         }
 
         return pathItem;

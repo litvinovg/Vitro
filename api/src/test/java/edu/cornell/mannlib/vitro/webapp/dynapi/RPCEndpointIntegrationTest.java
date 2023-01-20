@@ -57,7 +57,7 @@ public class RPCEndpointIntegrationTest extends ServletContextIntegrationTest {
     private RPCEndpoint rpcEndpoint;
 
     private ProcedurePool procedurePool;
-    private RpcAPIPool rpcPool;
+    private RPCPool rpcPool;
 
 
     @Mock
@@ -95,18 +95,20 @@ public class RPCEndpointIntegrationTest extends ServletContextIntegrationTest {
 
     @BeforeClass
     public static void setupStaticObjects() {
+        offLogs();
     	dynapiModelFactory = mockStatic(DynapiModelFactory.class);
     }
     
     @AfterClass
     public static void after() {
-        	dynapiModelFactory.close();    		
+        dynapiModelFactory.close();   
+        restoreLogs();
     }
     
     @Before
     public void beforeEach() throws Exception {
         procedurePool = ProcedurePool.getInstance();
-        rpcPool = RpcAPIPool.getInstance();
+        rpcPool = RPCPool.getInstance();
 
         rpcEndpoint = new RPCEndpoint();
 
@@ -156,16 +158,27 @@ public class RPCEndpointIntegrationTest extends ServletContextIntegrationTest {
             e.printStackTrace();
         }
     }
+    
+    public static void offLogs(){
+        ServletContextTest.offLogs();
+        offLog(RPCEndpoint.class);
+        offLog(Endpoint.class);
+        offLog(FormDataConverter.class);
+        offLog(ConversionMethod.class);
+        offLog(ImplementationType.class);
+    }
+    
+    public static void restoreLogs(){
+        ServletContextTest.restoreLogs();
+        restoreLog(RPCEndpoint.class);
+        restoreLog(Endpoint.class);
+        restoreLog(FormDataConverter.class);
+        restoreLog(ConversionMethod.class);
+        restoreLog(ImplementationType.class);
+    }
 
     @Test
     public void doGetTest() {
-        //TODO: Improve tests
-        Logger.getLogger(RPCEndpoint.class).setLevel(Level.FATAL);
-        Logger.getLogger(FormDataConverter.class).setLevel(Level.FATAL);
-        Logger.getLogger(ConversionMethod.class).setLevel(Level.FATAL);
-        Logger.getLogger(ImplementationType.class).setLevel(Level.FATAL);
-
-
         rpcEndpoint.doGet(request, response);
 
         // For all permutations, this should return HTTP 405.

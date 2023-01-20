@@ -8,8 +8,10 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -46,11 +48,11 @@ public abstract class ServletContextTest {
     protected OntModel ontModel;
 
     protected ConfigurationBeanLoader loader;
+    private static Map<Class,Level> logLevels = new HashMap<>();
 
     @Before
     public void setup() {
         //Do not print information about loaded actions and resources
-        silenceLoggers();
         servletContext = new ServletContextStub();
         modelAccessFactory = new ModelAccessFactoryStub();
 
@@ -63,9 +65,35 @@ public abstract class ServletContextTest {
         loader = new ConfigurationBeanLoader(ontModel, servletContext);
     }
 
-    public void silenceLoggers() {
-        Logger.getLogger(ResourceAPIPool.class).setLevel(Level.INFO);
-        Logger.getLogger(ProcedurePool.class).setLevel(Level.INFO);
+    public static void offLog(Class clazz) {
+        if (!logLevels.containsKey(clazz)) {
+            final Logger logger = Logger.getLogger(clazz);
+            Level level = logger.getLevel();
+            logLevels.put(clazz, level);
+            logger.setLevel(Level.OFF);
+            //System.out.println("OFFLOG for " + clazz.getCanonicalName());
+        }
+    }
+    
+    public static void restoreLog(Class clazz) {
+        if (logLevels.containsKey(clazz)) {
+            Level level = logLevels.get(clazz);
+            Logger.getLogger(clazz).setLevel(level);
+            logLevels.remove(clazz);
+            //System.out.println("Restore log for " + clazz.getCanonicalName());
+        }
+    }
+    
+    public static void offLogs() {
+        offLog(ResourceAPIPool.class);
+        offLog(RPCPool.class);
+        offLog(ProcedurePool.class);
+    }
+    
+    public static void restoreLogs() {
+        restoreLog(ResourceAPIPool.class);
+        restoreLog(RPCPool.class);
+        restoreLog(ProcedurePool.class);
     }
     
     protected void loadTestModel() throws IOException {

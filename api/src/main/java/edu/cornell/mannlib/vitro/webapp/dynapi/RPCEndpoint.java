@@ -18,7 +18,7 @@ import edu.cornell.mannlib.vitro.webapp.dynapi.request.ApiRequestPath;
 public class RPCEndpoint extends Endpoint {
 
     private static final Log log = LogFactory.getLog(RPCEndpoint.class);
-    private RpcAPIPool rpcAPIPool = RpcAPIPool.getInstance();
+    private RPCPool rpcAPIPool = RPCPool.getInstance();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) {

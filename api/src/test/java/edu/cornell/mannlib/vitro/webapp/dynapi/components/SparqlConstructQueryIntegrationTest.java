@@ -14,7 +14,10 @@ import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.ontology.impl.OntModelImpl;
 import org.apache.jena.rdf.model.Model;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -45,9 +48,23 @@ public class SparqlConstructQueryIntegrationTest extends ServletContextTest {
     @org.junit.runners.Parameterized.Parameter(1)
     public String size;
     
+    @AfterClass
+    public static void after() {
+        restoreLogs();
+    }
+    
+    @BeforeClass
+    public static void before() {
+        offLogs();
+    }
+    
     @Before
     public void beforeEach() {
         storeModel = new OntModelImpl(OntModelSpec.OWL_MEM);
+    }
+    
+    @After
+    public void reset() {
     }
     
     @Test

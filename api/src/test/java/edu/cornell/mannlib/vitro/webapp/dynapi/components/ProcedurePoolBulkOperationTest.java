@@ -6,7 +6,9 @@ import static org.junit.Assert.assertNotEquals;
 import java.io.IOException;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.cornell.mannlib.vitro.webapp.dynapi.ProcedurePool;
@@ -31,10 +33,20 @@ public class ProcedurePoolBulkOperationTest extends ServletContextTest{
         assertEquals(1, procedurePool.count());
     }
     
+    @AfterClass
+    public static void after() {
+        restoreLogs();
+    }
+    
+    @BeforeClass
+    public static void before() {
+        offLogs();
+    }
+    
     @Test
     public void componentLoadUnloadTest() throws InitializationException {
         assertEquals(1, procedurePool.count());
-        PoolBulkOperation apao = new ActionPoolBulkOperation();
+        PoolBulkOperation apao = new ProcedurePoolBulkOperation();
         DataStore dataStore = new DataStore();
 
         apao.setOperationType(PoolOperation.OperationType.UNLOAD.toString());
@@ -55,7 +67,7 @@ public class ProcedurePoolBulkOperationTest extends ServletContextTest{
         Procedure action2 = null;
         try {
         action1 = procedurePool.getByUri(TEST_ACTION_URI);
-        ActionPoolBulkOperation apao = new ActionPoolBulkOperation();
+        ProcedurePoolBulkOperation apao = new ProcedurePoolBulkOperation();
         apao.setOperationType(PoolOperation.OperationType.RELOAD.toString());
         DataStore dataStore = new DataStore();
         OperationResult result = apao.run(dataStore);

@@ -2,9 +2,9 @@ package edu.cornell.mannlib.vitro.webapp.dynapi.components;
 
 import edu.cornell.mannlib.vitro.webapp.dynapi.ProcedurePool;
 
-public class ActionPoolAtomicOperation extends PoolAtomicOperation {
+public class ProcedurePoolAtomicOperation extends PoolAtomicOperation {
 
-	public ActionPoolAtomicOperation(){
+	public ProcedurePoolAtomicOperation(){
 		this.pool = ProcedurePool.getInstance();
 	}
 }

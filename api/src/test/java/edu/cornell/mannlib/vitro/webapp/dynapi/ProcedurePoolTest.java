@@ -9,7 +9,11 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
+import org.apache.jena.atlas.logging.Log;
 import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.Procedure;
@@ -30,6 +34,16 @@ public class ProcedurePoolTest extends ServletContextTest {
 
         assertEquals(0, procedurePool.count());
         assertEquals(0, procedurePool.obsoleteCount());
+    }
+    
+    @AfterClass
+    public static void after() {
+        restoreLogs();
+    }
+    
+    @BeforeClass 
+    public static void before() {
+        offLogs();
     }
 
     @Test

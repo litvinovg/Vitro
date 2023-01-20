@@ -18,8 +18,17 @@ import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.ontology.impl.OntModelImpl;
 import org.apache.jena.rdf.model.Model;
+import org.apache.poi.openxml4j.opc.internal.ContentTypeManager;
 import org.apache.solr.common.StringUtils;
+import org.docx4j.Docx4jProperties;
+import org.docx4j.TraversalUtil;
+import org.docx4j.XmlUtils;
+import org.docx4j.openpackaging.io.SaveToZipFile;
+import org.docx4j.utils.ResourceUtils;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -49,9 +58,36 @@ public class ReportGeneratorIntegrationTest extends ServletContextTest {
 	@org.junit.runners.Parameterized.Parameter(2)
 	public String extension;
 
+	@BeforeClass
+	public static void before() {
+	    offLogs();
+        offLog(Docx4jProperties.class);
+        offLog(ResourceUtils.class);
+        offLog(XmlUtils.class);
+        offLog(TraversalUtil.class);
+        offLog(SaveToZipFile.class);
+        offLog(ContentTypeManager.class);
+	}
+	
 	@Before
 	public void beforeEach() {
 		storeModel = new OntModelImpl(OntModelSpec.OWL_MEM);
+	}
+	
+	@AfterClass
+	public static void after() {
+	    restoreLogs();
+        restoreLog(Docx4jProperties.class);
+        restoreLog(ResourceUtils.class);
+        restoreLog(XmlUtils.class);
+        restoreLog(TraversalUtil.class);
+        restoreLog(SaveToZipFile.class);
+        restoreLog(ContentTypeManager.class);
+	}
+	
+	@After
+	public void reset() {
+	   
 	}
 
 	@Test

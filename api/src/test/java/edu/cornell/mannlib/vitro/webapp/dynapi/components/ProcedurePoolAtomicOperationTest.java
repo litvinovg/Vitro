@@ -7,7 +7,9 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.cornell.mannlib.vitro.webapp.dynapi.ProcedurePool;
@@ -37,9 +39,19 @@ public class ProcedurePoolAtomicOperationTest extends ServletContextTest{
         procedurePool = initWithDefaultModel();
     }
     
+    @AfterClass
+    public static void after() {
+        restoreLogs();
+    }
+    
+    @BeforeClass
+    public static void before() {
+        offLogs();
+    }
+    
     @Test
     public void componentLoadUnloadTest() throws InitializationException {
-        ActionPoolAtomicOperation apao = new ActionPoolAtomicOperation();
+        ProcedurePoolAtomicOperation apao = new ProcedurePoolAtomicOperation();
         DataStore dataStore = new DataStore();
         long counter = procedurePool.count();
         apao.setOperationType(PoolOperation.OperationType.UNLOAD.toString());
@@ -57,7 +69,7 @@ public class ProcedurePoolAtomicOperationTest extends ServletContextTest{
     
     @Test
     public void componentReloadTest() throws InitializationException {
-        ActionPoolAtomicOperation apao = new ActionPoolAtomicOperation();
+        ProcedurePoolAtomicOperation apao = new ProcedurePoolAtomicOperation();
         DataStore dataStore = new DataStore();
         Procedure action1 = null;
         Procedure action2 = null;
@@ -81,7 +93,7 @@ public class ProcedurePoolAtomicOperationTest extends ServletContextTest{
     
     @Test
     public void componentStatusTest() throws InitializationException {
-        ActionPoolAtomicOperation apao = new ActionPoolAtomicOperation();
+        ProcedurePoolAtomicOperation apao = new ProcedurePoolAtomicOperation();
         DataStore dataStore = new DataStore();
         addJsonArrayParam(dataStore, apao);
         apao.setOperationType(PoolOperation.OperationType.STATUS.toString());
@@ -94,7 +106,7 @@ public class ProcedurePoolAtomicOperationTest extends ServletContextTest{
         assertEquals(expectedValue, data.getSerializedValue());
     }
 
-    private void addStringParam(DataStore dataStore, ActionPoolAtomicOperation apao) {
+    private void addStringParam(DataStore dataStore, ProcedurePoolAtomicOperation apao) {
         Parameter plainStringParam = new StringParam(STRING_PARAM_NAME);
         apao.addInputParameter(plainStringParam);
         Data plainStringData = new Data(plainStringParam);
@@ -102,7 +114,7 @@ public class ProcedurePoolAtomicOperationTest extends ServletContextTest{
         dataStore.addData(STRING_PARAM_NAME, plainStringData);
     }
     
-    private void addJsonArrayParam(DataStore dataStore, ActionPoolAtomicOperation apao) {
+    private void addJsonArrayParam(DataStore dataStore, ProcedurePoolAtomicOperation apao) {
         Parameter jsonObjectParam = new JsonContainerObjectParam(JSON_OBJECT_PARAM);
         apao.addOutputParameter(jsonObjectParam);
     }
