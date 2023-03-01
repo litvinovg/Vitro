@@ -53,7 +53,7 @@ public class IndividualStub implements Individual {
 	}
 
 	public void addObjectPropertyStatement(ObjectProperty property,
-										   String objectUri) {
+			String objectUri) {
 		ObjectPropertyStatementImpl ops = new ObjectPropertyStatementImpl();
 		ops.setSubject(this);
 		ops.setProperty(property);

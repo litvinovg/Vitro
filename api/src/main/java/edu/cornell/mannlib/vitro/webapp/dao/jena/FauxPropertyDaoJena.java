@@ -250,7 +250,6 @@ public class FauxPropertyDaoJena extends JenaBaseDao implements FauxPropertyDao 
 					fp.getCustomEntryForm(), displayModel);
 			addPropertyStringValue(config, LIST_VIEW_FILE,
 					fp.getCustomListView(), displayModel);
-
 		} catch (InsertException e) {
 			throw new RuntimeException(e);
 		}

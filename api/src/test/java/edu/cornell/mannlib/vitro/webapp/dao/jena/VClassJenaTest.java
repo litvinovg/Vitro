@@ -124,16 +124,17 @@ public class VClassJenaTest extends AbstractTestClass {
 		Assert.assertEquals(vClassJena.getName(), vClass.getName());
 		Assert.assertEquals(vClassJena.getLocalNameWithPrefix(), vClass.getLocalNameWithPrefix());
 
-		Assert.assertEquals(vClassJena.getPickListName(), vClass.getPickListName());
-		Assert.assertEquals(vClassJena.getExample(), vClass.getExample());
-		Assert.assertEquals(vClassJena.getDescription(), vClass.getDescription());
-		Assert.assertEquals(vClassJena.getShortDef(), vClass.getShortDef());
-		Assert.assertEquals(vClassJena.getDisplayRank(), vClass.getDisplayRank());
-		Assert.assertEquals(vClassJena.getGroupURI(), vClass.getGroupURI());
-		Assert.assertEquals(vClassJena.getCustomEntryForm(), vClass.getCustomEntryForm());
-		Assert.assertEquals(vClassJena.getCustomShortView(), vClass.getCustomShortView());
-		Assert.assertEquals(vClassJena.getCustomSearchView(), vClass.getCustomSearchView());
-		Assert.assertEquals(vClassJena.getSearchBoost(), vClass.getSearchBoost());
+		Assert.assertEquals(vClassJena.getPickListName(), vClass.getPickListName());  
+		Assert.assertEquals(vClassJena.getExample(), vClass.getExample());  
+		Assert.assertEquals(vClassJena.getDescription(), vClass.getDescription());  
+		Assert.assertEquals(vClassJena.getShortDef(), vClass.getShortDef());  
+		Assert.assertEquals(vClassJena.getDisplayRank(), vClass.getDisplayRank());  
+		Assert.assertEquals(vClassJena.getGroupURI(), vClass.getGroupURI());  
+		Assert.assertEquals(vClassJena.getCustomEntryForm(), vClass.getCustomEntryForm());  
+		Assert.assertEquals(vClassJena.getCustomShortView(), vClass.getCustomShortView());  
+		Assert.assertEquals(vClassJena.getCustomSearchView(), vClass.getCustomSearchView());  
+		Assert.assertEquals(vClassJena.getSearchBoost(), vClass.getSearchBoost());  
+
 	}
 
 

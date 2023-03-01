@@ -84,6 +84,7 @@ public class LoginRedirector {
 					return getApplicationHomePageUrl();
 				}
 			}
+
 			log.debug("Returning to requested page: " + afterLoginPage);
 			return afterLoginPage;
 		} else {

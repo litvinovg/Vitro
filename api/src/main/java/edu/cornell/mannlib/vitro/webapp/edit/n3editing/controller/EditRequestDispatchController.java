@@ -89,16 +89,16 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
 		OntModel ontModel = ModelAccess.on(vreq).getOntModel();
 		AbstractObjectPropertyStatementAction objectPropertyAction;
 		if (StringUtils.isBlank(objectUri)) {
-			objectPropertyAction = new AddObjectPropertyStatement(ontModel, subjectUri, predicateProp, RequestedAction.SOME_URI);
+			objectPropertyAction = new AddObjectPropertyStatement(vreq, ontModel, subjectUri, predicateProp, RequestedAction.SOME_URI);
 		} else {
 			if (isDeleteForm(vreq)) {
-				objectPropertyAction = new DropObjectPropertyStatement(ontModel, subjectUri, predicateProp, objectUri);
+				objectPropertyAction = new DropObjectPropertyStatement(vreq, ontModel, subjectUri, predicateProp, objectUri);
 			} else {
-				objectPropertyAction = new EditObjectPropertyStatement(ontModel, subjectUri, predicateProp, objectUri);
+				objectPropertyAction = new EditObjectPropertyStatement(vreq, ontModel, subjectUri, predicateProp, objectUri);
 			}
 		}
 		boolean isAuthorized = PolicyHelper.isAuthorizedForActions(vreq, 
-				new EditDataPropertyStatement(ontModel, subjectUri, predicateUri, objectUri).
+				new EditDataPropertyStatement(vreq, ontModel, subjectUri, predicateUri, objectUri).
 				or(objectPropertyAction));
 		if (!isAuthorized) {
 			// If request is for new individual, return simple do back end editing action permission

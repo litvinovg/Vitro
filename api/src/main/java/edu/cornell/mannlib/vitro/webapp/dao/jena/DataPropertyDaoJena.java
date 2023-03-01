@@ -465,7 +465,6 @@ public class DataPropertyDaoJena extends PropertyDaoJena implements
             addPropertyStringValue(jDataprop, EDITING, dtp.getEditing(), ontModel);
             addPropertyNonNegativeIntValue(jDataprop, DISPLAY_RANK_ANNOT, dtp.getDisplayTier(), ontModel);
             addPropertyNonNegativeIntValue(jDataprop, DISPLAY_LIMIT, dtp.getDisplayLimit(), ontModel);
-
             try {
             	if (dtp.getGroupURI() != null && dtp.getGroupURI().length()>0) {
                 	String badURIErrorStr = checkURI(dtp.getGroupURI());

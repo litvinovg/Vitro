@@ -137,7 +137,6 @@ public class DatapropEditController extends BaseEditController {
         results.add(String.valueOf(dp.getDisplayLimit()));  // column 13
         results.add(dp.getCustomEntryForm() == null ? "(unspecified)" : dp.getCustomEntryForm());  // column 14
         results.add(dp.getURI() == null ? "" : dp.getURI()); // column 15
-
         request.setAttribute("results",results);
         request.setAttribute("columncount",NUM_COLS);
         request.setAttribute("suppressquery","true");

@@ -81,7 +81,6 @@ public class PropertyEditController extends BaseEditController {
         results.add("sort direction");        // column 22
         results.add("URI");                   // column 23
 
-
         results.add(p.getPickListName()); // column 1
 
         String parentPropertyStr = "";
@@ -168,7 +167,7 @@ public class PropertyEditController extends BaseEditController {
         results.add(exampleStr);               // column 14
         String descriptionStr = (p.getDescription() == null) ? "" : p.getDescription();
         results.add(descriptionStr);           // column 15
-
+        
         results.add("property: "+p.getDomainDisplayTier() + ", inverse: "+p.getRangeDisplayTier()); // column 16
         results.add("property: "+p.getDomainDisplayLimitInteger() + ", inverse: "+p.getRangeDisplayLimit()); // column 17
         results.add(p.getCollateBySubclass() ? "true" : "false"); // column 18
