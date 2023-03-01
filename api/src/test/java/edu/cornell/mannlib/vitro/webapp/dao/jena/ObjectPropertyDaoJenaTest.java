@@ -169,22 +169,22 @@ public class ObjectPropertyDaoJenaTest extends AbstractTestClass {
 		WebappDaoFactoryJena wdfj = new WebappDaoFactoryJena(superModel);
 		ObjectPropertyDaoJena pdj = (ObjectPropertyDaoJena) wdfj.getObjectPropertyDao();
 		ObjectProperty objectProperty = pdj.getObjectPropertyByURI(propertyURI); // the Property will be populated
-		// with the information already in
-		// the jena model.
+		                                                                         // with the information already in
+		                                                                         // the jena model.
 
 
-		// check RDFS label here
+       // check RDFS label here
 
-		pdj.updateObjectProperty(objectProperty);       // we haven't changed any values here, so
-		// the models should be unchanged.
+        pdj.updateObjectProperty(objectProperty);       // we haven't changed any values here, so
+                                                        // the models should be unchanged.
 
-		// Verify that the sub-model and super-model are both unchanged
+        // Verify that the sub-model and super-model are both unchanged
 
-		// uncommment the next two lines to debug failures
-		//System.out.println("\n**After updating data property:");
-		//printModels(superModel,subModel);
+        // uncommment the next two lines to debug failures
+        //System.out.println("\n**After updating data property:");
+        //printModels(superModel,subModel);
 
-		superModel.removeSubModel(subModel);
+        superModel.removeSubModel(subModel);
 
 		//modtime affects the diff but we don't care about that difference
 		wipeOutModTime(origSubModel);
@@ -193,7 +193,7 @@ public class ObjectPropertyDaoJenaTest extends AbstractTestClass {
 		wipeOutModTime(superModel);
 
 		Assert.assertTrue(subModel.isIsomorphicWith(origSubModel));
-		Assert.assertTrue(superModel.isIsomorphicWith(origSuperModel));
+	    Assert.assertTrue(superModel.isIsomorphicWith(origSuperModel));
 	}
 
 
@@ -202,7 +202,7 @@ public class ObjectPropertyDaoJenaTest extends AbstractTestClass {
 		// Detach the submodel for printing to get an accurate
 		// account of what is in each.
 
-		superModel.removeSubModel(subModel);
+	    superModel.removeSubModel(subModel);
 
 		System.out.println("\nThe sub-model has " + subModel.size() + " statements:");
 		System.out.println("---------------------------------------------------");
@@ -210,9 +210,9 @@ public class ObjectPropertyDaoJenaTest extends AbstractTestClass {
 
 		System.out.println("\nThe super-model has " + superModel.size() + " statements:");
 		System.out.println("---------------------------------------------------");
-		superModel.write(System.out,"N3",null);
+	    superModel.write(System.out,"N3",null);
 
-		superModel.addSubModel(subModel);
+	    superModel.addSubModel(subModel);
 
 	}
 

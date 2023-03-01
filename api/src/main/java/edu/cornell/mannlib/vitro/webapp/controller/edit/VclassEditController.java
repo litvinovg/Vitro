@@ -67,7 +67,7 @@ public class VclassEditController extends BaseEditController {
         results.add("short definition");     // 6
         results.add("example");              // 7
         results.add("editor description");   // 8
-        //results.add("curator comments");
+        //results.add("curator comments"); 
         results.add("display rank");         // 9
         results.add("custom entry form");    // 10
         results.add("URI");                  // 11
@@ -122,7 +122,7 @@ public class VclassEditController extends BaseEditController {
         results.add(shortDef);               // 6
         results.add(example);                // 7
         results.add(description);            // 8
-        //results.add(commSb.toString());    //
+        //results.add(commSb.toString());    // 
         results.add(String.valueOf(vcl.getDisplayRank())); // 9
         results.add(customEntryForm);        // 10
         results.add(uri);                    // 11
