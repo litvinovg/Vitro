@@ -264,7 +264,10 @@ public abstract class EntityPermission extends Permission {
         if (RequestedAction.SOME_URI.equals(prop.getURI())) {
             return true;
         }
-
+        if ("http://www.w3.org/2000/01/rdf-schema#label".equals(prop.getURI())) {
+        	return true;
+        }
+        
         synchronized (authorizedKeys) {
             if (authorizedKeys.contains(new PropertyDao.FullPropertyKey(prop))) {
                 return true;
