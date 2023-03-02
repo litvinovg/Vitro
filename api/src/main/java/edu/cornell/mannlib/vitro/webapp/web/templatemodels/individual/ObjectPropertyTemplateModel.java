@@ -121,7 +121,7 @@ public abstract class ObjectPropertyTemplateModel extends PropertyTemplateModel 
 
         // Determine whether a new statement can be added
 		RequestedAction action = new AddObjectPropertyStatement(
-				vreq, vreq.getJenaOntModel(), subjectUri, property, SOME_URI);
+				vreq.getJenaOntModel(), subjectUri, property, SOME_URI);
         if ( ! PolicyHelper.isAuthorizedForActions(vreq, action) ) {
             return;
         }

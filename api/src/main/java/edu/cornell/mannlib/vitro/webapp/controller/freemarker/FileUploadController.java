@@ -92,9 +92,9 @@ public class FileUploadController extends FreemarkerHttpServlet {
 			final OntModel jenaOntModel = vreq.getJenaOntModel();
 			final String subject = getSubjectUri(vreq);
 			if (isUpload(vreq)) {
-				ra = new AddObjectPropertyStatement(vreq, jenaOntModel, subject, predicate,RequestedAction.SOME_URI);
+				ra = new AddObjectPropertyStatement(jenaOntModel, subject, predicate,RequestedAction.SOME_URI);
 			} else { // delete
-				ra = new DropObjectPropertyStatement(vreq, jenaOntModel, subject, predicate, getFileUri(vreq));
+				ra = new DropObjectPropertyStatement(jenaOntModel, subject, predicate, getFileUri(vreq));
 			}
 			return ra;
 		} catch (Exception e) {

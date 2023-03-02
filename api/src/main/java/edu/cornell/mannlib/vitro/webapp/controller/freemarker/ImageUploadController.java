@@ -151,15 +151,15 @@ public class ImageUploadController extends FreemarkerHttpServlet {
 			RequestedAction ra;
 			if (ACTION_DELETE.equals(action)
 					|| ACTION_DELETE_EDIT.equals(action)) {
-				ra = new DropObjectPropertyStatement(vreq, vreq.getJenaOntModel(),
+				ra = new DropObjectPropertyStatement(vreq.getJenaOntModel(),
 						entity.getURI(), indMainImage,
 						imageUri);
 			} else if (imageUri != null) {
-				ra = new EditObjectPropertyStatement(vreq, vreq.getJenaOntModel(),
+				ra = new EditObjectPropertyStatement(vreq.getJenaOntModel(),
 						entity.getURI(), indMainImage,
 						imageUri);
 			} else {
-				ra = new AddObjectPropertyStatement(vreq, vreq.getJenaOntModel(),
+				ra = new AddObjectPropertyStatement(vreq.getJenaOntModel(),
 						entity.getURI(), indMainImage,
 						RequestedAction.SOME_URI);
 			}

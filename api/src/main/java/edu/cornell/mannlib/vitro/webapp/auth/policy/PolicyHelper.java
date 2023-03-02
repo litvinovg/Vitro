@@ -145,11 +145,11 @@ public class PolicyHelper {
 			Property property = new Property(predicate.getURI());
 			property.setDomainVClassURI(SOME_URI);
 			property.setRangeVClassURI(SOME_URI);
-			action = new AddObjectPropertyStatement(req, modelToBeModified,
+			action = new AddObjectPropertyStatement(modelToBeModified,
 					subject.getURI(), property, objectNode.asResource()
 							.getURI());
 		} else {
-			action = new AddDataPropertyStatement(req, modelToBeModified,
+			action = new AddDataPropertyStatement(modelToBeModified,
 					subject.getURI(), predicate.getURI(), objectNode
 							.asLiteral().getString());
 		}
@@ -180,11 +180,11 @@ public class PolicyHelper {
 			Property property = new Property(predicate.getURI());
 			property.setDomainVClassURI(SOME_URI);
 			property.setRangeVClassURI(SOME_URI);
-			action = new DropObjectPropertyStatement(req, modelToBeModified,
+			action = new DropObjectPropertyStatement(modelToBeModified,
 					subject.getURI(), property, objectNode.asResource()
 							.getURI());
 		} else {
-			action = new DropDataPropertyStatement(req, modelToBeModified,
+			action = new DropDataPropertyStatement(modelToBeModified,
 					subject.getURI(), predicate.getURI(), objectNode
 							.asLiteral().getString());
 		}
