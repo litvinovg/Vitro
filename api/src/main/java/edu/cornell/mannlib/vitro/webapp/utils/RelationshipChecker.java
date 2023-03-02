@@ -3,6 +3,8 @@
 package edu.cornell.mannlib.vitro.webapp.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.ParameterizedSparqlString;
 import org.apache.jena.query.Query;
@@ -25,17 +27,17 @@ import java.util.Map;
  * that can be used by objects deep within the authorisation code.
  */
 public abstract class RelationshipChecker {
-    private final static String PERSON_RESOURCE_MAP_KEY = RelationshipChecker.class.getSimpleName() + "_personResourceMap";
-
+	private static final Log log = LogFactory.getLog(RelationshipChecker.class);
     private static String relationshipQuery = null;
 
     public static QueryBuilder getQueryBuilder() {
         return new QueryBuilder();
     }
 
-    public static boolean anyRelated(HttpServletRequest request, OntModel ontModel, List<String> resourceUris, List<String> personUris) {
+    public static boolean anyRelated(OntModel ontModel, List<String> resourceUris, List<String> personUris) {
+        Map<String, List<String>> personResourceMap = new HashMap<>();
         for (String personUri : personUris) {
-            List<String> connectedResourceUris = getResourcesForPersonUri(request, ontModel, personUri);
+            List<String> connectedResourceUris = getResourcesForPersonUri(personResourceMap, ontModel, personUri);
             for (String connectedResourceUri : connectedResourceUris) {
                 if (resourceUris.contains(connectedResourceUri)) {
                     return true;
@@ -46,14 +48,10 @@ public abstract class RelationshipChecker {
         return false;
     }
 
-    private static List<String> getResourcesForPersonUri(HttpServletRequest request, OntModel ontModel, String personUri) {
-        Map<String, List<String>> personResourceMap = null;
+    private static List<String> getResourcesForPersonUri(Map<String, List<String>> personResourceMap, OntModel ontModel, String personUri) {
 
-        if (request != null) {
-            personResourceMap = (Map<String, List<String>>) request.getAttribute(PERSON_RESOURCE_MAP_KEY);
-            if (personResourceMap != null && personResourceMap.containsKey(personUri)) {
-                return personResourceMap.get(personUri);
-            }
+        if (personResourceMap.containsKey(personUri)) {
+            return personResourceMap.get(personUri);
         }
 
         List<String> resourceUris = new ArrayList<>();
@@ -76,14 +74,7 @@ public abstract class RelationshipChecker {
             }
         }
 
-        if (request != null) {
-            if (personResourceMap == null) {
-                personResourceMap = new HashMap<>();
-            }
-
-            personResourceMap.put(personUri, resourceUris);
-            request.setAttribute(PERSON_RESOURCE_MAP_KEY, personResourceMap);
-        }
+        personResourceMap.put(personUri, resourceUris);
 
         return resourceUris;
     }

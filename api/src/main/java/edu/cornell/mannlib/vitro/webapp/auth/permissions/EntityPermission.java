@@ -25,6 +25,7 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.shared.Lock;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.tika.utils.StringUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -257,7 +258,7 @@ public abstract class EntityPermission extends Permission {
             }
         }
 
-        return RelationshipChecker.anyRelated(action.getRequest(), action.getOntModel(), Arrays.asList(action.getResourceUris()), personUris);
+        return RelationshipChecker.anyRelated(action.getOntModel(), Arrays.asList(action.getResourceUris()), personUris);
     }
 
     protected boolean isAuthorizedFor(Property prop) {
