@@ -8,8 +8,6 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
-import edu.cornell.mannlib.vitro.webapp.auth.policy.bean.RoleRestrictedProperty;
-
 /**
  * Represents a specialization on an ObjectProperty, only meaningful for
  * display.
