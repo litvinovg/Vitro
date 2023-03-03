@@ -25,7 +25,6 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.shared.Lock;
 import org.apache.jena.vocabulary.RDF;
-import org.apache.tika.utils.StringUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -73,7 +72,7 @@ public abstract class EntityPermission extends Permission {
             updateAllPermissions();
         }
 
-        return new ArrayList<EntityPermission>(allInstances.values());
+        return new ArrayList<>(allInstances.values());
     }
 
     private static void getAllInstances(Class<? extends EntityPermission> clazz) {
