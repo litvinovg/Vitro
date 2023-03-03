@@ -14,11 +14,9 @@ import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Holds a registry of all relationship checkers that have been defined by the application.
@@ -35,9 +33,8 @@ public abstract class RelationshipChecker {
     }
 
     public static boolean anyRelated(OntModel ontModel, List<String> resourceUris, List<String> personUris) {
-        Map<String, List<String>> personResourceMap = new HashMap<>();
         for (String personUri : personUris) {
-            List<String> connectedResourceUris = getResourcesForPersonUri(personResourceMap, ontModel, personUri);
+            List<String> connectedResourceUris = getResourcesForPersonUri(ontModel, personUri);
             for (String connectedResourceUri : connectedResourceUris) {
                 if (resourceUris.contains(connectedResourceUri)) {
                     return true;
@@ -48,8 +45,8 @@ public abstract class RelationshipChecker {
         return false;
     }
 
-    private static List<String> getResourcesForPersonUri(Map<String, List<String>> personResourceMap, OntModel ontModel, String personUri) {
-
+    private static List<String> getResourcesForPersonUri(OntModel ontModel, String personUri) {
+    	HashMap<String, List<String>> personResourceMap = PersonResourceMapCache.get();
         if (personResourceMap.containsKey(personUri)) {
             return personResourceMap.get(personUri);
         }
@@ -62,6 +59,7 @@ public abstract class RelationshipChecker {
 
             pss.setIri("personUri", personUri);
             Query query = QueryFactory.create(pss.toString());
+            long startTime = System.nanoTime();
             QueryExecution queryExecution = QueryExecutionFactory.create(query, ontModel);
             try {
                 ResultSet resultSet = queryExecution.execSelect();
@@ -72,9 +70,12 @@ public abstract class RelationshipChecker {
             } finally {
                 queryExecution.close();
             }
+            long executionTime = System.nanoTime() - startTime;
+            log.debug("Execution time " + executionTime/1000000 + "ms");
         }
 
         personResourceMap.put(personUri, resourceUris);
+        PersonResourceMapCache.update(personResourceMap);
 
         return resourceUris;
     }

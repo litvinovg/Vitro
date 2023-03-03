@@ -23,6 +23,7 @@ import edu.cornell.mannlib.vitro.webapp.controller.freemarker.IndividualListCont
 import edu.cornell.mannlib.vitro.webapp.controller.individuallist.IndividualListResults;
 import edu.cornell.mannlib.vitro.webapp.controller.individuallist.IndividualListResultsUtils;
 import edu.cornell.mannlib.vitro.webapp.dao.WebappDaoFactory;
+import edu.cornell.mannlib.vitro.webapp.utils.PersonResourceMapCache;
 import edu.cornell.mannlib.vitro.webapp.utils.log.LogUtils;
 
 /**
@@ -50,34 +51,37 @@ public class JsonServlet extends VitroHttpServlet {
         log.debug(LogUtils.formatRequestProperties(log, "debug", req));
 
         VitroRequest vreq = new VitroRequest(req);
-        if (vreq.getParameter("getEntitiesByVClass") != null) {
-            if( vreq.getParameter("resultKey") == null) {
-                new GetEntitiesByVClass(vreq).process(resp);
-            } else {
-            	new GetEntitiesByVClassContinuation(vreq).process(resp);
-            }
-        }else if( vreq.getParameter("getN3EditOptionList") != null ){
-        	throw new IllegalArgumentException("The call invoked deprecated classes " +
-        			"and the parameter for this call appeared nowhere in the code base, " +
-        			"so it was removed in May, 2012.");
-        }else if( vreq.getParameter("getSearchIndividualsByVClass") != null ){
-            new GetSearchIndividualsByVClass(vreq).process(resp);
-        }else if( vreq.getParameter("getVClassesForVClassGroup") != null ){
-            new GetVClassesForVClassGroup(vreq).process(resp);
-        } else if( vreq.getParameter("getSearchIndividualsByVClasses") != null ){
-        	log.debug("AJAX request to retrieve individuals by vclasses");
-        	new	GetSearchIndividualsByVClasses(vreq).process(resp);
-        } else if( vreq.getParameter("getDataForPage") != null ){
-            throw new IllegalArgumentException("The call invoked deprecated classes " +
-                    "and the parameter for this call appeared nowhere in the code base, " +
-                    "so it was removed in Aug 5th 2013.");
-        }else if( vreq.getParameter("getRenderedSearchIndividualsByVClass") != null ){
-            new GetRenderedSearchIndividualsByVClass(vreq).process(resp);
-        }else if( vreq.getParameter("getRandomSearchIndividualsByVClass") != null ){
-            new GetRandomSearchIndividualsByVClass(vreq).process(resp);
-        } else if( vreq.getParameter("getAllVClasses") != null ){
-            new GetAllVClasses(vreq).process(resp);
-        }
+    	try(PersonResourceMapCache personResourceCache = new PersonResourceMapCache()){
+	        if (vreq.getParameter("getEntitiesByVClass") != null) {
+	            if( vreq.getParameter("resultKey") == null) {
+	                new GetEntitiesByVClass(vreq).process(resp);
+	            } else {
+	            	new GetEntitiesByVClassContinuation(vreq).process(resp);
+	            }
+	        }else if( vreq.getParameter("getN3EditOptionList") != null ){
+	        	throw new IllegalArgumentException("The call invoked deprecated classes " +
+	        			"and the parameter for this call appeared nowhere in the code base, " +
+	        			"so it was removed in May, 2012.");
+	        }else if( vreq.getParameter("getSearchIndividualsByVClass") != null ){
+	            new GetSearchIndividualsByVClass(vreq).process(resp);
+	        }else if( vreq.getParameter("getVClassesForVClassGroup") != null ){
+	            new GetVClassesForVClassGroup(vreq).process(resp);
+	        } else if( vreq.getParameter("getSearchIndividualsByVClasses") != null ){
+	        	log.debug("AJAX request to retrieve individuals by vclasses");
+	        	new	GetSearchIndividualsByVClasses(vreq).process(resp);
+	        } else if( vreq.getParameter("getDataForPage") != null ){
+	            throw new IllegalArgumentException("The call invoked deprecated classes " +
+	                    "and the parameter for this call appeared nowhere in the code base, " +
+	                    "so it was removed in Aug 5th 2013.");
+	        }else if( vreq.getParameter("getRenderedSearchIndividualsByVClass") != null ){
+	        		new GetRenderedSearchIndividualsByVClass(vreq).process(resp);	
+	
+	        }else if( vreq.getParameter("getRandomSearchIndividualsByVClass") != null ){
+	            new GetRandomSearchIndividualsByVClass(vreq).process(resp);
+	        } else if( vreq.getParameter("getAllVClasses") != null ){
+	            new GetAllVClasses(vreq).process(resp);
+	        }
+    	}
 
     }
 
