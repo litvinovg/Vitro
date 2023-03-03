@@ -43,6 +43,8 @@ import edu.cornell.mannlib.vitro.webapp.email.FreemarkerEmailMessage;
 import edu.cornell.mannlib.vitro.webapp.freemarker.config.FreemarkerConfiguration;
 import edu.cornell.mannlib.vitro.webapp.i18n.I18n;
 import edu.cornell.mannlib.vitro.webapp.i18n.I18nBundle;
+import edu.cornell.mannlib.vitro.webapp.utils.PersonResourceMapCache;
+import edu.cornell.mannlib.vitro.webapp.utils.RelationshipChecker;
 import edu.cornell.mannlib.vitro.webapp.web.templatemodels.Tags;
 import edu.cornell.mannlib.vitro.webapp.web.templatemodels.User;
 import edu.cornell.mannlib.vitro.webapp.web.templatemodels.menu.MainMenu;
@@ -100,7 +102,7 @@ public class FreemarkerHttpServlet extends VitroHttpServlet  {
         VitroRequest vreq = new VitroRequest(request);
         ResponseValues responseValues = null;
 
-    	try {
+    	try(PersonResourceMapCache personResourceCache = new PersonResourceMapCache()) {
 
             // This method does a redirect if the required authorizations are not met, so just return.
             if (!isAuthorizedToDisplayPage(request, response, requiredActions(vreq))) {
@@ -119,7 +121,7 @@ public class FreemarkerHttpServlet extends VitroHttpServlet  {
                 }
     	    }
     	    handleException(vreq, response, e);
-    	}
+    	} 
     }
 
     /** In case of a processing error, display an error page. To an authorized user, the page displays
