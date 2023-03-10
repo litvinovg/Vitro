@@ -81,13 +81,14 @@ public class IndividualFiltering implements Individual {
 		// the DataProperty with statements. - jblake
         List<DataProperty> outdProps = new ArrayList<DataProperty>();
         List<DataProperty> dprops = _innerIndividual.getPopulatedDataPropertyList();
-        if( dprops == null )
-            return outdProps;
-		for (DataProperty dp: dprops) {
-			if (_filters.getDataPropertyStatementFilter().fn(
-					new DataPropertyStatementImpl(this._innerIndividual.getURI(), dp.getURI(), SOME_LITERAL))) {
-				outdProps.add(dp);
-			}
+		/*
+		 * if( dprops == null ) return outdProps; for (DataProperty dp: dprops) { if
+		 * (_filters.getDataPropertyStatementFilter().fn( new
+		 * DataPropertyStatementImpl(this._innerIndividual.getURI(), dp.getURI(),
+		 * SOME_LITERAL))) { outdProps.add(dp); } }
+		 */
+        if (dprops != null) {
+        	outdProps.addAll(dprops);
         }
         return outdProps;
     }

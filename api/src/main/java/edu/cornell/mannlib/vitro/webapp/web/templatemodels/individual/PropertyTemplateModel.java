@@ -99,7 +99,7 @@ public abstract class PropertyTemplateModel extends BaseTemplateModel {
         }
     }
 
-    private boolean isFauxProperty(Property prop) {
+    protected boolean isFauxProperty(Property prop) {
         if (prop instanceof FauxPropertyWrapper) {
             return true;
         }

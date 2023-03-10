@@ -91,7 +91,7 @@ public class DataPropertyTemplateModel extends PropertyTemplateModel {
         // If the property is populated, get the data property statements via a sparql query
         if (populatedDataPropertyList.contains(dp)) {
             log.debug("Getting data for populated data property " + getUri());
-            DataPropertyStatementDao dpDao = vreq.getWebappDaoFactory().getDataPropertyStatementDao();
+            DataPropertyStatementDao dpDao = vreq.getUnfilteredWebappDaoFactory().getDataPropertyStatementDao();
             List<Literal> values = dpDao.getDataPropertyValuesForIndividualByProperty(subject, dp, queryString, constructQueries);
             for (Literal value : values) {
                 statements.add(new DataPropertyStatementTemplateModel(subjectUri, dp, value, getTemplateName(), vreq));
@@ -131,8 +131,14 @@ public class DataPropertyTemplateModel extends PropertyTemplateModel {
 		}
 
         // Determine whether a new statement can be added
+		String uri;
+		if (isFauxProperty(property)){
+			uri = ((FauxPropertyWrapper)property).getConfigUri();
+		} else {
+			uri = propertyUri;
+		}
 		RequestedAction action = new AddDataPropertyStatement(
-				vreq.getJenaOntModel(), subjectUri, propertyUri, SOME_LITERAL);
+				vreq.getJenaOntModel(), subjectUri, uri, SOME_LITERAL);
         if ( ! PolicyHelper.isAuthorizedForActions(vreq, action) ) {
             return;
         }
