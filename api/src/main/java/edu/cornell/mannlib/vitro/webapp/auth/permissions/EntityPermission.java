@@ -11,11 +11,14 @@ import edu.cornell.mannlib.vitro.webapp.beans.FauxProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 import edu.cornell.mannlib.vitro.webapp.dao.PropertyDao;
+import edu.cornell.mannlib.vitro.webapp.dao.PropertyDao.FullPropertyKey;
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
 import edu.cornell.mannlib.vitro.webapp.dao.WebappDaoFactory;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ContextModelAccess;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelNames;
 import edu.cornell.mannlib.vitro.webapp.utils.RelationshipChecker;
+import edu.cornell.mannlib.vitro.webapp.web.templatemodels.individual.FauxPropertyWrapper;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.jena.ontology.OntModel;
@@ -117,11 +120,14 @@ public abstract class EntityPermission extends Permission {
         for (ObjectProperty oProp : wadf.getObjectPropertyDao().getAllObjectProperties()) {
             propertyKeyMap.put(oProp.getURI(), new PropertyDao.FullPropertyKey(oProp.getURI()));
             for (FauxProperty fProp : wadf.getFauxPropertyDao().getFauxPropertiesForBaseUri(oProp.getURI())) {
-                propertyKeyMap.put(fProp.getConfigUri(), new PropertyDao.FullPropertyKey(fProp.getDomainURI(), fProp.getBaseURI(), fProp.getRangeURI()));
+                propertyKeyMap.put(fProp.getConfigUri(), new PropertyDao.FullPropertyKey(fProp.getConfigUri()));
             }
         }
         for (DataProperty dProp : wadf.getDataPropertyDao().getAllDataProperties()) {
             propertyKeyMap.put(dProp.getURI(), new PropertyDao.FullPropertyKey(dProp.getURI()));
+            for (FauxProperty fProp : wadf.getFauxPropertyDao().getFauxPropertiesForBaseUri(dProp.getURI())) {
+                propertyKeyMap.put(fProp.getConfigUri(), new PropertyDao.FullPropertyKey(fProp.getConfigUri()));
+            }
         }
 
         for (EntityPermission instance : allInstances.values()) {
@@ -191,11 +197,10 @@ public abstract class EntityPermission extends Permission {
         if (p instanceof FauxProperty) {
             FauxProperty fp = (FauxProperty)p;
             uri = fp.getConfigUri();
-            key = new PropertyDao.FullPropertyKey(fp.getDomainURI(), fp.getBaseURI(), fp.getRangeURI());
         } else {
             uri = p.getURI();
-            key = new PropertyDao.FullPropertyKey(p.getURI());
         }
+        key = new PropertyDao.FullPropertyKey(uri);
 
         OntModel accountsModel = ctxModels.getOntModel(ModelNames.USER_ACCOUNTS);
         accountsModel.enterCriticalSection(Lock.READ);
@@ -264,15 +269,13 @@ public abstract class EntityPermission extends Permission {
         if (RequestedAction.SOME_URI.equals(prop.getURI())) {
             return true;
         }
-        if ("http://www.w3.org/2000/01/rdf-schema#label".equals(prop.getURI())) {
-        	return true;
-        }
-        
         synchronized (authorizedKeys) {
             if (authorizedKeys.contains(new PropertyDao.FullPropertyKey(prop))) {
                 return true;
             }
-
+	    	if (prop instanceof FauxPropertyWrapper) {
+	    		return authorizedKeys.contains(new PropertyDao.FullPropertyKey(((FauxPropertyWrapper)prop).getConfigUri()));
+	    	}
             return authorizedKeys.contains(new PropertyDao.FullPropertyKey(prop.getURI()));
         }
     }

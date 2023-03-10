@@ -168,6 +168,11 @@ public abstract class ObjectPropertyTemplateModel extends PropertyTemplateModel 
         ObjectPropertyStatementDao opDao = vreq.getWebappDaoFactory().getObjectPropertyStatementDao();
         return opDao.getObjectPropertyStatementsForIndividualByProperty(subjectUri, propertyUri, objectKey, domainUri, rangeUri, getSelectQuery(), getConstructQueries(), sortDirection);
     }
+    
+    protected List<Map<String, String>> getUnfilteredStatementData() {
+        ObjectPropertyStatementDao opDao = vreq.getUnfilteredWebappDaoFactory().getObjectPropertyStatementDao();
+        return opDao.getObjectPropertyStatementsForIndividualByProperty(subjectUri, propertyUri, objectKey, domainUri, rangeUri, getSelectQuery(), getConstructQueries(), sortDirection);
+    }
 
     protected abstract boolean isEmpty();
 

@@ -619,4 +619,9 @@ public class FauxObjectPropertyWrapper extends ObjectProperty implements FauxPro
 		return faux.getContextUri();
 	}
 
+	@Override
+	public String getConfigUri() {
+		return faux.getConfigUri();
+	}
+
 }

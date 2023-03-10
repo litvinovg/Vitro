@@ -92,7 +92,12 @@ public class DataPropertyStatementTemplateModel extends PropertyStatementTemplat
 	}
 
 	private DataPropertyStatement makeStatement() {
-		DataPropertyStatement dps = new DataPropertyStatementImpl(subjectUri, property.getURI(), literalValue.getLexicalForm());
+		DataPropertyStatement dps;
+		if (property instanceof FauxPropertyWrapper) {
+			dps = new DataPropertyStatementImpl(subjectUri, ((FauxPropertyWrapper)property).getConfigUri(), literalValue.getLexicalForm());	
+		} else {
+			dps = new DataPropertyStatementImpl(subjectUri, property.getURI(), literalValue.getLexicalForm());	
+		}
 		// Language and datatype are needed to get the correct hash value
 		dps.setLanguage(literalValue.getLanguage());
 		dps.setDatatypeURI(literalValue.getDatatypeURI());

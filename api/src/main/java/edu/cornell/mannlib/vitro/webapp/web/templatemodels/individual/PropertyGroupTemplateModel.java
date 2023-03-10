@@ -79,29 +79,32 @@ public class PropertyGroupTemplateModel extends BaseTemplateModel {
 		if (PolicyHelper.isAuthorizedForActions(vreq, dop)) {
 			return true;
 		}
-
-		RequestedAction dops = new DisplayObjectPropertyStatement(
-				subject.getURI(), op, SOME_URI);
-        return PolicyHelper.isAuthorizedForActions(vreq, dops);
-
+		RequestedAction dops;
+		if (op instanceof FauxObjectPropertyWrapper) {
+			dops = new DisplayObjectPropertyStatement(((FauxObjectPropertyWrapper) op).getConfigUri(), op, SOME_URI);
+		} else {
+			dops = new DisplayObjectPropertyStatement(subject.getURI(), op, SOME_URI);
+		}
+		return PolicyHelper.isAuthorizedForActions(vreq, dops);
     }
 
 	/**
 	 * See if the property is permitted in its own right. If not, the property
 	 * statement might still be permitted to a self-editor.
 	 */
-	private boolean allowedToDisplay(VitroRequest vreq, DataProperty dp,
-			Individual subject) {
+	private boolean allowedToDisplay(VitroRequest vreq, DataProperty dp, Individual subject) {
 		RequestedAction dop = new DisplayDataProperty(dp);
 		if (PolicyHelper.isAuthorizedForActions(vreq, dop)) {
 			return true;
 		}
-
-		DataPropertyStatementImpl dps = new DataPropertyStatementImpl(
-				subject.getURI(), dp.getURI(), SOME_LITERAL);
+		DataPropertyStatementImpl dps;
+		if (dp instanceof FauxDataPropertyWrapper) {
+			dps = new DataPropertyStatementImpl(subject.getURI(), ((FauxDataPropertyWrapper) dp).getConfigUri(), SOME_LITERAL);
+		} else {
+			dps = new DataPropertyStatementImpl(subject.getURI(), dp.getURI(), SOME_LITERAL);
+		}
 		RequestedAction dops = new DisplayDataPropertyStatement(dps);
-        return PolicyHelper.isAuthorizedForActions(vreq, dops);
-
+        return PolicyHelper.isAuthorizedForActions(vreq, dops);	
     }
 
 	protected boolean isEmpty() {
