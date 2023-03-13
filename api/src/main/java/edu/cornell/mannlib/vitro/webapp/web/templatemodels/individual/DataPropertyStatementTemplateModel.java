@@ -46,17 +46,28 @@ public class DataPropertyStatementTemplateModel extends PropertyStatementTemplat
 	private String makeDeleteUrl() {
         // Determine whether the statement can be deleted
 		DataPropertyStatement dps = makeStatement();
-        RequestedAction action = new DropDataPropertyStatement(vreq.getJenaOntModel(), dps);
+        RequestedAction action;
+        if (property instanceof FauxPropertyWrapper) {
+            DataPropertyStatement dpfs = makeFauxStatement();
+            action = new DropDataPropertyStatement(vreq.getJenaOntModel(), dpfs);
+        } else {
+            action = new DropDataPropertyStatement(vreq.getJenaOntModel(), dps);
+        }
+        
         if ( ! PolicyHelper.isAuthorizedForActions(vreq, action) ) {
             return "";
         }
-
+        
         ParamMap params = new ParamMap(
                 "subjectUri", subjectUri,
                 "predicateUri", property.getURI(),
                 "datapropKey", makeHash(dps),
                 "cmd", "delete");
 
+        if (property instanceof FauxPropertyWrapper) {
+            params.put("fauxContextUri",((FauxPropertyWrapper)property).getContextUri());
+        }
+        
         params.put("templateName", templateName);
         params.putAll(UrlBuilder.getModelParams(vreq));
 
@@ -72,7 +83,14 @@ public class DataPropertyStatementTemplateModel extends PropertyStatementTemplat
 
         // Determine whether the statement can be edited
 		DataPropertyStatement dps = makeStatement();
-        RequestedAction action = new EditDataPropertyStatement(vreq.getJenaOntModel(), dps);
+        RequestedAction action;
+        if (property instanceof FauxPropertyWrapper) {
+            DataPropertyStatement dpfs = makeFauxStatement();
+            action = new EditDataPropertyStatement(vreq.getJenaOntModel(), dpfs);
+        } else {
+            action = new EditDataPropertyStatement(vreq.getJenaOntModel(), dps);
+        }
+		
         if ( ! PolicyHelper.isAuthorizedForActions(vreq, action) ) {
             return "";
         }
@@ -82,6 +100,10 @@ public class DataPropertyStatementTemplateModel extends PropertyStatementTemplat
                 "predicateUri", property.getURI(),
                 "datapropKey", makeHash(dps));
 
+        if (property instanceof FauxPropertyWrapper) {
+            params.put("fauxContextUri",((FauxPropertyWrapper)property).getContextUri());
+        }
+        
         if ( deleteUrl.isEmpty() ) {
             params.put("deleteProhibited", "prohibited");
         }
@@ -93,11 +115,16 @@ public class DataPropertyStatementTemplateModel extends PropertyStatementTemplat
 
 	private DataPropertyStatement makeStatement() {
 		DataPropertyStatement dps;
-		if (property instanceof FauxPropertyWrapper) {
-			dps = new DataPropertyStatementImpl(subjectUri, ((FauxPropertyWrapper)property).getConfigUri(), literalValue.getLexicalForm());	
-		} else {
-			dps = new DataPropertyStatementImpl(subjectUri, property.getURI(), literalValue.getLexicalForm());	
-		}
+		dps = new DataPropertyStatementImpl(subjectUri, property.getURI(), literalValue.getLexicalForm());	
+		// Language and datatype are needed to get the correct hash value
+		dps.setLanguage(literalValue.getLanguage());
+		dps.setDatatypeURI(literalValue.getDatatypeURI());
+		return dps;
+	}
+	
+	private DataPropertyStatement makeFauxStatement() {
+		DataPropertyStatement dps;
+		dps = new DataPropertyStatementImpl(subjectUri, ((FauxPropertyWrapper)property).getConfigUri(), literalValue.getLexicalForm());	
 		// Language and datatype are needed to get the correct hash value
 		dps.setLanguage(literalValue.getLanguage());
 		dps.setDatatypeURI(literalValue.getDatatypeURI());

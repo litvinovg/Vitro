@@ -131,14 +131,17 @@ public class DataPropertyTemplateModel extends PropertyTemplateModel {
 		}
 
         // Determine whether a new statement can be added
-		String uri;
+		String fauxContextUri = null;
+		RequestedAction action;
 		if (isFauxProperty(property)){
-			uri = ((FauxPropertyWrapper)property).getConfigUri();
+			FauxPropertyWrapper fauxPropertywrapper = ((FauxPropertyWrapper) property);
+			fauxContextUri = fauxPropertywrapper.getContextUri();
+			action = new AddDataPropertyStatement(
+					vreq.getJenaOntModel(), subjectUri, fauxPropertywrapper.getConfigUri(), SOME_LITERAL);
 		} else {
-			uri = propertyUri;
+			action = new AddDataPropertyStatement(
+					vreq.getJenaOntModel(), subjectUri, propertyUri, SOME_LITERAL);
 		}
-		RequestedAction action = new AddDataPropertyStatement(
-				vreq.getJenaOntModel(), subjectUri, uri, SOME_LITERAL);
         if ( ! PolicyHelper.isAuthorizedForActions(vreq, action) ) {
             return;
         }
@@ -146,6 +149,10 @@ public class DataPropertyTemplateModel extends PropertyTemplateModel {
         ParamMap params = new ParamMap(
                 "subjectUri", subjectUri,
                 "predicateUri", propertyUri);
+        
+        if (fauxContextUri != null) {
+            params.put("fauxContextUri", fauxContextUri);
+        }
 
         params.putAll(UrlBuilder.getModelParams(vreq));
 

@@ -138,6 +138,11 @@ public abstract class ObjectPropertyTemplateModel extends PropertyTemplateModel 
             ParamMap params = new ParamMap(
                     "subjectUri", subjectUri,
                     "predicateUri", propertyUri);
+    		
+            if (isFauxProperty(property)){
+                String fauxPropertyContextUri = ((FauxPropertyWrapper)property).getContextUri();
+                params.put("fauxContextUri", fauxPropertyContextUri);
+            } 
 
             if (domainUri != null) {
                 params.put("domainUri", domainUri);
