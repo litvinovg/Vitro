@@ -135,7 +135,9 @@ public class OperationController extends BaseEditController {
                 String entityKey = request.getParameter("_permissionsEntityURI");
                 if (StringUtils.isEmpty(entityKey)) {
                     // If we don't have a namespace set, we are creating a new entity so use that namespace
-                    entityKey = request.getParameter("Namespace");
+                    if (!StringUtils.isEmpty(request.getParameter("Namespace")) && !StringUtils.isEmpty(request.getParameter("LocalName"))) {
+                        entityKey = "" + request.getParameter("Namespace") + request.getParameter("LocalName");    
+                    }
                 }
 
                 // Get the granted permissions from the request object
