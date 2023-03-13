@@ -73,6 +73,10 @@ public class ObjectPropertyStatementTemplateModel extends PropertyStatementTempl
                 "cmd", "delete",
                 "objectKey", objectKey);
 
+        if (property instanceof FauxPropertyWrapper) {
+            params.put("fauxContextUri", ((FauxPropertyWrapper) property).getContextUri());
+        }
+
         for ( String key : data.keySet() ) {
             String value = data.get(key);
             // Remove an entry with a null value instead of letting it get passed
@@ -123,6 +127,10 @@ public class ObjectPropertyStatementTemplateModel extends PropertyStatementTempl
                 "predicateUri", property.getURI(),
                 "objectUri", objectUri);
 
+        if (property instanceof FauxPropertyWrapper) {
+            params.put("fauxContextUri",((FauxPropertyWrapper)property).getContextUri());
+        }
+        
         if ( deleteUrl.isEmpty() ) {
             params.put("deleteProhibited", "prohibited");
         }

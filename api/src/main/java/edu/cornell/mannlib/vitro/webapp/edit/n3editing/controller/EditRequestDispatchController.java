@@ -27,6 +27,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditDataPr
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractObjectPropertyStatementAction;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
+import edu.cornell.mannlib.vitro.webapp.beans.FauxProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
@@ -82,6 +83,10 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
 		String objectUri = EditConfigurationUtils.getObjectUri(vreq);
 		String domainUri = EditConfigurationUtils.getDomainUri(vreq);
 		String rangeUri = EditConfigurationUtils.getRangeUri(vreq);
+		String fauxContextUri = getFauxConfigUri(vreq);
+		if(!StringUtils.isBlank(fauxContextUri)) {
+			predicateUri = fauxContextUri;
+		}
 		Property predicateProp = new Property();
 		predicateProp.setURI(predicateUri);
 		predicateProp.setDomainVClassURI(domainUri);
@@ -110,8 +115,20 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
 		}
 		return isAuthorized? SimplePermission.DO_FRONT_END_EDITING.ACTION: AuthorizationRequest.UNAUTHORIZED;
 	}
-
-	private boolean isIndividualDeletion(VitroRequest vreq) {
+	
+    public static String getFauxConfigUri(VitroRequest vreq) {
+    	String fauxContextUri = vreq.getParameter("fauxContextUri");
+    	if (fauxContextUri != null) {
+        	WebappDaoFactory wdf = vreq.getWebappDaoFactory();
+        	FauxProperty fp = wdf.getFauxPropertyDao().getFauxPropertyFromContextUri(fauxContextUri);
+        	if (fp != null) {
+        		return fp.getConfigUri();	
+        	}
+    	} 
+    	return "";
+    }
+    
+    	private boolean isIndividualDeletion(VitroRequest vreq) {
 		String subjectUri = EditConfigurationUtils.getSubjectUri(vreq);
 		String predicateUri = EditConfigurationUtils.getPredicateUri(vreq);
 		String objectUri = EditConfigurationUtils.getObjectUri(vreq);
@@ -130,7 +147,6 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
         if(isMenuMode(vreq)) {
         	return redirectToMenuEdit(vreq);
         }
-
         //check some error conditions and if they exist return response values
          //with error message
          if(isErrorCondition(vreq)){
@@ -262,7 +278,7 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
 	private String processEditConfGeneratorName(VitroRequest vreq) {
 	    String editConfGeneratorName = null;
 
-	    String predicateUri =  getPredicateUri(vreq);
+	    String predicateUri = EditConfigurationUtils.getPredicateUri(vreq);
 	    String domainUri = EditConfigurationUtils.getDomainUri(vreq);
 	    String rangeUri = EditConfigurationUtils.getRangeUri(vreq);
 
@@ -387,7 +403,6 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
 
             }
         }
-
     	//Check predicate - if not vitro label and neither data prop nor object prop return error
     	WebappDaoFactory wdf = vreq.getWebappDaoFactory();
     	//TODO: Check if any error conditions are not met here
