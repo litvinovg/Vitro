@@ -45,6 +45,10 @@ public class UncollatedObjectPropertyTemplateModel extends ObjectPropertyTemplat
             }
 
             postprocessStatementList(statements);
+            
+            if (op.getFunctional() && !statements.isEmpty()) {
+                addUrl = "";
+            }
         } else {
             log.debug("Object property " + getUri() + " is unpopulated.");
         }
