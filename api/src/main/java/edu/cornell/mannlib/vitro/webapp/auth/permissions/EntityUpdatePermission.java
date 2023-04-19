@@ -6,7 +6,6 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractDataPropertyStatementAction;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractObjectPropertyStatementAction;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractPropertyStatementAction;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.resource.AbstractResourceAction;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
 import org.apache.commons.logging.Log;
@@ -64,10 +63,7 @@ public class EntityUpdatePermission extends EntityPermission {
             if (isAuthorized) {
                 isAuthorized = isAuthorizedFor((AbstractPropertyStatementAction) whatToAuth, personUris);
             }
-        } else if (whatToAuth instanceof AbstractResourceAction) {
-            String subjectUri = ((AbstractResourceAction)whatToAuth).getSubjectUri();
-            isAuthorized = isModifiable(subjectUri);
-        }
+        } 
 
         if (isAuthorized) {
             log.debug(this + " authorizes " + whatToAuth);
