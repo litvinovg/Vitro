@@ -133,10 +133,13 @@ public class SimplePermission extends Permission {
 		simplePermissions.put(uri, this);
 	}
 
+	/*
+	 * @param personUris is not used
+	 */
 	@Override
 	public boolean isAuthorized(List<String> personUris, ActionRequest whatToAuth) {
 		if (whatToAuth != null) {
-			if (actionRequest.getURI().equals(whatToAuth.getURI())) {
+			if (getUri().equals(whatToAuth.getURI())) {
 				log.debug(this + " authorizes " + whatToAuth);
 				return true;
 			}
