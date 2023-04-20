@@ -15,7 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import edu.cornell.mannlib.vedit.beans.LoginStatusBean;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroHttpServlet;
 
 /**
@@ -65,13 +65,13 @@ public class ConfirmAuthorization extends BodyTagSupport {
 
 		if (attribute == null) {
 			return AUTHORIZED;
-		} else if (attribute instanceof RequestedAction) {
-			RequestedAction ra = (RequestedAction) attribute;
+		} else if (attribute instanceof ActionRequest) {
+			ActionRequest ra = (ActionRequest) attribute;
 			log.debug("requested action was " + ra.getClass().getSimpleName());
 			return ra;
-		} else if (attribute instanceof RequestedAction[]) {
+		} else if (attribute instanceof ActionRequest[]) {
 			AuthorizationRequest auth = AUTHORIZED;
-			for (RequestedAction ra : (RequestedAction[]) attribute) {
+			for (ActionRequest ra : (ActionRequest[]) attribute) {
 				auth = auth.and(ra);
 			}
 			log.debug("requested actions were " + auth);

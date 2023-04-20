@@ -172,7 +172,7 @@ public class FreemarkerHttpServlet extends VitroHttpServlet  {
             boolean sentEmail = false;
 
             // If the user is authorized, display the error data on the page
-            if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.USE_MISCELLANEOUS_ADMIN_PAGES.ACTION)) {
+            if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.USE_MISCELLANEOUS_ADMIN_PAGES.actionRequest)) {
                 templateMap.put("adminErrorData", adminErrorData);
 
             // Else send the data to the site administrator
@@ -396,7 +396,7 @@ public class FreemarkerHttpServlet extends VitroHttpServlet  {
             requestUrls.put("currentPage", getCurrentPageUrl(vreq));
             requestUrls.put("referringPage", getReferringPageUrl(vreq));
 
-            if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.EDIT_OWN_ACCOUNT.ACTION)) {
+            if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.EDIT_OWN_ACCOUNT.actionRequest)) {
             	requestUrls.put("myAccount", UrlBuilder.getUrl("/accounts/myAccount"));
             }
         } catch (TemplateModelException e) {

@@ -10,8 +10,8 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleRequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleActionReqiest;
 
 /**
  * A class of simple permissions. Each instance holds a RequestedAction, and
@@ -115,8 +115,7 @@ public class SimplePermission extends Permission {
 		return new ArrayList<SimplePermission>(allInstances.values());
 	}
 
-	//private final String localName;
-	public final RequestedAction ACTION;
+	public final ActionRequest actionRequest;
 
 	public SimplePermission(String uri) {
 		super(uri);
@@ -125,7 +124,7 @@ public class SimplePermission extends Permission {
 			throw new NullPointerException("uri may not be null.");
 		}
 
-		this.ACTION = new SimpleRequestedAction(uri);
+		this.actionRequest = new SimpleActionReqiest(uri);
 
 		if (allInstances.containsKey(this.uri)) {
 			throw new IllegalStateException("A SimplePermission named '"
@@ -135,9 +134,9 @@ public class SimplePermission extends Permission {
 	}
 
 	@Override
-	public boolean isAuthorized(List<String> personUris, RequestedAction whatToAuth) {
+	public boolean isAuthorized(List<String> personUris, ActionRequest whatToAuth) {
 		if (whatToAuth != null) {
-			if (ACTION.getURI().equals(whatToAuth.getURI())) {
+			if (actionRequest.getURI().equals(whatToAuth.getURI())) {
 				log.debug(this + " authorizes " + whatToAuth);
 				return true;
 			}

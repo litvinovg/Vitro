@@ -2,7 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.policy;
 
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction.SOME_URI;
+import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest.SOME_URI;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,7 +23,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.RequestIdentifiers;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropDataPropertyStatement;
@@ -113,8 +113,8 @@ public class PolicyHelper {
 			// figure out if that account can do the actions
 			IdentifierBundle ids = ActiveIdentifierBundleFactories
 					.getUserIdentifierBundle(req, user);
-			PolicyIface policy = ServletPolicyList.getPolicies(req);
-			return ar.isAuthorized(ids, policy);
+			PolicyIface policies = ServletPolicyList.getPolicies(req);
+			return ar.isAuthorized(ids, policies);
 		} catch (Exception ex) {
 			log.error("Error while attempting to authorize actions " + ar, ex);
 			return false;
@@ -140,7 +140,7 @@ public class PolicyHelper {
 			return false;
 		}
 
-		RequestedAction action;
+		ActionRequest action;
 		if (objectNode.isResource()) {
 			Property property = new Property(predicate.getURI());
 			property.setDomainVClassURI(SOME_URI);
@@ -175,7 +175,7 @@ public class PolicyHelper {
 			return false;
 		}
 
-		RequestedAction action;
+		ActionRequest action;
 		if (objectNode.isResource()) {
 			Property property = new Property(predicate.getURI());
 			property.setDomainVClassURI(SOME_URI);

@@ -39,7 +39,7 @@ public class PrimitiveRdfEdit extends VitroAjaxController {
     //Using the same setup as primitive delete
     @Override
     protected AuthorizationRequest requiredActions(VitroRequest vreq) {
-    	return SimplePermission.USE_BASIC_AJAX_CONTROLLERS.ACTION;
+    	return SimplePermission.USE_BASIC_AJAX_CONTROLLERS.actionRequest;
     }
 
     @Override

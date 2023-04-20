@@ -2,7 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.controller.freemarker.responsevalues;
 
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 
 /**
  * This allows processRequest() in sub-classes of FreemarkerHttpServlet to
@@ -20,8 +20,8 @@ public class NotAuthorizedResponseValues extends BaseResponseValues {
 		this.logMessage = logMessage;
 	}
 
-	public RequestedAction getUnauthorizedAction() {
-		return new RequestedAction() {
+	public ActionRequest getUnauthorizedAction() {
+		return new ActionRequest() {
 			@Override
 			public String toString() {
 				return "Servlet not authorized: " + logMessage;

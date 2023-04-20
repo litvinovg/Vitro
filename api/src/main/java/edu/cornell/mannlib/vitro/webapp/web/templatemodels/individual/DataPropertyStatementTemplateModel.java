@@ -8,7 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.jena.rdf.model.Literal;
 
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatement;
@@ -46,7 +46,7 @@ public class DataPropertyStatementTemplateModel extends PropertyStatementTemplat
 	private String makeDeleteUrl() {
         // Determine whether the statement can be deleted
 		DataPropertyStatement dps = makeStatement();
-        RequestedAction action;
+        ActionRequest action;
         if (property instanceof FauxPropertyWrapper) {
             DataPropertyStatement dpfs = makeFauxStatement();
             action = new DropDataPropertyStatement(vreq.getJenaOntModel(), dpfs);
@@ -83,7 +83,7 @@ public class DataPropertyStatementTemplateModel extends PropertyStatementTemplat
 
         // Determine whether the statement can be edited
 		DataPropertyStatement dps = makeStatement();
-        RequestedAction action;
+        ActionRequest action;
         if (property instanceof FauxPropertyWrapper) {
             DataPropertyStatement dpfs = makeFauxStatement();
             action = new EditDataPropertyStatement(vreq.getJenaOntModel(), dpfs);

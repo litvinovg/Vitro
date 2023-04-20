@@ -2,7 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.permissions;
 
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataProperty;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectProperty;
@@ -22,7 +22,7 @@ public class EntityDisplayPermission extends EntityPermission {
     }
 
     @Override
-    public boolean isAuthorized(List<String> personUris, RequestedAction whatToAuth) {
+    public boolean isAuthorized(List<String> personUris, ActionRequest whatToAuth) {
         boolean result = false;
 
         if (whatToAuth instanceof DisplayDataProperty) {

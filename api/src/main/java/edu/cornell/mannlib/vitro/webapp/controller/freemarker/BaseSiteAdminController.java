@@ -36,7 +36,7 @@ public class BaseSiteAdminController extends FreemarkerHttpServlet {
     private static final Log log = LogFactory.getLog(BaseSiteAdminController.class);
     protected static final String TEMPLATE_DEFAULT = "siteAdmin-main.ftl";
 
-    public static final AuthorizationRequest REQUIRED_ACTIONS = SimplePermission.SEE_SITE_ADMIN_PAGE.ACTION;
+    public static final AuthorizationRequest REQUIRED_ACTIONS = SimplePermission.SEE_SITE_ADMIN_PAGE.actionRequest;
 
     private static final List<AdminUrl> siteMaintenanceUrls = new ArrayList<>();
     private static final List<AdminUrl> siteConfigData = new ArrayList<>();
@@ -64,23 +64,23 @@ public class BaseSiteAdminController extends FreemarkerHttpServlet {
     }
 
     static {
-        registerSiteMaintenanceUrl("recomputeInferences", "/RecomputeInferences", null, SimplePermission.USE_MISCELLANEOUS_ADMIN_PAGES.ACTION);
+        registerSiteMaintenanceUrl("recomputeInferences", "/RecomputeInferences", null, SimplePermission.USE_MISCELLANEOUS_ADMIN_PAGES.actionRequest);
         registerSiteMaintenanceUrl("rebuildSearchIndex", "/SearchIndex", null, IndexController.REQUIRED_ACTIONS);
-        registerSiteMaintenanceUrl("startupStatus", "/startupStatus", null, SimplePermission.SEE_STARTUP_STATUS.ACTION);
-        registerSiteMaintenanceUrl("restrictLogins", "/admin/restrictLogins", null, SimplePermission.LOGIN_DURING_MAINTENANCE.ACTION);
-        registerSiteMaintenanceUrl("activateDeveloperPanel", "javascript:new DeveloperPanel(developerAjaxUrl).setupDeveloperPanel({developer_enabled: true});", null, SimplePermission.ENABLE_DEVELOPER_PANEL.ACTION);
+        registerSiteMaintenanceUrl("startupStatus", "/startupStatus", null, SimplePermission.SEE_STARTUP_STATUS.actionRequest);
+        registerSiteMaintenanceUrl("restrictLogins", "/admin/restrictLogins", null, SimplePermission.LOGIN_DURING_MAINTENANCE.actionRequest);
+        registerSiteMaintenanceUrl("activateDeveloperPanel", "javascript:new DeveloperPanel(developerAjaxUrl).setupDeveloperPanel({developer_enabled: true});", null, SimplePermission.ENABLE_DEVELOPER_PANEL.actionRequest);
 
-        registerSiteConfigData("userAccounts", "/accountsAdmin", null, SimplePermission.MANAGE_USER_ACCOUNTS.ACTION);
-        registerSiteConfigData("manageProxies", "/manageProxies", null, SimplePermission.MANAGE_PROXIES.ACTION);
+        registerSiteConfigData("userAccounts", "/accountsAdmin", null, SimplePermission.MANAGE_USER_ACCOUNTS.actionRequest);
+        registerSiteConfigData("manageProxies", "/manageProxies", null, SimplePermission.MANAGE_PROXIES.actionRequest);
 
-        registerSiteConfigData("siteInfo", "/editForm", new ParamMap(new String[] {"controller", "ApplicationBean"}), SimplePermission.EDIT_SITE_INFORMATION.ACTION);
+        registerSiteConfigData("siteInfo", "/editForm", new ParamMap(new String[] {"controller", "ApplicationBean"}), SimplePermission.EDIT_SITE_INFORMATION.actionRequest);
 
         //TODO: Add specific permissions for page management
         registerSiteConfigData("menuManagement", "/individual", new ParamMap(new String[] {
                 "uri", "http://vitro.mannlib.cornell.edu/ontologies/display/1.1#DefaultMenu",
-                "switchToDisplayModel", "true" }), SimplePermission.MANAGE_MENUS.ACTION);
+                "switchToDisplayModel", "true" }), SimplePermission.MANAGE_MENUS.actionRequest);
 
-        registerSiteConfigData("pageManagement", "/pageList", null, SimplePermission.MANAGE_MENUS.ACTION);
+        registerSiteConfigData("pageManagement", "/pageList", null, SimplePermission.MANAGE_MENUS.actionRequest);
     }
 
     @Override
@@ -125,7 +125,7 @@ public class BaseSiteAdminController extends FreemarkerHttpServlet {
             }
         }
 
-        if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.SEE_STARTUP_STATUS.ACTION)) {
+        if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.SEE_STARTUP_STATUS.actionRequest)) {
         	urls.put("startupStatusAlert", !StartupStatus.getBean(getServletContext()).allClear());
         }
 
@@ -137,7 +137,7 @@ public class BaseSiteAdminController extends FreemarkerHttpServlet {
         Map<String, Object> map = new HashMap<String, Object>();
 
 		if (PolicyHelper.isAuthorizedForActions(vreq,
-				SimplePermission.DO_BACK_END_EDITING.ACTION)) {
+				SimplePermission.DO_BACK_END_EDITING.actionRequest)) {
 
             map.put("formAction", UrlBuilder.getUrl("/editRequestDispatch"));
 
@@ -195,7 +195,7 @@ public class BaseSiteAdminController extends FreemarkerHttpServlet {
 
         Map<String, Object> map = new HashMap<String, Object>();
 
-        if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.EDIT_ONTOLOGY.ACTION)) {
+        if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.EDIT_ONTOLOGY.actionRequest)) {
 
             String error = null;
             String explanation = null;
@@ -240,13 +240,13 @@ public class BaseSiteAdminController extends FreemarkerHttpServlet {
 
         Map<String, String> urls = new HashMap<String, String>();
 
-        if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.ACTION)) {
+        if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.actionRequest)) {
             urls.put("ingest", UrlBuilder.getUrl("/ingest"));
             urls.put("rdfData", UrlBuilder.getUrl("/uploadRDFForm"));
             urls.put("rdfExport", UrlBuilder.getUrl("/export"));
 //            urls.put("sparqlQueryBuilder", UrlBuilder.getUrl("/admin/sparqlquerybuilder"));
         }
-        if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.USE_SPARQL_QUERY_PAGE.ACTION)) {
+        if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.USE_SPARQL_QUERY_PAGE.actionRequest)) {
         	urls.put("sparqlQuery", UrlBuilder.getUrl("/admin/sparqlquery"));
         }
 

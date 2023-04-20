@@ -15,11 +15,11 @@ import stubs.javax.servlet.ServletContextStub;
 import stubs.javax.servlet.http.HttpServletRequestStub;
 import stubs.javax.servlet.http.HttpSessionStub;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.Authorization;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 
 /**
  * Test the ability of the Policy Helper to authorize a variety of simple or
@@ -45,7 +45,7 @@ public class PolicyHelper_AuthorizationRequestTest {
 	// Helper methods
 	// ----------------------------------------------------------------------
 
-	private void createPolicy(RequestedAction... authorizedActions) {
+	private void createPolicy(ActionRequest... authorizedActions) {
 		ServletPolicyList.addPolicy(ctx, new MySimplePolicy(authorizedActions));
 	}
 
@@ -107,37 +107,37 @@ public class PolicyHelper_AuthorizationRequestTest {
 	// Helper Classes
 	// ----------------------------------------------------------------------
 
-	public static class Action1 extends RequestedAction {
+	public static class Action1 extends ActionRequest {
 		// actions must be public, with public constructor
 	}
 
-	public static class Action2 extends RequestedAction {
+	public static class Action2 extends ActionRequest {
 		// actions must be public, with public constructor
 	}
 
-	public static class Action3 extends RequestedAction {
+	public static class Action3 extends ActionRequest {
 		// actions must be public, with public constructor
 	}
 
 	private static class MySimplePolicy implements PolicyIface {
-		private final Set<RequestedAction> authorizedActions;
+		private final Set<ActionRequest> authorizedActions;
 
-		public MySimplePolicy(RequestedAction... authorizedActions) {
-			this.authorizedActions = new HashSet<RequestedAction>(
+		public MySimplePolicy(ActionRequest... authorizedActions) {
+			this.authorizedActions = new HashSet<ActionRequest>(
 					Arrays.asList(authorizedActions));
 		}
 
 		@Override
-		public PolicyDecision isAuthorized(IdentifierBundle whoToAuth,
-				RequestedAction whatToAuth) {
-			for (RequestedAction authorized : authorizedActions) {
+		public PolicyDecision decide(IdentifierBundle whoToAuth,
+				ActionRequest whatToAuth) {
+			for (ActionRequest authorized : authorizedActions) {
 				if (authorized.getClass().equals(whatToAuth.getClass())) {
-					return new BasicPolicyDecision(Authorization.AUTHORIZED,
+					return new BasicPolicyDecision(DecisionResult.AUTHORIZED,
 							"matched " + authorized.getClass().getSimpleName());
 				}
 
 			}
-			return new BasicPolicyDecision(Authorization.INCONCLUSIVE, "nope");
+			return new BasicPolicyDecision(DecisionResult.INCONCLUSIVE, "nope");
 		}
 
 	}

@@ -22,7 +22,7 @@ import org.apache.commons.logging.LogFactory;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleRequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleActionReqiest;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.responsevalues.ResponseValues;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.responsevalues.TemplateResponseValues;
@@ -72,7 +72,7 @@ public class PageController extends FreemarkerHttpServlet{
 
         AuthorizationRequest auth = AUTHORIZED;
         for( String uri : simplePremUris ){
-            auth = auth.and( new SimpleRequestedAction(uri) );
+            auth = auth.and( new SimpleActionReqiest(uri) );
         }
         return auth;
     }
@@ -138,7 +138,7 @@ public class PageController extends FreemarkerHttpServlet{
 
         //Add editing link for page if authorized
         Map<String,Object> pageMap = (Map<String, Object>) mapForTemplate.get("page");
-        if( PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.MANAGE_MENUS.ACTION) ){
+        if( PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.MANAGE_MENUS.actionRequest) ){
             String editPageUrl = UrlBuilder.getIndividualProfileUrl(pageUri, vreq);
             editPageUrl = UrlBuilder.addParams(editPageUrl, DisplayVocabulary.SWITCH_TO_DISPLAY_MODEL , "1");
             pageMap.put("URLToEditPage", editPageUrl);

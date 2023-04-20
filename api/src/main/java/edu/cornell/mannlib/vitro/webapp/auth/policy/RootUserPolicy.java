@@ -13,10 +13,10 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.IsRootUser;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.Authorization;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount.Status;
 import edu.cornell.mannlib.vitro.webapp.config.ConfigurationProperties;
@@ -50,13 +50,13 @@ public class RootUserPolicy implements PolicyIface {
 	 * This is the entire policy. If you are a root user, you are authorized.
 	 */
 	@Override
-	public PolicyDecision isAuthorized(IdentifierBundle whoToAuth,
-			RequestedAction whatToAuth) {
+	public PolicyDecision decide(IdentifierBundle whoToAuth,
+			ActionRequest whatToAuth) {
 		if (IsRootUser.isRootUser(whoToAuth)) {
-			return new BasicPolicyDecision(Authorization.AUTHORIZED,
+			return new BasicPolicyDecision(DecisionResult.AUTHORIZED,
 					"RootUserPolicy: approved");
 		} else {
-			return new BasicPolicyDecision(Authorization.INCONCLUSIVE,
+			return new BasicPolicyDecision(DecisionResult.INCONCLUSIVE,
 					"not root user");
 		}
 	}

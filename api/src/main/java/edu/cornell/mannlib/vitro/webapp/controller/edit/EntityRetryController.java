@@ -61,7 +61,7 @@ public class EntityRetryController extends BaseEditController {
 
     public void doPost (HttpServletRequest request, HttpServletResponse response) {
 		if (!isAuthorizedToDisplayPage(request, response,
-				SimplePermission.DO_BACK_END_EDITING.ACTION)) {
+				SimplePermission.DO_BACK_END_EDITING.actionRequest)) {
         	return;
         }
 

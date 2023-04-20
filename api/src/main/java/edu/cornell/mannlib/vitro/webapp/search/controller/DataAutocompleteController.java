@@ -59,7 +59,7 @@ public class DataAutocompleteController extends VitroAjaxController {
     @Override
     protected AuthorizationRequest requiredActions(VitroRequest vreq) {
     	//used to be basic vitro ajax permission but need to query full model
-    	return SimplePermission.QUERY_FULL_MODEL.ACTION;
+    	return SimplePermission.QUERY_FULL_MODEL.actionRequest;
     }
 
     @Override

@@ -25,7 +25,7 @@ import edu.cornell.mannlib.vitro.webapp.utils.JSPPageHandler;
 public class DataPropertyStatementListingController extends BaseEditController {
 
    public void doGet(HttpServletRequest request, HttpServletResponse response) {
-       if (!isAuthorizedToDisplayPage(request, response, SimplePermission.EDIT_ONTOLOGY.ACTION)) {
+       if (!isAuthorizedToDisplayPage(request, response, SimplePermission.EDIT_ONTOLOGY.actionRequest)) {
        	return;
        }
 

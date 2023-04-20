@@ -22,7 +22,7 @@ public class RevisionInfoController extends FreemarkerHttpServlet {
 	private static final long serialVersionUID = 1L;
     private static final String TEMPLATE_DEFAULT = "revisionInfo.ftl";
 
-    public static final AuthorizationRequest REQUIRED_ACTIONS = SimplePermission.SEE_REVISION_INFO.ACTION;
+    public static final AuthorizationRequest REQUIRED_ACTIONS = SimplePermission.SEE_REVISION_INFO.actionRequest;
 
     @Override
     protected AuthorizationRequest requiredActions(VitroRequest vreq) {

@@ -28,7 +28,7 @@ public class Properties2PropertiesOperationController extends
 	private static final boolean REMOVE = true;
 
     public void doPost(HttpServletRequest req, HttpServletResponse response) {
-        if (!isAuthorizedToDisplayPage(req, response, SimplePermission.EDIT_ONTOLOGY.ACTION)) {
+        if (!isAuthorizedToDisplayPage(req, response, SimplePermission.EDIT_ONTOLOGY.actionRequest)) {
         	return;
         }
 

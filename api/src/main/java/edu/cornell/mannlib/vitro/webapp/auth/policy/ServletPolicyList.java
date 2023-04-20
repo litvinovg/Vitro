@@ -33,8 +33,8 @@ public class ServletPolicyList {
 	 * Get a copy of the current list of policies. This method may return an
 	 * empty list, but it never returns null.
 	 */
-	public static PolicyList getPolicies(ServletContext sc) {
-		return new PolicyList(getPolicyList(sc));
+	public static PolicyDecisionPoint getPolicies(ServletContext sc) {
+		return new PolicyDecisionPoint(getPolicyList(sc));
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class ServletPolicyList {
 			return;
 		}
 
-		PolicyList policies = getPolicyList(sc);
+		PolicyDecisionPoint policies = getPolicyList(sc);
 		if (!policies.contains(policy)) {
 			policies.add(policy);
 			log.debug("Added policy: " + policy.toString());
@@ -63,7 +63,7 @@ public class ServletPolicyList {
 			return;
 		}
 
-		PolicyList policies = getPolicyList(sc);
+		PolicyDecisionPoint policies = getPolicyList(sc);
 		if (!policies.contains(policy)) {
 			policies.add(0, policy);
 			log.debug("Added policy at front: " + policy.toString());
@@ -82,7 +82,7 @@ public class ServletPolicyList {
 		}
 
 		Class<?> clzz = policy.getClass();
-		PolicyList policies = getPolicyList(sc);
+		PolicyDecisionPoint policies = getPolicyList(sc);
 		ListIterator<PolicyIface> it = policies.listIterator();
 		while (it.hasNext()) {
 			if (clzz.isAssignableFrom(it.next().getClass())) {
@@ -98,25 +98,25 @@ public class ServletPolicyList {
 	 * Get the current PolicyList from the context, or create one if there is
 	 * none. This method may return an empty list, but it never returns null.
 	 */
-	private static PolicyList getPolicyList(ServletContext ctx) {
+	private static PolicyDecisionPoint getPolicyList(ServletContext ctx) {
 		if (ctx == null) {
 			throw new NullPointerException("ctx may not be null.");
 		}
 
 		Object obj = ctx.getAttribute(ATTRIBUTE_POLICY_LIST);
 		if (obj == null) {
-			obj = new PolicyList();
+			obj = new PolicyDecisionPoint();
 			ctx.setAttribute(ATTRIBUTE_POLICY_LIST, obj);
 		}
 
-		if (!(obj instanceof PolicyList)) {
+		if (!(obj instanceof PolicyDecisionPoint)) {
 			throw new IllegalStateException("Expected to find an instance of "
-					+ PolicyList.class.getName()
+					+ PolicyDecisionPoint.class.getName()
 					+ " in the context, but found an instance of "
 					+ obj.getClass().getName() + " instead.");
 		}
 
-		return (PolicyList) obj;
+		return (PolicyDecisionPoint) obj;
 	}
 
 }

@@ -2,9 +2,9 @@
 
 package edu.cornell.mannlib.vitro.webapp.web.templatemodels.individual;
 
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction.SOME_LITERAL;
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction.SOME_PREDICATE;
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction.SOME_URI;
+import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest.SOME_LITERAL;
+import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest.SOME_PREDICATE;
+import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest.SOME_URI;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -130,7 +130,7 @@ public abstract class BaseIndividualTemplateModel extends BaseTemplateModel {
 
     public boolean getShowAdminPanel() {
 		return PolicyHelper.isAuthorizedForActions(vreq,
-				SimplePermission.SEE_INDVIDUAL_EDITING_PANEL.ACTION);
+				SimplePermission.SEE_INDVIDUAL_EDITING_PANEL.actionRequest);
     }
 
     /* rdfs:label needs special treatment, because it is not possible to construct a

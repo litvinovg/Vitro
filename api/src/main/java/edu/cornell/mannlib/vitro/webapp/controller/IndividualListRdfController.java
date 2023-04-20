@@ -24,7 +24,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.publish.PublishObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
 import edu.cornell.mannlib.vitro.webapp.controller.api.VitroApiServlet;
@@ -96,8 +96,8 @@ public class IndividualListRdfController extends VitroApiServlet {
 	private boolean isVclassRestricted(String vclassUri, HttpServletRequest req) {
 		ObjectProperty property = new ObjectProperty();
 		property.setURI(RDF_TYPE);
-		RequestedAction dops = new PublishObjectPropertyStatement(ModelAccess
-				.on(req).getOntModel(FULL_ASSERTIONS), RequestedAction.SOME_URI, property,
+		ActionRequest dops = new PublishObjectPropertyStatement(ModelAccess
+				.on(req).getOntModel(FULL_ASSERTIONS), ActionRequest.SOME_URI, property,
 				vclassUri);
 		return !PolicyHelper.isAuthorizedForActions(req, dops);
 	}

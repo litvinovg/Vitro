@@ -44,7 +44,7 @@ import edu.cornell.mannlib.vitro.webapp.utils.http.NotAcceptableException;
 @WebServlet(name = "SparqlQueryApi", urlPatterns = {"/api/sparqlQuery"})
 public class SparqlQueryApiController extends VitroApiServlet {
 
-	private static final AuthorizationRequest REQUIRED_ACTIONS = SimplePermission.USE_SPARQL_QUERY_API.ACTION;
+	private static final AuthorizationRequest REQUIRED_ACTIONS = SimplePermission.USE_SPARQL_QUERY_API.actionRequest;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)

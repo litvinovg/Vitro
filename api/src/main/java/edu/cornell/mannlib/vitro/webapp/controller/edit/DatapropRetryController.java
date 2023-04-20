@@ -43,7 +43,7 @@ public class DatapropRetryController extends BaseEditController {
 
     @Override
 	public void doPost (HttpServletRequest request, HttpServletResponse response) {
-        if (!isAuthorizedToDisplayPage(request, response, SimplePermission.EDIT_ONTOLOGY.ACTION)) {
+        if (!isAuthorizedToDisplayPage(request, response, SimplePermission.EDIT_ONTOLOGY.actionRequest)) {
         	return;
         }
 

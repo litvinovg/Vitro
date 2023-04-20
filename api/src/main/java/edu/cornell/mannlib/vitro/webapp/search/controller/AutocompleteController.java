@@ -64,7 +64,7 @@ public class AutocompleteController extends VitroAjaxController {
 
     @Override
     protected AuthorizationRequest requiredActions(VitroRequest vreq) {
-    	return SimplePermission.USE_BASIC_AJAX_CONTROLLERS.ACTION;
+    	return SimplePermission.USE_BASIC_AJAX_CONTROLLERS.actionRequest;
     }
 
     @Override

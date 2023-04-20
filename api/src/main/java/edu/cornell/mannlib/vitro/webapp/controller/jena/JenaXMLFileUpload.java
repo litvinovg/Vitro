@@ -111,7 +111,7 @@ public class JenaXMLFileUpload  extends JenaIngestController  {
         }
 
 		if (!isAuthorizedToDisplayPage(request, resp,
-				SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.ACTION)) {
+				SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.actionRequest)) {
         	return;
         }
 
@@ -161,7 +161,7 @@ public class JenaXMLFileUpload  extends JenaIngestController  {
 	public void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		if (!isAuthorizedToDisplayPage(request, response,
-				SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.ACTION)) {
+				SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.actionRequest)) {
         	return;
         }
 

@@ -27,7 +27,7 @@ public class AllClassGroupsListingController extends BaseEditController {
 
     @Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) {
-    	if (!isAuthorizedToDisplayPage(request, response, SimplePermission.EDIT_ONTOLOGY.ACTION)) {
+    	if (!isAuthorizedToDisplayPage(request, response, SimplePermission.EDIT_ONTOLOGY.actionRequest)) {
     		return;
     	}
 

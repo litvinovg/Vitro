@@ -2,7 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.dao.filtering.filters;
 
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction.SOME_URI;
+import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest.SOME_URI;
 
 import javax.servlet.ServletContext;
 
@@ -17,7 +17,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.Permission;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.PermissionRegistry;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataProperty;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectProperty;
@@ -75,7 +75,7 @@ public class FilterByDisplayPermission extends VitroFiltersImpl {
 		setObjectPropertyStatementFilter(new ObjectPropertyStatementFilterByPolicy());
 	}
 
-	boolean checkAuthorization(RequestedAction whatToAuth) {
+	boolean checkAuthorization(ActionRequest whatToAuth) {
 		boolean decision = permission.isAuthorized(new ArrayList<String>(), whatToAuth);
 		log.debug("decision is " + decision);
 		return decision;

@@ -25,7 +25,7 @@ public class VClassWebappWithInstancesListingController extends BaseEditControll
     private int NUM_COLS = 6;
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
-        if (!isAuthorizedToDisplayPage(request, response, SimplePermission.EDIT_ONTOLOGY.ACTION)) {
+        if (!isAuthorizedToDisplayPage(request, response, SimplePermission.EDIT_ONTOLOGY.actionRequest)) {
         	return;
         }
 

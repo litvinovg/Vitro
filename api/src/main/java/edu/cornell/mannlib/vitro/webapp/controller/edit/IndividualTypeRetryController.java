@@ -35,7 +35,7 @@ public class IndividualTypeRetryController extends BaseEditController {
 
 	public void doGet (HttpServletRequest request, HttpServletResponse response) {
 		if (!isAuthorizedToDisplayPage(request, response,
-				SimplePermission.DO_BACK_END_EDITING.ACTION)) {
+				SimplePermission.DO_BACK_END_EDITING.actionRequest)) {
         	return;
         }
 

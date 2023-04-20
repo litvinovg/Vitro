@@ -2,7 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.permissions;
 
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public abstract class Permission implements Comparable<Permission> {
 	 * @param personUris Any Uris of people in the data that are associated with this user. May be null / empty.
 	 * @param whatToAuth The action to authorise
 	 */
-	public abstract boolean isAuthorized(List<String> personUris, RequestedAction whatToAuth);
+	public abstract boolean isAuthorized(List<String> personUris, ActionRequest whatToAuth);
 
 	@Override
 	public int compareTo(Permission that) {

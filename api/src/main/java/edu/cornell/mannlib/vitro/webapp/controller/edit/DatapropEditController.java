@@ -37,7 +37,7 @@ public class DatapropEditController extends BaseEditController {
 	private static final Log log = LogFactory.getLog(DatapropEditController.class.getName());
 
     public void doPost (HttpServletRequest request, HttpServletResponse response) {
-        if (!isAuthorizedToDisplayPage(request, response, SimplePermission.EDIT_ONTOLOGY.ACTION)) {
+        if (!isAuthorizedToDisplayPage(request, response, SimplePermission.EDIT_ONTOLOGY.actionRequest)) {
         	return;
         }
 

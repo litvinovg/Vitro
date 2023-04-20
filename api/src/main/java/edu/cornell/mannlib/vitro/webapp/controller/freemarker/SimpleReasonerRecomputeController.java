@@ -30,7 +30,7 @@ public class SimpleReasonerRecomputeController extends FreemarkerHttpServlet {
 
     @Override
 	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
-    	return SimplePermission.USE_MISCELLANEOUS_ADMIN_PAGES.ACTION;
+    	return SimplePermission.USE_MISCELLANEOUS_ADMIN_PAGES.actionRequest;
 	}
 
 	protected ResponseValues processRequest(VitroRequest vreq) {

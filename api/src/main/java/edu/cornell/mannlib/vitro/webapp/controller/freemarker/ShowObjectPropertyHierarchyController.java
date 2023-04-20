@@ -50,7 +50,7 @@ public class ShowObjectPropertyHierarchyController extends FreemarkerHttpServlet
 
     @Override
 	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
-		return SimplePermission.EDIT_ONTOLOGY.ACTION;
+		return SimplePermission.EDIT_ONTOLOGY.actionRequest;
 	}
 
     @Override

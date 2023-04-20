@@ -25,7 +25,7 @@ import javax.servlet.annotation.WebServlet;
 public class ShowConfiguration extends FreemarkerHttpServlet {
 	@Override
 	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
-		return SimplePermission.SEE_CONFIGURATION.ACTION;
+		return SimplePermission.SEE_CONFIGURATION.actionRequest;
 	}
 
 	@Override

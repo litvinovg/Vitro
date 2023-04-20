@@ -204,7 +204,7 @@ public class UserAccountsMyAccountPage extends UserAccountsPage {
 
 	boolean isProxyPanelAuthorized() {
 		return PolicyHelper.isAuthorizedForActions(vreq,
-				SimplePermission.MANAGE_OWN_PROXIES.ACTION)
+				SimplePermission.MANAGE_OWN_PROXIES.actionRequest)
 				&& (getProfilePage(userAccount) != null);
 	}
 

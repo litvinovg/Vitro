@@ -72,7 +72,7 @@ public class RDFUploadController extends JenaIngestController {
 	public void doPost(HttpServletRequest req,
             HttpServletResponse response) throws ServletException, IOException {
 		if (!isAuthorizedToDisplayPage(req, response,
-				SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.ACTION)) {
+				SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.actionRequest)) {
             return;
         }
 
