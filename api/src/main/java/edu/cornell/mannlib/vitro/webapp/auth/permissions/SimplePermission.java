@@ -23,7 +23,7 @@ public class SimplePermission extends Permission {
 	private static final String NAMESPACE = "java:"
 			+ SimplePermission.class.getName() + "#";
 
-	private static final Map<String, SimplePermission> allInstances = new HashMap<String, SimplePermission>();
+	private static final Map<String, SimplePermission> simplePermissions = new HashMap<String, SimplePermission>();
 
 	public static final SimplePermission ACCESS_SPECIAL_DATA_MODELS = new SimplePermission(
 		NAMESPACE + "AccessSpecialDataModels");
@@ -112,7 +112,7 @@ public class SimplePermission extends Permission {
 
 
 	public static List<SimplePermission> getAllInstances() {
-		return new ArrayList<SimplePermission>(allInstances.values());
+		return new ArrayList<SimplePermission>(simplePermissions.values());
 	}
 
 	public final ActionRequest actionRequest;
@@ -126,11 +126,11 @@ public class SimplePermission extends Permission {
 
 		this.actionRequest = new SimpleActionReqiest(uri);
 
-		if (allInstances.containsKey(this.uri)) {
+		if (simplePermissions.containsKey(this.uri)) {
 			throw new IllegalStateException("A SimplePermission named '"
 					+ this.uri + "' already exists.");
 		}
-		allInstances.put(uri, this);
+		simplePermissions.put(uri, this);
 	}
 
 	@Override

@@ -15,7 +15,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.ArrayIdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
-import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.HasPermission;
+import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.IdentifierPermissionProvider;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.Permission;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.PermissionRegistry;
 import edu.cornell.mannlib.vitro.webapp.beans.PermissionSet;
@@ -79,11 +79,11 @@ public class HasPermissionFactory extends BaseUserBasedIdentifierBundleFactory {
 		return permissions;
 	}
 
-	private List<HasPermission> getIdentifiersFromPermissions(
+	private List<IdentifierPermissionProvider> getIdentifiersFromPermissions(
 			Collection<Permission> permissions) {
-		List<HasPermission> ids = new ArrayList<HasPermission>();
+		List<IdentifierPermissionProvider> ids = new ArrayList<IdentifierPermissionProvider>();
 		for (Permission permission : permissions) {
-			ids.add(new HasPermission(permission));
+			ids.add(new IdentifierPermissionProvider(permission));
 		}
 		return ids;
 	}
