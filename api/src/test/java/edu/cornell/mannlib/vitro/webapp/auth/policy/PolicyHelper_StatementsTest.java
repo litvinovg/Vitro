@@ -51,11 +51,12 @@ public class PolicyHelper_StatementsTest extends AbstractTestClass {
 
 		req = new HttpServletRequestStub();
 		req.setSession(session);
+        PolicyStore.getInstance().clear();
 
 		ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
 
-		setLoggerLevel(ServletPolicyList.class, Level.WARN);
-		ServletPolicyList.addPolicy(ctx, new MySimplePolicy());
+		setLoggerLevel(PolicyStore.class, Level.WARN);
+		PolicyStore.addPolicy(new MySimplePolicy());
 	}
 
 	// ----------------------------------------------------------------------

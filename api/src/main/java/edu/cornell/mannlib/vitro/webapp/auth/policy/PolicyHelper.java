@@ -63,7 +63,7 @@ public class PolicyHelper {
 	 */
 	private static boolean isAuthorizedForActions(HttpServletRequest req,
 			AuthorizationRequest ar) {
-		PolicyIface policy = ServletPolicyList.getPolicies(req);
+		PolicyIface policy = PolicyStore.getInstance().copy();
 		IdentifierBundle ids = RequestIdentifiers.getIdBundleForRequest(req);
 		return ar.isAuthorized(ids, policy);
 	}
@@ -113,7 +113,7 @@ public class PolicyHelper {
 			// figure out if that account can do the actions
 			IdentifierBundle ids = ActiveIdentifierBundleFactories
 					.getUserIdentifierBundle(req, user);
-			PolicyIface policies = ServletPolicyList.getPolicies(req);
+			PolicyIface policies = PolicyStore.getInstance().copy();
 			return ar.isAuthorized(ids, policies);
 		} catch (Exception ex) {
 			log.error("Error while attempting to authorize actions " + ar, ex);

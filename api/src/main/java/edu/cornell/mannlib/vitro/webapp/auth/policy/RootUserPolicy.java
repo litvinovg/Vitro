@@ -107,7 +107,7 @@ public class RootUserPolicy implements PolicyIface {
 					}
 				}
 
-				ServletPolicyList.addPolicy(ctx, new RootUserPolicy());
+				PolicyStore.addPolicy(new RootUserPolicy());
 			} catch (Exception e) {
 				ss.fatal(this, "Failed to set up the RootUserPolicy", e);
 			}

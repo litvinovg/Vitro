@@ -76,12 +76,14 @@ public class PolicyHelper_ModelsTest extends AbstractTestClass {
 
 		session = new HttpSessionStub();
 		session.setServletContext(ctx);
+        PolicyStore.getInstance().clear();
+
 
 		req = new HttpServletRequestStub();
 		req.setSession(session);
 
-		setLoggerLevel(ServletPolicyList.class, Level.WARN);
-		ServletPolicyList.addPolicy(ctx, new MySimplePolicy());
+		setLoggerLevel(PolicyStore.class, Level.WARN);
+		PolicyStore.addPolicy(new MySimplePolicy());
 
 //		setLoggerLevel(PolicyHelper.class, Level.DEBUG);
 	}

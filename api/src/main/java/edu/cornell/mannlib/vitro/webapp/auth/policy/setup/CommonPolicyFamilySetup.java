@@ -15,7 +15,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.factory.HasProxyEditingR
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.factory.IsRootUserFactory;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.factory.IsUserFactory;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PermissionsPolicy;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ServletPolicyList;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyStore;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
 import edu.cornell.mannlib.vitro.webapp.startup.StartupStatus;
 
@@ -30,7 +30,7 @@ public class CommonPolicyFamilySetup implements ServletContextListener {
 		StartupStatus ss = StartupStatus.getBean(ctx);
 
 		try {
-			policy(ctx, new PermissionsPolicy());
+			policy(new PermissionsPolicy());
 
 			factory(ctx, new IsUserFactory(ctx));
 			factory(ctx, new IsRootUserFactory(ctx));
@@ -43,8 +43,8 @@ public class CommonPolicyFamilySetup implements ServletContextListener {
 		}
 	}
 
-	private void policy(ServletContext ctx, PolicyIface policy) {
-		ServletPolicyList.addPolicy(ctx, policy);
+	private void policy(PolicyIface policy) {
+		PolicyStore.addPolicy(policy);
 	}
 
 	private void factory(ServletContext ctx, IdentifierBundleFactory factory) {

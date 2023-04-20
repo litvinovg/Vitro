@@ -22,7 +22,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.RequestIdentifiers;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.HasAssociatedIndividual;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ServletPolicyList;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyStore;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditObjectPropertyStatement;
@@ -54,7 +54,7 @@ public class ShowAuthController extends FreemarkerHttpServlet {
 		body.put("currentUser", LoginStatusBean.getCurrentUser(vreq));
 		body.put("associatedIndividuals", getAssociatedIndividuals(vreq));
 		body.put("factories", getIdentifierFactoryNames(vreq));
-		body.put("policies", ServletPolicyList.getPolicies(vreq));
+		body.put("policies", PolicyStore.getInstance().copy());
 		body.put("matchingProperty", getMatchingProperty(vreq));
 		body.put("authenticator", Authenticator.getInstance(vreq));
 

@@ -23,7 +23,7 @@ import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.Dataset;
 
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.RequestIdentifiers;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ServletPolicyList;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyStore;
 import edu.cornell.mannlib.vitro.webapp.config.ConfigurationProperties;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.dao.WebappDaoFactory;
@@ -341,7 +341,7 @@ public class RequestModelAccessImpl implements RequestModelAccess {
 	private WebappDaoFactory addPolicyAwareness(WebappDaoFactory unaware) {
 		HideFromDisplayByPolicyFilter filter = new HideFromDisplayByPolicyFilter(
 				RequestIdentifiers.getIdBundleForRequest(req),
-				ServletPolicyList.getPolicies(ctx));
+				PolicyStore.getInstance().copy());
 		return new WebappDaoFactoryFiltering(unaware, filter);
 	}
 
