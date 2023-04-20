@@ -21,10 +21,10 @@ import org.apache.jena.rdf.model.Statement;
 
 import edu.cornell.mannlib.vitro.testing.AbstractTestClass;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.Authorization;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractDataPropertyStatementAction;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractObjectPropertyStatementAction;
 
@@ -196,8 +196,8 @@ public class PolicyHelper_StatementsTest extends AbstractTestClass {
 
 	private static class MySimplePolicy implements PolicyIface {
 		@Override
-		public PolicyDecision isAuthorized(IdentifierBundle whoToAuth,
-				RequestedAction whatToAuth) {
+		public PolicyDecision decide(IdentifierBundle whoToAuth,
+				ActionRequest whatToAuth) {
 			if (whatToAuth instanceof AbstractDataPropertyStatementAction) {
 				return isAuthorized((AbstractDataPropertyStatementAction) whatToAuth);
 			} else if (whatToAuth instanceof AbstractObjectPropertyStatementAction) {
@@ -231,11 +231,11 @@ public class PolicyHelper_StatementsTest extends AbstractTestClass {
 		}
 
 		private PolicyDecision authorized() {
-			return new BasicPolicyDecision(Authorization.AUTHORIZED, "");
+			return new BasicPolicyDecision(DecisionResult.AUTHORIZED, "");
 		}
 
 		private PolicyDecision inconclusive() {
-			return new BasicPolicyDecision(Authorization.INCONCLUSIVE, "");
+			return new BasicPolicyDecision(DecisionResult.INCONCLUSIVE, "");
 		}
 	}
 

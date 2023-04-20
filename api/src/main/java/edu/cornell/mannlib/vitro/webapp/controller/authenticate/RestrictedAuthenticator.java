@@ -54,7 +54,7 @@ public class RestrictedAuthenticator extends Authenticator {
 
 		return PolicyHelper.isAuthorizedForActions(ids,
 				ServletPolicyList.getPolicies(req),
-				SimplePermission.LOGIN_DURING_MAINTENANCE.ACTION);
+				SimplePermission.LOGIN_DURING_MAINTENANCE.actionRequest);
 	}
 
 	@Override

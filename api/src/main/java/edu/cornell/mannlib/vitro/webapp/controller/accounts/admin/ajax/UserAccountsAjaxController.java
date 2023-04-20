@@ -28,7 +28,7 @@ public class UserAccountsAjaxController extends VitroAjaxController {
 
 	@Override
 	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
-		return SimplePermission.MANAGE_USER_ACCOUNTS.ACTION;
+		return SimplePermission.MANAGE_USER_ACCOUNTS.actionRequest;
 	}
 
 	@Override

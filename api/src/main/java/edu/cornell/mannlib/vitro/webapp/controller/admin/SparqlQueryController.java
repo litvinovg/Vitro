@@ -97,7 +97,7 @@ public class SparqlQueryController extends FreemarkerHttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
 		if (!isAuthorizedToDisplayPage(req, resp,
-				SimplePermission.USE_SPARQL_QUERY_PAGE.ACTION)) {
+				SimplePermission.USE_SPARQL_QUERY_PAGE.actionRequest)) {
 			return;
 		}
 		resp.addHeader("X-XSS-Protection", "0");

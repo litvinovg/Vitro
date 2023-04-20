@@ -3,7 +3,7 @@
 package edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces;
 
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 
 /**
  * Represents the process of mapping an identifier that represents a user or
@@ -14,6 +14,6 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
  *
  */
 public interface PolicyIface  {
-    public PolicyDecision isAuthorized(IdentifierBundle whoToAuth, RequestedAction whatToAuth);
+    public PolicyDecision decide(IdentifierBundle whoToAuth, ActionRequest whatToAuth);
 
 }

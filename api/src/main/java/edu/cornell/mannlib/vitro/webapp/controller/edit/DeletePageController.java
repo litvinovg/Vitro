@@ -41,7 +41,7 @@ public class DeletePageController extends VitroHttpServlet {
     @Override
     protected void doPost(HttpServletRequest rawRequest, HttpServletResponse resp)
             throws ServletException, IOException {
-    	if (!isAuthorizedToDisplayPage(rawRequest, resp, SimplePermission.MANAGE_MENUS.ACTION)) {
+    	if (!isAuthorizedToDisplayPage(rawRequest, resp, SimplePermission.MANAGE_MENUS.actionRequest)) {
     		return;
     	}
     	removeStatements = ModelFactory.createDefaultModel();

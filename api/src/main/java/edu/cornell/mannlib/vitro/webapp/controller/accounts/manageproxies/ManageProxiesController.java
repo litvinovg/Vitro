@@ -30,7 +30,7 @@ public class ManageProxiesController extends FreemarkerHttpServlet {
 
 	@Override
 	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
-		return SimplePermission.MANAGE_PROXIES.ACTION;
+		return SimplePermission.MANAGE_PROXIES.actionRequest;
 	}
 
 	@Override

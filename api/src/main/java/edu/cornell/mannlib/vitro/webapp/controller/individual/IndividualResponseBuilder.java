@@ -211,7 +211,7 @@ class IndividualResponseBuilder {
     private Map<String, Object> getVerbosePropertyValues() {
         Map<String, Object> map = null;
 
-        if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.SEE_VERBOSE_PROPERTY_INFORMATION.ACTION)) {
+        if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.SEE_VERBOSE_PROPERTY_INFORMATION.actionRequest)) {
             // Get current verbose property display value
             String verbose = vreq.getParameter("verbose");
             Boolean verboseValue;

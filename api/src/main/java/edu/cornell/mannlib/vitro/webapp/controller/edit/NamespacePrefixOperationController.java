@@ -35,7 +35,7 @@ public class NamespacePrefixOperationController extends BaseEditController {
 
     public void doPost(HttpServletRequest req, HttpServletResponse response) {
 		if (!isAuthorizedToDisplayPage(req, response,
-				SimplePermission.USE_MISCELLANEOUS_ADMIN_PAGES.ACTION)) {
+				SimplePermission.USE_MISCELLANEOUS_ADMIN_PAGES.actionRequest)) {
         	return;
         }
 

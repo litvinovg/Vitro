@@ -2,7 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.requestedAction.publish;
 
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction.SOME_URI;
+import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest.SOME_URI;
 
 import org.apache.jena.ontology.OntModel;
 

@@ -40,10 +40,10 @@ import edu.cornell.mannlib.vitro.testing.AbstractTestClass;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.BasicPolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ServletPolicyList;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.Authorization;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.publish.PublishDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.publish.PublishObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
@@ -432,8 +432,8 @@ public class IndividualRdfAssemblerTest extends AbstractTestClass {
 
 	private abstract static class AbstractTestPolicy implements PolicyIface {
 		@Override
-		public PolicyDecision isAuthorized(IdentifierBundle whoToAuth,
-				RequestedAction whatToAuth) {
+		public PolicyDecision decide(IdentifierBundle whoToAuth,
+				ActionRequest whatToAuth) {
 			if (whatToAuth instanceof PublishDataPropertyStatement) {
 				return filterDataProperty((PublishDataPropertyStatement) whatToAuth);
 			} else if (whatToAuth instanceof PublishObjectPropertyStatement) {
@@ -462,11 +462,11 @@ public class IndividualRdfAssemblerTest extends AbstractTestClass {
 				String classUri);
 
 		protected BasicPolicyDecision authorized(String message) {
-			return new BasicPolicyDecision(Authorization.AUTHORIZED, message);
+			return new BasicPolicyDecision(DecisionResult.AUTHORIZED, message);
 		}
 
 		protected BasicPolicyDecision inconclusive(String message) {
-			return new BasicPolicyDecision(Authorization.INCONCLUSIVE, message);
+			return new BasicPolicyDecision(DecisionResult.INCONCLUSIVE, message);
 		}
 	}
 

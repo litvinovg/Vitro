@@ -36,7 +36,7 @@ public class RestrictLoginsController extends FreemarkerHttpServlet {
 
 	@Override
 	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
-		return SimplePermission.LOGIN_DURING_MAINTENANCE.ACTION;
+		return SimplePermission.LOGIN_DURING_MAINTENANCE.actionRequest;
 	}
 
 	@Override

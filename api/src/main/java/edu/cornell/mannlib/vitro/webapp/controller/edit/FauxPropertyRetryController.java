@@ -54,7 +54,7 @@ public class FauxPropertyRetryController extends BaseEditController {
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse response) {
 		if (!isAuthorizedToDisplayPage(req, response,
-				SimplePermission.EDIT_ONTOLOGY.ACTION)) {
+				SimplePermission.EDIT_ONTOLOGY.actionRequest)) {
 			return;
 		}
 

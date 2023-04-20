@@ -8,7 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.jena.rdf.model.Literal;
 
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatementImpl;
@@ -63,7 +63,7 @@ public class NameStatementTemplateModel extends PropertyStatementTemplateModel {
 	private String makeEditUrl(Literal literal) {
         // Determine whether the statement can be edited
         DataPropertyStatement dps = makeStatement(literal);
-        RequestedAction action = new EditDataPropertyStatement(vreq.getJenaOntModel(), dps);
+        ActionRequest action = new EditDataPropertyStatement(vreq.getJenaOntModel(), dps);
         if ( ! PolicyHelper.isAuthorizedForActions(vreq, action) ) {
             return "";
         }

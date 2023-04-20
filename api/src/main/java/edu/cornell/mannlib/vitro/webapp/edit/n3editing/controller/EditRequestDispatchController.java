@@ -20,7 +20,7 @@ import org.apache.jena.vocabulary.RDFS;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditDataPropertyStatement;
@@ -75,7 +75,7 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
 	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
 
 		if (isIndividualDeletion(vreq)) {
-			return SimplePermission.DO_BACK_END_EDITING.ACTION;
+			return SimplePermission.DO_BACK_END_EDITING.actionRequest;
 		}
 		// Check if this statement can be edited here and return unauthorized if not
 		String subjectUri = EditConfigurationUtils.getSubjectUri(vreq);
@@ -94,7 +94,7 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
 		OntModel ontModel = ModelAccess.on(vreq).getOntModel();
 		AbstractObjectPropertyStatementAction objectPropertyAction;
 		if (StringUtils.isBlank(objectUri)) {
-			objectPropertyAction = new AddObjectPropertyStatement(ontModel, subjectUri, predicateProp, RequestedAction.SOME_URI);
+			objectPropertyAction = new AddObjectPropertyStatement(ontModel, subjectUri, predicateProp, ActionRequest.SOME_URI);
 		} else {
 			if (isDeleteForm(vreq)) {
 				objectPropertyAction = new DropObjectPropertyStatement(ontModel, subjectUri, predicateProp, objectUri);
@@ -108,12 +108,12 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
 		if (!isAuthorized) {
 			// If request is for new individual, return simple do back end editing action permission
 			if (StringUtils.isNotEmpty(EditConfigurationUtils.getTypeOfNew(vreq))) {
-				return SimplePermission.DO_BACK_END_EDITING.ACTION;
+				return SimplePermission.DO_BACK_END_EDITING.actionRequest;
 			} else if (MANAGE_MENUS_FORM.equals(vreq.getParameter("editForm"))) {
-				return SimplePermission.MANAGE_MENUS.ACTION;
+				return SimplePermission.MANAGE_MENUS.actionRequest;
 			}
 		}
-		return isAuthorized? SimplePermission.DO_FRONT_END_EDITING.ACTION: AuthorizationRequest.UNAUTHORIZED;
+		return isAuthorized? SimplePermission.DO_FRONT_END_EDITING.actionRequest: AuthorizationRequest.UNAUTHORIZED;
 	}
 	
     public static String getFauxConfigUri(VitroRequest vreq) {

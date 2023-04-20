@@ -27,7 +27,7 @@ public class Properties2PropertiesRetryController extends BaseEditController {
 	private static final Log log = LogFactory.getLog(Properties2PropertiesRetryController.class.getName());
 
     public void doGet (HttpServletRequest req, HttpServletResponse response) {
-        if (!isAuthorizedToDisplayPage(req, response, SimplePermission.EDIT_ONTOLOGY.ACTION)) {
+        if (!isAuthorizedToDisplayPage(req, response, SimplePermission.EDIT_ONTOLOGY.actionRequest)) {
         	return;
         }
 

@@ -32,7 +32,7 @@ public class OntologyEditController extends BaseEditController {
 
     @Override
 	public void doPost (HttpServletRequest req, HttpServletResponse response) {
-        if (!isAuthorizedToDisplayPage(req, response, SimplePermission.EDIT_ONTOLOGY.ACTION)) {
+        if (!isAuthorizedToDisplayPage(req, response, SimplePermission.EDIT_ONTOLOGY.actionRequest)) {
         	return;
         }
 

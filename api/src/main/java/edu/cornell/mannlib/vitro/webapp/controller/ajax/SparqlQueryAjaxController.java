@@ -46,9 +46,9 @@ public class SparqlQueryAjaxController extends VitroAjaxController {
 	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
 		String modelParam = getModelParam(vreq);
 		if (OPTION_MODEL_USER_ACCOUNTS.equals(modelParam)) {
-			return SimplePermission.QUERY_USER_ACCOUNTS_MODEL.ACTION;
+			return SimplePermission.QUERY_USER_ACCOUNTS_MODEL.actionRequest;
 		} else {
-			return SimplePermission.QUERY_FULL_MODEL.ACTION;
+			return SimplePermission.QUERY_FULL_MODEL.actionRequest;
 		}
 	}
 

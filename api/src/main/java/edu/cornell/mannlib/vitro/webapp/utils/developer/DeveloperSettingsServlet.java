@@ -90,7 +90,7 @@ public class DeveloperSettingsServlet extends VitroAjaxController {
 		boolean authBySetting = DeveloperSettings.getInstance().getBoolean(
 				PERMIT_ANONYMOUS_CONTROL);
 		boolean authByPolicy = PolicyHelper.isAuthorizedForActions(vreq,
-				SimplePermission.ENABLE_DEVELOPER_PANEL.ACTION);
+				SimplePermission.ENABLE_DEVELOPER_PANEL.actionRequest);
 		return authBySetting || authByPolicy;
 	}
 }

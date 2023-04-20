@@ -2,7 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.permissions;
 
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractDataPropertyStatementAction;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractObjectPropertyStatementAction;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractPropertyStatementAction;
@@ -34,7 +34,7 @@ public class EntityUpdatePermission extends EntityPermission {
     }
 
     @Override
-    public boolean isAuthorized(List<String> personUris, RequestedAction whatToAuth) {
+    public boolean isAuthorized(List<String> personUris, ActionRequest whatToAuth) {
         boolean isAuthorized = false;
 
         if (whatToAuth instanceof AbstractDataPropertyStatementAction) {

@@ -153,7 +153,7 @@ public class LoginRedirector {
 
 	private boolean canSeeSiteAdminPage() {
 		return PolicyHelper.isAuthorizedForActions(request,
-				SimplePermission.SEE_SITE_ADMIN_PAGE.ACTION);
+				SimplePermission.SEE_SITE_ADMIN_PAGE.actionRequest);
 	}
 
 	private boolean isLoginPage(String page) {

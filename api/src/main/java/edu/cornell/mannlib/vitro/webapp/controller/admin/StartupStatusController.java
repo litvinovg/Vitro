@@ -24,7 +24,7 @@ public class StartupStatusController extends FreemarkerHttpServlet {
 
 	@Override
 	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
-		return SimplePermission.SEE_STARTUP_STATUS.ACTION;
+		return SimplePermission.SEE_STARTUP_STATUS.actionRequest;
 	}
 
 	@Override

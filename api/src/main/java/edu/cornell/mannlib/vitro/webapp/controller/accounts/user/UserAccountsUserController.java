@@ -42,7 +42,7 @@ public class UserAccountsUserController extends FreemarkerHttpServlet {
 		String action = vreq.getPathInfo();
 
 		if (ACTION_MY_ACCOUNT.equals(action)) {
-			return SimplePermission.EDIT_OWN_ACCOUNT.ACTION;
+			return SimplePermission.EDIT_OWN_ACCOUNT.actionRequest;
 		} else {
 			return AUTHORIZED;
 		}

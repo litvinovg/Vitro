@@ -33,7 +33,7 @@ public class GetClazzDataProperties extends BaseEditController {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		if (!isAuthorizedToDisplayPage(request, response,
-				SimplePermission.USE_MISCELLANEOUS_PAGES.ACTION)) {
+				SimplePermission.USE_MISCELLANEOUS_PAGES.actionRequest)) {
         	return;
 		}
 

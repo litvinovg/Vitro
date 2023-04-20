@@ -3,8 +3,8 @@
 package edu.cornell.mannlib.vitro.webapp.controller.admin;
 
 import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest.AUTHORIZED;
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction.SOME_PREDICATE;
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction.SOME_URI;
+import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest.SOME_PREDICATE;
+import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest.SOME_URI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +24,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.HasAssociatedIndi
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ServletPolicyList;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.config.ConfigurationProperties;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
@@ -94,7 +94,7 @@ public class ShowAuthController extends FreemarkerHttpServlet {
 	 * this individual?
 	 */
 	private boolean mayEditIndividual(VitroRequest vreq, String individualUri) {
-		RequestedAction action = new EditObjectPropertyStatement(
+		ActionRequest action = new EditObjectPropertyStatement(
 				vreq.getJenaOntModel(), individualUri,
 				SOME_PREDICATE, SOME_URI);
 		return PolicyHelper.isAuthorizedForActions(vreq, action);

@@ -30,7 +30,7 @@ import org.apache.tika.mime.MimeTypes;
 
 import edu.cornell.mannlib.vitro.webapp.application.ApplicationUtils;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
@@ -86,13 +86,13 @@ public class FileUploadController extends FreemarkerHttpServlet {
 
 	@Override
 	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
-		RequestedAction ra;
+		ActionRequest ra;
 		try {
 			Property predicate = new Property(getPredicateUri(vreq));
 			final OntModel jenaOntModel = vreq.getJenaOntModel();
 			final String subject = getSubjectUri(vreq);
 			if (isUpload(vreq)) {
-				ra = new AddObjectPropertyStatement(jenaOntModel, subject, predicate,RequestedAction.SOME_URI);
+				ra = new AddObjectPropertyStatement(jenaOntModel, subject, predicate,ActionRequest.SOME_URI);
 			} else { // delete
 				ra = new DropObjectPropertyStatement(jenaOntModel, subject, predicate, getFileUri(vreq));
 			}

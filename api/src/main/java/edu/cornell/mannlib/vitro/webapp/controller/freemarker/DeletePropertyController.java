@@ -40,7 +40,7 @@ public class DeletePropertyController extends FreemarkerHttpServlet {
 
     @Override
 	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
-    	return SimplePermission.DO_FRONT_END_EDITING.ACTION ;
+    	return SimplePermission.DO_FRONT_END_EDITING.actionRequest ;
 	}
 
     @Override

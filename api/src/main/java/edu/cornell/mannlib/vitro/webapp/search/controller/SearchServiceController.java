@@ -101,7 +101,7 @@ public class SearchServiceController extends FreemarkerHttpServlet {
 		}
 		// For other functions, your credentials must have moxie.
 		if (PolicyHelper.isAuthorizedForActions(vreq, email, pw,
-				SimplePermission.MANAGE_SEARCH_INDEX.ACTION)) {
+				SimplePermission.MANAGE_SEARCH_INDEX.actionRequest)) {
 			return;
 		}
 		// Otherwise, you can't do this.

@@ -59,7 +59,7 @@ public class SparqlUpdateApiController extends VitroApiServlet {
 	private static final Log log = LogFactory
 			.getLog(SparqlUpdateApiController.class);
 
-	private static final AuthorizationRequest REQUIRED_ACTIONS = SimplePermission.USE_SPARQL_UPDATE_API.ACTION;
+	private static final AuthorizationRequest REQUIRED_ACTIONS = SimplePermission.USE_SPARQL_UPDATE_API.actionRequest;
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)

@@ -33,10 +33,10 @@ import org.apache.jena.util.iterator.NiceIterator;
 
 import edu.cornell.mannlib.vitro.testing.AbstractTestClass;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.Authorization;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractPropertyStatementAction;
 
 /**
@@ -326,8 +326,8 @@ public class PolicyHelper_ModelsTest extends AbstractTestClass {
 	 */
 	private class MySimplePolicy implements PolicyIface {
 		@Override
-		public PolicyDecision isAuthorized(IdentifierBundle whoToAuth,
-				RequestedAction whatToAuth) {
+		public PolicyDecision decide(IdentifierBundle whoToAuth,
+				ActionRequest whatToAuth) {
 			if (!(whatToAuth instanceof AbstractPropertyStatementAction)) {
 				return inconclusive();
 			}
@@ -359,11 +359,11 @@ public class PolicyHelper_ModelsTest extends AbstractTestClass {
 		}
 
 		private PolicyDecision authorized() {
-			return new BasicPolicyDecision(Authorization.AUTHORIZED, "");
+			return new BasicPolicyDecision(DecisionResult.AUTHORIZED, "");
 		}
 
 		private PolicyDecision inconclusive() {
-			return new BasicPolicyDecision(Authorization.INCONCLUSIVE, "");
+			return new BasicPolicyDecision(DecisionResult.INCONCLUSIVE, "");
 		}
 	}
 

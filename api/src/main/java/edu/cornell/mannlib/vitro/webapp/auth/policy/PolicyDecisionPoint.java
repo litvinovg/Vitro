@@ -9,10 +9,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.Authorization;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 
 /**
  * This is a List of Policy Objects that implements PolciyIface.  The intent
@@ -23,31 +23,31 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
  *  or null decisions will be ignored and the next policy on the list will
  *  be queried.
  */
-public class PolicyList extends ArrayList<PolicyIface> implements PolicyIface{
-    private static final Log log = LogFactory.getLog(PolicyList.class.getName());
+public class PolicyDecisionPoint extends ArrayList<PolicyIface> implements PolicyIface{
+    private static final Log log = LogFactory.getLog(PolicyDecisionPoint.class.getName());
 
-    public PolicyList(){
+    public PolicyDecisionPoint(){
         super();
     }
 
-	public PolicyList(Collection<PolicyIface> policies) {
+	public PolicyDecisionPoint(Collection<PolicyIface> policies) {
 		super(policies);
 	}
 
 	@Override
-	public PolicyDecision isAuthorized(IdentifierBundle whoToAuth, RequestedAction whatToAuth) {
+	public PolicyDecision decide(IdentifierBundle ac_subject, ActionRequest whatToAuth) {
 	    PolicyDecision pd = null;
-	    PolicyDecisionLogger logger = new PolicyDecisionLogger(whoToAuth, whatToAuth);
+	    PolicyDecisionLogger logger = new PolicyDecisionLogger(ac_subject, whatToAuth);
 	    for(PolicyIface policy : this){
             try{
-                pd = policy.isAuthorized(whoToAuth, whatToAuth);
+                pd = policy.decide(ac_subject, whatToAuth);
                 logger.log(policy, pd);
                 if( pd != null ){
-                    if(  pd.getAuthorized() == Authorization.AUTHORIZED )
+                    if(  pd.getDecisionResult() == DecisionResult.AUTHORIZED )
                         return pd;
-                    if( pd.getAuthorized() == Authorization.UNAUTHORIZED )
+                    if( pd.getDecisionResult() == DecisionResult.UNAUTHORIZED )
                         return pd;
-                    if( pd.getAuthorized() == Authorization.INCONCLUSIVE )
+                    if( pd.getDecisionResult() == DecisionResult.INCONCLUSIVE )
                         continue;
                 } else{
                     log.debug("policy " + policy.toString() + " returned a null PolicyDecision");
@@ -57,7 +57,7 @@ public class PolicyList extends ArrayList<PolicyIface> implements PolicyIface{
             }
         }
 
-		pd = new BasicPolicyDecision(Authorization.INCONCLUSIVE,
+		pd = new BasicPolicyDecision(DecisionResult.INCONCLUSIVE,
 				"No policy returned a conclusive decision on " + whatToAuth);
 		logger.logNoDecision(pd);
 		return pd;

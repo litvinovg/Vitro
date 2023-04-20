@@ -82,7 +82,7 @@ public abstract class PropertyTemplateModel extends BaseTemplateModel {
         }
 
 		if (!PolicyHelper.isAuthorizedForActions(vreq,
-				SimplePermission.SEE_VERBOSE_PROPERTY_INFORMATION.ACTION)) {
+				SimplePermission.SEE_VERBOSE_PROPERTY_INFORMATION.actionRequest)) {
             return;
         }
 

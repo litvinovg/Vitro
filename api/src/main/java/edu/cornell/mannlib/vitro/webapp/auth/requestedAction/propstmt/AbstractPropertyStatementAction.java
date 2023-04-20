@@ -4,14 +4,14 @@ package edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt;
 
 import org.apache.jena.ontology.OntModel;
 
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.RequestedAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 
 /**
  * A base class for requested actions that involve adding, editing, or deleting
  * statements from a model.
  */
-public abstract class AbstractPropertyStatementAction extends RequestedAction {
+public abstract class AbstractPropertyStatementAction extends ActionRequest {
 	private final OntModel ontModel;
 
 	public AbstractPropertyStatementAction(OntModel ontModel) {

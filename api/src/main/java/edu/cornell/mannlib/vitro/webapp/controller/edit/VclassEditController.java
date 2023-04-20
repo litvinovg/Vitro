@@ -39,7 +39,7 @@ public class VclassEditController extends BaseEditController {
 	private static final int NUM_COLS = 11;
 
     public void doPost (HttpServletRequest req, HttpServletResponse response) {
-        if (!isAuthorizedToDisplayPage(req, response, SimplePermission.EDIT_ONTOLOGY.ACTION)) {
+        if (!isAuthorizedToDisplayPage(req, response, SimplePermission.EDIT_ONTOLOGY.actionRequest)) {
         	return;
         }
 

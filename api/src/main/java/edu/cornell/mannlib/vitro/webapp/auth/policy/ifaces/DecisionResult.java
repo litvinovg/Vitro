@@ -2,7 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces;
 
-public enum Authorization {
+public enum DecisionResult {
     AUTHORIZED, //explicitly authorized
     UNAUTHORIZED, //explicitly not authorized
     INCONCLUSIVE;
