@@ -57,8 +57,7 @@ public class RestrictHomeMenuItemEditingPolicy implements PolicyIface {
 	public static class Setup implements ServletContextListener {
 		@Override
 		public void contextInitialized(ServletContextEvent sce) {
-			ServletPolicyList.addPolicyAtFront(sce.getServletContext(),
-					new RestrictHomeMenuItemEditingPolicy());
+			PolicyStore.addPolicyAtFront(new RestrictHomeMenuItemEditingPolicy());
 		}
 
 		@Override

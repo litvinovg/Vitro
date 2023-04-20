@@ -44,7 +44,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.factory.HasPermissionFac
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.PermissionRegistry;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PermissionsPolicy;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ServletPolicyList;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyStore;
 import edu.cornell.mannlib.vitro.webapp.beans.PermissionSet;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
 import edu.cornell.mannlib.vitro.webapp.config.ConfigurationProperties;
@@ -175,8 +175,8 @@ public class AuthenticateTest extends AbstractTestClass {
 		ModelAccessFactoryStub mafs = new ModelAccessFactoryStub();
 		mafs.get(servletContext).setWebappDaoFactory(webappDaoFactory);
 
-		setLoggerLevel(ServletPolicyList.class, Level.WARN);
-		ServletPolicyList.addPolicy(servletContext, new PermissionsPolicy());
+		setLoggerLevel(PolicyStore.class, Level.WARN);
+		PolicyStore.addPolicy(new PermissionsPolicy());
 		PermissionRegistry.createRegistry(servletContext,
 				Collections.singleton(SimplePermissions.SEE_SITE_ADMIN_PAGE));
 

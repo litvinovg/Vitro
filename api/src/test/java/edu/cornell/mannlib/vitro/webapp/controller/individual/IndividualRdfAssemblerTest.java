@@ -39,7 +39,7 @@ import org.apache.jena.rdf.model.Statement;
 import edu.cornell.mannlib.vitro.testing.AbstractTestClass;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.BasicPolicyDecision;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ServletPolicyList;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyStore;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
@@ -100,7 +100,7 @@ public class IndividualRdfAssemblerTest extends AbstractTestClass {
 		ctx = new ServletContextStub();
 		session = new HttpSessionStub();
 		session.setServletContext(ctx);
-
+		PolicyStore.getInstance().clear();
 		req = new HttpServletRequestStub();
 		req.setSession(session);
 
@@ -320,16 +320,16 @@ public class IndividualRdfAssemblerTest extends AbstractTestClass {
 	}
 
 	private void policyUnrestricted() {
-		ServletPolicyList.addPolicy(ctx, new UnrestrictedPolicy());
+		PolicyStore.addPolicy(new UnrestrictedPolicy());
 	}
 
 	private void policyRestrictByPredicate(String... predicateUris) {
-		ServletPolicyList.addPolicy(ctx, new RestrictionsPolicy(predicateUris,
+		PolicyStore.addPolicy(new RestrictionsPolicy(predicateUris,
 				new String[0]));
 	}
 
 	private void policyRestrictByClass(String... classUris) {
-		ServletPolicyList.addPolicy(ctx, new RestrictionsPolicy(new String[0],
+		PolicyStore.addPolicy(new RestrictionsPolicy(new String[0],
 				classUris));
 	}
 

@@ -33,7 +33,7 @@ public class PolicyHelper_AuthorizationRequestTest {
 	@Before
 	public void setup() {
 		ctx = new ServletContextStub();
-
+		PolicyStore.getInstance().clear();
 		HttpSessionStub session = new HttpSessionStub();
 		session.setServletContext(ctx);
 
@@ -46,7 +46,7 @@ public class PolicyHelper_AuthorizationRequestTest {
 	// ----------------------------------------------------------------------
 
 	private void createPolicy(ActionRequest... authorizedActions) {
-		ServletPolicyList.addPolicy(ctx, new MySimplePolicy(authorizedActions));
+		PolicyStore.addPolicy(new MySimplePolicy(authorizedActions));
 	}
 
 	@Test
@@ -96,8 +96,8 @@ public class PolicyHelper_AuthorizationRequestTest {
 
 	@Test
 	public void authorizedByACombinationOfPolicies() {
-		ServletPolicyList.addPolicy(ctx, new MySimplePolicy(new Action1()));
-		ServletPolicyList.addPolicy(ctx, new MySimplePolicy(new Action2()));
+		PolicyStore.addPolicy(new MySimplePolicy(new Action1()));
+		PolicyStore.addPolicy(new MySimplePolicy(new Action2()));
 		assertTrue("combination of policies",
 				PolicyHelper.isAuthorizedForActions(req, new Action2(),
 						new Action1()));
