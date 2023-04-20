@@ -2,7 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.policy.bean;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityPermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityPermissions;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,7 +24,7 @@ public class PropertyRestrictionListener implements ChangeListener {
 	@Override
 	public void doDeleted(Object oldObj, EditProcessObject epo) {
 		if (oldObj instanceof Property) {
-			EntityPermission.updateAllPermissionsFor((Property)oldObj);
+			EntityPermissions.updateAllPermissionsFor((Property)oldObj);
 		} else {
 			log.warn("Not an instance of Property: " + oldObj);
 		}
@@ -36,7 +36,7 @@ public class PropertyRestrictionListener implements ChangeListener {
 	@Override
 	public void doInserted(Object newObj, EditProcessObject epo) {
 		if (newObj instanceof Property) {
-			EntityPermission.updateAllPermissionsFor((Property)newObj);
+			EntityPermissions.updateAllPermissionsFor((Property)newObj);
 		} else {
 			log.warn("Not an instance of Property: " + newObj);
 		}
@@ -48,7 +48,7 @@ public class PropertyRestrictionListener implements ChangeListener {
 	@Override
 	public void doUpdated(Object oldObj, Object newObj, EditProcessObject epo) {
 		if (newObj instanceof Property) {
-			EntityPermission.updateAllPermissionsFor((Property)oldObj);
+			EntityPermissions.updateAllPermissionsFor((Property)oldObj);
 		} else {
 			log.warn("Not instances of Property: " + oldObj
 					+ ", " + newObj);
