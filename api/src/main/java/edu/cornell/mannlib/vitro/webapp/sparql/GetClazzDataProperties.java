@@ -16,7 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vedit.controller.BaseEditController;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.dao.DataPropertyDao;
@@ -33,7 +33,7 @@ public class GetClazzDataProperties extends BaseEditController {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		if (!isAuthorizedToDisplayPage(request, response,
-				SimplePermission.USE_MISCELLANEOUS_PAGES.actionRequest)) {
+				SimplePermissions.USE_MISCELLANEOUS_PAGES.actionRequest)) {
         	return;
 		}
 

@@ -20,7 +20,7 @@ import edu.cornell.mannlib.vedit.beans.EditProcessObject;
 import edu.cornell.mannlib.vedit.beans.FormObject;
 import edu.cornell.mannlib.vedit.beans.Option;
 import edu.cornell.mannlib.vedit.controller.BaseEditController;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.beans.FauxProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.Ontology;
@@ -39,7 +39,7 @@ public class PropertyEditController extends BaseEditController {
     @Override
 	public void doPost (HttpServletRequest request, HttpServletResponse response) {
 		if (!isAuthorizedToDisplayPage(request, response,
-				SimplePermission.EDIT_ONTOLOGY.actionRequest)) {
+				SimplePermissions.EDIT_ONTOLOGY.actionRequest)) {
         	return;
         }
 

@@ -18,7 +18,7 @@ import edu.cornell.mannlib.vedit.beans.FormObject;
 import edu.cornell.mannlib.vedit.beans.Option;
 import edu.cornell.mannlib.vedit.controller.BaseEditController;
 import edu.cornell.mannlib.vedit.util.FormUtils;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatementImpl;
@@ -34,7 +34,7 @@ public class DataPropertyStatementRetryController extends BaseEditController {
 
     public void doPost (HttpServletRequest request, HttpServletResponse response) {
 		if (!isAuthorizedToDisplayPage(request, response,
-				SimplePermission.DO_BACK_END_EDITING.actionRequest)) {
+				SimplePermissions.DO_BACK_END_EDITING.actionRequest)) {
 			return;
 		}
 

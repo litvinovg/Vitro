@@ -18,7 +18,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.jena.query.Query;
 import org.apache.jena.rdf.model.Model;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.ajax.SparqlUtils.AjaxControllerException;
@@ -46,9 +46,9 @@ public class SparqlQueryAjaxController extends VitroAjaxController {
 	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
 		String modelParam = getModelParam(vreq);
 		if (OPTION_MODEL_USER_ACCOUNTS.equals(modelParam)) {
-			return SimplePermission.QUERY_USER_ACCOUNTS_MODEL.actionRequest;
+			return SimplePermissions.QUERY_USER_ACCOUNTS_MODEL.actionRequest;
 		} else {
-			return SimplePermission.QUERY_FULL_MODEL.actionRequest;
+			return SimplePermissions.QUERY_FULL_MODEL.actionRequest;
 		}
 	}
 

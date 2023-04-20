@@ -27,7 +27,7 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.ajax.SparqlUtils;
@@ -59,7 +59,7 @@ public class DataAutocompleteController extends VitroAjaxController {
     @Override
     protected AuthorizationRequest requiredActions(VitroRequest vreq) {
     	//used to be basic vitro ajax permission but need to query full model
-    	return SimplePermission.QUERY_FULL_MODEL.actionRequest;
+    	return SimplePermissions.QUERY_FULL_MODEL.actionRequest;
     }
 
     @Override

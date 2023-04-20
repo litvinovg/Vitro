@@ -51,7 +51,7 @@ import org.apache.jena.vocabulary.RDF;
 import edu.cornell.mannlib.vedit.beans.EditProcessObject;
 import edu.cornell.mannlib.vedit.beans.LoginStatusBean;
 import edu.cornell.mannlib.vedit.controller.BaseEditController;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.controller.Controllers;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.dao.jena.event.EditEvent;
@@ -455,7 +455,7 @@ public class RefactorOperationController extends BaseEditController {
 	}
 
     public void doPost(HttpServletRequest req, HttpServletResponse response) {
-        if (!isAuthorizedToDisplayPage(req, response, SimplePermission.EDIT_ONTOLOGY.actionRequest)) {
+        if (!isAuthorizedToDisplayPage(req, response, SimplePermissions.EDIT_ONTOLOGY.actionRequest)) {
         	return;
         }
 

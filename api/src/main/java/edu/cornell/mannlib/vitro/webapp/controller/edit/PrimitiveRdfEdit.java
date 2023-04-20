@@ -22,7 +22,7 @@ import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.shared.Lock;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.ajax.VitroAjaxController;
@@ -39,7 +39,7 @@ public class PrimitiveRdfEdit extends VitroAjaxController {
     //Using the same setup as primitive delete
     @Override
     protected AuthorizationRequest requiredActions(VitroRequest vreq) {
-    	return SimplePermission.USE_BASIC_AJAX_CONTROLLERS.actionRequest;
+    	return SimplePermissions.USE_BASIC_AJAX_CONTROLLERS.actionRequest;
     }
 
     @Override

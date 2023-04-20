@@ -30,7 +30,7 @@ import edu.cornell.mannlib.vedit.controller.BaseEditController;
 import edu.cornell.mannlib.vedit.util.FormUtils;
 import edu.cornell.mannlib.vedit.validator.Validator;
 import edu.cornell.mannlib.vedit.validator.impl.RequiredFieldValidator;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.bean.PropertyRestrictionListener;
 import edu.cornell.mannlib.vitro.webapp.beans.Datatype;
 import edu.cornell.mannlib.vitro.webapp.beans.FauxProperty;
@@ -54,7 +54,7 @@ public class FauxPropertyRetryController extends BaseEditController {
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse response) {
 		if (!isAuthorizedToDisplayPage(req, response,
-				SimplePermission.EDIT_ONTOLOGY.actionRequest)) {
+				SimplePermissions.EDIT_ONTOLOGY.actionRequest)) {
 			return;
 		}
 

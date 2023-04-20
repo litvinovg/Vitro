@@ -18,7 +18,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.ResourceFactory;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatement;
@@ -55,7 +55,7 @@ public class ProcessRdfFormController extends FreemarkerHttpServlet{
 
     @Override
 	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
-    	return SimplePermission.DO_FRONT_END_EDITING.actionRequest;
+    	return SimplePermissions.DO_FRONT_END_EDITING.actionRequest;
 	}
 
 	@Override

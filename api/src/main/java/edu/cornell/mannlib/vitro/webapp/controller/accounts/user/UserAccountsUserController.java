@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.beans.DisplayMessage;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
@@ -42,7 +42,7 @@ public class UserAccountsUserController extends FreemarkerHttpServlet {
 		String action = vreq.getPathInfo();
 
 		if (ACTION_MY_ACCOUNT.equals(action)) {
-			return SimplePermission.EDIT_OWN_ACCOUNT.actionRequest;
+			return SimplePermissions.EDIT_OWN_ACCOUNT.actionRequest;
 		} else {
 			return AUTHORIZED;
 		}

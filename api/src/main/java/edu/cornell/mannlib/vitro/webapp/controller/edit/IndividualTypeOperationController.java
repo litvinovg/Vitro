@@ -14,7 +14,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vedit.beans.EditProcessObject;
 import edu.cornell.mannlib.vedit.controller.BaseEditController;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.dao.IndividualDao;
 
@@ -25,7 +25,7 @@ public class IndividualTypeOperationController extends BaseEditController {
 
     public void doGet(HttpServletRequest req, HttpServletResponse response) {
 		if (!isAuthorizedToDisplayPage(req, response,
-				SimplePermission.DO_BACK_END_EDITING.actionRequest)) {
+				SimplePermissions.DO_BACK_END_EDITING.actionRequest)) {
         	return;
         }
 

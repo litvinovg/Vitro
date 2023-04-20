@@ -14,7 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.jena.vocabulary.OWL;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.beans.Ontology;
 import edu.cornell.mannlib.vitro.webapp.beans.VClass;
@@ -45,7 +45,7 @@ public class ShowClassHierarchyController extends FreemarkerHttpServlet {
 
     @Override
 	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
-		return SimplePermission.EDIT_ONTOLOGY.actionRequest;
+		return SimplePermissions.EDIT_ONTOLOGY.actionRequest;
 	}
 
     @Override

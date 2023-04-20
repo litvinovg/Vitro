@@ -14,7 +14,7 @@ import edu.cornell.mannlib.vitro.webapp.utils.JSPPageHandler;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.cornell.mannlib.vedit.controller.BaseEditController;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.beans.VClass;
 import edu.cornell.mannlib.vitro.webapp.beans.VClassGroup;
 import edu.cornell.mannlib.vitro.webapp.controller.Controllers;
@@ -27,7 +27,7 @@ public class AllClassGroupsListingController extends BaseEditController {
 
     @Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) {
-    	if (!isAuthorizedToDisplayPage(request, response, SimplePermission.EDIT_ONTOLOGY.actionRequest)) {
+    	if (!isAuthorizedToDisplayPage(request, response, SimplePermissions.EDIT_ONTOLOGY.actionRequest)) {
     		return;
     	}
 

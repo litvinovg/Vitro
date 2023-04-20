@@ -34,7 +34,7 @@ import org.apache.jena.rdf.model.ModelMaker;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.shared.Lock;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 
 @WebServlet(name = "JenaXMLFileUpload", urlPatterns = {"/jenaXmlFileUpload/*"} )
@@ -111,7 +111,7 @@ public class JenaXMLFileUpload  extends JenaIngestController  {
         }
 
 		if (!isAuthorizedToDisplayPage(request, resp,
-				SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.actionRequest)) {
+				SimplePermissions.USE_ADVANCED_DATA_TOOLS_PAGES.actionRequest)) {
         	return;
         }
 
@@ -161,7 +161,7 @@ public class JenaXMLFileUpload  extends JenaIngestController  {
 	public void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		if (!isAuthorizedToDisplayPage(request, response,
-				SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.actionRequest)) {
+				SimplePermissions.USE_ADVANCED_DATA_TOOLS_PAGES.actionRequest)) {
         	return;
         }
 
