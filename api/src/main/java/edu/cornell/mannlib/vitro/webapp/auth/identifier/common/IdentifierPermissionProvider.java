@@ -13,15 +13,15 @@ import edu.cornell.mannlib.vitro.webapp.auth.permissions.Permission;
 /**
  * The current user has this Permission, through one or more PermissionSets.
  */
-public class HasPermission extends AbstractCommonIdentifier implements
-		Identifier, Comparable<HasPermission> {
-	public static Collection<HasPermission> getIdentifiers(IdentifierBundle ids) {
-		return getIdentifiersForClass(ids, HasPermission.class);
+public class IdentifierPermissionProvider extends AbstractCommonIdentifier implements
+		Identifier, Comparable<IdentifierPermissionProvider> {
+	private static Collection<IdentifierPermissionProvider> getIdentifiers(IdentifierBundle ids) {
+		return getIdentifiersForClass(ids, IdentifierPermissionProvider.class);
 	}
 
 	public static Collection<Permission> getPermissions(IdentifierBundle ids) {
 		Set<Permission> set = new HashSet<Permission>();
-		for (HasPermission id : getIdentifiers(ids)) {
+		for (IdentifierPermissionProvider id : getIdentifiers(ids)) {
 			set.add(id.getPermission());
 		}
 		return set;
@@ -29,7 +29,7 @@ public class HasPermission extends AbstractCommonIdentifier implements
 
 	private final Permission permission; // never null
 
-	public HasPermission(Permission permission) {
+	public IdentifierPermissionProvider(Permission permission) {
 		if (permission == null) {
 			throw new NullPointerException("permission may not be null.");
 		}
@@ -58,15 +58,15 @@ public class HasPermission extends AbstractCommonIdentifier implements
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof HasPermission)) {
+		if (!(obj instanceof IdentifierPermissionProvider)) {
 			return false;
 		}
-		HasPermission that = (HasPermission) obj;
+		IdentifierPermissionProvider that = (IdentifierPermissionProvider) obj;
 		return this.permission.equals(that.permission);
 	}
 
 	@Override
-	public int compareTo(HasPermission that) {
+	public int compareTo(IdentifierPermissionProvider that) {
 		return this.permission.compareTo(that.permission);
 	}
 }

@@ -25,7 +25,7 @@ import edu.cornell.mannlib.vitro.testing.AbstractTestClass;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.ArrayIdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.Identifier;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
-import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.HasPermission;
+import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.IdentifierPermissionProvider;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.Permission;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.PermissionRegistry;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
@@ -240,8 +240,8 @@ public class HasPermissionFactoryTest extends AbstractTestClass {
 		ps.setPermissionUris(uris);
 	}
 
-	private HasPermission id(Permission p) {
-		return new HasPermission(p);
+	private IdentifierPermissionProvider id(Permission p) {
+		return new IdentifierPermissionProvider(p);
 	}
 
 	private <T> List<T> list(T... elements) {
@@ -252,13 +252,13 @@ public class HasPermissionFactoryTest extends AbstractTestClass {
 
 	private void assertEqualIds(String message, IdentifierBundle expected,
 			IdentifierBundle actual) {
-		Set<HasPermission> expectedSet = new HashSet<HasPermission>();
+		Set<IdentifierPermissionProvider> expectedSet = new HashSet<IdentifierPermissionProvider>();
 		for (Identifier id : expected) {
-			expectedSet.add((HasPermission) id);
+			expectedSet.add((IdentifierPermissionProvider) id);
 		}
-		Set<HasPermission> actualSet = new HashSet<HasPermission>();
+		Set<IdentifierPermissionProvider> actualSet = new HashSet<IdentifierPermissionProvider>();
 		for (Identifier id : actual) {
-			actualSet.add((HasPermission) id);
+			actualSet.add((IdentifierPermissionProvider) id);
 		}
 		assertEqualSets(message, expectedSet, actualSet);
 	}
