@@ -14,8 +14,6 @@ import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelNames;
 import edu.cornell.mannlib.vitro.webapp.utils.RelationshipChecker;
 import edu.cornell.mannlib.vitro.webapp.web.templatemodels.individual.FauxPropertyWrapper;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Statement;
@@ -30,7 +28,6 @@ import java.util.*;
  * Subclass to define the type of permission that is being granted (e.g. display, update, publish)
  */
 public abstract class EntityPermission extends Permission {
-    private static final Log log = LogFactory.getLog(EntityPermission.class);
 
     protected EntityPermission(String uri) {
         super(uri);
