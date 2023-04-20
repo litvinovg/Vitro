@@ -153,7 +153,7 @@ public class PermissionRegistry {
 				List<Permission> permissions = new ArrayList<Permission>();
 
 				permissions.addAll(SimplePermissions.getAllInstances());
-				permissions.addAll(EntityPermission.getAllInstances(models));
+				permissions.addAll(EntityPermissions.getAllInstances(models));
 
 				PermissionRegistry.createRegistry(ctx, permissions);
 

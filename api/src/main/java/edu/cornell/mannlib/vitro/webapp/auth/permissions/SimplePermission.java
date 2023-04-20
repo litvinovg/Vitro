@@ -30,12 +30,13 @@ public class SimplePermission extends Permission {
 		SimplePermissions.add(this);
 	}
 
-	/*
-	 * @param personUris is not used
-	 */
 	@Override
 	public boolean isAuthorized(List<String> personUris, ActionRequest whatToAuth) {
-		if (whatToAuth != null) {
+		return isAuthorized(whatToAuth);
+	}
+
+    private boolean isAuthorized(ActionRequest whatToAuth) {
+        if (whatToAuth != null) {
 			if (getUri().equals(whatToAuth.getURI())) {
 				log.debug(this + " authorizes " + whatToAuth);
 				return true;
@@ -43,7 +44,7 @@ public class SimplePermission extends Permission {
 		}
 		log.debug(this + " does not authorize " + whatToAuth);
 		return false;
-	}
+    }
 
 	@Override
 	public String toString() {
