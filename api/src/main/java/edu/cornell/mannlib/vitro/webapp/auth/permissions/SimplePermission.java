@@ -20,8 +20,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleActionReqiest
 public class SimplePermission extends Permission {
 	private static final Log log = LogFactory.getLog(SimplePermission.class);
 
-	private static final String NAMESPACE = "java:"
-			+ SimplePermission.class.getName() + "#";
+	private static final String NAMESPACE = "java:" + SimplePermission.class.getName() + "#";
 
 	private static final Map<String, SimplePermission> simplePermissions = new HashMap<String, SimplePermission>();
 
@@ -119,17 +118,12 @@ public class SimplePermission extends Permission {
 
 	public SimplePermission(String uri) {
 		super(uri);
-
-		if (uri == null) {
-			throw new NullPointerException("uri may not be null.");
-		}
-
-		this.actionRequest = new SimpleActionReqiest(uri);
-
+		
 		if (simplePermissions.containsKey(this.uri)) {
-			throw new IllegalStateException("A SimplePermission named '"
-					+ this.uri + "' already exists.");
+			throw new IllegalStateException("A SimplePermission named '" + this.uri + "' already exists.");
 		}
+	    this.actionRequest = new SimpleActionReqiest(uri);
+
 		simplePermissions.put(uri, this);
 	}
 
