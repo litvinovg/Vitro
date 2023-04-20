@@ -18,7 +18,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vedit.beans.LoginStatusBean;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
@@ -130,7 +130,7 @@ public abstract class BaseIndividualTemplateModel extends BaseTemplateModel {
 
     public boolean getShowAdminPanel() {
 		return PolicyHelper.isAuthorizedForActions(vreq,
-				SimplePermission.SEE_INDVIDUAL_EDITING_PANEL.actionRequest);
+				SimplePermissions.SEE_INDVIDUAL_EDITING_PANEL.actionRequest);
     }
 
     /* rdfs:label needs special treatment, because it is not possible to construct a

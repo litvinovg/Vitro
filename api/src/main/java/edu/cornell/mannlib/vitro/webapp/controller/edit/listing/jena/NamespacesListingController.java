@@ -20,7 +20,7 @@ import org.apache.jena.shared.Lock;
 import org.apache.jena.util.iterator.ClosableIterator;
 
 import edu.cornell.mannlib.vedit.controller.BaseEditController;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.controller.Controllers;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
@@ -31,7 +31,7 @@ public class NamespacesListingController extends BaseEditController {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
 		if (!isAuthorizedToDisplayPage(request, response,
-				SimplePermission.USE_MISCELLANEOUS_ADMIN_PAGES.actionRequest)) {
+				SimplePermissions.USE_MISCELLANEOUS_ADMIN_PAGES.actionRequest)) {
         	return;
         }
 

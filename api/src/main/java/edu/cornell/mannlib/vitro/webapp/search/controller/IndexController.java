@@ -16,7 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.application.ApplicationUtils;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
@@ -82,7 +82,7 @@ public class IndexController extends FreemarkerHttpServlet {
 	private static final String PAGE_TEMPLATE_NAME = "searchIndex.ftl";
 	private static final String STATUS_TEMPLATE_NAME = "searchIndexStatus.ftl";
 
-	public static final ActionRequest REQUIRED_ACTIONS = SimplePermission.MANAGE_SEARCH_INDEX.actionRequest;
+	public static final ActionRequest REQUIRED_ACTIONS = SimplePermissions.MANAGE_SEARCH_INDEX.actionRequest;
 
 	private SearchIndexer indexer;
 	private static IndexHistory history;

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.cornell.mannlib.vedit.controller.BaseEditController;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
@@ -25,7 +25,7 @@ import edu.cornell.mannlib.vitro.webapp.utils.JSPPageHandler;
 public class DataPropertyStatementListingController extends BaseEditController {
 
    public void doGet(HttpServletRequest request, HttpServletResponse response) {
-       if (!isAuthorizedToDisplayPage(request, response, SimplePermission.EDIT_ONTOLOGY.actionRequest)) {
+       if (!isAuthorizedToDisplayPage(request, response, SimplePermissions.EDIT_ONTOLOGY.actionRequest)) {
        	return;
        }
 

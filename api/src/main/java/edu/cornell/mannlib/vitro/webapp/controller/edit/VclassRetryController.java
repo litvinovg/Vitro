@@ -26,7 +26,7 @@ import edu.cornell.mannlib.vedit.forwarder.impl.UrlForwarder;
 import edu.cornell.mannlib.vedit.listener.ChangeListener;
 import edu.cornell.mannlib.vedit.util.FormUtils;
 import edu.cornell.mannlib.vedit.validator.impl.XMLNameValidator;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.beans.Classes2Classes;
 import edu.cornell.mannlib.vitro.webapp.beans.VClass;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
@@ -42,7 +42,7 @@ public class VclassRetryController extends BaseEditController {
 	private static final Log log = LogFactory.getLog(VclassRetryController.class.getName());
 
     public void doPost (HttpServletRequest req, HttpServletResponse response) {
-        if (!isAuthorizedToDisplayPage(req, response, SimplePermission.EDIT_ONTOLOGY.actionRequest)) {
+        if (!isAuthorizedToDisplayPage(req, response, SimplePermissions.EDIT_ONTOLOGY.actionRequest)) {
         	return;
         }
 

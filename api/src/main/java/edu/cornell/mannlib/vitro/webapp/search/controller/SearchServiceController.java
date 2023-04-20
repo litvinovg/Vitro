@@ -17,7 +17,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.application.ApplicationUtils;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.api.NotAuthorizedToUseApiException;
@@ -101,7 +101,7 @@ public class SearchServiceController extends FreemarkerHttpServlet {
 		}
 		// For other functions, your credentials must have moxie.
 		if (PolicyHelper.isAuthorizedForActions(vreq, email, pw,
-				SimplePermission.MANAGE_SEARCH_INDEX.actionRequest)) {
+				SimplePermissions.MANAGE_SEARCH_INDEX.actionRequest)) {
 			return;
 		}
 		// Otherwise, you can't do this.

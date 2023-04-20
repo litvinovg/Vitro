@@ -23,7 +23,7 @@ import org.apache.jena.shared.Lock;
 
 import edu.cornell.mannlib.vedit.beans.EditProcessObject;
 import edu.cornell.mannlib.vedit.controller.BaseEditController;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
@@ -35,7 +35,7 @@ public class NamespacePrefixOperationController extends BaseEditController {
 
     public void doPost(HttpServletRequest req, HttpServletResponse response) {
 		if (!isAuthorizedToDisplayPage(req, response,
-				SimplePermission.USE_MISCELLANEOUS_ADMIN_PAGES.actionRequest)) {
+				SimplePermissions.USE_MISCELLANEOUS_ADMIN_PAGES.actionRequest)) {
         	return;
         }
 

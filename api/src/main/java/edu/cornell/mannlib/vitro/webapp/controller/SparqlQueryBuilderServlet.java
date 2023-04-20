@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.utils.JSPPageHandler;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,7 +21,6 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.sparql.resultset.ResultsFormat;
 
 import edu.cornell.mannlib.vedit.controller.BaseEditController;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 
 /**
  *  This servlet works as a RequestDispatcher to direct to the sparl query builder page.
@@ -74,7 +74,7 @@ public class SparqlQueryBuilderServlet extends BaseEditController {
     throws ServletException, IOException
     {
 		if (!isAuthorizedToDisplayPage(request, response,
-				SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.actionRequest)) {
+				SimplePermissions.USE_ADVANCED_DATA_TOOLS_PAGES.actionRequest)) {
     		return;
     	}
 

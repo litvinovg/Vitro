@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroHttpServlet;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
@@ -38,7 +38,7 @@ public class EditRequestAJAXController extends VitroHttpServlet {
 
 
 	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
-    	return SimplePermission.DO_FRONT_END_EDITING.actionRequest;
+    	return SimplePermissions.DO_FRONT_END_EDITING.actionRequest;
 	}
 
 

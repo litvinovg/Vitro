@@ -24,7 +24,7 @@ import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.dao.WebappDaoFactory;
@@ -49,9 +49,9 @@ public class ModelSwitcher {
 	 */
 	public static boolean authorizedForSpecialModel(HttpServletRequest req) {
 		if (isParameterPresent(req, SWITCH_TO_DISPLAY_MODEL)) {
-			return PolicyHelper.isAuthorizedForActions(req, SimplePermission.MANAGE_MENUS.actionRequest);
+			return PolicyHelper.isAuthorizedForActions(req, SimplePermissions.MANAGE_MENUS.actionRequest);
 		} else if (anyOtherSpecialProperties(req)){
-			return PolicyHelper.isAuthorizedForActions(req, SimplePermission.ACCESS_SPECIAL_DATA_MODELS.actionRequest);
+			return PolicyHelper.isAuthorizedForActions(req, SimplePermissions.ACCESS_SPECIAL_DATA_MODELS.actionRequest);
 		} else {
 			return true;
 		}

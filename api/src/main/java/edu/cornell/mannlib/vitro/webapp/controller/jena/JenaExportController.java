@@ -31,7 +31,7 @@ import org.apache.jena.shared.JenaException;
 import org.apache.jena.shared.Lock;
 
 import edu.cornell.mannlib.vedit.controller.BaseEditController;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.Controllers;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
@@ -44,8 +44,8 @@ import edu.cornell.mannlib.vitro.webapp.utils.jena.JenaOutputUtils;
 
 @WebServlet(name = "JenaExportController", urlPatterns = {"/export/*"} )
 public class JenaExportController extends BaseEditController {
-	private static final AuthorizationRequest REQUIRED_ACTIONS = SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.actionRequest
-			.or(SimplePermission.EDIT_ONTOLOGY.actionRequest);
+	private static final AuthorizationRequest REQUIRED_ACTIONS = SimplePermissions.USE_ADVANCED_DATA_TOOLS_PAGES.actionRequest
+			.or(SimplePermissions.EDIT_ONTOLOGY.actionRequest);
 
 
 	private static final Log log = LogFactory.getLog(JenaExportController.class);
