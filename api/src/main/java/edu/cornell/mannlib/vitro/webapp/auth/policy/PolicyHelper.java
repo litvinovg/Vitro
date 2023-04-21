@@ -111,8 +111,7 @@ public class PolicyHelper {
 					+ "account URI: %s", email, uri));
 
 			// figure out if that account can do the actions
-			IdentifierBundle ids = ActiveIdentifierBundleFactories
-					.getUserIdentifierBundle(req, user);
+			IdentifierBundle ids = ActiveIdentifierBundleFactories.getUserIdentifierBundle(user);
 			PolicyIface policies = PolicyStore.getInstance().copy();
 			return ar.isAuthorized(ids, policies);
 		} catch (Exception ex) {

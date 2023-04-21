@@ -200,8 +200,7 @@ public class AuthenticateTest extends AbstractTestClass {
 		setLoggerLevel(ConfigurationProperties.class, Level.WARN);
 		new ConfigurationPropertiesStub().setBean(servletContext);
 
-		ActiveIdentifierBundleFactories.addFactory(servletContext,
-				new HasPermissionFactory(servletContext));
+		ActiveIdentifierBundleFactories.addFactory(new HasPermissionFactory(servletContext));
 	}
 
 	private static UserAccount createUserFromUserInfo(UserInfo userInfo) {

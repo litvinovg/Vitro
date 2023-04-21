@@ -32,12 +32,12 @@ public class CommonPolicyFamilySetup implements ServletContextListener {
 		try {
 			policy(new PermissionsPolicy());
 
-			factory(ctx, new IsUserFactory(ctx));
-			factory(ctx, new IsRootUserFactory(ctx));
-			factory(ctx, new HasProfileOrIsBlacklistedFactory(ctx));
-			factory(ctx, new HasPermissionSetFactory(ctx));
-			factory(ctx, new HasPermissionFactory(ctx));
-			factory(ctx, new HasProxyEditingRightsFactory(ctx));
+			factory(new IsUserFactory(ctx));
+			factory(new IsRootUserFactory(ctx));
+			factory(new HasProfileOrIsBlacklistedFactory(ctx));
+			factory(new HasPermissionSetFactory(ctx));
+			factory(new HasPermissionFactory(ctx));
+			factory(new HasProxyEditingRightsFactory(ctx));
 		} catch (Exception e) {
 			ss.fatal(this, "could not run CommonPolicyFamilySetup", e);
 		}
@@ -47,8 +47,8 @@ public class CommonPolicyFamilySetup implements ServletContextListener {
 		PolicyStore.addPolicy(policy);
 	}
 
-	private void factory(ServletContext ctx, IdentifierBundleFactory factory) {
-		ActiveIdentifierBundleFactories.addFactory(ctx, factory);
+	private void factory(IdentifierBundleFactory factory) {
+		ActiveIdentifierBundleFactories.addFactory(factory);
 	}
 
 	@Override
