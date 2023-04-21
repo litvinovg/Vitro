@@ -24,16 +24,13 @@ public class PolicyStore extends PolicyListImpl{
     
     private static final Log log = LogFactory.getLog(PolicyStore.class.getName());
 
-    private static PolicyStore INSTANCE;
+    private static PolicyStore INSTANCE = new PolicyStore();
 
     private PolicyStore() {
         INSTANCE = this;
     }
     
     public static PolicyStore getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new PolicyStore();
-        }
         return INSTANCE;
     }
     
