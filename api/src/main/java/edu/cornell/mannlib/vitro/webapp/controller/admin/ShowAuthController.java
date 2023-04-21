@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebServlet;
 
 import edu.cornell.mannlib.vedit.beans.LoginStatusBean;
@@ -53,7 +52,7 @@ public class ShowAuthController extends FreemarkerHttpServlet {
 		body.put("identifiers", getSortedIdentifiers(vreq));
 		body.put("currentUser", LoginStatusBean.getCurrentUser(vreq));
 		body.put("associatedIndividuals", getAssociatedIndividuals(vreq));
-		body.put("factories", getIdentifierFactoryNames(vreq));
+		body.put("factories", ActiveIdentifierBundleFactories.getFactoryNames());
 		body.put("policies", PolicyStore.getInstance().copy());
 		body.put("matchingProperty", getMatchingProperty(vreq));
 		body.put("authenticator", Authenticator.getInstance(vreq));
@@ -67,11 +66,6 @@ public class ShowAuthController extends FreemarkerHttpServlet {
 			idMap.put(id.toString(), id);
 		}
 		return new ArrayList<Identifier>(idMap.values());
-	}
-
-	private List<String> getIdentifierFactoryNames(VitroRequest vreq) {
-		ServletContext ctx = vreq.getSession().getServletContext();
-		return ActiveIdentifierBundleFactories.getFactoryNames(ctx);
 	}
 
 	private String getMatchingProperty(VitroRequest vreq) {

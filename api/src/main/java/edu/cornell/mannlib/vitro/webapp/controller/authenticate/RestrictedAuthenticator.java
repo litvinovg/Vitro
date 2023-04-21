@@ -49,7 +49,7 @@ public class RestrictedAuthenticator extends Authenticator {
 		}
 
 		ArrayIdentifierBundle ids = new ArrayIdentifierBundle();
-		ids.addAll(getIdsForUserAccount(req, userAccount));
+		ids.addAll(getIdsForUserAccount(userAccount));
 		ids.addAll(RequestIdentifiers.getIdBundleForRequest(req));
 
 		return PolicyHelper.isAuthorizedForActions(ids,
