@@ -13,15 +13,15 @@ import edu.cornell.mannlib.vitro.webapp.beans.PermissionSet;
 /**
  * The current user has this Permission, through one or more PermissionSets.
  */
-public class HasPermissionSet extends AbstractCommonIdentifier implements
-		Identifier, Comparable<HasPermissionSet> {
-	public static Collection<HasPermissionSet> getIdentifiers(IdentifierBundle ids) {
-		return getIdentifiersForClass(ids, HasPermissionSet.class);
+public class IdentifierPermissionSetProvider extends AbstractCommonIdentifier implements
+		Identifier, Comparable<IdentifierPermissionSetProvider> {
+	public static Collection<IdentifierPermissionSetProvider> getIdentifiers(IdentifierBundle ids) {
+		return getIdentifiersForClass(ids, IdentifierPermissionSetProvider.class);
 	}
 
 	public static Collection<PermissionSet> getPermissionSets(IdentifierBundle ids) {
 		Set<PermissionSet> set = new HashSet<>();
-		for (HasPermissionSet id : getIdentifiers(ids)) {
+		for (IdentifierPermissionSetProvider id : getIdentifiers(ids)) {
 			set.add(id.getPermissionSet());
 		}
 		return set;
@@ -29,7 +29,7 @@ public class HasPermissionSet extends AbstractCommonIdentifier implements
 
 	public static Collection<String> getPermissionSetUris(IdentifierBundle ids) {
 		Set<String> set = new HashSet<>();
-		for (HasPermissionSet id : getIdentifiers(ids)) {
+		for (IdentifierPermissionSetProvider id : getIdentifiers(ids)) {
 			set.add(id.getPermissionSet().getUri());
 		}
 		return set;
@@ -37,7 +37,7 @@ public class HasPermissionSet extends AbstractCommonIdentifier implements
 
 	private final PermissionSet permissionSet; // never null
 
-	public HasPermissionSet(PermissionSet permissionSet) {
+	public IdentifierPermissionSetProvider(PermissionSet permissionSet) {
 		if (permissionSet == null) {
 			throw new NullPointerException("permissionSet may not be null.");
 		}
@@ -66,15 +66,15 @@ public class HasPermissionSet extends AbstractCommonIdentifier implements
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof HasPermissionSet)) {
+		if (!(obj instanceof IdentifierPermissionSetProvider)) {
 			return false;
 		}
-		HasPermissionSet that = (HasPermissionSet) obj;
+		IdentifierPermissionSetProvider that = (IdentifierPermissionSetProvider) obj;
 		return this.permissionSet.getUri().equals(that.permissionSet.getUri());
 	}
 
 	@Override
-	public int compareTo(HasPermissionSet that) {
+	public int compareTo(IdentifierPermissionSetProvider that) {
 		return this.permissionSet.getUri().compareTo(
 				that.permissionSet.getUri());
 	}
