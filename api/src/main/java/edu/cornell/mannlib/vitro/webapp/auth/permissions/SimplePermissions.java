@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class SimplePermissions {
 
-    private static final String NS = "java:" + SimplePermission.class.getName() + "#";
+    private static final String NS = "java:edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission#";
     
     private static final Map<String, SimplePermission> simplePermissions = new HashMap<String, SimplePermission>();
 
