@@ -48,11 +48,7 @@ public abstract class EntityPermission extends Permission {
         accountsModel.enterCriticalSection(Lock.READ);
         StmtIterator propIter = null;
         try {
-            propIter = accountsModel.listStatements(
-                            accountsModel.getResource(this.uri),
-                            accountsModel.getProperty(VitroVocabulary.PERMISSION_FOR_ENTITY),
-                            (RDFNode) null
-                        );
+            propIter = getStatementsWithThisUri(accountsModel);
             while (propIter.hasNext()) {
                 Statement proptStmt = propIter.next();
                 if (proptStmt.getObject().isURIResource()) {
@@ -83,6 +79,14 @@ public abstract class EntityPermission extends Permission {
             authorizedResources.clear();
             authorizedResources.addAll(newResources);
         }
+    }
+
+    private StmtIterator getStatementsWithThisUri(OntModel accountsModel) {
+        return accountsModel.listStatements(
+                        accountsModel.getResource(this.uri),
+                        accountsModel.getProperty(VitroVocabulary.PERMISSION_FOR_ENTITY),
+                        (RDFNode) null
+                    );
     }
 
     void updateFor(Property p) {
