@@ -10,6 +10,7 @@ import edu.cornell.mannlib.vitro.webapp.beans.FauxProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 import edu.cornell.mannlib.vitro.webapp.dao.PropertyDao;
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
+import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelNames;
 import edu.cornell.mannlib.vitro.webapp.utils.RelationshipChecker;
 import edu.cornell.mannlib.vitro.webapp.web.templatemodels.individual.FauxPropertyWrapper;
@@ -44,7 +45,7 @@ public abstract class EntityPermission extends Permission {
         List<PropertyDao.FullPropertyKey> newKeys = new ArrayList<>();
         List<String> newResources = new ArrayList<>();
 
-        OntModel accountsModel = EntityPermissions.ctxModels.getOntModel(ModelNames.USER_ACCOUNTS);
+        OntModel accountsModel = ModelAccess.getInstance().getOntModel(ModelNames.USER_ACCOUNTS);
         accountsModel.enterCriticalSection(Lock.READ);
         StmtIterator propIter = null;
         try {
@@ -101,7 +102,7 @@ public abstract class EntityPermission extends Permission {
         }
         key = new PropertyDao.FullPropertyKey(uri);
 
-        OntModel accountsModel = EntityPermissions.ctxModels.getOntModel(ModelNames.USER_ACCOUNTS);
+        OntModel accountsModel = ModelAccess.getInstance().getOntModel(ModelNames.USER_ACCOUNTS);
         accountsModel.enterCriticalSection(Lock.READ);
 
         try {

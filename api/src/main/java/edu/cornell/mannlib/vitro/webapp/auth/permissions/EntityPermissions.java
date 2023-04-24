@@ -18,7 +18,7 @@ import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 import edu.cornell.mannlib.vitro.webapp.dao.PropertyDao;
 import edu.cornell.mannlib.vitro.webapp.dao.WebappDaoFactory;
-import edu.cornell.mannlib.vitro.webapp.modelaccess.ContextModelAccess;
+import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelNames;
 
 public class EntityPermissions {
@@ -27,19 +27,11 @@ public class EntityPermissions {
      * Static fields for all EntityPermissions
      */
     static final Map<String, EntityPermission> allInstances = new HashMap<>();
-    static ContextModelAccess ctxModels = null;
 
-    public static List<EntityPermission> getAllInstances(ContextModelAccess models) {
-        if (ctxModels == null && models != null) {
-            ctxModels = models;
-        }
+    public static List<EntityPermission> getAllInstances() {
     
         if (EntityPermissions.allInstances.isEmpty()) {
-            if (ctxModels == null) {
-                throw new IllegalStateException("ContextModelAccess must be initialized");
-            }
-    
-            getAllInstances();
+            collectAllInstances();
             updateAllPermissions();
         }
     
@@ -56,8 +48,8 @@ public class EntityPermissions {
         }
     }
 
-    private static void getAllInstances() {
-        OntModel accountsModel = ctxModels.getOntModel(ModelNames.USER_ACCOUNTS);
+    private static void collectAllInstances() {
+        OntModel accountsModel = ModelAccess.getInstance().getOntModel(ModelNames.USER_ACCOUNTS);
         try {
             accountsModel.enterCriticalSection(Lock.READ);
             String[] actions = {"Display", "Update","Publish"};
@@ -96,7 +88,7 @@ public class EntityPermissions {
             return;
         }
 
-        WebappDaoFactory wadf = ctxModels.getWebappDaoFactory();
+        WebappDaoFactory wadf = ModelAccess.getInstance().getWebappDaoFactory();
 
         Map<String, PropertyDao.FullPropertyKey> propertyKeyMap = new HashMap<>();
 
