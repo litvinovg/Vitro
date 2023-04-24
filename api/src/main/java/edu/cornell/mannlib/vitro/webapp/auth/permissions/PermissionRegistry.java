@@ -33,14 +33,17 @@ public class PermissionRegistry {
 	// The factory
 	// ----------------------------------------------------------------------
 
-	private static final String ATTRIBUTE_NAME = PermissionRegistry.class
-			.getName();
+	private static PermissionRegistry INSTANCE;
 
-	/**
+	public static void setInstance(PermissionRegistry pr) {
+        INSTANCE = pr;
+    }
+
+    /**
 	 * Has the registry been created yet?
 	 */
 	public static boolean isRegistryCreated(ServletContext ctx) {
-		return ctx.getAttribute(ATTRIBUTE_NAME) instanceof PermissionRegistry;
+		return INSTANCE != null;
 	}
 
 	/**
@@ -54,14 +57,14 @@ public class PermissionRegistry {
 		if (permissions == null) {
 			throw new NullPointerException("permissions may not be null.");
 		}
-		if (ctx.getAttribute(ATTRIBUTE_NAME) != null) {
+		if (INSTANCE != null) {
 			throw new IllegalStateException(
 					"PermissionRegistry has already been set.");
 		}
 
 		PermissionRegistry registry = new PermissionRegistry();
 		registry.addPermissions(permissions);
-		ctx.setAttribute(ATTRIBUTE_NAME, registry);
+		INSTANCE = registry;
 	}
 
 	/**
@@ -69,21 +72,21 @@ public class PermissionRegistry {
 	 * exception.
 	 */
 	public static PermissionRegistry getRegistry(ServletContext ctx) {
-		if (ctx == null) {
-			throw new NullPointerException("ctx may not be null.");
-		}
-
-		Object o = ctx.getAttribute(ATTRIBUTE_NAME);
-		if (o == null) {
+		if (INSTANCE == null) {
 			throw new IllegalStateException(
 					"PermissionRegistry has not been set.");
-		} else if (!(o instanceof PermissionRegistry)) {
-			throw new IllegalStateException("PermissionRegistry was set to an "
-					+ "invalid object: " + o);
-		}
+		} 
 
-		return (PermissionRegistry) o;
+		return INSTANCE;
 	}
+
+    public static PermissionRegistry getRegistry() {
+        if (INSTANCE == null) {
+            throw new IllegalStateException("PermissionRegistry has not been set.");
+        }
+
+        return INSTANCE;
+    }
 
 	// ----------------------------------------------------------------------
 	// The instance
@@ -167,7 +170,6 @@ public class PermissionRegistry {
 
 		@Override
 		public void contextDestroyed(ServletContextEvent sce) {
-			sce.getServletContext().removeAttribute(ATTRIBUTE_NAME);
 		}
 	}
 }

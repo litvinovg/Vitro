@@ -69,6 +69,7 @@ public class HasPermissionFactoryTest extends AbstractTestClass {
 
 	@Before
 	public void setup() {
+	    PermissionRegistry.setInstance(null);
 		user = new UserAccount();
 		user.setUri(USER_URI);
 
@@ -89,7 +90,7 @@ public class HasPermissionFactoryTest extends AbstractTestClass {
 		req = new HttpServletRequestStub();
 		req.setSession(session);
 
-		factory = new HasPermissionFactory(ctx);
+		factory = new HasPermissionFactory();
 
 		preparePermissions();
 		preparePermissionSets();

@@ -8,8 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.ServletContext;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -27,10 +25,6 @@ import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
 public class HasPermissionFactory extends BaseUserBasedIdentifierBundleFactory {
 	private static final Log log = LogFactory
 			.getLog(HasPermissionFactory.class);
-
-	public HasPermissionFactory(ServletContext ctx) {
-		super(ctx);
-	}
 
 	@Override
 	public IdentifierBundle getIdentifierBundleForUser(UserAccount user) {
@@ -72,7 +66,7 @@ public class HasPermissionFactory extends BaseUserBasedIdentifierBundleFactory {
 	private Collection<Permission> getPermissionsForUris(
 			Collection<String> permissionUris) {
 		List<Permission> permissions = new ArrayList<Permission>();
-		PermissionRegistry registry = PermissionRegistry.getRegistry(ctx);
+		PermissionRegistry registry = PermissionRegistry.getRegistry();
 		for (String uri : permissionUris) {
 			permissions.add(registry.getPermission(uri));
 		}

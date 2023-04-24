@@ -139,6 +139,7 @@ public class AuthenticateTest extends AbstractTestClass {
 
 	@Before
 	public void setup() throws Exception {
+	    PermissionRegistry.setInstance(null);
 		I18nStub.setup();
 
 		authenticatorFactory = new AuthenticatorStub.Factory();
@@ -200,7 +201,7 @@ public class AuthenticateTest extends AbstractTestClass {
 		setLoggerLevel(ConfigurationProperties.class, Level.WARN);
 		new ConfigurationPropertiesStub().setBean(servletContext);
 
-		ActiveIdentifierBundleFactories.addFactory(new HasPermissionFactory(servletContext));
+		ActiveIdentifierBundleFactories.addFactory(new HasPermissionFactory());
 	}
 
 	private static UserAccount createUserFromUserInfo(UserInfo userInfo) {
