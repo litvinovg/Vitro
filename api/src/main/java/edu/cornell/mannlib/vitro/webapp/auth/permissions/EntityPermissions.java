@@ -1,14 +1,10 @@
 package edu.cornell.mannlib.vitro.webapp.auth.permissions;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
@@ -27,7 +23,6 @@ import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelNames;
 
 public class EntityPermissions {
     
-    private static final Log log = LogFactory.getLog(EntityPermissions.class);
     /**
      * Static fields for all EntityPermissions
      */
@@ -44,10 +39,7 @@ public class EntityPermissions {
                 throw new IllegalStateException("ContextModelAccess must be initialized");
             }
     
-            getAllInstances(EntityDisplayPermission.class);
-            getAllInstances(EntityUpdatePermission.class);
-            getAllInstances(EntityPublishPermission.class);
-    
+            getAllInstances();
             updateAllPermissions();
         }
     
@@ -64,34 +56,39 @@ public class EntityPermissions {
         }
     }
 
-    private static void getAllInstances(Class<? extends EntityPermission> clazz) {
+    private static void getAllInstances() {
         OntModel accountsModel = ctxModels.getOntModel(ModelNames.USER_ACCOUNTS);
         try {
             accountsModel.enterCriticalSection(Lock.READ);
-    
-            StmtIterator typeIter = accountsModel.listStatements(null, RDF.type, accountsModel.getResource("java:" + clazz.getName() + "#Set"));
-            while (typeIter.hasNext()) {
-                Statement stmt = typeIter.next();
-                if (stmt.getSubject().isURIResource()) {
-                    String uri = stmt.getSubject().getURI();
-    
-                    Constructor<? extends EntityPermission> ctor = null;
-                    try {
-                        ctor = clazz.getConstructor(String.class);
-                        EntityPermission permission = ctor.newInstance(new Object[]{uri});
-    
-                        Resource limitResource = accountsModel.getResource("java:" + clazz.getName() + "#SetLimitToRelatedUser");
+            String[] actions = {"Display", "Update","Publish"};
+            for (String action : actions) {
+                StmtIterator typeIter = accountsModel.listStatements(null, RDF.type, accountsModel.getResource("java:edu.cornell.mannlib.vitro.webapp.auth.permissions.Entity" + action + "Permission" + "#Set"));
+                while (typeIter.hasNext()) {
+                    Statement stmt = typeIter.next();
+                    if (stmt.getSubject().isURIResource()) {
+                        String uri = stmt.getSubject().getURI();
+                        EntityPermission permission = createEntityPermission(action, uri);
+                        Resource limitResource = accountsModel.getResource("java:edu.cornell.mannlib.vitro.webapp.auth.permissions.Entity" + action + "Permission" + "#SetLimitToRelatedUser");
                         permission.limitToRelatedUser = accountsModel.contains(stmt.getSubject(), RDF.type, limitResource);
                         allInstances.put(uri, permission);
-                    } catch (NoSuchMethodException | InstantiationException |
-                            IllegalAccessException | InvocationTargetException e) {
-                        log.error("EntityPermission <" + clazz.getName() + "> could not be created", e);
+                       
                     }
                 }
             }
         } finally {
             accountsModel.leaveCriticalSection();
         }
+    }
+    
+    private static EntityPermission createEntityPermission(String action, String uri) {
+        if (action.equals("Update")) {
+            return new EntityUpdatePermission(uri);
+        }
+        if (action.equals("Publish")) {
+            return new EntityPublishPermission(uri);
+        }
+        //Display
+        return new EntityDisplayPermission(uri);
     }
 
     private static void updateAllPermissions() {
