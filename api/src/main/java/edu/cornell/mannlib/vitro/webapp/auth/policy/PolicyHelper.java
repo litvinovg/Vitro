@@ -21,6 +21,8 @@ import org.apache.jena.rdf.model.StmtIterator;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.ActiveIdentifierBundleFactories;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.RequestIdentifiers;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
@@ -39,20 +41,7 @@ import edu.cornell.mannlib.vitro.webapp.controller.authenticate.Authenticator;
 public class PolicyHelper {
 	private static final Log log = LogFactory.getLog(PolicyHelper.class);
 
-	/**
-	 * Are these actions authorized for the current user by the current
-	 * policies?
-	 */
 	public static boolean isAuthorizedForActions(HttpServletRequest req,
-			AuthorizationRequest... actions) {
-		return isAuthorizedForActions(req, AuthorizationRequest.andAll(actions));
-	}
-
-	/**
-	 * Are these actions authorized for the current user by the current
-	 * policies?
-	 */
-	private static boolean isAuthorizedForActions(HttpServletRequest req,
 			AuthorizationRequest ar) {
 		PolicyIface policy = PolicyStore.getInstance().copy();
 		IdentifierBundle ids = RequestIdentifiers.getIdBundleForRequest(req);
@@ -65,6 +54,11 @@ public class PolicyHelper {
 	public static boolean isAuthorizedForActions(IdentifierBundle ids,
 			PolicyIface policy, AuthorizationRequest ar) {
 		return ar.isAuthorized(ids, policy);
+	}
+	
+	public static boolean actionRequestIsAuthorized(IdentifierBundle ids, PolicyIface policy, ActionRequest ar) {
+	    PolicyDecision decision = policy.decide(ids, ar);
+        return decision.getDecisionResult() == DecisionResult.AUTHORIZED;
 	}
 
 	/**

@@ -2,6 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.permissions;
 
+import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 
 import java.util.List;
@@ -12,7 +13,6 @@ import java.util.List;
  */
 public abstract class Permission implements Comparable<Permission> {
 	protected final String uri;
-
 	protected Permission(String uri) {
 		if (uri == null) {
 			throw new NullPointerException("uri may not be null.");

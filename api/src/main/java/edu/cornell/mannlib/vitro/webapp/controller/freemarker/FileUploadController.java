@@ -1,6 +1,5 @@
 package edu.cornell.mannlib.vitro.webapp.controller.freemarker;
 
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest.UNAUTHORIZED;
 import static edu.cornell.mannlib.vitro.webapp.controller.freemarker.ImageUploadController.PARAMETER_UPLOADED_FILE;
 
 import java.io.IOException;
@@ -31,6 +30,7 @@ import org.apache.tika.mime.MimeTypes;
 import edu.cornell.mannlib.vitro.webapp.application.ApplicationUtils;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
@@ -98,7 +98,7 @@ public class FileUploadController extends FreemarkerHttpServlet {
 			}
 			return ra;
 		} catch (Exception e) {
-			return UNAUTHORIZED;
+			return AuthHelper.UNAUTHORIZED;
 		}
 	}
 

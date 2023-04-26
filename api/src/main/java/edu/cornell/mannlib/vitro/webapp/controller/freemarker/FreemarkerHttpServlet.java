@@ -2,7 +2,6 @@
 
 package edu.cornell.mannlib.vitro.webapp.controller.freemarker;
 
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest.AUTHORIZED;
 import static javax.mail.Message.RecipientType.TO;
 
 import java.io.IOException;
@@ -24,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.beans.ApplicationBean;
 import edu.cornell.mannlib.vitro.webapp.beans.DisplayMessage;
@@ -229,7 +229,7 @@ public class FreemarkerHttpServlet extends VitroHttpServlet  {
      *
      */
     protected AuthorizationRequest requiredActions(VitroRequest vreq) {
-        return AUTHORIZED;
+        return AuthHelper.AUTHORIZED;
     }
 
     // Subclasses will override

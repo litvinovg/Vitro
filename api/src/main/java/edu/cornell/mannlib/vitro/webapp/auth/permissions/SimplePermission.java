@@ -21,7 +21,6 @@ public class SimplePermission extends Permission {
 
 	public SimplePermission(String uri) {
 		super(uri);
-		
 		if (SimplePermissions.contains(this.uri)) {
 			throw new IllegalStateException("A SimplePermission named '" + this.uri + "' already exists.");
 		}

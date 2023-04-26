@@ -3,8 +3,7 @@
 package edu.cornell.mannlib.vitro.webapp.auth.requestedAction;
 
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 
@@ -29,8 +28,7 @@ public abstract class ActionRequest extends AuthorizationRequest {
 	 */
 	@Override
 	public final boolean isAuthorized(IdentifierBundle ids, PolicyIface policy) {
-		PolicyDecision decision = policy.decide(ids, this);
-		return decision.getDecisionResult() == DecisionResult.AUTHORIZED;
+	    return PolicyHelper.actionRequestIsAuthorized( ids,  policy,  this);
 	}
 
 	@Override

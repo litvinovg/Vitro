@@ -20,6 +20,7 @@ import org.apache.jena.vocabulary.RDFS;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropObjectPropertyStatement;
@@ -103,8 +104,8 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
 			}
 		}
 		boolean isAuthorized = PolicyHelper.isAuthorizedForActions(vreq, 
-				new EditDataPropertyStatement(ontModel, subjectUri, predicateUri, objectUri).
-				or(objectPropertyAction));
+		        AuthHelper.logicOr(new EditDataPropertyStatement(ontModel, subjectUri, predicateUri, objectUri),
+				objectPropertyAction));
 		if (!isAuthorized) {
 			// If request is for new individual, return simple do back end editing action permission
 			if (StringUtils.isNotEmpty(EditConfigurationUtils.getTypeOfNew(vreq))) {
@@ -113,7 +114,7 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
 				return SimplePermissions.MANAGE_MENUS.actionRequest;
 			}
 		}
-		return isAuthorized? SimplePermissions.DO_FRONT_END_EDITING.actionRequest: AuthorizationRequest.UNAUTHORIZED;
+		return isAuthorized? SimplePermissions.DO_FRONT_END_EDITING.actionRequest: AuthHelper.UNAUTHORIZED;
 	}
 	
     public static String getFauxConfigUri(VitroRequest vreq) {

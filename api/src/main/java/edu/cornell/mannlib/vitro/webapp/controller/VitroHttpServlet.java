@@ -2,8 +2,6 @@
 
 package edu.cornell.mannlib.vitro.webapp.controller;
 
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest.AUTHORIZED;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -30,6 +28,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vedit.beans.LoginStatusBean;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.beans.DisplayMessage;
 import edu.cornell.mannlib.vitro.webapp.beans.ResourceBean;
@@ -120,7 +119,7 @@ public class VitroHttpServlet extends HttpServlet implements MultipartRequestWra
 	protected boolean isAuthorizedToDisplayPage(HttpServletRequest request,
 			HttpServletResponse response, AuthorizationRequest actions) {
 		// Record restricted pages so we won't return to them on logout
-		if (actions != AUTHORIZED) {
+		if (actions != AuthHelper.AUTHORIZED) {
 			LogoutRedirector.recordRestrictedPageUri(request);
 		}
 

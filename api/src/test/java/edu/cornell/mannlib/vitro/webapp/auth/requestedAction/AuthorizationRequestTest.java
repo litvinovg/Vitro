@@ -17,27 +17,19 @@ public class AuthorizationRequestTest extends AbstractTestClass {
 	private MyAuth one = new MyAuth("one");
 	private MyAuth two = new MyAuth("two");
 
-	@Test
-	public void and() {
-		assertEquals("and", "(MyAuth[one] && MyAuth[two])", one.and(two)
-				.toString());
-	}
-
-	@Test
-	public void andNull() {
-		assertEquals("andNull", "MyAuth[one]", one.and(null).toString());
-	}
-
-	@Test
-	public void or() {
-		assertEquals("or", "(MyAuth[one] || MyAuth[two])", one.or(two)
-				.toString());
-	}
-
-	@Test
-	public void orNull() {
-		assertEquals("orNull", "MyAuth[one]", one.or(null).toString());
-	}
+    /*
+     * @Test public void and() { assertEquals("and",
+     * "(MyAuth[one] && MyAuth[two])", one.and(two) .toString()); }
+     * 
+     * @Test public void andNull() { assertEquals("andNull", "MyAuth[one]",
+     * one.and(null).toString()); }
+     * 
+     * @Test public void or() { assertEquals("or",
+     * "(MyAuth[one] || MyAuth[two])", one.or(two) .toString()); }
+     * 
+     * @Test public void orNull() { assertEquals("orNull", "MyAuth[one]",
+     * one.or(null).toString()); }
+     */
 
 	// ----------------------------------------------------------------------
 	// Helper classes

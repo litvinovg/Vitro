@@ -3,7 +3,6 @@
 package edu.cornell.mannlib.vitro.webapp.controller.accounts.user;
 
 import static edu.cornell.mannlib.vedit.beans.LoginStatusBean.AuthenticationSource.EXTERNAL;
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest.AUTHORIZED;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.beans.DisplayMessage;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
@@ -44,7 +44,7 @@ public class UserAccountsUserController extends FreemarkerHttpServlet {
 		if (ACTION_MY_ACCOUNT.equals(action)) {
 			return SimplePermissions.EDIT_OWN_ACCOUNT.actionRequest;
 		} else {
-			return AUTHORIZED;
+			return AuthHelper.AUTHORIZED;
 		}
 	}
 

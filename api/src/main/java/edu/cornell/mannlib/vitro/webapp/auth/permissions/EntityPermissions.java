@@ -31,7 +31,7 @@ public class EntityPermissions {
     public static List<EntityPermission> getAllInstances() {
     
         if (EntityPermissions.allInstances.isEmpty()) {
-            collectAllInstances();
+            collectRoleTypes();
             updateAllPermissions();
         }
     
@@ -48,7 +48,7 @@ public class EntityPermissions {
         }
     }
 
-    private static void collectAllInstances() {
+    private static void collectRoleTypes() {
         OntModel accountsModel = ModelAccess.getInstance().getOntModel(ModelNames.USER_ACCOUNTS);
         try {
             accountsModel.enterCriticalSection(Lock.READ);

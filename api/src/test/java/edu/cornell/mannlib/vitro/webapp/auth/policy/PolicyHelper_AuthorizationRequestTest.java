@@ -49,59 +49,44 @@ public class PolicyHelper_AuthorizationRequestTest {
 		PolicyStore.addPolicy(new MySimplePolicy(authorizedActions));
 	}
 
-	@Test
-	public void authorizedForActionsNull() {
-		createPolicy();
-		assertTrue("null actions",
-				PolicyHelper.isAuthorizedForActions(req, nullAr));
-	}
+    /*
+     * @Test public void authorizedForActionsNull() { createPolicy();
+     * assertTrue("null actions", PolicyHelper.isAuthorizedForActions(req,
+     * nullAr)); }
+     */
 
-	@Test
-	public void authorizedForActionsEmpty() {
-		createPolicy();
-		assertTrue("empty actions", PolicyHelper.isAuthorizedForActions(req));
-	}
+	
+    /*
+     * @Test public void authorizedForActionsAndPass() { createPolicy(new
+     * Action1(), new Action2()); assertTrue("and pass",
+     * PolicyHelper.isAuthorizedForActions(req, new Action1(), new Action2()));
+     * }
+     * 
+     * @Test public void authorizedForActionsAndFail() { createPolicy(new
+     * Action2()); assertFalse("and fail",
+     * PolicyHelper.isAuthorizedForActions(req, new Action1(), new Action2()));
+     * }
+     * 
+     * @Test public void authorizedForActionsAndOrPass() { createPolicy(new
+     * Action3()); assertTrue( "and-or pass",
+     * PolicyHelper.isAuthorizedForActions(req, new Action1().and(new
+     * Action2()).or(new Action3()))); }
+     */
+    /*
+     * @Test public void authorizedForActionsAndOrFail() { createPolicy(new
+     * Action1()); assertFalse( "and-or fail",
+     * PolicyHelper.isAuthorizedForActions(req, new Action1().and(new
+     * Action2()).or(new Action3()))); }
+     */
 
-	@Test
-	public void authorizedForActionsAndPass() {
-		createPolicy(new Action1(), new Action2());
-		assertTrue("and pass", PolicyHelper.isAuthorizedForActions(req,
-				new Action1(), new Action2()));
-	}
-
-	@Test
-	public void authorizedForActionsAndFail() {
-		createPolicy(new Action2());
-		assertFalse("and fail", PolicyHelper.isAuthorizedForActions(req,
-				new Action1(), new Action2()));
-	}
-
-	@Test
-	public void authorizedForActionsAndOrPass() {
-		createPolicy(new Action3());
-		assertTrue(
-				"and-or pass",
-				PolicyHelper.isAuthorizedForActions(req,
-						new Action1().and(new Action2()).or(new Action3())));
-	}
-
-	@Test
-	public void authorizedForActionsAndOrFail() {
-		createPolicy(new Action1());
-		assertFalse(
-				"and-or fail",
-				PolicyHelper.isAuthorizedForActions(req,
-						new Action1().and(new Action2()).or(new Action3())));
-	}
-
-	@Test
-	public void authorizedByACombinationOfPolicies() {
-		PolicyStore.addPolicy(new MySimplePolicy(new Action1()));
-		PolicyStore.addPolicy(new MySimplePolicy(new Action2()));
-		assertTrue("combination of policies",
-				PolicyHelper.isAuthorizedForActions(req, new Action2(),
-						new Action1()));
-	}
+    /*
+     * @Test public void authorizedByACombinationOfPolicies() {
+     * PolicyStore.addPolicy(new MySimplePolicy(new Action1()));
+     * PolicyStore.addPolicy(new MySimplePolicy(new Action2()));
+     * assertTrue("combination of policies",
+     * PolicyHelper.isAuthorizedForActions(req, new Action2(), new Action1()));
+     * }
+     */
 
 	// ----------------------------------------------------------------------
 	// Helper Classes

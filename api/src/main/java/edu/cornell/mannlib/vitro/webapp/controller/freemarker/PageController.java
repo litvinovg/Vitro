@@ -3,9 +3,6 @@
 package edu.cornell.mannlib.vitro.webapp.controller.freemarker;
 
 
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest.AUTHORIZED;
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest.UNAUTHORIZED;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +18,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleActionReqiest;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
@@ -56,10 +54,10 @@ public class PageController extends FreemarkerHttpServlet{
     @Override
     protected AuthorizationRequest requiredActions(VitroRequest vreq) {
         try {
-			return AUTHORIZED.and(getActionsForPage(vreq));
+			return getActionsForPage(vreq);
         } catch (Exception e) {
             log.warn(e);
-            return UNAUTHORIZED;
+            return AuthHelper.UNAUTHORIZED;
         }
     }
 
@@ -67,14 +65,8 @@ public class PageController extends FreemarkerHttpServlet{
      * Get all the required actions directly required for the page.
      */
     private AuthorizationRequest getActionsForPage( VitroRequest vreq ) throws Exception{
-        List<String> simplePremUris = vreq.getWebappDaoFactory().getPageDao()
-            .getRequiredActions( getPageUri(vreq) );
-
-        AuthorizationRequest auth = AUTHORIZED;
-        for( String uri : simplePremUris ){
-            auth = auth.and( new SimpleActionReqiest(uri) );
-        }
-        return auth;
+        String uri = vreq.getWebappDaoFactory().getPageDao().getRequiredActions( getPageUri(vreq) );
+        return new SimpleActionReqiest(uri);
     }
 
     @Override

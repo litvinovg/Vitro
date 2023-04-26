@@ -2,7 +2,6 @@
 
 package edu.cornell.mannlib.vitro.webapp.controller.admin;
 
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest.AUTHORIZED;
 import static edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess.LanguageOption.LANGUAGE_NEUTRAL;
 import static edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess.WhichService.CONFIGURATION;
 import static edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess.WhichService.CONTENT;
@@ -23,6 +22,7 @@ import org.apache.jena.graph.Graph;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
 
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.FreemarkerHttpServlet;
@@ -112,7 +112,7 @@ public class ShowSourcesController extends FreemarkerHttpServlet {
 
 	@Override
 	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
-		return AUTHORIZED;
+		return AuthHelper.AUTHORIZED;
 	}
 
 	@Override
