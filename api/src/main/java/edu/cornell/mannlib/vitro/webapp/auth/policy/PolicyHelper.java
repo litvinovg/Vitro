@@ -52,15 +52,6 @@ public class PolicyHelper {
 	 * Are these actions authorized for the current user by the current
 	 * policies?
 	 */
-	public static boolean isAuthorizedForActions(HttpServletRequest req,
-			Iterable<? extends AuthorizationRequest> actions) {
-		return isAuthorizedForActions(req, AuthorizationRequest.andAll(actions));
-	}
-
-	/**
-	 * Are these actions authorized for the current user by the current
-	 * policies?
-	 */
 	private static boolean isAuthorizedForActions(HttpServletRequest req,
 			AuthorizationRequest ar) {
 		PolicyIface policy = PolicyStore.getInstance().copy();
