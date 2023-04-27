@@ -14,7 +14,7 @@ import edu.cornell.mannlib.vitro.webapp.beans.Property;
  * A null request is ignored, so in "and" it is equivalent to true, while in
  * "or" it is equivalent to false.
  */
-public abstract class ActionRequest {
+public abstract class AccessObject {
 
 	public static String ACTION_NAMESPACE = "java:";
     public static String SOME_URI = "?SOME_URI";
@@ -44,7 +44,7 @@ public abstract class ActionRequest {
         return false;
     }
 
-    public List<ActionRequest> getItems(){
+    public List<AccessObject> getItems(){
         return Collections.EMPTY_LIST;
     };
 

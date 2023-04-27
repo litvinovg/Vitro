@@ -14,7 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroHttpServlet;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationVTwo;
@@ -37,7 +37,7 @@ public class EditRequestAJAXController extends VitroHttpServlet {
     public static Log log = LogFactory.getLog(EditRequestDispatchController.class);
 
 
-	protected ActionRequest requiredActions(VitroRequest vreq) {
+	protected AccessObject requiredActions(VitroRequest vreq) {
     	return SimplePermissions.DO_FRONT_END_EDITING.actionRequest;
 	}
 

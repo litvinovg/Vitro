@@ -5,11 +5,11 @@ import java.util.List;
 
 public class AuthHelper {
 
-    static class OrAuthorizationRequest extends ActionRequest {
-    	private final ActionRequest ar1;
-    	private final ActionRequest ar2;
+    static class OrAuthorizationRequest extends AccessObject {
+    	private final AccessObject ar1;
+    	private final AccessObject ar2;
     
-    	private OrAuthorizationRequest(ActionRequest ar1, ActionRequest ar2) {
+    	private OrAuthorizationRequest(AccessObject ar1, AccessObject ar2) {
     		this.ar1 = ar1;
     		this.ar2 = ar2;
     	}
@@ -18,7 +18,7 @@ public class AuthHelper {
             return true;
         }
 
-        public List<ActionRequest> getItems(){
+        public List<AccessObject> getItems(){
             return Arrays.asList(ar1, ar2);
         };
 
@@ -30,7 +30,7 @@ public class AuthHelper {
     
     }
 
-    public static ActionRequest logicOr(ActionRequest fist, ActionRequest second) {
+    public static AccessObject logicOr(AccessObject fist, AccessObject second) {
         if (fist == null) {
             return second;
         } else if (second == null) {
@@ -41,7 +41,7 @@ public class AuthHelper {
     }
 
     
-    public static final ActionRequest AUTHORIZED = new AllowRequest();
-    public static final ActionRequest UNAUTHORIZED = new DenyRequest();
+    public static final AccessObject AUTHORIZED = new AllowedAccessObject();
+    public static final AccessObject UNAUTHORIZED = new ForbiddenAccessObject();
 
 }

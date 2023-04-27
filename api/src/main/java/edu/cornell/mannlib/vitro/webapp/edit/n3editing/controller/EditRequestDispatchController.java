@@ -19,7 +19,7 @@ import org.apache.jena.vocabulary.RDFS;
 
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropObjectPropertyStatement;
@@ -72,7 +72,7 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
     final String MANAGE_MENUS_FORM = "edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators.ManagePageGenerator";
     
 	@Override
-	protected ActionRequest requiredActions(VitroRequest vreq) {
+	protected AccessObject requiredActions(VitroRequest vreq) {
 
 		if (isIndividualDeletion(vreq)) {
 			return SimplePermissions.DO_BACK_END_EDITING.actionRequest;
@@ -94,7 +94,7 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
 		OntModel ontModel = ModelAccess.on(vreq).getOntModel();
 		AbstractObjectPropertyStatementAction objectPropertyAction;
 		if (StringUtils.isBlank(objectUri)) {
-			objectPropertyAction = new AddObjectPropertyStatement(ontModel, subjectUri, predicateProp, ActionRequest.SOME_URI);
+			objectPropertyAction = new AddObjectPropertyStatement(ontModel, subjectUri, predicateProp, AccessObject.SOME_URI);
 		} else {
 			if (isDeleteForm(vreq)) {
 				objectPropertyAction = new DropObjectPropertyStatement(ontModel, subjectUri, predicateProp, objectUri);

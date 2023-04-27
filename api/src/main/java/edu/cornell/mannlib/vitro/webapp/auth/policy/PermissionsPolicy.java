@@ -12,7 +12,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.permissions.Permission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class PermissionsPolicy implements PolicyIface {
     private static final Log log = LogFactory.getLog(PermissionsPolicy.class);
 
     @Override
-    public PolicyDecision decide(IdentifierBundle ac_subject, ActionRequest whatToAuth) {
+    public PolicyDecision decide(IdentifierBundle ac_subject, AccessObject whatToAuth) {
         if (ac_subject == null) {
             return defaultDecision("whomToAuth was null");
         }

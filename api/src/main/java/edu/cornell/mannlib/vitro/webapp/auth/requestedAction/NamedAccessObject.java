@@ -6,10 +6,10 @@ package edu.cornell.mannlib.vitro.webapp.auth.requestedAction;
 /**
  * A RequestedAction that can be recognized by a SimplePermission.
  */
-public class SimpleActionRequest extends ActionRequest {
+public class NamedAccessObject extends AccessObject {
 	private final String uri;
 
-	public SimpleActionRequest(String uri) {
+	public NamedAccessObject(String uri) {
 		if (uri == null) {
 			throw new NullPointerException("uri may not be null.");
 		}
@@ -29,8 +29,8 @@ public class SimpleActionRequest extends ActionRequest {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof SimpleActionRequest) {
-			SimpleActionRequest that = (SimpleActionRequest) o;
+		if (o instanceof NamedAccessObject) {
+			NamedAccessObject that = (NamedAccessObject) o;
 			return equivalent(this.uri, that.uri);
 		}
 		return false;

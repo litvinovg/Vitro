@@ -2,7 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.dao.filtering;
 
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest.SOME_LITERAL;
+import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject.SOME_LITERAL;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

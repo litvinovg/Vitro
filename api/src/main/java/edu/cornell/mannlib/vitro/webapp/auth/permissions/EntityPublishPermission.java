@@ -2,7 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.permissions;
 
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.publish.PublishDataProperty;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.publish.PublishDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.publish.PublishObjectProperty;
@@ -22,7 +22,7 @@ public class EntityPublishPermission extends EntityPermission {
     }
 
     @Override
-    public boolean isAuthorized(List<String> personUris, ActionRequest whatToAuth) {
+    public boolean isAuthorized(List<String> personUris, AccessObject whatToAuth) {
         boolean result = false;
 
         if (whatToAuth instanceof PublishDataProperty) {

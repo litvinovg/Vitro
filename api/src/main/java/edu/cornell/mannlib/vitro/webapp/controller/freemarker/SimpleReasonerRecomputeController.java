@@ -10,7 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.responsevalues.ExceptionResponseValues;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.responsevalues.ResponseValues;
@@ -29,7 +29,7 @@ public class SimpleReasonerRecomputeController extends FreemarkerHttpServlet {
     private static final String RECOMPUTE_INFERENCES_FTL = "recomputeInferences.ftl";
 
     @Override
-	protected ActionRequest requiredActions(VitroRequest vreq) {
+	protected AccessObject requiredActions(VitroRequest vreq) {
     	return SimplePermissions.USE_MISCELLANEOUS_ADMIN_PAGES.actionRequest;
 	}
 

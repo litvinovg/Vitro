@@ -2,7 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.dao.filtering.filters;
 
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest.SOME_URI;
+import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject.SOME_URI;
 import net.sf.jga.fn.UnaryFunctor;
 
 import org.apache.commons.logging.Log;
@@ -12,7 +12,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataProperty;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectProperty;
@@ -50,7 +50,7 @@ public class HideFromDisplayByPolicyFilter extends VitroFiltersImpl {
 		setObjectPropertyStatementFilter(new ObjectPropertyStatementFilterByPolicy());
 	}
 
-	boolean checkAuthorization(ActionRequest whatToAuth) {
+	boolean checkAuthorization(AccessObject whatToAuth) {
 		PolicyDecision decision = policy.decide(idBundle, whatToAuth);
 		log.debug("decision is " + decision);
 

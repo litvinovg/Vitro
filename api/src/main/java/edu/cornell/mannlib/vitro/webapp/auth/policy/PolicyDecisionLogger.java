@@ -12,7 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.utils.developer.DeveloperSettings;
 import edu.cornell.mannlib.vitro.webapp.utils.developer.Key;
 
@@ -33,7 +33,7 @@ public class PolicyDecisionLogger {
 			INCONCLUSIVE, "The decision was null.");
 
 	private final DeveloperSettings settings;
-	private final ActionRequest whatToAuth;
+	private final AccessObject whatToAuth;
 	private final IdentifierBundle whoToAuth;
 
 	private final boolean enabled;
@@ -43,7 +43,7 @@ public class PolicyDecisionLogger {
 	private final boolean includeIdentifiers;
 
 	public PolicyDecisionLogger(IdentifierBundle whoToAuth,
-			ActionRequest whatToAuth) {
+			AccessObject whatToAuth) {
 		this.settings = DeveloperSettings.getInstance();
 		this.whoToAuth = whoToAuth;
 		this.whatToAuth = whatToAuth;

@@ -9,7 +9,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractObjectPropertyStatementAction;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditObjectPropertyStatement;
@@ -22,7 +22,7 @@ public class RestrictHomeMenuItemEditingPolicy implements PolicyIface {
 
 	@Override
 	public PolicyDecision decide(IdentifierBundle whoToAuth,
-			ActionRequest whatToAuth) {
+			AccessObject whatToAuth) {
 		if (whatToAuth instanceof EditObjectPropertyStatement) {
 			return isAuthorized((EditObjectPropertyStatement) whatToAuth);
 		} else if (whatToAuth instanceof DropObjectPropertyStatement) {

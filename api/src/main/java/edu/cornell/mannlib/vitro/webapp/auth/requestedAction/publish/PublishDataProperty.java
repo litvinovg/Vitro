@@ -2,11 +2,11 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.requestedAction.publish;
 
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 
 /** Should we allow the user to publish this DataProperty in Linked Open Data? */
-public class PublishDataProperty extends ActionRequest {
+public class PublishDataProperty extends AccessObject {
 	private final DataProperty dataProperty;
 
 	public PublishDataProperty(DataProperty dataProperty) {

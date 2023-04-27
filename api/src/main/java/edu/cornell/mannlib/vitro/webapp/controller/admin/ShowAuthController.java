@@ -2,8 +2,8 @@
 
 package edu.cornell.mannlib.vitro.webapp.controller.admin;
 
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest.SOME_PREDICATE;
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest.SOME_URI;
+import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject.SOME_PREDICATE;
+import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject.SOME_URI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.RequestIdentifiers;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.HasAssociatedIndividual;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyStore;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.config.ConfigurationProperties;
@@ -39,7 +39,7 @@ import edu.cornell.mannlib.vitro.webapp.controller.freemarker.responsevalues.Tem
 public class ShowAuthController extends FreemarkerHttpServlet {
 
 	@Override
-	protected ActionRequest requiredActions(VitroRequest vreq) {
+	protected AccessObject requiredActions(VitroRequest vreq) {
 		return AuthHelper.AUTHORIZED;
 	}
 
@@ -87,7 +87,7 @@ public class ShowAuthController extends FreemarkerHttpServlet {
 	 * this individual?
 	 */
 	private boolean mayEditIndividual(VitroRequest vreq, String individualUri) {
-		ActionRequest action = new EditObjectPropertyStatement(
+		AccessObject action = new EditObjectPropertyStatement(
 				vreq.getJenaOntModel(), individualUri,
 				SOME_PREDICATE, SOME_URI);
 		return PolicyHelper.isAuthorizedForActions(vreq, action);

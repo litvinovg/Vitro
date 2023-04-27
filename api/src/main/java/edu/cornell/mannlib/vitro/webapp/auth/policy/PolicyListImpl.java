@@ -10,7 +10,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 
 public class PolicyListImpl implements PolicyList, Cloneable {
 
@@ -19,7 +19,7 @@ public class PolicyListImpl implements PolicyList, Cloneable {
     protected ArrayList<PolicyIface> policies = new ArrayList<PolicyIface>(); 
 
     @Override
-    public PolicyDecision decide(IdentifierBundle ac_subject, ActionRequest whatToAuth) {
+    public PolicyDecision decide(IdentifierBundle ac_subject, AccessObject whatToAuth) {
         PolicyDecision pd = null;
         PolicyDecisionLogger logger = new PolicyDecisionLogger(ac_subject, whatToAuth);
         for(PolicyIface policy : policies){

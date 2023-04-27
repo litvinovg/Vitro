@@ -2,7 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.policy;
 
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest.SOME_URI;
+import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject.SOME_URI;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.RequestIdentifiers;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropDataPropertyStatement;
@@ -43,7 +43,7 @@ public class PolicyHelper {
 	private static final Log log = LogFactory.getLog(PolicyHelper.class);
 
 	public static boolean isAuthorizedForActions(HttpServletRequest req,
-			ActionRequest ar) {
+			AccessObject ar) {
 		PolicyIface policy = PolicyStore.getInstance().copy();
 		IdentifierBundle ids = RequestIdentifiers.getIdBundleForRequest(req);
 		return actionRequestIsAuthorized(ids, policy, ar);
@@ -53,18 +53,18 @@ public class PolicyHelper {
 	 * Are these actions authorized for these identifiers by these policies?
 	 */
 	public static boolean isAuthorizedForActions(IdentifierBundle ids,
-			PolicyIface policy, ActionRequest ar) {
+			PolicyIface policy, AccessObject ar) {
 		return actionRequestIsAuthorized(ids, policy, ar);
 	}
 	
-	public static boolean actionRequestIsAuthorized(IdentifierBundle ids, PolicyIface policy, ActionRequest ar) {
+	public static boolean actionRequestIsAuthorized(IdentifierBundle ids, PolicyIface policy, AccessObject ar) {
 	    if (ar.getPredefinedDecision() != DecisionResult.INCONCLUSIVE){
 	        return ar.getPredefinedDecision() == DecisionResult.AUTHORIZED;
 	    }
 	    if (ar.isContainer()) {
-	        List<ActionRequest> items = ar.getItems();
+	        List<AccessObject> items = ar.getItems();
 	        boolean result = false;
-	        for (ActionRequest item : items ) {
+	        for (AccessObject item : items ) {
 	            result = result || actionRequestIsAuthorized(ids, policy, item);
 	        }
 	        return result;
@@ -83,7 +83,7 @@ public class PolicyHelper {
 	 * identifier bundle.
 	 */
 	public static boolean isAuthorizedForActions(HttpServletRequest req,
-			String email, String password, ActionRequest ar) {
+			String email, String password, AccessObject ar) {
 		if (password == null || email == null || password.isEmpty()
 				|| email.isEmpty()) {
 			return false;
@@ -137,7 +137,7 @@ public class PolicyHelper {
 			return false;
 		}
 
-		ActionRequest action;
+		AccessObject action;
 		if (objectNode.isResource()) {
 			Property property = new Property(predicate.getURI());
 			property.setDomainVClassURI(SOME_URI);
@@ -172,7 +172,7 @@ public class PolicyHelper {
 			return false;
 		}
 
-		ActionRequest action;
+		AccessObject action;
 		if (objectNode.isResource()) {
 			Property property = new Property(predicate.getURI());
 			property.setDomainVClassURI(SOME_URI);

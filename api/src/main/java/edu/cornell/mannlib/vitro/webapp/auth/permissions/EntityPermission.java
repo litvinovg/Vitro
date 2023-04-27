@@ -2,7 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.permissions;
 
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractDataPropertyStatementAction;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractObjectPropertyStatementAction;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractPropertyStatementAction;
@@ -166,7 +166,7 @@ public abstract class EntityPermission extends Permission {
     }
 
     protected boolean isAuthorizedFor(Property prop) {
-        if (ActionRequest.SOME_URI.equals(prop.getURI())) {
+        if (AccessObject.SOME_URI.equals(prop.getURI())) {
             return true;
         }
         synchronized (authorizedKeys) {

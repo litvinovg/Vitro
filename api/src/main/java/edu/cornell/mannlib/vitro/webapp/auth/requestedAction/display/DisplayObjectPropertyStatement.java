@@ -2,11 +2,11 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display;
 
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
 
 /** Should we let the user see this ObjectPropertyStatement? */
-public class DisplayObjectPropertyStatement extends ActionRequest {
+public class DisplayObjectPropertyStatement extends AccessObject {
 	private final String subjectUri;
 	private final ObjectProperty property;
 	private final String objectUri;

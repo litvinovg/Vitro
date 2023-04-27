@@ -10,7 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
@@ -52,7 +52,7 @@ public class ObjectPropertyStatementTemplateModel extends PropertyStatementTempl
     	}
 
         // Determine whether the statement can be deleted
-		ActionRequest action = new DropObjectPropertyStatement(
+		AccessObject action = new DropObjectPropertyStatement(
 				vreq.getJenaOntModel(), subjectUri, property, objectUri);
         if ( ! PolicyHelper.isAuthorizedForActions(vreq, action) ) {
             return "";
@@ -109,7 +109,7 @@ public class ObjectPropertyStatementTemplateModel extends PropertyStatementTempl
     	}
 
        // Determine whether the statement can be edited
-        ActionRequest action =  new EditObjectPropertyStatement(vreq.getJenaOntModel(), subjectUri, property, objectUri);
+        AccessObject action =  new EditObjectPropertyStatement(vreq.getJenaOntModel(), subjectUri, property, objectUri);
         if ( ! PolicyHelper.isAuthorizedForActions(vreq, action) ) {
             return "";
         }

@@ -28,7 +28,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.IdentifierPermissionProvider;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.Permission;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.PermissionRegistry;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.PermissionSet;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
 
@@ -270,7 +270,7 @@ public class HasPermissionFactoryTest extends AbstractTestClass {
 		}
 
 		@Override
-		public boolean isAuthorized(List<String> personUris, ActionRequest whatToAuth) {
+		public boolean isAuthorized(List<String> personUris, AccessObject whatToAuth) {
 			return false;
 		}
 

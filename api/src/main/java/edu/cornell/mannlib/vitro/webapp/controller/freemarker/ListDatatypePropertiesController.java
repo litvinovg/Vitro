@@ -14,7 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.Datatype;
 import edu.cornell.mannlib.vitro.webapp.beans.PropertyGroup;
@@ -39,7 +39,7 @@ public class ListDatatypePropertiesController extends FreemarkerHttpServlet {
     private static final String TEMPLATE_NAME = "siteAdmin-objectPropHierarchy.ftl";
 
     @Override
-	protected ActionRequest requiredActions(VitroRequest vreq) {
+	protected AccessObject requiredActions(VitroRequest vreq) {
 		return SimplePermissions.EDIT_ONTOLOGY.actionRequest;
 	}
 

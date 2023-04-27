@@ -2,8 +2,8 @@
 
 package edu.cornell.mannlib.vitro.webapp.web.templatemodels.individual;
 
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest.SOME_LITERAL;
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest.SOME_URI;
+import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject.SOME_LITERAL;
+import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject.SOME_URI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataProperty;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectProperty;
@@ -75,11 +75,11 @@ public class PropertyGroupTemplateModel extends BaseTemplateModel {
 	 */
 	private boolean allowedToDisplay(VitroRequest vreq, ObjectProperty op,
 			Individual subject) {
-		ActionRequest dop = new DisplayObjectProperty(op);
+		AccessObject dop = new DisplayObjectProperty(op);
 		if (PolicyHelper.isAuthorizedForActions(vreq, dop)) {
 			return true;
 		}
-		ActionRequest dops;
+		AccessObject dops;
 		if (op instanceof FauxObjectPropertyWrapper) {
 			dops = new DisplayObjectPropertyStatement(((FauxObjectPropertyWrapper) op).getConfigUri(), op, SOME_URI);
 		} else {
@@ -93,7 +93,7 @@ public class PropertyGroupTemplateModel extends BaseTemplateModel {
 	 * statement might still be permitted to a self-editor.
 	 */
 	private boolean allowedToDisplay(VitroRequest vreq, DataProperty dp, Individual subject) {
-		ActionRequest dop = new DisplayDataProperty(dp);
+		AccessObject dop = new DisplayDataProperty(dp);
 		if (PolicyHelper.isAuthorizedForActions(vreq, dop)) {
 			return true;
 		}
@@ -103,7 +103,7 @@ public class PropertyGroupTemplateModel extends BaseTemplateModel {
 		} else {
 			dps = new DataPropertyStatementImpl(subject.getURI(), dp.getURI(), SOME_LITERAL);
 		}
-		ActionRequest dops = new DisplayDataPropertyStatement(dps);
+		AccessObject dops = new DisplayDataPropertyStatement(dps);
         return PolicyHelper.isAuthorizedForActions(vreq, dops);	
     }
 

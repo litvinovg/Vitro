@@ -24,7 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.ApplicationBean;
 import edu.cornell.mannlib.vitro.webapp.beans.DisplayMessage;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroHttpServlet;
@@ -228,7 +228,7 @@ public class FreemarkerHttpServlet extends VitroHttpServlet  {
      * REQUIRED_ACTIONS which is overridden in the subclass.
      *
      */
-    protected ActionRequest requiredActions(VitroRequest vreq) {
+    protected AccessObject requiredActions(VitroRequest vreq) {
         return AuthHelper.AUTHORIZED;
     }
 

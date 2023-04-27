@@ -7,8 +7,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.NamedAccessObject;
 
 /**
  * A class of simple permissions. Each instance holds a RequestedAction, and
@@ -17,24 +17,24 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleActionRequest
 public class SimplePermission extends Permission {
 	private static final Log log = LogFactory.getLog(SimplePermission.class);
 
-	public final ActionRequest actionRequest;
+	public final AccessObject actionRequest;
 
 	public SimplePermission(String uri) {
 		super(uri);
 		if (SimplePermissions.contains(this.uri)) {
 			throw new IllegalStateException("A SimplePermission named '" + this.uri + "' already exists.");
 		}
-	    this.actionRequest = new SimpleActionRequest(uri);
+	    this.actionRequest = new NamedAccessObject(uri);
 
 		SimplePermissions.add(this);
 	}
 
 	@Override
-	public boolean isAuthorized(List<String> personUris, ActionRequest whatToAuth) {
+	public boolean isAuthorized(List<String> personUris, AccessObject whatToAuth) {
 		return isAuthorized(whatToAuth);
 	}
 
-    private boolean isAuthorized(ActionRequest whatToAuth) {
+    private boolean isAuthorized(AccessObject whatToAuth) {
         if (whatToAuth != null) {
 			if (getUri().equals(whatToAuth.getURI())) {
 				log.debug(this + " authorizes " + whatToAuth);
