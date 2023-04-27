@@ -11,6 +11,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.ActiveIdentifierBundleFa
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataProperty;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectProperty;
@@ -27,7 +28,8 @@ import net.sf.jga.fn.UnaryFunctor;
  */
 public class FilterByDisplayPermission extends VitroFiltersImpl {
 	private static final Log log = LogFactory.getLog(FilterByDisplayPermission.class);
-	IdentifierBundle bundle = ActiveIdentifierBundleFactories.getUserIdentifierBundle(null);
+	IdentifierBundle accessSubject = ActiveIdentifierBundleFactories.getUserIdentifierBundle(null);
+	AccessOperation requestedOperation = AccessOperation.DISPLAY;
 
 	public FilterByDisplayPermission() {
 	    setDataPropertyFilter(new DataPropertyFilterByPolicy());
@@ -36,9 +38,9 @@ public class FilterByDisplayPermission extends VitroFiltersImpl {
 	    setObjectPropertyStatementFilter(new ObjectPropertyStatementFilterByPolicy());
 	}
 
-	boolean checkAuthorization(AccessObject whatToAuth) {
+	boolean checkAuthorization(AccessObject accessObject) {
 	    
-		boolean decision = PolicyHelper.isAuthorizedForActions(bundle, whatToAuth);
+		boolean decision = PolicyHelper.isAuthorizedForActions(accessSubject, requestedOperation, accessObject);
 		log.debug("decision is " + decision);
 		return decision;
 	}

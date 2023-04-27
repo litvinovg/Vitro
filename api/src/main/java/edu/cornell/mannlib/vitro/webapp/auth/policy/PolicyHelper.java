@@ -27,6 +27,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropDataPropertyStatement;
@@ -48,10 +49,10 @@ public class PolicyHelper {
 		return actionRequestIsAuthorized(ids, policy, ar);
 	}
 	
-    public static boolean isAuthorizedForActions(IdentifierBundle ids, AccessObject ar) {
-        PolicyIface policy = PolicyStore.getInstance().copy();
-        return actionRequestIsAuthorized(ids, policy, ar);
-    }
+	   public static boolean isAuthorizedForActions(IdentifierBundle ids, AccessOperation op, AccessObject ar) {
+	        PolicyIface policy = PolicyStore.getInstance().copy();
+	        return actionRequestIsAuthorized(ids, policy, ar);
+	    }
 
 	/**
 	 * Are these actions authorized for these identifiers by these policies?
