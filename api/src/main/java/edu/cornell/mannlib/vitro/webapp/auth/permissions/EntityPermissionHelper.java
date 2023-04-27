@@ -193,11 +193,11 @@ public class EntityPermissionHelper {
     static boolean isAuthorizedBySimplePermission(AccessObject whatToAuth, SimplePermission simplePermission) {
         if (whatToAuth != null) {
     		if (simplePermission.getUri().equals(whatToAuth.getURI())) {
-    			SimplePermission.log.debug(simplePermission + " authorizes " + whatToAuth);
+    			log.debug(simplePermission + " authorizes " + whatToAuth);
     			return true;
     		}
     	}
-    	SimplePermission.log.debug(simplePermission + " does not authorize " + whatToAuth);
+    	log.debug(simplePermission + " does not authorize " + whatToAuth);
     	return false;
     }
     

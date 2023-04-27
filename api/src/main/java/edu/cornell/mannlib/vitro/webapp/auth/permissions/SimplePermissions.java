@@ -68,6 +68,9 @@ public class SimplePermissions {
     }
     
     public static void add(SimplePermission permission) {
+        if (SimplePermissions.contains(permission.getUri())) {
+            throw new IllegalStateException("A SimplePermission named '" + permission.getUri() + "' already exists.");
+        }
         simplePermissions.put(permission.getUri(), permission);
     }
     
