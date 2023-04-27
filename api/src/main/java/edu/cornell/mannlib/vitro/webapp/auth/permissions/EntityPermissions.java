@@ -44,7 +44,7 @@ public class EntityPermissions {
         }
     
         for (EntityPermission instance : allInstances.values()) {
-            instance.updateFor(p);
+            EntityPermissionHelper.updateForEntityPermission(p, instance);
         }
     }
 
@@ -106,7 +106,7 @@ public class EntityPermissions {
         }
 
         for (EntityPermission instance : allInstances.values()) {
-            instance.update(propertyKeyMap);
+            EntityPermissionHelper.updateEntityPermission(propertyKeyMap, instance);
         }
     }
 
