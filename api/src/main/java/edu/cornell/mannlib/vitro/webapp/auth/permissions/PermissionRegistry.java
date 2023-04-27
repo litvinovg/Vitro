@@ -151,8 +151,6 @@ public class PermissionRegistry {
 			ServletContext ctx = sce.getServletContext();
 			StartupStatus ss = StartupStatus.getBean(ctx);
 			try {
-				ContextModelAccess models = ModelAccess.on(ctx);
-
 				List<Permission> permissions = new ArrayList<Permission>();
 
 				permissions.addAll(SimplePermissions.getAllInstances());

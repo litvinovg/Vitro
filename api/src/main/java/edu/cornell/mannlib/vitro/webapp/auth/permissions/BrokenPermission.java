@@ -17,12 +17,7 @@ public class BrokenPermission extends Permission {
 
 	@Override
 	public boolean isAuthorized(List<String> personUris, AccessObject whatToAuth) {
-		return false;
-	}
-
-	@Override
-	public String toString() {
-		return "BrokenPermission[" + uri + "]";
+		return EntityPermissionHelper.isAuthorizedByBrokenPermission();
 	}
 
 }

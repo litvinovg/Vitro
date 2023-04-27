@@ -15,7 +15,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.NamedAccessObject;
  * will only authorize that RequestedAction (or one with the same URI).
  */
 public class SimplePermission extends Permission {
-	private static final Log log = LogFactory.getLog(SimplePermission.class);
+	static final Log log = LogFactory.getLog(SimplePermission.class);
 
 	public final AccessObject actionRequest;
 
@@ -31,23 +31,7 @@ public class SimplePermission extends Permission {
 
 	@Override
 	public boolean isAuthorized(List<String> personUris, AccessObject whatToAuth) {
-		return isAuthorized(whatToAuth);
-	}
-
-    private boolean isAuthorized(AccessObject whatToAuth) {
-        if (whatToAuth != null) {
-			if (getUri().equals(whatToAuth.getURI())) {
-				log.debug(this + " authorizes " + whatToAuth);
-				return true;
-			}
-		}
-		log.debug(this + " does not authorize " + whatToAuth);
-		return false;
-    }
-
-	@Override
-	public String toString() {
-		return "SimplePermission['" + uri+ "']";
+		return EntityPermissionHelper.isAuthorizedBySimplePermission(whatToAuth, this);
 	}
 
 }

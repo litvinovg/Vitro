@@ -95,7 +95,113 @@ public class EntityPermissionHelper {
         return entityPermission.getAuthorizedKeys().contains(new PropertyDao.FullPropertyKey(prop.getURI()));
     }
 
-    static boolean isAuthorizedEntityPublishPermission(List<String> personUris, AccessObject whatToAuth, EntityPermission entityPublishPermission) {
+   
+    static boolean isModifiable(String uri) {
+        if (EntityPermissionHelper.PROHIBITED_NAMESPACES.contains(uri.substring(0, Util.splitNamespaceXML(uri)))) {
+            if (EntityPermissionHelper.PERMITTED_EXCEPTIONS.contains(uri)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    
+        return true;
+    
+    }
+
+    static final Collection<String> PROHIBITED_NAMESPACES = Arrays
+    .asList(VitroVocabulary.vitroURI, "" );
+    static final Collection<String> PERMITTED_EXCEPTIONS = Arrays
+    .asList(VitroVocabulary.MONIKER,
+            VitroVocabulary.MODTIME, VitroVocabulary.IND_MAIN_IMAGE,
+            VitroVocabulary.LINK, VitroVocabulary.PRIMARY_LINK,
+            VitroVocabulary.ADDITIONAL_LINK,
+            VitroVocabulary.LINK_ANCHOR, VitroVocabulary.LINK_URL );
+
+
+    
+
+    static void updateForEntityPermission(Property p, EntityPermission entityPermission) {
+        String uri = null;      // Due to the data model of Vitro, this could be a property or a property config uri
+        PropertyDao.FullPropertyKey key = null;
+    
+        if (p instanceof FauxProperty) {
+            FauxProperty fp = (FauxProperty)p;
+            uri = fp.getConfigUri();
+        } else {
+            uri = p.getURI();
+        }
+        key = new PropertyDao.FullPropertyKey(uri);
+    
+        OntModel accountsModel = ModelAccess.getInstance().getOntModel(ModelNames.USER_ACCOUNTS);
+        accountsModel.enterCriticalSection(Lock.READ);
+    
+        try {
+            if (accountsModel.contains(accountsModel.getResource(entityPermission.getUri()), accountsModel.getProperty(VitroVocabulary.PERMISSION_FOR_ENTITY), accountsModel.getResource(uri))) {
+                entityPermission.getAuthorizedKeys().add(key);
+                entityPermission.getAuthorizedResources().add(uri);
+            } else {
+                entityPermission.getAuthorizedKeys().remove(key);
+                entityPermission.getAuthorizedResources().remove(uri);
+            }
+        } finally {
+            accountsModel.leaveCriticalSection();
+        }
+    }
+
+    static void updateEntityPermission(Map<String, PropertyDao.FullPropertyKey> propertyKeyMap, EntityPermission entityPermission) {
+        List<PropertyDao.FullPropertyKey> newKeys = new ArrayList<>();
+        List<String> newResources = new ArrayList<>();
+    
+        OntModel accountsModel = ModelAccess.getInstance().getOntModel(ModelNames.USER_ACCOUNTS);
+        accountsModel.enterCriticalSection(Lock.READ);
+        StmtIterator propIter = null;
+        try {
+            propIter = accountsModel.listStatements(
+                accountsModel.getResource(entityPermission.getUri()),
+                accountsModel.getProperty(VitroVocabulary.PERMISSION_FOR_ENTITY),
+                (RDFNode) null
+            );
+            while (propIter.hasNext()) {
+                Statement proptStmt = propIter.next();
+                if (proptStmt.getObject().isURIResource()) {
+                    String uri = proptStmt.getObject().asResource().getURI();
+                    PropertyDao.FullPropertyKey key = propertyKeyMap.get(uri);
+                    if (key != null) {
+                        newKeys.add(key);
+                    } else {
+                        newResources.add(uri);
+                    }
+                }
+            }
+        } finally {
+            if (propIter != null) {
+                propIter.close();
+            }
+            accountsModel.leaveCriticalSection();
+        }
+    
+        // replace authorized keys
+        entityPermission.getAuthorizedKeys().clear();
+        entityPermission.getAuthorizedKeys().addAll(newKeys);
+        
+        // replace authorized resources
+        entityPermission.getAuthorizedResources().clear();
+        entityPermission.getAuthorizedResources().addAll(newResources);
+    }
+
+    static boolean isAuthorizedBySimplePermission(AccessObject whatToAuth, SimplePermission simplePermission) {
+        if (whatToAuth != null) {
+    		if (simplePermission.getUri().equals(whatToAuth.getURI())) {
+    			SimplePermission.log.debug(simplePermission + " authorizes " + whatToAuth);
+    			return true;
+    		}
+    	}
+    	SimplePermission.log.debug(simplePermission + " does not authorize " + whatToAuth);
+    	return false;
+    }
+    
+    static boolean isAuthorizedByEntityPublishPermission(List<String> personUris, AccessObject whatToAuth, EntityPermission entityPublishPermission) {
         boolean result = false;
     
         if (whatToAuth instanceof PublishDataProperty) {
@@ -168,30 +274,7 @@ public class EntityPermissionHelper {
     
         return result;
     }
-
-    static boolean isModifiable(String uri) {
-        if (EntityPermissionHelper.PROHIBITED_NAMESPACES.contains(uri.substring(0, Util.splitNamespaceXML(uri)))) {
-            if (EntityPermissionHelper.PERMITTED_EXCEPTIONS.contains(uri)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
     
-        return true;
-    
-    }
-
-    static final Collection<String> PROHIBITED_NAMESPACES = Arrays
-    .asList(VitroVocabulary.vitroURI, "" );
-    static final Collection<String> PERMITTED_EXCEPTIONS = Arrays
-    .asList(VitroVocabulary.MONIKER,
-            VitroVocabulary.MODTIME, VitroVocabulary.IND_MAIN_IMAGE,
-            VitroVocabulary.LINK, VitroVocabulary.PRIMARY_LINK,
-            VitroVocabulary.ADDITIONAL_LINK,
-            VitroVocabulary.LINK_ANCHOR, VitroVocabulary.LINK_URL );
-
-
     static boolean isAuthorizedByEntityUpdatePermission(List<String> personUris, AccessObject whatToAuth, EntityUpdatePermission entityUpdatePermission) {
         boolean isAuthorized = false;
     
@@ -232,73 +315,9 @@ public class EntityPermissionHelper {
         return isAuthorized;
     }
 
-    static void updateForEntityPermission(Property p, EntityPermission entityPermission) {
-        String uri = null;      // Due to the data model of Vitro, this could be a property or a property config uri
-        PropertyDao.FullPropertyKey key = null;
-    
-        if (p instanceof FauxProperty) {
-            FauxProperty fp = (FauxProperty)p;
-            uri = fp.getConfigUri();
-        } else {
-            uri = p.getURI();
-        }
-        key = new PropertyDao.FullPropertyKey(uri);
-    
-        OntModel accountsModel = ModelAccess.getInstance().getOntModel(ModelNames.USER_ACCOUNTS);
-        accountsModel.enterCriticalSection(Lock.READ);
-    
-        try {
-            if (accountsModel.contains(accountsModel.getResource(entityPermission.getUri()), accountsModel.getProperty(VitroVocabulary.PERMISSION_FOR_ENTITY), accountsModel.getResource(uri))) {
-                entityPermission.getAuthorizedKeys().add(key);
-                entityPermission.getAuthorizedResources().add(uri);
-            } else {
-                entityPermission.getAuthorizedKeys().remove(key);
-                entityPermission.getAuthorizedResources().remove(uri);
-            }
-        } finally {
-            accountsModel.leaveCriticalSection();
-        }
+    static boolean isAuthorizedByBrokenPermission() {
+        return false;
     }
 
-    static void updateEntityPermission(Map<String, PropertyDao.FullPropertyKey> propertyKeyMap, EntityPermission entityPermission) {
-        List<PropertyDao.FullPropertyKey> newKeys = new ArrayList<>();
-        List<String> newResources = new ArrayList<>();
-    
-        OntModel accountsModel = ModelAccess.getInstance().getOntModel(ModelNames.USER_ACCOUNTS);
-        accountsModel.enterCriticalSection(Lock.READ);
-        StmtIterator propIter = null;
-        try {
-            propIter = accountsModel.listStatements(
-                accountsModel.getResource(entityPermission.getUri()),
-                accountsModel.getProperty(VitroVocabulary.PERMISSION_FOR_ENTITY),
-                (RDFNode) null
-            );
-            while (propIter.hasNext()) {
-                Statement proptStmt = propIter.next();
-                if (proptStmt.getObject().isURIResource()) {
-                    String uri = proptStmt.getObject().asResource().getURI();
-                    PropertyDao.FullPropertyKey key = propertyKeyMap.get(uri);
-                    if (key != null) {
-                        newKeys.add(key);
-                    } else {
-                        newResources.add(uri);
-                    }
-                }
-            }
-        } finally {
-            if (propIter != null) {
-                propIter.close();
-            }
-            accountsModel.leaveCriticalSection();
-        }
-    
-        // replace authorized keys
-        entityPermission.getAuthorizedKeys().clear();
-        entityPermission.getAuthorizedKeys().addAll(newKeys);
-        
-        // replace authorized resources
-        entityPermission.getAuthorizedResources().clear();
-        entityPermission.getAuthorizedResources().addAll(newResources);
-    }
 
 }
