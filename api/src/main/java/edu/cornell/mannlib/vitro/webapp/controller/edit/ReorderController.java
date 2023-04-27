@@ -24,7 +24,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.shared.Lock;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
@@ -54,7 +54,7 @@ public class ReorderController extends VitroAjaxController {
 
     @Override
     protected AccessObject requiredActions(VitroRequest vreq) {
-    	return SimplePermissions.USE_BASIC_AJAX_CONTROLLERS.actionRequest;
+    	return SimplePermission.USE_BASIC_AJAX_CONTROLLERS.ACTION;
     }
 
    @Override

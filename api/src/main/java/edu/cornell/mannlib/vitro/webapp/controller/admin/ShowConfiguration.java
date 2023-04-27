@@ -8,7 +8,7 @@ import java.util.Properties;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.config.ConfigurationProperties;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
@@ -25,7 +25,7 @@ import javax.servlet.annotation.WebServlet;
 public class ShowConfiguration extends FreemarkerHttpServlet {
 	@Override
 	protected AccessObject requiredActions(VitroRequest vreq) {
-		return SimplePermissions.SEE_CONFIGURATION.actionRequest;
+		return SimplePermission.SEE_CONFIGURATION.ACTION;
 	}
 
 	@Override

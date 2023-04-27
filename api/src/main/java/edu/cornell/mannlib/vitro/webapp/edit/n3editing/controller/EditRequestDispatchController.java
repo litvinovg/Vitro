@@ -17,7 +17,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.vocabulary.RDFS;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
@@ -75,7 +75,7 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
 	protected AccessObject requiredActions(VitroRequest vreq) {
 
 		if (isIndividualDeletion(vreq)) {
-			return SimplePermissions.DO_BACK_END_EDITING.actionRequest;
+			return SimplePermission.DO_BACK_END_EDITING.ACTION;
 		}
 		// Check if this statement can be edited here and return unauthorized if not
 		String subjectUri = EditConfigurationUtils.getSubjectUri(vreq);
@@ -108,12 +108,12 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
 		if (!isAuthorized) {
 			// If request is for new individual, return simple do back end editing action permission
 			if (StringUtils.isNotEmpty(EditConfigurationUtils.getTypeOfNew(vreq))) {
-				return SimplePermissions.DO_BACK_END_EDITING.actionRequest;
+				return SimplePermission.DO_BACK_END_EDITING.ACTION;
 			} else if (MANAGE_MENUS_FORM.equals(vreq.getParameter("editForm"))) {
-				return SimplePermissions.MANAGE_MENUS.actionRequest;
+				return SimplePermission.MANAGE_MENUS.ACTION;
 			}
 		}
-		return isAuthorized? SimplePermissions.DO_FRONT_END_EDITING.actionRequest: AuthHelper.UNAUTHORIZED;
+		return isAuthorized? SimplePermission.DO_FRONT_END_EDITING.ACTION: AuthHelper.UNAUTHORIZED;
 	}
 	
     public static String getFauxConfigUri(VitroRequest vreq) {

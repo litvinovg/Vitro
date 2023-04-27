@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
@@ -130,7 +130,7 @@ public class PageController extends FreemarkerHttpServlet{
 
         //Add editing link for page if authorized
         Map<String,Object> pageMap = (Map<String, Object>) mapForTemplate.get("page");
-        if( PolicyHelper.isAuthorizedForActions(vreq, SimplePermissions.MANAGE_MENUS.actionRequest) ){
+        if( PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.MANAGE_MENUS.ACTION) ){
             String editPageUrl = UrlBuilder.getIndividualProfileUrl(pageUri, vreq);
             editPageUrl = UrlBuilder.addParams(editPageUrl, DisplayVocabulary.SWITCH_TO_DISPLAY_MODEL , "1");
             pageMap.put("URLToEditPage", editPageUrl);

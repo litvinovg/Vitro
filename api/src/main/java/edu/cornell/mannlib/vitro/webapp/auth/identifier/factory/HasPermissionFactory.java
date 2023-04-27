@@ -14,7 +14,7 @@ import org.apache.commons.logging.LogFactory;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.ArrayIdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.IdentifierPermissionProvider;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.Permission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.AccessRule;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.PermissionRegistry;
 import edu.cornell.mannlib.vitro.webapp.beans.PermissionSet;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
@@ -63,9 +63,9 @@ public class HasPermissionFactory extends BaseUserBasedIdentifierBundleFactory {
 				getIdentifiersFromPermissions(getPermissionsForUris(permissionUris)));
 	}
 
-	private Collection<Permission> getPermissionsForUris(
+	private Collection<AccessRule> getPermissionsForUris(
 			Collection<String> permissionUris) {
-		List<Permission> permissions = new ArrayList<Permission>();
+		List<AccessRule> permissions = new ArrayList<AccessRule>();
 		PermissionRegistry registry = PermissionRegistry.getRegistry();
 		for (String uri : permissionUris) {
 			permissions.add(registry.getPermission(uri));
@@ -74,9 +74,9 @@ public class HasPermissionFactory extends BaseUserBasedIdentifierBundleFactory {
 	}
 
 	private List<IdentifierPermissionProvider> getIdentifiersFromPermissions(
-			Collection<Permission> permissions) {
+			Collection<AccessRule> permissions) {
 		List<IdentifierPermissionProvider> ids = new ArrayList<IdentifierPermissionProvider>();
-		for (Permission permission : permissions) {
+		for (AccessRule permission : permissions) {
 			ids.add(new IdentifierPermissionProvider(permission));
 		}
 		return ids;

@@ -34,7 +34,7 @@ import org.apache.jena.shared.JenaException;
 import org.apache.jena.shared.Lock;
 
 import edu.cornell.mannlib.vedit.beans.LoginStatusBean;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.dao.WebappDaoFactory;
 import edu.cornell.mannlib.vitro.webapp.dao.jena.JenaModelUtils;
@@ -72,7 +72,7 @@ public class RDFUploadController extends JenaIngestController {
 	public void doPost(HttpServletRequest req,
             HttpServletResponse response) throws ServletException, IOException {
 		if (!isAuthorizedToDisplayPage(req, response,
-				SimplePermissions.USE_ADVANCED_DATA_TOOLS_PAGES.actionRequest)) {
+				SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.ACTION)) {
             return;
         }
 

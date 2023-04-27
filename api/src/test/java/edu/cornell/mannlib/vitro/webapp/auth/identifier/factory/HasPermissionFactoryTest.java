@@ -26,7 +26,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.ArrayIdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.Identifier;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.IdentifierPermissionProvider;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.Permission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.AccessRule;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.PermissionRegistry;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.PermissionSet;
@@ -48,12 +48,12 @@ public class HasPermissionFactoryTest extends AbstractTestClass {
 	private PermissionSet loggedInPermissionSet1;
 	private PermissionSet loggedInPermissionSet2;
 
-	private Permission permissionP1a;
-	private Permission permissionP1b;
-	private Permission permissionP2;
-	private Permission permissionLI1;
-	private Permission permissionLI2a;
-	private Permission permissionLI2b;
+	private AccessRule permissionP1a;
+	private AccessRule permissionP1b;
+	private AccessRule permissionP2;
+	private AccessRule permissionLI1;
+	private AccessRule permissionLI2a;
+	private AccessRule permissionLI2b;
 
 	private WebappDaoFactoryStub wdf;
 	private UserAccountsDaoStub uaDao;
@@ -233,15 +233,15 @@ public class HasPermissionFactoryTest extends AbstractTestClass {
 	// helper methods
 	// ----------------------------------------------------------------------
 
-	private void setPermissions(PermissionSet ps, Permission... permissions) {
+	private void setPermissions(PermissionSet ps, AccessRule... permissions) {
 		List<String> uris = new ArrayList<String>();
-		for (Permission p : permissions) {
+		for (AccessRule p : permissions) {
 			uris.add(p.getUri());
 		}
 		ps.setPermissionUris(uris);
 	}
 
-	private IdentifierPermissionProvider id(Permission p) {
+	private IdentifierPermissionProvider id(AccessRule p) {
 		return new IdentifierPermissionProvider(p);
 	}
 
@@ -264,7 +264,7 @@ public class HasPermissionFactoryTest extends AbstractTestClass {
 		assertEqualSets(message, expectedSet, actualSet);
 	}
 
-	private static class MyPermission extends Permission {
+	private static class MyPermission extends AccessRule {
 		public MyPermission(String uri) {
 			super(uri);
 		}		

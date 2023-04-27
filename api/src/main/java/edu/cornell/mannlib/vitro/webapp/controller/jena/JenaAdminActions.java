@@ -46,7 +46,7 @@ import org.apache.jena.vocabulary.RDFS;
 
 import edu.cornell.mannlib.vedit.controller.BaseEditController;
 import edu.cornell.mannlib.vitro.webapp.application.ApplicationUtils;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
@@ -244,7 +244,7 @@ public class JenaAdminActions extends BaseEditController {
 
     @Override
 	public void doGet(HttpServletRequest req, HttpServletResponse response) {
-        if (!isAuthorizedToDisplayPage(req, response, SimplePermissions.USE_MISCELLANEOUS_ADMIN_PAGES.actionRequest)) {
+        if (!isAuthorizedToDisplayPage(req, response, SimplePermission.USE_MISCELLANEOUS_ADMIN_PAGES.ACTION)) {
         	return;
         }
 

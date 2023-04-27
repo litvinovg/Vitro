@@ -11,7 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vedit.controller.BaseEditController;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 
 @WebServlet(name = "RDFUploadFormController", urlPatterns = {"/uploadRDFForm"} )
@@ -23,7 +23,7 @@ public class RDFUploadFormController extends BaseEditController {
 	public void doPost (HttpServletRequest request, HttpServletResponse response) {
 
 		if (!isAuthorizedToDisplayPage(request, response,
-				SimplePermissions.USE_ADVANCED_DATA_TOOLS_PAGES.actionRequest)) {
+				SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.ACTION)) {
     		return;
     	}
 

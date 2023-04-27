@@ -14,9 +14,4 @@ public class RuleRegistry {
         return INSTANCE;
     }
     
-    Set<Rule> rules = new HashSet<>();
-    
-    public void addRule(Rule rule) {
-        
-    }
 }

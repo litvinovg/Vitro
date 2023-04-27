@@ -12,7 +12,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.Datatype;
@@ -49,7 +49,7 @@ public class ShowDataPropertyHierarchyController extends FreemarkerHttpServlet {
 
     @Override
 	protected AccessObject requiredActions(VitroRequest vreq) {
-		return SimplePermissions.EDIT_ONTOLOGY.actionRequest;
+		return SimplePermission.EDIT_ONTOLOGY.ACTION;
 	}
 
     @Override

@@ -11,7 +11,7 @@ import java.util.*;
  * An entity may be a class, property or faux property defined in the ontologies.
  * Subclass to define the type of permission that is being granted (e.g. display, update, publish)
  */
-public abstract class EntityPermission extends Permission {
+public abstract class EntityPermission extends AccessRule {
 
     protected EntityPermission(String uri) {
         super(uri);

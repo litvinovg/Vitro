@@ -50,7 +50,7 @@ public class PermissionRegistry {
 	 * Create the registry and store it in the context.
 	 */
 	public static void createRegistry(ServletContext ctx,
-			Collection<? extends Permission> permissions) {
+			Collection<? extends AccessRule> permissions) {
 		if (ctx == null) {
 			throw new NullPointerException("ctx may not be null.");
 		}
@@ -92,14 +92,14 @@ public class PermissionRegistry {
 	// The instance
 	// ----------------------------------------------------------------------
 
-	private final Map<String, Permission> map = new HashMap<>();
+	private final Map<String, AccessRule> map = new HashMap<>();
 
 	/**
 	 * This class is not thread-safe, so permissions should be added only during
 	 * context initialization.
 	 */
-	public void addPermissions(Collection<? extends Permission> permissions) {
-		for (Permission p : permissions) {
+	public void addPermissions(Collection<? extends AccessRule> permissions) {
+		for (AccessRule p : permissions) {
 			addPermission(p);
 		}
 	}
@@ -108,7 +108,7 @@ public class PermissionRegistry {
 	 * This class is not thread-safe, so permissions should be added only during
 	 * context initialization.
 	 */
-	public void addPermission(Permission p) {
+	public void addPermission(AccessRule p) {
 		String uri = p.getUri();
 		if (map.containsKey(uri)) {
 			throw new IllegalStateException("A Permission is already "
@@ -131,8 +131,8 @@ public class PermissionRegistry {
 	 * If you want to know whether an actual Permission has been registered at
 	 * this URI, call isPermission() instead.
 	 */
-	public Permission getPermission(String uri) {
-		Permission p = map.get(uri);
+	public AccessRule getPermission(String uri) {
+		AccessRule p = map.get(uri);
 		if (p == null) {
 			log.warn("No Permission is registered for '" + uri + "'");
 			return new BrokenPermission(uri);
@@ -151,9 +151,9 @@ public class PermissionRegistry {
 			ServletContext ctx = sce.getServletContext();
 			StartupStatus ss = StartupStatus.getBean(ctx);
 			try {
-				List<Permission> permissions = new ArrayList<Permission>();
+				List<AccessRule> permissions = new ArrayList<AccessRule>();
 
-				permissions.addAll(SimplePermissions.getAllInstances());
+				permissions.addAll(SimpleAccessRules.getAllInstances());
 				permissions.addAll(EntityPermissions.getAllInstances());
 
 				PermissionRegistry.createRegistry(ctx, permissions);

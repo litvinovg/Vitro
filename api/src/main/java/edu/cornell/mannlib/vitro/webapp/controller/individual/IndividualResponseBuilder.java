@@ -16,7 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
 import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
@@ -211,7 +211,7 @@ class IndividualResponseBuilder {
     private Map<String, Object> getVerbosePropertyValues() {
         Map<String, Object> map = null;
 
-        if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermissions.SEE_VERBOSE_PROPERTY_INFORMATION.actionRequest)) {
+        if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.SEE_VERBOSE_PROPERTY_INFORMATION.ACTION)) {
             // Get current verbose property display value
             String verbose = vreq.getParameter("verbose");
             Boolean verboseValue;

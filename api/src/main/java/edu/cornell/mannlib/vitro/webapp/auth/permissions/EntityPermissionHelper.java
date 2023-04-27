@@ -190,7 +190,7 @@ public class EntityPermissionHelper {
         entityPermission.getAuthorizedResources().addAll(newResources);
     }
 
-    static boolean isAuthorizedBySimplePermission(AccessObject whatToAuth, SimplePermission simplePermission) {
+    static boolean isAuthorizedBySimplePermission(AccessObject whatToAuth, SimpleAccessRule simplePermission) {
         if (whatToAuth != null) {
     		if (simplePermission.getUri().equals(whatToAuth.getURI())) {
     			log.debug(simplePermission + " authorizes " + whatToAuth);
@@ -319,7 +319,7 @@ public class EntityPermissionHelper {
         return false;
     }
 
-    public static boolean isAuthorizedPermission(List<String> personUris, AccessObject whatToAuth, Permission permission) {
+    public static boolean isAuthorizedPermission(List<String> personUris, AccessObject whatToAuth, AccessRule permission) {
         if (permission instanceof EntityDisplayPermission) {
             return isAuthorizedByEntityDisplayPermission(whatToAuth, (EntityDisplayPermission) permission);
         }
@@ -329,8 +329,8 @@ public class EntityPermissionHelper {
         if (permission instanceof EntityPublishPermission) {
             return isAuthorizedByEntityPublishPermission(personUris, whatToAuth, (EntityPublishPermission) permission);
         }
-        if (permission instanceof SimplePermission) {
-            return isAuthorizedBySimplePermission(whatToAuth, (SimplePermission) permission);
+        if (permission instanceof SimpleAccessRule) {
+            return isAuthorizedBySimplePermission(whatToAuth, (SimpleAccessRule) permission);
         }
         if (permission instanceof BrokenPermission) {
             return isAuthorizedByBrokenPermission();

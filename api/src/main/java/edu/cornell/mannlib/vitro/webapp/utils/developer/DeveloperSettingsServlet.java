@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.ajax.VitroAjaxController;
@@ -90,7 +90,7 @@ public class DeveloperSettingsServlet extends VitroAjaxController {
 		boolean authBySetting = DeveloperSettings.getInstance().getBoolean(
 				PERMIT_ANONYMOUS_CONTROL);
 		boolean authByPolicy = PolicyHelper.isAuthorizedForActions(vreq,
-				SimplePermissions.ENABLE_DEVELOPER_PANEL.actionRequest);
+				SimplePermission.ENABLE_DEVELOPER_PANEL.ACTION);
 		return authBySetting || authByPolicy;
 	}
 }

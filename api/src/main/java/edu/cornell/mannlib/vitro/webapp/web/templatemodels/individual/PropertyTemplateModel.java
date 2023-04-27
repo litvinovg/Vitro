@@ -8,7 +8,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.beans.FauxProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
@@ -82,7 +82,7 @@ public abstract class PropertyTemplateModel extends BaseTemplateModel {
         }
 
 		if (!PolicyHelper.isAuthorizedForActions(vreq,
-				SimplePermissions.SEE_VERBOSE_PROPERTY_INFORMATION.actionRequest)) {
+				SimplePermission.SEE_VERBOSE_PROPERTY_INFORMATION.ACTION)) {
             return;
         }
 

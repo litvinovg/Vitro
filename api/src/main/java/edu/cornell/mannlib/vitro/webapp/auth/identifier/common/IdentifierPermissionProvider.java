@@ -8,7 +8,7 @@ import java.util.Set;
 
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.Identifier;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.Permission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.AccessRule;
 
 /**
  * The current user has this Permission, through one or more PermissionSets.
@@ -19,24 +19,24 @@ public class IdentifierPermissionProvider extends AbstractCommonIdentifier imple
 		return getIdentifiersForClass(ids, IdentifierPermissionProvider.class);
 	}
 
-	public static Collection<Permission> getPermissions(IdentifierBundle ids) {
-		Set<Permission> set = new HashSet<Permission>();
+	public static Collection<AccessRule> getPermissions(IdentifierBundle ids) {
+		Set<AccessRule> set = new HashSet<AccessRule>();
 		for (IdentifierPermissionProvider id : getIdentifiers(ids)) {
 			set.add(id.getPermission());
 		}
 		return set;
 	}
 
-	private final Permission permission; // never null
+	private final AccessRule permission; // never null
 
-	public IdentifierPermissionProvider(Permission permission) {
+	public IdentifierPermissionProvider(AccessRule permission) {
 		if (permission == null) {
 			throw new NullPointerException("permission may not be null.");
 		}
 		this.permission = permission;
 	}
 
-	public Permission getPermission() {
+	public AccessRule getPermission() {
 		return permission;
 	}
 

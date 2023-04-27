@@ -13,7 +13,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.ResourceFactory;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatement;
@@ -40,7 +40,7 @@ public class DeletePropertyController extends FreemarkerHttpServlet {
 
     @Override
 	protected AccessObject requiredActions(VitroRequest vreq) {
-    	return SimplePermissions.DO_FRONT_END_EDITING.actionRequest ;
+    	return SimplePermission.DO_FRONT_END_EDITING.ACTION ;
 	}
 
     @Override

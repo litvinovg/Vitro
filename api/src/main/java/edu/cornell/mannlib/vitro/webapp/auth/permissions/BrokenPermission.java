@@ -6,7 +6,7 @@ package edu.cornell.mannlib.vitro.webapp.auth.permissions;
  * This is what the PermissionRegistry hands out if you ask for a Permission
  * that it doesn't know about. Nothing is authorized by this Permission.
  */
-public class BrokenPermission extends Permission {
+public class BrokenPermission extends AccessRule {
 	public BrokenPermission(String uri) {
 		super(uri);
 	}

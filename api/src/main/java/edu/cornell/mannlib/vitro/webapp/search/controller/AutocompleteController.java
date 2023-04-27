@@ -22,7 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.application.ApplicationUtils;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.VClass;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
@@ -64,7 +64,7 @@ public class AutocompleteController extends VitroAjaxController {
 
     @Override
     protected AccessObject requiredActions(VitroRequest vreq) {
-    	return SimplePermissions.USE_BASIC_AJAX_CONTROLLERS.actionRequest;
+    	return SimplePermission.USE_BASIC_AJAX_CONTROLLERS.ACTION;
     }
 
     @Override

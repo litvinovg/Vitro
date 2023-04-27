@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryParseException;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.beans.Ontology;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.api.sparqlquery.InvalidQueryTypeException;
@@ -97,7 +97,7 @@ public class SparqlQueryController extends FreemarkerHttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
 		if (!isAuthorizedToDisplayPage(req, resp,
-				SimplePermissions.USE_SPARQL_QUERY_PAGE.actionRequest)) {
+				SimplePermission.USE_SPARQL_QUERY_PAGE.ACTION)) {
 			return;
 		}
 		resp.addHeader("X-XSS-Protection", "0");

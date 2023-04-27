@@ -6,9 +6,9 @@ package edu.cornell.mannlib.vitro.webapp.auth.permissions;
  * Interface that describes a unit of authorization, or permission to perform
  * requested actions.
  */
-public abstract class Permission implements Comparable<Permission> {
+public abstract class AccessRule implements Comparable<AccessRule> {
 	protected final String uri;
-	protected Permission(String uri) {
+	protected AccessRule(String uri) {
 		if (uri == null) {
 			throw new NullPointerException("uri may not be null.");
 		}
@@ -23,7 +23,7 @@ public abstract class Permission implements Comparable<Permission> {
 	}
 
 	@Override
-	public int compareTo(Permission that) {
+	public int compareTo(AccessRule that) {
 		return this.uri.compareTo(that.uri);
 	}
 
@@ -38,7 +38,7 @@ public abstract class Permission implements Comparable<Permission> {
 		if (!obj.getClass().equals(this.getClass())) {
 			return false;
 		}
-		Permission that = (Permission) obj;
+		AccessRule that = (AccessRule) obj;
 		return this.uri.equals(that.uri);
 	}
 

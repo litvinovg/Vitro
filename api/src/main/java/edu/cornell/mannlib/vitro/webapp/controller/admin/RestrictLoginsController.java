@@ -5,7 +5,7 @@ package edu.cornell.mannlib.vitro.webapp.controller.admin;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.controller.AbstractPageHandler;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
@@ -36,7 +36,7 @@ public class RestrictLoginsController extends FreemarkerHttpServlet {
 
 	@Override
 	protected AccessObject requiredActions(VitroRequest vreq) {
-		return SimplePermissions.LOGIN_DURING_MAINTENANCE.actionRequest;
+		return SimplePermission.LOGIN_DURING_MAINTENANCE.ACTION;
 	}
 
 	@Override

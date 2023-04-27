@@ -63,7 +63,7 @@ import org.apache.jena.shared.Lock;
 import org.apache.jena.util.iterator.ClosableIterator;
 
 import edu.cornell.mannlib.vedit.controller.BaseEditController;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.beans.Ontology;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.dao.OntologyDao;
@@ -118,7 +118,7 @@ public class JenaIngestController extends BaseEditController {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 		if (!isAuthorizedToDisplayPage(request, response,
-				SimplePermissions.USE_ADVANCED_DATA_TOOLS_PAGES.actionRequest)) {
+				SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.ACTION)) {
             return;
         }
 

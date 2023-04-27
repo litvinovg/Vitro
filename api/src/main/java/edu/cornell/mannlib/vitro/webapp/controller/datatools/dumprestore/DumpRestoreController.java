@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
@@ -37,7 +37,7 @@ import edu.cornell.mannlib.vitro.webapp.rdfservice.RDFServiceException;
 @WebServlet(name = "DumpRestoreController", urlPatterns = {"/dumpRestore/*"} )
 public class DumpRestoreController extends FreemarkerHttpServlet {
 
-	private static final AccessObject REQUIRED_ACTION = SimplePermissions.USE_ADVANCED_DATA_TOOLS_PAGES.actionRequest;
+	private static final AccessObject REQUIRED_ACTION = SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.ACTION;
 
 	static final String ACTION_DUMP = "/dump";
 	static final String ACTION_RESTORE = "/restore";

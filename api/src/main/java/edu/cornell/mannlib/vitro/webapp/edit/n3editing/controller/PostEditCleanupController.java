@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.FreemarkerHttpServlet;
@@ -35,7 +35,7 @@ public class PostEditCleanupController extends FreemarkerHttpServlet{
 
     @Override
 	protected AccessObject requiredActions(VitroRequest vreq) {
-    	return SimplePermissions.DO_FRONT_END_EDITING.actionRequest;
+    	return SimplePermission.DO_FRONT_END_EDITING.ACTION;
 	}
 
     @Override

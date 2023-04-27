@@ -42,7 +42,7 @@ import edu.cornell.mannlib.vitro.testing.AbstractTestClass;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.ActiveIdentifierBundleFactories;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.factory.HasPermissionFactory;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.PermissionRegistry;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PermissionsPolicy;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyStore;
 import edu.cornell.mannlib.vitro.webapp.beans.PermissionSet;
@@ -159,7 +159,7 @@ public class AuthenticateTest extends AbstractTestClass {
 		PermissionSet adminPermissionSet = new PermissionSet();
 		adminPermissionSet.setUri(URI_DBA);
 		adminPermissionSet.setPermissionUris(Collections
-				.singleton(SimplePermissions.SEE_SITE_ADMIN_PAGE.getUri()));
+				.singleton(SimplePermission.SEE_SITE_ADMIN_PAGE.getUri()));
 
 		userAccountsDao = new UserAccountsDaoStub();
 		userAccountsDao.addPermissionSet(adminPermissionSet);
@@ -179,7 +179,7 @@ public class AuthenticateTest extends AbstractTestClass {
 		setLoggerLevel(PolicyStore.class, Level.WARN);
 		PolicyStore.addPolicy(new PermissionsPolicy());
 		PermissionRegistry.createRegistry(servletContext,
-				Collections.singleton(SimplePermissions.SEE_SITE_ADMIN_PAGE));
+				Collections.singleton(SimplePermission.SEE_SITE_ADMIN_PAGE));
 
 		servletConfig = new ServletConfigStub();
 		servletConfig.setServletContext(servletContext);
