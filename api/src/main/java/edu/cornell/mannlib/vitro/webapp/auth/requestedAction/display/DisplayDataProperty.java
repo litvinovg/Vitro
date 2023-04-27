@@ -2,23 +2,11 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display;
 
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 
 /** Should we allow the user to see this DataProperty? */
-public class DisplayDataProperty extends AccessObject {
-	private final DataProperty dataProperty;
-
+public class DisplayDataProperty extends DataPropertyAccessObject {
 	public DisplayDataProperty(DataProperty dataProperty) {
-		this.dataProperty = dataProperty;
-	}
-
-	public DataProperty getDataProperty() {
-		return dataProperty;
-	}
-
-	@Override
-	public String toString() {
-		return "DisplayDataProperty[" + dataProperty + "]";
+		super(dataProperty);
 	}
 }

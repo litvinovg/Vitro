@@ -25,7 +25,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectP
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditObjectPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractObjectPropertyStatementAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.FauxProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
@@ -92,7 +92,7 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
 		predicateProp.setDomainVClassURI(domainUri);
 		predicateProp.setRangeVClassURI(rangeUri);
 		OntModel ontModel = ModelAccess.on(vreq).getOntModel();
-		AbstractObjectPropertyStatementAction objectPropertyAction;
+		ObjectPropertyStatementAccessObject objectPropertyAction;
 		if (StringUtils.isBlank(objectUri)) {
 			objectPropertyAction = new AddObjectPropertyStatement(ontModel, subjectUri, predicateProp, AccessObject.SOME_URI);
 		} else {

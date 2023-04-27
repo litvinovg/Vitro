@@ -7,6 +7,6 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 /**
  * Should we allow the user to edit or delete the root account?
  */
-public class ManageRootAccount extends AccessObject {
+public class RootAccessObject extends AccessObject {
 	// no fields
 }

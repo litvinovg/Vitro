@@ -4,5 +4,8 @@ public enum AccessOperation {
     EXECUTE,
     PUBLISH,
     UPDATE,
-    DISPLAY
+    DISPLAY,
+    ADD,
+    DROP,
+    EDIT
 }

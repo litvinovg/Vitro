@@ -10,7 +10,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractObjectPropertyStatementAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.dao.DisplayVocabulary;
@@ -33,7 +33,7 @@ public class RestrictHomeMenuItemEditingPolicy implements PolicyIface {
 	}
 
 	private PolicyDecision isAuthorized(
-			AbstractObjectPropertyStatementAction whatToAuth) {
+			ObjectPropertyStatementAccessObject whatToAuth) {
 		if (whatToAuth.getPredicateUri()
 				.equals(DisplayVocabulary.HAS_ELEMENT)
 				&& whatToAuth.getObjectUri().equals(

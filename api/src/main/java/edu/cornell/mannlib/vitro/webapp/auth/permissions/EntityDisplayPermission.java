@@ -7,6 +7,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayData
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectProperty;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectPropertyStatement;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.ObjectPropertyAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 import org.apache.commons.logging.Log;
@@ -29,7 +30,7 @@ public class EntityDisplayPermission extends EntityPermission {
             String predicateUri = ((DisplayDataProperty)whatToAuth).getDataProperty().getURI();
             result = isAuthorizedFor(new Property(predicateUri));
         } else if (whatToAuth instanceof DisplayObjectProperty) {
-            result = isAuthorizedFor(((DisplayObjectProperty)whatToAuth).getObjectProperty());
+            result = isAuthorizedFor(((ObjectPropertyAccessObject)whatToAuth).getObjectProperty());
         } else if (whatToAuth instanceof DisplayDataPropertyStatement) {
             DataPropertyStatement stmt = ((DisplayDataPropertyStatement)whatToAuth).getDataPropertyStatement();
 

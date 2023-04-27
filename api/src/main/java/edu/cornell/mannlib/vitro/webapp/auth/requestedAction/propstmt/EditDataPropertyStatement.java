@@ -9,15 +9,12 @@ import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatement;
 /**
  * Should we allow the user to edit this DataPropertyStatement in this model?
  */
-public class EditDataPropertyStatement extends
-		AbstractDataPropertyStatementAction {
-	public EditDataPropertyStatement(OntModel ontModel, String subjectUri,
-			String predicateUri, String dataValue) {
-		super(ontModel, subjectUri, predicateUri, dataValue);
-	}
+public class EditDataPropertyStatement extends DataPropertyStatementAccessObject {
+    public EditDataPropertyStatement(OntModel ontModel, String subjectUri, String predicateUri, String dataValue) {
+        super(ontModel, subjectUri, predicateUri, dataValue);
+    }
 
-	public EditDataPropertyStatement(OntModel ontModel,
-			DataPropertyStatement dps) {
-		super(ontModel, dps);
-	}
+    public EditDataPropertyStatement(OntModel ontModel, DataPropertyStatement dps) {
+        super(ontModel, dps);
+    }
 }

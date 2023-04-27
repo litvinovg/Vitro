@@ -9,11 +9,9 @@ import edu.cornell.mannlib.vitro.webapp.beans.Property;
 /**
  * Should we allow the user to add this ObjectPropertyStatement to this model?
  */
-public class AddObjectPropertyStatement extends
-		AbstractObjectPropertyStatementAction {
-	public AddObjectPropertyStatement(OntModel ontModel, String uriOfSub,
-			Property predicate, String uriOfObj) {
-		super(ontModel, uriOfSub, predicate, uriOfObj);
-	}
+public class AddObjectPropertyStatement extends ObjectPropertyStatementAccessObject {
+    public AddObjectPropertyStatement(OntModel ontModel, String uriOfSub, Property predicate, String uriOfObj) {
+        super(ontModel, uriOfSub, predicate, uriOfObj);
+    }
 
 }

@@ -37,7 +37,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractPropertyStatementAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.PropertyStatementAccessObject;
 
 /**
  * Test the function of PolicyHelper in authorizing models of additions and
@@ -330,11 +330,11 @@ public class PolicyHelper_ModelsTest extends AbstractTestClass {
 		@Override
 		public PolicyDecision decide(IdentifierBundle whoToAuth,
 				AccessObject whatToAuth) {
-			if (!(whatToAuth instanceof AbstractPropertyStatementAction)) {
+			if (!(whatToAuth instanceof PropertyStatementAccessObject)) {
 				return inconclusive();
 			}
 
-			AbstractPropertyStatementAction action = (AbstractPropertyStatementAction) whatToAuth;
+			PropertyStatementAccessObject action = (PropertyStatementAccessObject) whatToAuth;
 
 			String subjectUri = action.getResourceUris()[0];
 			if (PRIMARY_RESOURCE_URI.equals(subjectUri)) {

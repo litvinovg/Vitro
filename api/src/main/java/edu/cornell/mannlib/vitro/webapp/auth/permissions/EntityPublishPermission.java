@@ -23,6 +23,10 @@ public class EntityPublishPermission extends EntityPermission {
 
     @Override
     public boolean isAuthorized(List<String> personUris, AccessObject whatToAuth) {
+        return isAuthorizedEntityPublishPermission(personUris, whatToAuth, this);
+    }
+
+    private boolean isAuthorizedEntityPublishPermission(List<String> personUris, AccessObject whatToAuth, Permission entityPublishPermission) {
         boolean result = false;
 
         if (whatToAuth instanceof PublishDataProperty) {

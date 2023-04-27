@@ -7,17 +7,15 @@ import org.apache.jena.ontology.OntModel;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 
 /**
- * A base class for requested actions that involve adding, editing, or deleting
+ * A base class for requested access objects that involve adding, editing, or deleting
  * object property statements from a model.
  */
-public abstract class AbstractObjectPropertyStatementAction extends
-		AbstractPropertyStatementAction {
+public class ObjectPropertyStatementAccessObject extends PropertyStatementAccessObject {
 	private final String subjectUri;
 	private final Property predicate;
 	private final String objectUri;
 
-	public AbstractObjectPropertyStatementAction(OntModel ontModel,
-			String subjectUri, Property predicate, String objectUri) {
+	public ObjectPropertyStatementAccessObject(OntModel ontModel, String subjectUri, Property predicate, String objectUri) {
 		super(ontModel);
 		this.subjectUri = subjectUri;
 		this.predicate = predicate;

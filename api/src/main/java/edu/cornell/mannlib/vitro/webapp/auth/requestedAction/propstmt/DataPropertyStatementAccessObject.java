@@ -11,14 +11,13 @@ import edu.cornell.mannlib.vitro.webapp.beans.Property;
  * A base class for requested actions that involve adding, editing, or dropping
  * data property statements from a model.
  */
-public abstract class AbstractDataPropertyStatementAction extends
-		AbstractPropertyStatementAction {
+public class DataPropertyStatementAccessObject extends PropertyStatementAccessObject {
 	private final String subjectUri;
 	private final String predicateUri;
 	private final Property predicate;
 	private final String dataValue;
 
-	public AbstractDataPropertyStatementAction(OntModel ontModel,
+	public DataPropertyStatementAccessObject(OntModel ontModel,
 			String subjectUri, String predicateUri, String dataValue) {
 		super(ontModel);
 		this.subjectUri = subjectUri;
@@ -29,7 +28,7 @@ public abstract class AbstractDataPropertyStatementAction extends
 		this.dataValue = dataValue;
 	}
 
-	public AbstractDataPropertyStatementAction(OntModel ontModel,
+	public DataPropertyStatementAccessObject(OntModel ontModel,
 			DataPropertyStatement dps) {
 		super(ontModel);
 		this.subjectUri = (dps.getIndividual() == null) ? dps

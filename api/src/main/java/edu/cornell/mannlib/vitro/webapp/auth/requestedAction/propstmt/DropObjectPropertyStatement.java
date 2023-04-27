@@ -10,10 +10,8 @@ import edu.cornell.mannlib.vitro.webapp.beans.Property;
  * Should we allow the user to delete this ObjectPropertyStatement from this
  * model?
  */
-public class DropObjectPropertyStatement extends
-		AbstractObjectPropertyStatementAction {
-	public DropObjectPropertyStatement(OntModel ontModel, String sub,
-			Property pred, String obj) {
+public class DropObjectPropertyStatement extends ObjectPropertyStatementAccessObject {
+	public DropObjectPropertyStatement(OntModel ontModel, String sub, Property pred, String obj) {
 		super(ontModel, sub, pred, obj);
 	}
 }

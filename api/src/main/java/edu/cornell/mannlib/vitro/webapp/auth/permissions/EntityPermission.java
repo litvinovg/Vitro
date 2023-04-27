@@ -3,9 +3,9 @@
 package edu.cornell.mannlib.vitro.webapp.auth.permissions;
 
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractDataPropertyStatementAction;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractObjectPropertyStatementAction;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractPropertyStatementAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DataPropertyStatementAccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.PropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.FauxProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 import edu.cornell.mannlib.vitro.webapp.dao.PropertyDao;
@@ -40,6 +40,10 @@ public abstract class EntityPermission extends Permission {
     private final Set<PropertyDao.FullPropertyKey> authorizedKeys = new HashSet<>();
     private final Set<String> authorizedResources = new HashSet<>();
     boolean limitToRelatedUser = false;
+
+    public boolean isLimitToRelatedUser() {
+        return limitToRelatedUser;
+    }
 
     void update(Map<String, PropertyDao.FullPropertyKey> propertyKeyMap) {
         List<PropertyDao.FullPropertyKey> newKeys = new ArrayList<>();
@@ -128,40 +132,40 @@ public abstract class EntityPermission extends Permission {
         }
     }
 
-    protected boolean isAuthorizedFor(AbstractPropertyStatementAction action, List<String> personUris) {
+    protected boolean isAuthorizedFor(PropertyStatementAccessObject action, List<String> personUris) {
         // If we are not limiting to only objects that the user has a relationship with
         // We can just authorise the access right now
-        if (!limitToRelatedUser) {
+        if (!this.isLimitToRelatedUser()) {
             return true;
         }
-
+        
         // Nothing to authorise if no person list is supplied
         if (personUris == null) {
             return false;
         }
-
+        
         // Obtain the subject and object URIs
         String subjectUri = null;
         String objectUri = null;
-
-        if (action instanceof AbstractDataPropertyStatementAction) {
-            subjectUri = ((AbstractDataPropertyStatementAction)action).getSubjectUri();
-        } else if (action instanceof AbstractObjectPropertyStatementAction) {
-            subjectUri = ((AbstractObjectPropertyStatementAction)action).getSubjectUri();
-            objectUri = ((AbstractObjectPropertyStatementAction)action).getObjectUri();
+        
+        if (action instanceof DataPropertyStatementAccessObject) {
+            subjectUri = ((DataPropertyStatementAccessObject)action).getSubjectUri();
+        } else if (action instanceof ObjectPropertyStatementAccessObject) {
+            subjectUri = ((ObjectPropertyStatementAccessObject)action).getSubjectUri();
+            objectUri = ((ObjectPropertyStatementAccessObject)action).getObjectUri();
         }
-
+        
         // If the subject or object is a user URI for the current user, authorise access
         for (String userUri : personUris) {
             if (subjectUri != null && subjectUri.equals(userUri)) {
                 return true;
             }
-
+        
             if (objectUri != null && objectUri.equals(userUri)) {
                 return true;
             }
         }
-
+        
         return RelationshipChecker.anyRelated(action.getOntModel(), Arrays.asList(action.getResourceUris()), personUris);
     }
 

@@ -3,9 +3,9 @@
 package edu.cornell.mannlib.vitro.webapp.auth.permissions;
 
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractDataPropertyStatementAction;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractObjectPropertyStatementAction;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractPropertyStatementAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DataPropertyStatementAccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.PropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
 import org.apache.commons.logging.Log;
@@ -37,31 +37,31 @@ public class EntityUpdatePermission extends EntityPermission {
     public boolean isAuthorized(List<String> personUris, AccessObject whatToAuth) {
         boolean isAuthorized = false;
 
-        if (whatToAuth instanceof AbstractDataPropertyStatementAction) {
+        if (whatToAuth instanceof DataPropertyStatementAccessObject) {
             // Check resource
-            String subjectUri = ((AbstractDataPropertyStatementAction)whatToAuth).getSubjectUri();
+            String subjectUri = ((DataPropertyStatementAccessObject)whatToAuth).getSubjectUri();
             if (isModifiable(subjectUri)) {
-                Property predicate = ((AbstractDataPropertyStatementAction)whatToAuth).getPredicate();
+                Property predicate = ((DataPropertyStatementAccessObject)whatToAuth).getPredicate();
                 if (isModifiable(predicate.getURI())) {
                     isAuthorized = isAuthorizedFor(predicate);
                 }
             }
 
             if (isAuthorized) {
-                isAuthorized = isAuthorizedFor((AbstractPropertyStatementAction) whatToAuth, personUris);
+                isAuthorized = isAuthorizedFor((PropertyStatementAccessObject) whatToAuth, personUris);
             }
-        } else if (whatToAuth instanceof AbstractObjectPropertyStatementAction) {
-            String subjectUri = ((AbstractObjectPropertyStatementAction)whatToAuth).getSubjectUri();
-            String objectUri = ((AbstractObjectPropertyStatementAction)whatToAuth).getObjectUri();
+        } else if (whatToAuth instanceof ObjectPropertyStatementAccessObject) {
+            String subjectUri = ((ObjectPropertyStatementAccessObject)whatToAuth).getSubjectUri();
+            String objectUri = ((ObjectPropertyStatementAccessObject)whatToAuth).getObjectUri();
             if (isModifiable(subjectUri) && isModifiable(objectUri)) {
-                Property predicate = ((AbstractObjectPropertyStatementAction)whatToAuth).getPredicate();
+                Property predicate = ((ObjectPropertyStatementAccessObject)whatToAuth).getPredicate();
                 if (isModifiable(predicate.getURI())) {
                     isAuthorized = isAuthorizedFor(predicate);
                 }
             }
 
             if (isAuthorized) {
-                isAuthorized = isAuthorizedFor((AbstractPropertyStatementAction) whatToAuth, personUris);
+                isAuthorized = isAuthorizedFor((PropertyStatementAccessObject) whatToAuth, personUris);
             }
         } 
 

@@ -2,11 +2,9 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.requestedAction.publish;
 
-import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject.SOME_URI;
-
 import org.apache.jena.ontology.OntModel;
 
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AbstractObjectPropertyStatementAction;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 
 /**
@@ -14,22 +12,18 @@ import edu.cornell.mannlib.vitro.webapp.beans.Property;
  * from the current user?
  */
 
-public class PublishObjectPropertyStatement extends
-		AbstractObjectPropertyStatementAction {
-	public PublishObjectPropertyStatement(OntModel ontModel, String subjectUri,
-			Property keywordPred, String objectUri) {
-		super(ontModel, subjectUri, keywordPred, objectUri);
-	}
+public class PublishObjectPropertyStatement extends	ObjectPropertyStatementAccessObject {
+    public PublishObjectPropertyStatement(OntModel ontModel, String subjectUri, Property keywordPred, String objectUri) {
+        super(ontModel, subjectUri, keywordPred, objectUri);
+    }
 
 	/**
 	 * We don't need to know range and domain because publishing never involves
 	 * faux properties.
 	 */
-	public PublishObjectPropertyStatement(OntModel ontModel,
-			String subjectUri,
-			String predicateUri, String objectUri) {
-		this(ontModel, subjectUri, populateProperty(predicateUri), objectUri);
-	}
+    public PublishObjectPropertyStatement(OntModel ontModel, String subjectUri, String predicateUri, String objectUri) {
+        this(ontModel, subjectUri, populateProperty(predicateUri), objectUri);
+    }
 
 	private static Property populateProperty(String predicateUri) {
 		Property prop = new Property(predicateUri);

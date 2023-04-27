@@ -9,8 +9,7 @@ import edu.cornell.mannlib.vitro.webapp.beans.Property;
 /**
  * Should we allow the user to edit this ObjectPropertyStatement in this model?
  */
-public class EditObjectPropertyStatement extends
-		AbstractObjectPropertyStatementAction {
+public class EditObjectPropertyStatement extends ObjectPropertyStatementAccessObject {
 	public EditObjectPropertyStatement(OntModel ontModel, String subjectUri,
 			Property keywordPred, String objectUri) {
 		super(ontModel, subjectUri, keywordPred, objectUri);

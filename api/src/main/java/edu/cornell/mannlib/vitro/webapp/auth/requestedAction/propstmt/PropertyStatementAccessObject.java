@@ -11,10 +11,10 @@ import edu.cornell.mannlib.vitro.webapp.beans.Property;
  * A base class for requested actions that involve adding, editing, or deleting
  * statements from a model.
  */
-public abstract class AbstractPropertyStatementAction extends AccessObject {
+public abstract class PropertyStatementAccessObject extends AccessObject {
 	private final OntModel ontModel;
 
-	public AbstractPropertyStatementAction(OntModel ontModel) {
+	public PropertyStatementAccessObject(OntModel ontModel) {
 		this.ontModel = ontModel;
 	}
 
