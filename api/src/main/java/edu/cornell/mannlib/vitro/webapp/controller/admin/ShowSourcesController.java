@@ -23,7 +23,7 @@ import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
 
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.FreemarkerHttpServlet;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.responsevalues.ResponseValues;
@@ -111,7 +111,7 @@ public class ShowSourcesController extends FreemarkerHttpServlet {
 			.getLog(ShowSourcesController.class);
 
 	@Override
-	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
+	protected ActionRequest requiredActions(VitroRequest vreq) {
 		return AuthHelper.AUTHORIZED;
 	}
 

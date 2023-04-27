@@ -27,7 +27,7 @@ import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.shared.Lock;
 
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.responsevalues.RedirectResponseValues;
@@ -63,7 +63,7 @@ public class DeleteIndividualController extends FreemarkerHttpServlet {
 			+ "}";
 
 	@Override
-	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
+	protected ActionRequest requiredActions(VitroRequest vreq) {
 		return SimplePermissions.DO_FRONT_END_EDITING.actionRequest;
 	}
 

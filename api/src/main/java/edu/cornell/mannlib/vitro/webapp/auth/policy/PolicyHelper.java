@@ -24,7 +24,6 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.RequestIdentifiers;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
@@ -42,7 +41,7 @@ public class PolicyHelper {
 	private static final Log log = LogFactory.getLog(PolicyHelper.class);
 
 	public static boolean isAuthorizedForActions(HttpServletRequest req,
-			AuthorizationRequest ar) {
+			ActionRequest ar) {
 		PolicyIface policy = PolicyStore.getInstance().copy();
 		IdentifierBundle ids = RequestIdentifiers.getIdBundleForRequest(req);
 		return ar.isAuthorized(ids, policy);
@@ -52,7 +51,7 @@ public class PolicyHelper {
 	 * Are these actions authorized for these identifiers by these policies?
 	 */
 	public static boolean isAuthorizedForActions(IdentifierBundle ids,
-			PolicyIface policy, AuthorizationRequest ar) {
+			PolicyIface policy, ActionRequest ar) {
 		return ar.isAuthorized(ids, policy);
 	}
 	
@@ -70,7 +69,7 @@ public class PolicyHelper {
 	 * identifier bundle.
 	 */
 	public static boolean isAuthorizedForActions(HttpServletRequest req,
-			String email, String password, AuthorizationRequest ar) {
+			String email, String password, ActionRequest ar) {
 		if (password == null || email == null || password.isEmpty()
 				|| email.isEmpty()) {
 			return false;

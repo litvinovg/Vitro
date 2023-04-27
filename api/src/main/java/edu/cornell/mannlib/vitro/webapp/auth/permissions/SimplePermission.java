@@ -8,7 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleActionReqiest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleActionRequest;
 
 /**
  * A class of simple permissions. Each instance holds a RequestedAction, and
@@ -24,7 +24,7 @@ public class SimplePermission extends Permission {
 		if (SimplePermissions.contains(this.uri)) {
 			throw new IllegalStateException("A SimplePermission named '" + this.uri + "' already exists.");
 		}
-	    this.actionRequest = new SimpleActionReqiest(uri);
+	    this.actionRequest = new SimpleActionRequest(uri);
 
 		SimplePermissions.add(this);
 	}

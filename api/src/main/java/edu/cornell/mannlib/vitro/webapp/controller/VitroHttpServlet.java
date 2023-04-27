@@ -29,7 +29,7 @@ import org.apache.commons.logging.LogFactory;
 import edu.cornell.mannlib.vedit.beans.LoginStatusBean;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.beans.DisplayMessage;
 import edu.cornell.mannlib.vitro.webapp.beans.ResourceBean;
 import edu.cornell.mannlib.vitro.webapp.controller.authenticate.LogoutRedirector;
@@ -117,7 +117,7 @@ public class VitroHttpServlet extends HttpServlet implements MultipartRequestWra
 	 *            the combination of RequestedActions that must be authorized.
 	 */
 	protected boolean isAuthorizedToDisplayPage(HttpServletRequest request,
-			HttpServletResponse response, AuthorizationRequest actions) {
+			HttpServletResponse response, ActionRequest actions) {
 		// Record restricted pages so we won't return to them on logout
 		if (actions != AuthHelper.AUTHORIZED) {
 			LogoutRedirector.recordRestrictedPageUri(request);

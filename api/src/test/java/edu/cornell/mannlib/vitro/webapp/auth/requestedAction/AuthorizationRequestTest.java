@@ -35,7 +35,7 @@ public class AuthorizationRequestTest extends AbstractTestClass {
 	// Helper classes
 	// ----------------------------------------------------------------------
 
-	private static class MyAuth extends AuthorizationRequest {
+	private static class MyAuth extends ActionRequest {
 		private final String name;
 
 		public MyAuth(String name) {

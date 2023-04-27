@@ -3,6 +3,7 @@
 package edu.cornell.mannlib.vitro.webapp.controller.freemarker.responsevalues;
 
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 
 /**
  * This allows processRequest() in sub-classes of FreemarkerHttpServlet to

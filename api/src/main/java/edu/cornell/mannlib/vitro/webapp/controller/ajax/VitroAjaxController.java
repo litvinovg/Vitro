@@ -16,7 +16,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.freemarker.config.FreemarkerConfiguration;
 import freemarker.template.Configuration;
@@ -66,7 +66,7 @@ public abstract class VitroAjaxController extends HttpServlet {
 	 * In some cases, the choice of actions will depend on the contents of the request.
      */
     @SuppressWarnings("unused")
-	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
+	protected ActionRequest requiredActions(VitroRequest vreq) {
 		return AuthHelper.AUTHORIZED;
 	}
 

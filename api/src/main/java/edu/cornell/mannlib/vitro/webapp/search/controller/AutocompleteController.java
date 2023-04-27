@@ -23,7 +23,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.application.ApplicationUtils;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermissions;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 import edu.cornell.mannlib.vitro.webapp.beans.VClass;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.ajax.VitroAjaxController;
@@ -63,7 +63,7 @@ public class AutocompleteController extends VitroAjaxController {
     public static final int MAX_QUERY_LENGTH = 500;
 
     @Override
-    protected AuthorizationRequest requiredActions(VitroRequest vreq) {
+    protected ActionRequest requiredActions(VitroRequest vreq) {
     	return SimplePermissions.USE_BASIC_AJAX_CONTROLLERS.actionRequest;
     }
 

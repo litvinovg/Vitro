@@ -18,7 +18,6 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 
 /**
@@ -28,7 +27,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 public class PolicyHelper_AuthorizationRequestTest {
 	private ServletContextStub ctx;
 	private HttpServletRequestStub req;
-	private AuthorizationRequest nullAr = null;
+	private ActionRequest nullAr = null;
 
 	@Before
 	public void setup() {

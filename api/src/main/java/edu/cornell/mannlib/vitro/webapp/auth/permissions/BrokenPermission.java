@@ -2,9 +2,9 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.permissions;
 
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
-
 import java.util.List;
+
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest;
 
 /**
  * This is what the PermissionRegistry hands out if you ask for a Permission
