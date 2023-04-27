@@ -22,7 +22,7 @@ public class VitroFilterUtils {
 	 * public view.
 	 */
 	public static VitroFilters getPublicFilter(ServletContext ctx) {
-		return new FilterByDisplayPermission(ctx);
+		return new FilterByDisplayPermission();
 	}
 
     /** Gets a VitroFilters that permits all objects */

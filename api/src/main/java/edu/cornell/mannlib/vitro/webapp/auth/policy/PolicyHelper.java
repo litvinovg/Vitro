@@ -42,12 +42,16 @@ import edu.cornell.mannlib.vitro.webapp.controller.authenticate.Authenticator;
 public class PolicyHelper {
 	private static final Log log = LogFactory.getLog(PolicyHelper.class);
 
-	public static boolean isAuthorizedForActions(HttpServletRequest req,
-			AccessObject ar) {
+	public static boolean isAuthorizedForActions(HttpServletRequest req, AccessObject ar) {
 		PolicyIface policy = PolicyStore.getInstance().copy();
 		IdentifierBundle ids = RequestIdentifiers.getIdBundleForRequest(req);
 		return actionRequestIsAuthorized(ids, policy, ar);
 	}
+	
+    public static boolean isAuthorizedForActions(IdentifierBundle ids, AccessObject ar) {
+        PolicyIface policy = PolicyStore.getInstance().copy();
+        return actionRequestIsAuthorized(ids, policy, ar);
+    }
 
 	/**
 	 * Are these actions authorized for these identifiers by these policies?

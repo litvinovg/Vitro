@@ -4,26 +4,22 @@ package edu.cornell.mannlib.vitro.webapp.dao.filtering.filters;
 
 import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject.SOME_URI;
 
-import javax.servlet.ServletContext;
-
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityDisplayPermission;
-import edu.cornell.mannlib.vitro.webapp.beans.*;
-import edu.cornell.mannlib.vitro.webapp.dao.WebappDaoFactory;
-import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
-import net.sf.jga.fn.UnaryFunctor;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.Permission;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.PermissionRegistry;
+import edu.cornell.mannlib.vitro.webapp.auth.identifier.ActiveIdentifierBundleFactories;
+import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataProperty;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectProperty;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectPropertyStatement;
-
-import java.util.ArrayList;
+import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
+import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatement;
+import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
+import edu.cornell.mannlib.vitro.webapp.beans.ObjectPropertyStatement;
+import net.sf.jga.fn.UnaryFunctor;
 
 /**
  * Filter the properties depending on what DisplayByRolePermission is on the
@@ -31,52 +27,18 @@ import java.util.ArrayList;
  */
 public class FilterByDisplayPermission extends VitroFiltersImpl {
 	private static final Log log = LogFactory.getLog(FilterByDisplayPermission.class);
+	IdentifierBundle bundle = ActiveIdentifierBundleFactories.getUserIdentifierBundle(null);
 
-	private final Permission permission;
-
-	private static Permission getDefaultPermission(ServletContext ctx) {
-		if (ctx == null) {
-			throw new NullPointerException("context may not be null.");
-		}
-
-		// Obtain the EntityDisplayPermission that has been registered for the public user
-		WebappDaoFactory wadf = ModelAccess.on(ctx).getWebappDaoFactory();
-		for (PermissionSet set : wadf.getUserAccountsDao().getAllPermissionSets()) {
-			if (set.isForPublic()) {
-				for (String permissionUri : set.getPermissionUris()) {
-					Permission permission = PermissionRegistry.getRegistry(ctx).getPermission(permissionUri);
-					if (permission instanceof EntityDisplayPermission) {
-						return permission;
-					}
-				}
-			}
-		}
-
-		// Can't find a public user with an EntityDisplayPermission
-		return null;
-	}
-
-	/** Use the Public permission. */
-	public FilterByDisplayPermission(ServletContext ctx) {
-		this(getDefaultPermission(ctx));
-	}
-
-	/** Use the specified permission. */
-	public FilterByDisplayPermission(Permission permission) {
-		if (permission == null) {
-			throw new NullPointerException("permission may not be null.");
-		}
-
-		this.permission = permission;
-
-		setDataPropertyFilter(new DataPropertyFilterByPolicy());
-		setObjectPropertyFilter(new ObjectPropertyFilterByPolicy());
-		setDataPropertyStatementFilter(new DataPropertyStatementFilterByPolicy());
-		setObjectPropertyStatementFilter(new ObjectPropertyStatementFilterByPolicy());
+	public FilterByDisplayPermission() {
+	    setDataPropertyFilter(new DataPropertyFilterByPolicy());
+	    setObjectPropertyFilter(new ObjectPropertyFilterByPolicy());
+	    setDataPropertyStatementFilter(new DataPropertyStatementFilterByPolicy());
+	    setObjectPropertyStatementFilter(new ObjectPropertyStatementFilterByPolicy());
 	}
 
 	boolean checkAuthorization(AccessObject whatToAuth) {
-		boolean decision = permission.isAuthorized(new ArrayList<String>(), whatToAuth);
+	    
+		boolean decision = PolicyHelper.isAuthorizedForActions(bundle, whatToAuth);
 		log.debug("decision is " + decision);
 		return decision;
 	}
