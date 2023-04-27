@@ -43,12 +43,6 @@ public class AuthorizationRequestTest extends AbstractTestClass {
 		}
 
 		@Override
-		public boolean isAuthorized(IdentifierBundle ids, PolicyIface policy) {
-			throw new RuntimeException(
-					"AuthorizationRequest.isAuthorized() not implemented.");
-		}
-
-		@Override
 		public String toString() {
 			return "MyAuth[" + name + "]";
 		}

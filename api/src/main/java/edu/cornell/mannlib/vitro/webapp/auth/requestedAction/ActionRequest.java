@@ -2,9 +2,10 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.requestedAction;
 
-import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
+import java.util.Collections;
+import java.util.List;
+
+import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 
 /**
@@ -19,6 +20,8 @@ public abstract class ActionRequest {
     public static String SOME_URI = "?SOME_URI";
     public static Property SOME_PREDICATE = new Property(SOME_URI);
     public static String SOME_LITERAL = "?SOME_LITERAL";
+    @Deprecated
+    protected DecisionResult predefinedDecision = DecisionResult.INCONCLUSIVE;
 
     /**
      * In its most basic form, a RequestAction needs to have an identifier.
@@ -28,16 +31,21 @@ public abstract class ActionRequest {
     	return ACTION_NAMESPACE + this.getClass().getName();
     }
 
-    /**
-     * For authorization, just ask the Policy. INCONCLUSIVE is not good enough.
-     */
-    public boolean isAuthorized(IdentifierBundle ids, PolicyIface policy) {
-        return PolicyHelper.actionRequestIsAuthorized( ids,  policy,  this);
-    }
-
     @Override
     public String toString() {
     	return this.getClass().getSimpleName();
     }
+    @Deprecated
+    public Object getPredefinedDecision() {
+        return predefinedDecision;
+    }
+
+    public boolean isContainer() {
+        return false;
+    }
+
+    public List<ActionRequest> getItems(){
+        return Collections.EMPTY_LIST;
+    };
 
 }

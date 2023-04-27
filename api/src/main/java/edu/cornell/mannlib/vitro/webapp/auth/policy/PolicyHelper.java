@@ -4,6 +4,8 @@ package edu.cornell.mannlib.vitro.webapp.auth.policy;
 
 import static edu.cornell.mannlib.vitro.webapp.auth.requestedAction.ActionRequest.SOME_URI;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
@@ -44,7 +46,7 @@ public class PolicyHelper {
 			ActionRequest ar) {
 		PolicyIface policy = PolicyStore.getInstance().copy();
 		IdentifierBundle ids = RequestIdentifiers.getIdBundleForRequest(req);
-		return ar.isAuthorized(ids, policy);
+		return actionRequestIsAuthorized(ids, policy, ar);
 	}
 
 	/**
@@ -52,10 +54,22 @@ public class PolicyHelper {
 	 */
 	public static boolean isAuthorizedForActions(IdentifierBundle ids,
 			PolicyIface policy, ActionRequest ar) {
-		return ar.isAuthorized(ids, policy);
+		return actionRequestIsAuthorized(ids, policy, ar);
 	}
 	
 	public static boolean actionRequestIsAuthorized(IdentifierBundle ids, PolicyIface policy, ActionRequest ar) {
+	    if (ar.getPredefinedDecision() != DecisionResult.INCONCLUSIVE){
+	        return ar.getPredefinedDecision() == DecisionResult.AUTHORIZED;
+	    }
+	    if (ar.isContainer()) {
+	        List<ActionRequest> items = ar.getItems();
+	        boolean result = false;
+	        for (ActionRequest item : items ) {
+	            result = result || actionRequestIsAuthorized(ids, policy, item);
+	        }
+	        return result;
+	    }
+	    
 	    PolicyDecision decision = policy.decide(ids, ar);
         return decision.getDecisionResult() == DecisionResult.AUTHORIZED;
 	}
@@ -97,7 +111,7 @@ public class PolicyHelper {
 			// figure out if that account can do the actions
 			IdentifierBundle ids = ActiveIdentifierBundleFactories.getUserIdentifierBundle(user);
 			PolicyIface policies = PolicyStore.getInstance().copy();
-			return ar.isAuthorized(ids, policies);
+			return actionRequestIsAuthorized(ids, policies, ar);
 		} catch (Exception ex) {
 			log.error("Error while attempting to authorize actions " + ar, ex);
 			return false;
