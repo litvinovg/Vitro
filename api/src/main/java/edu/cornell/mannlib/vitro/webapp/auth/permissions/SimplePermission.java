@@ -2,8 +2,6 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.permissions;
 
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -27,11 +25,6 @@ public class SimplePermission extends Permission {
 	    this.actionRequest = new NamedAccessObject(uri);
 
 		SimplePermissions.add(this);
-	}
-
-	@Override
-	public boolean isAuthorized(List<String> personUris, AccessObject whatToAuth) {
-		return EntityPermissionHelper.isAuthorizedBySimplePermission(whatToAuth, this);
 	}
 
 }

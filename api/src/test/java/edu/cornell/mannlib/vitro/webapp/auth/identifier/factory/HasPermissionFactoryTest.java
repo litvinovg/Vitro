@@ -267,12 +267,6 @@ public class HasPermissionFactoryTest extends AbstractTestClass {
 	private static class MyPermission extends Permission {
 		public MyPermission(String uri) {
 			super(uri);
-		}
-
-		@Override
-		public boolean isAuthorized(List<String> personUris, AccessObject whatToAuth) {
-			return false;
-		}
-
+		}		
 	}
 }

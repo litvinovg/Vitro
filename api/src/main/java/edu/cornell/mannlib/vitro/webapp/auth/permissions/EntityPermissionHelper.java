@@ -319,5 +319,25 @@ public class EntityPermissionHelper {
         return false;
     }
 
+    public static boolean isAuthorizedPermission(List<String> personUris, AccessObject whatToAuth, Permission permission) {
+        if (permission instanceof EntityDisplayPermission) {
+            return isAuthorizedByEntityDisplayPermission(whatToAuth, (EntityDisplayPermission) permission);
+        }
+        if (permission instanceof EntityUpdatePermission) {
+            return isAuthorizedByEntityUpdatePermission(personUris, whatToAuth, (EntityUpdatePermission) permission);
+        }
+        if (permission instanceof EntityPublishPermission) {
+            return isAuthorizedByEntityPublishPermission(personUris, whatToAuth, (EntityPublishPermission) permission);
+        }
+        if (permission instanceof SimplePermission) {
+            return isAuthorizedBySimplePermission(whatToAuth, (SimplePermission) permission);
+        }
+        if (permission instanceof BrokenPermission) {
+            return isAuthorizedByBrokenPermission();
+        }
+        //No more options
+        return false;
+    }
+
 
 }

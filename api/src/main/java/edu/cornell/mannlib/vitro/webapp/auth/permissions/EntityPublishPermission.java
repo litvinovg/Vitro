@@ -2,18 +2,9 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.permissions;
 
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
-
-import java.util.List;
-
 public class EntityPublishPermission extends EntityPermission {
 
     public EntityPublishPermission(String uri) {
         super(uri);
-    }
-
-    @Override
-    public boolean isAuthorized(List<String> personUris, AccessObject whatToAuth) {
-        return EntityPermissionHelper.isAuthorizedByEntityPublishPermission(personUris, whatToAuth, this);
     }
 }
