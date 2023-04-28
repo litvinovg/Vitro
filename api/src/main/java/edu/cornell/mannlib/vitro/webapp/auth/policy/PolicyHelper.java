@@ -57,12 +57,11 @@ public class PolicyHelper {
 	/**
 	 * Are these actions authorized for these identifiers by these policies?
 	 */
-	public static boolean isAuthorizedForActions(IdentifierBundle ids,
-			PolicyIface policy, AccessObject ar) {
-		return actionRequestIsAuthorized(ids, policy, ar);
+	public static boolean isAuthorizedForActions(IdentifierBundle ids, AccessObject ar) {
+		return actionRequestIsAuthorized(ids, PolicyStore.getInstance().copy(), ar);
 	}
 	
-	public static boolean actionRequestIsAuthorized(IdentifierBundle ids, PolicyIface policy, AccessObject ar) {
+	private static boolean actionRequestIsAuthorized(IdentifierBundle ids, PolicyIface policy, AccessObject ar) {
 	    if (ar.getPredefinedDecision() != DecisionResult.INCONCLUSIVE){
 	        return ar.getPredefinedDecision() == DecisionResult.AUTHORIZED;
 	    }
@@ -87,8 +86,7 @@ public class PolicyHelper {
 	 * It may be better to check this as part of a servlet Filter and add an
 	 * identifier bundle.
 	 */
-	public static boolean isAuthorizedForActions(HttpServletRequest req,
-			String email, String password, AccessObject ar) {
+	public static boolean isAuthorizedForActions(HttpServletRequest req, String email, String password, AccessObject ar) {
 		if (password == null || email == null || password.isEmpty()
 				|| email.isEmpty()) {
 			return false;
@@ -129,8 +127,7 @@ public class PolicyHelper {
 	 *
 	 * The statement is expected to be fully-populated, with no null fields.
 	 */
-	public static boolean isAuthorizedToAdd(HttpServletRequest req,
-			Statement stmt, OntModel modelToBeModified) {
+	public static boolean isAuthorizedToAdd(HttpServletRequest req,	Statement stmt, OntModel modelToBeModified) {
 		if ((req == null) || (stmt == null) || (modelToBeModified == null)) {
 			return false;
 		}
@@ -164,8 +161,7 @@ public class PolicyHelper {
 	 *
 	 * The statement is expected to be fully-populated, with no null fields.
 	 */
-	public static boolean isAuthorizedToDrop(HttpServletRequest req,
-			Statement stmt, OntModel modelToBeModified) {
+	public static boolean isAuthorizedToDrop(HttpServletRequest req, Statement stmt, OntModel modelToBeModified) {
 		if ((req == null) || (stmt == null) || (modelToBeModified == null)) {
 			return false;
 		}
@@ -206,8 +202,7 @@ public class PolicyHelper {
 	 * log will contain a full record of all failures. This is no more expensive
 	 * than if all statements succeeded.
 	 */
-	public static boolean isAuthorizedAsExpected(HttpServletRequest req,
-			Model additions, Model retractions, OntModel modelBeingModified) {
+	public static boolean isAuthorizedAsExpected(HttpServletRequest req, Model additions, Model retractions, OntModel modelBeingModified) {
 		if (req == null) {
 			log.warn("Can't evaluate authorization if req is null");
 			return false;

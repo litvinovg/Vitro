@@ -53,7 +53,6 @@ public class RestrictedAuthenticator extends Authenticator {
 		ids.addAll(RequestIdentifiers.getIdBundleForRequest(req));
 
 		return PolicyHelper.isAuthorizedForActions(ids,
-		        PolicyStore.getInstance().copy(),
 				SimplePermission.LOGIN_DURING_MAINTENANCE.ACTION);
 	}
 
