@@ -33,7 +33,6 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleAuthorizationRequest;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
@@ -95,7 +94,7 @@ public class FileUploadController extends FreemarkerHttpServlet {
 			final OntModel jenaOntModel = vreq.getJenaOntModel();
 			final String subject = getSubjectUri(vreq);
 			if (isUpload(vreq)) {
-				ra = new AddObjectPropertyStatement(jenaOntModel, subject, predicate,AccessObject.SOME_URI);
+				ra = new ObjectPropertyStatementAccessObject(jenaOntModel, subject, predicate,AccessObject.SOME_URI);
 				ao = AccessOperation.ADD;
 			} else { // delete
 				ra = new ObjectPropertyStatementAccessObject(jenaOntModel, subject, predicate, getFileUri(vreq));

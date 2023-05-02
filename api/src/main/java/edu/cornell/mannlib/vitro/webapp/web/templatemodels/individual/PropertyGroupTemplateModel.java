@@ -14,10 +14,10 @@ import org.apache.commons.logging.LogFactory;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataProperty;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DataPropertyAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectProperty;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectPropertyStatement;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.ObjectPropertyAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatementImpl;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
@@ -76,7 +76,7 @@ public class PropertyGroupTemplateModel extends BaseTemplateModel {
 	 */
 	private boolean allowedToDisplay(VitroRequest vreq, ObjectProperty op,
 			Individual subject) {
-		AccessObject dop = new DisplayObjectProperty(op);
+		AccessObject dop = new ObjectPropertyAccessObject(op);
 		if (PolicyHelper.isAuthorizedForActions(vreq, dop, AccessOperation.DISPLAY)) {
 			return true;
 		}
@@ -94,7 +94,7 @@ public class PropertyGroupTemplateModel extends BaseTemplateModel {
 	 * statement might still be permitted to a self-editor.
 	 */
 	private boolean allowedToDisplay(VitroRequest vreq, DataProperty dp, Individual subject) {
-		AccessObject dop = new DisplayDataProperty(dp);
+		AccessObject dop = new DataPropertyAccessObject(dp);
 		if (PolicyHelper.isAuthorizedForActions(vreq, dop, AccessOperation.DISPLAY)) {
 			return true;
 		}

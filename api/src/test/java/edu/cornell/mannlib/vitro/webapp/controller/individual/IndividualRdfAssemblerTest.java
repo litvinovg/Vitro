@@ -45,8 +45,8 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.publish.PublishDataPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.publish.PublishObjectPropertyStatement;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DataPropertyStatementAccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
@@ -435,22 +435,22 @@ public class IndividualRdfAssemblerTest extends AbstractTestClass {
 		@Override
 		public PolicyDecision decide(IdentifierBundle whoToAuth,
 				AccessObject whatToAuth, AccessOperation operation) {
-			if (whatToAuth instanceof PublishDataPropertyStatement) {
-				return filterDataProperty((PublishDataPropertyStatement) whatToAuth);
-			} else if (whatToAuth instanceof PublishObjectPropertyStatement) {
-				return filterObjectProperty((PublishObjectPropertyStatement) whatToAuth);
+			if (whatToAuth instanceof DataPropertyStatementAccessObject) {
+				return filterDataProperty((DataPropertyStatementAccessObject) whatToAuth);
+			} else if (AccessOperation.PUBLISH.equals(operation) && whatToAuth instanceof ObjectPropertyStatementAccessObject) {
+				return filterObjectProperty((ObjectPropertyStatementAccessObject) whatToAuth);
 			} else {
 				return inconclusive("Bogus");
 			}
 		}
 
 		private PolicyDecision filterDataProperty(
-				PublishDataPropertyStatement pdps) {
+		        DataPropertyStatementAccessObject pdps) {
 			return filter(pdps.getPredicateUri(), null);
 		}
 
 		private PolicyDecision filterObjectProperty(
-				PublishObjectPropertyStatement pops) {
+		        ObjectPropertyStatementAccessObject pops) {
 			String propertyUri = pops.getPredicateUri();
 			if (VitroVocabulary.RDF_TYPE.equals(propertyUri)) {
 				return filter(propertyUri, pops.getObjectUri());

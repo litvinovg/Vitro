@@ -10,8 +10,7 @@ import org.apache.jena.rdf.model.Literal;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropDataPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditDataPropertyStatement;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DataPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatementImpl;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
@@ -50,9 +49,9 @@ public class DataPropertyStatementTemplateModel extends PropertyStatementTemplat
         AccessObject action;
         if (property instanceof FauxPropertyWrapper) {
             DataPropertyStatement dpfs = makeFauxStatement();
-            action = new DropDataPropertyStatement(vreq.getJenaOntModel(), dpfs);
+            action = new DataPropertyStatementAccessObject(vreq.getJenaOntModel(), dpfs);
         } else {
-            action = new DropDataPropertyStatement(vreq.getJenaOntModel(), dps);
+            action = new DataPropertyStatementAccessObject(vreq.getJenaOntModel(), dps);
         }
         
         if ( ! PolicyHelper.isAuthorizedForActions(vreq, action, AccessOperation.DROP) ) {
@@ -87,9 +86,9 @@ public class DataPropertyStatementTemplateModel extends PropertyStatementTemplat
         AccessObject action;
         if (property instanceof FauxPropertyWrapper) {
             DataPropertyStatement dpfs = makeFauxStatement();
-            action = new EditDataPropertyStatement(vreq.getJenaOntModel(), dpfs);
+            action = new DataPropertyStatementAccessObject(vreq.getJenaOntModel(), dpfs);
         } else {
-            action = new EditDataPropertyStatement(vreq.getJenaOntModel(), dps);
+            action = new DataPropertyStatementAccessObject(vreq.getJenaOntModel(), dps);
         }
 		
         if ( ! PolicyHelper.isAuthorizedForActions(vreq, action, AccessOperation.EDIT) ) {

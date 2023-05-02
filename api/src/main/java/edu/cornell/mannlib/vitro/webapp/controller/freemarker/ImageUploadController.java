@@ -16,7 +16,6 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleAuthorizationRequest;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
@@ -163,7 +162,7 @@ public class ImageUploadController extends FreemarkerHttpServlet {
 						imageUri);
 			} else {
 			    ao = AccessOperation.ADD;
-				ra = new AddObjectPropertyStatement(vreq.getJenaOntModel(),
+				ra = new ObjectPropertyStatementAccessObject(vreq.getJenaOntModel(),
 						entity.getURI(), indMainImage,
 						AccessObject.SOME_URI);
 			}

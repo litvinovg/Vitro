@@ -17,18 +17,13 @@ import org.apache.jena.shared.Lock;
 
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataProperty;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DataPropertyAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectProperty;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.ObjectPropertyAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DataPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.PropertyStatementAccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.publish.PublishDataProperty;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.publish.PublishDataPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.publish.PublishObjectProperty;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.publish.PublishObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.beans.FauxProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
@@ -205,28 +200,28 @@ public class EntityPermissionHelper {
     static boolean isAuthorizedByEntityPublishPermission(List<String> personUris, AccessObject whatToAuth, EntityPermission entityPublishPermission, AccessOperation operation) {
         boolean result = false;
     
-        if (whatToAuth instanceof PublishDataProperty) {
-            String predicateUri = ((PublishDataProperty)whatToAuth).getDataProperty().getURI();
+        if (whatToAuth instanceof DataPropertyAccessObject) {
+            String predicateUri = ((DataPropertyAccessObject)whatToAuth).getDataProperty().getURI();
             result = isAuthorizedForByEntityPermission(new Property(predicateUri), entityPublishPermission);
-        } else if (whatToAuth instanceof PublishObjectProperty) {
-            ObjectProperty op = ((PublishObjectProperty)whatToAuth).getObjectProperty();
+        } else if (whatToAuth instanceof ObjectPropertyAccessObject) {
+            ObjectProperty op = ((ObjectPropertyAccessObject)whatToAuth).getObjectProperty();
             result = isAuthorizedForByEntityPermission(op, entityPublishPermission);
-        } else if (whatToAuth instanceof PublishDataPropertyStatement) {
+        } else if (whatToAuth instanceof DataPropertyStatementAccessObject) {
     
             // Subject [((PublishDataPropertyStatement)whatToAuth).getSubjectUri()] is a resource
             // Previous auth code always evaluated as true when checking permissions for resources
             // Do we need to implement a check on permissions the class for the resource?
     
-            String predicateUri = ((PublishDataPropertyStatement)whatToAuth).getPredicateUri();
+            String predicateUri = ((DataPropertyStatementAccessObject)whatToAuth).getPredicateUri();
             result = isAuthorizedForByEntityPermission(new Property(predicateUri), entityPublishPermission);
-        } else if (whatToAuth instanceof PublishObjectPropertyStatement) {
+        } else if (whatToAuth instanceof ObjectPropertyStatementAccessObject) {
     
             // Subject [((PublishObjectPropertyStatement)whatToAuth).getSubjectUri()] is a resource
             // Object  [((PublishObjectPropertyStatement)whatToAuth).getObjectUri()] is a resource
             // Previous auth code always evaluated as true when checking permissions for resources
             // Do we need to implement a check on permissions the class for the resource?
     
-            Property predicate = ((PublishObjectPropertyStatement)whatToAuth).getPredicate();
+            Property predicate = ((ObjectPropertyStatementAccessObject)whatToAuth).getPredicate();
             result = isAuthorizedForByEntityPermission(predicate, entityPublishPermission);
         }
     
@@ -242,10 +237,10 @@ public class EntityPermissionHelper {
     static boolean isAuthorizedByEntityDisplayPermission(AccessObject whatToAuth, EntityDisplayPermission entityDisplayPermission, AccessOperation operation) {
         boolean result = false;
     
-        if (whatToAuth instanceof DisplayDataProperty) {
-            String predicateUri = ((DisplayDataProperty)whatToAuth).getDataProperty().getURI();
+        if (whatToAuth instanceof DataPropertyAccessObject) {
+            String predicateUri = ((DataPropertyAccessObject)whatToAuth).getDataProperty().getURI();
             result = isAuthorizedForByEntityPermission(new Property(predicateUri), entityDisplayPermission);
-        } else if (whatToAuth instanceof DisplayObjectProperty) {
+        } else if (whatToAuth instanceof ObjectPropertyAccessObject) {
             result = isAuthorizedForByEntityPermission(((ObjectPropertyAccessObject)whatToAuth).getObjectProperty(), entityDisplayPermission);
         } else if (whatToAuth instanceof DisplayDataPropertyStatement) {
             DataPropertyStatement stmt = ((DisplayDataPropertyStatement)whatToAuth).getDataPropertyStatement();
@@ -322,13 +317,17 @@ public class EntityPermissionHelper {
 
     public static boolean isAuthorizedPermission(List<String> personUris, AccessObject whatToAuth, AccessRule permission, AccessOperation operation) {
         if (permission instanceof EntityDisplayPermission) {
-            return isAuthorizedByEntityDisplayPermission(whatToAuth, (EntityDisplayPermission) permission, operation);
+            if (AccessOperation.DISPLAY.equals(operation)){
+                return isAuthorizedByEntityDisplayPermission(whatToAuth, (EntityDisplayPermission) permission, operation);    
+            }
         }
         if (permission instanceof EntityUpdatePermission) {
             return isAuthorizedByEntityUpdatePermission(personUris, whatToAuth, (EntityUpdatePermission) permission, operation);
         }
         if (permission instanceof EntityPublishPermission) {
-            return isAuthorizedByEntityPublishPermission(personUris, whatToAuth, (EntityPublishPermission) permission, operation);
+            if (AccessOperation.PUBLISH.equals(operation)){
+                return isAuthorizedByEntityPublishPermission(personUris, whatToAuth, (EntityPublishPermission) permission, operation);
+            }
         }
         if (permission instanceof SimpleAccessRule) {
             return isAuthorizedBySimplePermission(whatToAuth, (SimpleAccessRule) permission, operation);

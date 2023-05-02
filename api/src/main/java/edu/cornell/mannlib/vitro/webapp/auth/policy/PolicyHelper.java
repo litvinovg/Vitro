@@ -28,9 +28,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddDataPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropDataPropertyStatement;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DataPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
@@ -166,11 +164,11 @@ public class PolicyHelper {
 			Property property = new Property(predicate.getURI());
 			property.setDomainVClassURI(SOME_URI);
 			property.setRangeVClassURI(SOME_URI);
-			action = new AddObjectPropertyStatement(modelToBeModified,
+			action = new ObjectPropertyStatementAccessObject(modelToBeModified,
 					subject.getURI(), property, objectNode.asResource()
 							.getURI());
 		} else {
-			action = new AddDataPropertyStatement(modelToBeModified,
+			action = new DataPropertyStatementAccessObject(modelToBeModified,
 					subject.getURI(), predicate.getURI(), objectNode
 							.asLiteral().getString());
 		}
@@ -204,7 +202,7 @@ public class PolicyHelper {
 					subject.getURI(), property, objectNode.asResource()
 							.getURI());
 		} else {
-			action = new DropDataPropertyStatement(modelToBeModified,
+			action = new DataPropertyStatementAccessObject(modelToBeModified,
 					subject.getURI(), predicate.getURI(), objectNode
 							.asLiteral().getString());
 		}

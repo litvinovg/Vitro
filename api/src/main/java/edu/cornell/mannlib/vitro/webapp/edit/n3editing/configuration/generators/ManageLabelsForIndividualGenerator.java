@@ -32,8 +32,8 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleAuthorizationRequest;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddDataPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DataPropertyStatementAccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 import edu.cornell.mannlib.vitro.webapp.beans.VClass;
@@ -290,10 +290,10 @@ public class ManageLabelsForIndividualGenerator extends BaseEditConfigurationGen
 
 	private Object isEditable(VitroRequest vreq, EditConfigurationVTwo config) {
 		Individual individual = EditConfigurationUtils.getIndividual(vreq, config.getSubjectUri());
-		AddDataPropertyStatement adps = new AddDataPropertyStatement(
+		DataPropertyStatementAccessObject adps = new DataPropertyStatementAccessObject(
 				vreq.getJenaOntModel(), individual.getURI(),
 				SOME_URI, SOME_LITERAL);
-		AddObjectPropertyStatement aops = new AddObjectPropertyStatement(
+		ObjectPropertyStatementAccessObject aops = new ObjectPropertyStatementAccessObject(
 				vreq.getJenaOntModel(), individual.getURI(),
 				SOME_PREDICATE, SOME_URI);
     	return PolicyHelper.isAuthorizedForActions(vreq, AuthHelper.logicOr(new SimpleAuthorizationRequest(aops, AccessOperation.ADD), new SimpleAuthorizationRequest(aops, AccessOperation.ADD)));

@@ -24,8 +24,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleAuthorizationRequest;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditDataPropertyStatement;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DataPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.FauxProperty;
@@ -96,7 +95,7 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
 		ObjectPropertyStatementAccessObject objectPropertyAction;
 		AccessOperation ao;
 		if (StringUtils.isBlank(objectUri)) {
-			objectPropertyAction = new AddObjectPropertyStatement(ontModel, subjectUri, predicateProp, AccessObject.SOME_URI);
+			objectPropertyAction = new ObjectPropertyStatementAccessObject(ontModel, subjectUri, predicateProp, AccessObject.SOME_URI);
 			ao = AccessOperation.ADD;
 		} else {
             objectPropertyAction = new ObjectPropertyStatementAccessObject(ontModel, subjectUri, predicateProp, objectUri);
@@ -106,7 +105,7 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
 				ao = AccessOperation.EDIT;
 			}
 		}
-		final EditDataPropertyStatement editDataPropertyStatement = new EditDataPropertyStatement(ontModel, subjectUri, predicateUri, objectUri);
+		final DataPropertyStatementAccessObject editDataPropertyStatement = new DataPropertyStatementAccessObject(ontModel, subjectUri, predicateUri, objectUri);
         boolean isAuthorized = PolicyHelper.isAuthorizedForActions(vreq, 
 		        AuthHelper.logicOr(
 		                new SimpleAuthorizationRequest(editDataPropertyStatement, AccessOperation.EDIT), 

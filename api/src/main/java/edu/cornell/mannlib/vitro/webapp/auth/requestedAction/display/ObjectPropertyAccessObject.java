@@ -3,7 +3,7 @@ package edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
 
-public abstract class ObjectPropertyAccessObject extends AccessObject {
+public class ObjectPropertyAccessObject extends AccessObject {
 
     protected final ObjectProperty objectProperty;
 

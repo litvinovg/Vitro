@@ -12,10 +12,10 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataProperty;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DataPropertyAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectProperty;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectPropertyStatement;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.ObjectPropertyAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
@@ -50,7 +50,7 @@ public class HideFromDisplayByPolicyFilter extends VitroFiltersImpl {
 			UnaryFunctor<DataProperty, Boolean> {
 		@Override
 		public Boolean fn(DataProperty dp) {
-			return checkAuthorization(new DisplayDataProperty(dp));
+			return checkAuthorization(new DataPropertyAccessObject(dp));
 		}
 	}
 
@@ -58,7 +58,7 @@ public class HideFromDisplayByPolicyFilter extends VitroFiltersImpl {
 			UnaryFunctor<ObjectProperty, Boolean> {
 		@Override
 		public Boolean fn(ObjectProperty op) {
-			return checkAuthorization(new DisplayObjectProperty(op));
+			return checkAuthorization(new ObjectPropertyAccessObject(op));
 		}
 	}
 
