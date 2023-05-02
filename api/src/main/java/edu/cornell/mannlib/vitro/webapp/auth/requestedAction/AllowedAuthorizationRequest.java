@@ -2,11 +2,11 @@ package edu.cornell.mannlib.vitro.webapp.auth.requestedAction;
 
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 
-public class AllowedAccessObject implements AuthorizationRequest{
+public class AllowedAuthorizationRequest implements AuthorizationRequest{
 
     private DecisionResult decision;
 
-    public AllowedAccessObject() {
+    public AllowedAuthorizationRequest() {
         decision = DecisionResult.AUTHORIZED;
     }
 

@@ -2,11 +2,11 @@ package edu.cornell.mannlib.vitro.webapp.auth.requestedAction;
 
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 
-public class ForbiddenAccessObject implements AuthorizationRequest {
+public class ForbiddenAuthorizationRequest implements AuthorizationRequest {
 
     private DecisionResult predefinedDecision;
 
-    public ForbiddenAccessObject() {
+    public ForbiddenAuthorizationRequest() {
         predefinedDecision = DecisionResult.UNAUTHORIZED;
     }
 

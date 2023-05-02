@@ -25,8 +25,8 @@ public class SimpleAuthorizationRequest implements AuthorizationRequest {
         this.operation = operation;
     }
     
-    public SimpleAuthorizationRequest(String uri) {
-        this.object = new NamedAccessObject(uri);
+    public SimpleAuthorizationRequest(String namedAccessObject) {
+        this.object = new NamedAccessObject(namedAccessObject);
         this.operation = AccessOperation.EXECUTE;
     }
 

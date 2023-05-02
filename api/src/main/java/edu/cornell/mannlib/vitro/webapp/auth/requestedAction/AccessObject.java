@@ -2,15 +2,8 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.requestedAction;
 
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 
-/**
- * A base class for RequestedAction that permits boolean operations on them.
- *
- * A null request is ignored, so in "and" it is equivalent to true, while in
- * "or" it is equivalent to false.
- */
 public abstract class AccessObject {
 
 	public static String ACTION_NAMESPACE = "java:";
@@ -18,9 +11,6 @@ public abstract class AccessObject {
     public static Property SOME_PREDICATE = new Property(SOME_URI);
     public static String SOME_LITERAL = "?SOME_LITERAL";
     
-    @Deprecated
-    protected DecisionResult predefinedDecision = DecisionResult.INCONCLUSIVE;
-
     //public abstract PolicyContract getPolicyContract();
     
     /**

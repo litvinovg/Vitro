@@ -50,7 +50,7 @@ public class AuthHelper {
     }
 
     
-    public static final AuthorizationRequest AUTHORIZED = new AllowedAccessObject();
-    public static final AuthorizationRequest UNAUTHORIZED = new ForbiddenAccessObject();
+    public static final AuthorizationRequest AUTHORIZED = new AllowedAuthorizationRequest();
+    public static final AuthorizationRequest UNAUTHORIZED = new ForbiddenAuthorizationRequest();
 
 }
