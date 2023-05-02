@@ -20,12 +20,12 @@ public class PolicyListImpl implements PolicyList, Cloneable {
     protected ArrayList<PolicyIface> policies = new ArrayList<PolicyIface>(); 
 
     @Override
-    public PolicyDecision decide(IdentifierBundle ac_subject, AccessObject whatToAuth, AccessOperation operation) {
+    public PolicyDecision decide(IdentifierBundle whoToAuth, AccessObject whatToAuth, AccessOperation operation) {
         PolicyDecision pd = null;
-        PolicyDecisionLogger logger = new PolicyDecisionLogger(ac_subject, whatToAuth);
+        PolicyDecisionLogger logger = new PolicyDecisionLogger(whoToAuth, whatToAuth);
         for(PolicyIface policy : policies){
             try{
-                pd = policy.decide(ac_subject, whatToAuth, operation);
+                pd = policy.decide(whoToAuth, whatToAuth, operation);
                 logger.log(policy, pd);
                 if( pd != null ){
                     if(  pd.getDecisionResult() == DecisionResult.AUTHORIZED )

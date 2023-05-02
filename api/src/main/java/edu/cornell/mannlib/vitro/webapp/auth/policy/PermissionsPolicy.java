@@ -38,7 +38,7 @@ public class PermissionsPolicy implements PolicyIface {
         List<String> personUris = new ArrayList<String>(HasAssociatedIndividual.getIndividualUris(ac_subject));
 
         for (AccessRule p : IdentifierPermissionProvider.getPermissions(ac_subject)) {
-            if (EntityPermissionHelper.isAuthorizedPermission(personUris, whatToAuth, p)) {
+            if (EntityPermissionHelper.isAuthorizedPermission(personUris, whatToAuth, p, operation)) {
                 log.debug("Permission " + p + " approves request " + whatToAuth);
                 return new BasicPolicyDecision(DecisionResult.AUTHORIZED, "PermissionsPolicy: approved by " + p);
             } else {

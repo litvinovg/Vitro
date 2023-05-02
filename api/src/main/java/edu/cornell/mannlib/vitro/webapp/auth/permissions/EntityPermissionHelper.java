@@ -16,6 +16,7 @@ import org.apache.jena.rdf.model.impl.Util;
 import org.apache.jena.shared.Lock;
 
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataProperty;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectProperty;
@@ -190,7 +191,7 @@ public class EntityPermissionHelper {
         entityPermission.getAuthorizedResources().addAll(newResources);
     }
 
-    static boolean isAuthorizedBySimplePermission(AccessObject whatToAuth, SimpleAccessRule simplePermission) {
+    static boolean isAuthorizedBySimplePermission(AccessObject whatToAuth, SimpleAccessRule simplePermission, AccessOperation operation) {
         if (whatToAuth != null) {
     		if (simplePermission.getUri().equals(whatToAuth.getURI())) {
     			log.debug(simplePermission + " authorizes " + whatToAuth);
@@ -201,7 +202,7 @@ public class EntityPermissionHelper {
     	return false;
     }
     
-    static boolean isAuthorizedByEntityPublishPermission(List<String> personUris, AccessObject whatToAuth, EntityPermission entityPublishPermission) {
+    static boolean isAuthorizedByEntityPublishPermission(List<String> personUris, AccessObject whatToAuth, EntityPermission entityPublishPermission, AccessOperation operation) {
         boolean result = false;
     
         if (whatToAuth instanceof PublishDataProperty) {
@@ -238,7 +239,7 @@ public class EntityPermissionHelper {
         return result;
     }
 
-    static boolean isAuthorizedByEntityDisplayPermission(AccessObject whatToAuth, EntityDisplayPermission entityDisplayPermission) {
+    static boolean isAuthorizedByEntityDisplayPermission(AccessObject whatToAuth, EntityDisplayPermission entityDisplayPermission, AccessOperation operation) {
         boolean result = false;
     
         if (whatToAuth instanceof DisplayDataProperty) {
@@ -275,7 +276,7 @@ public class EntityPermissionHelper {
         return result;
     }
     
-    static boolean isAuthorizedByEntityUpdatePermission(List<String> personUris, AccessObject whatToAuth, EntityUpdatePermission entityUpdatePermission) {
+    static boolean isAuthorizedByEntityUpdatePermission(List<String> personUris, AccessObject whatToAuth, EntityUpdatePermission entityUpdatePermission, AccessOperation operation) {
         boolean isAuthorized = false;
     
         if (whatToAuth instanceof DataPropertyStatementAccessObject) {
@@ -319,18 +320,18 @@ public class EntityPermissionHelper {
         return false;
     }
 
-    public static boolean isAuthorizedPermission(List<String> personUris, AccessObject whatToAuth, AccessRule permission) {
+    public static boolean isAuthorizedPermission(List<String> personUris, AccessObject whatToAuth, AccessRule permission, AccessOperation operation) {
         if (permission instanceof EntityDisplayPermission) {
-            return isAuthorizedByEntityDisplayPermission(whatToAuth, (EntityDisplayPermission) permission);
+            return isAuthorizedByEntityDisplayPermission(whatToAuth, (EntityDisplayPermission) permission, operation);
         }
         if (permission instanceof EntityUpdatePermission) {
-            return isAuthorizedByEntityUpdatePermission(personUris, whatToAuth, (EntityUpdatePermission) permission);
+            return isAuthorizedByEntityUpdatePermission(personUris, whatToAuth, (EntityUpdatePermission) permission, operation);
         }
         if (permission instanceof EntityPublishPermission) {
-            return isAuthorizedByEntityPublishPermission(personUris, whatToAuth, (EntityPublishPermission) permission);
+            return isAuthorizedByEntityPublishPermission(personUris, whatToAuth, (EntityPublishPermission) permission, operation);
         }
         if (permission instanceof SimpleAccessRule) {
-            return isAuthorizedBySimplePermission(whatToAuth, (SimpleAccessRule) permission);
+            return isAuthorizedBySimplePermission(whatToAuth, (SimpleAccessRule) permission, operation);
         }
         if (permission instanceof BrokenPermission) {
             return isAuthorizedByBrokenPermission();

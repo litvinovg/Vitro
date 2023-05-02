@@ -340,8 +340,7 @@ public class RequestModelAccessImpl implements RequestModelAccess {
 
 	private WebappDaoFactory addPolicyAwareness(WebappDaoFactory unaware) {
 		HideFromDisplayByPolicyFilter filter = new HideFromDisplayByPolicyFilter(
-				RequestIdentifiers.getIdBundleForRequest(req),
-				PolicyStore.getInstance().copy());
+				RequestIdentifiers.getIdBundleForRequest(req));
 		return new WebappDaoFactoryFiltering(unaware, filter);
 	}
 

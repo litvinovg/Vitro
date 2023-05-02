@@ -53,6 +53,10 @@ public class PolicyHelper {
     }
     
     public static boolean isAuthorizedForActions(IdentifierBundle ids, AuthorizationRequest ar) {
+        if (ar == null) {
+            log.error("AuthorizationRequest is null");
+            return false;
+        }
         if (ar.getPredefinedDecision() != DecisionResult.INCONCLUSIVE){
             return ar.getPredefinedDecision() == DecisionResult.AUTHORIZED;
         }
@@ -68,6 +72,10 @@ public class PolicyHelper {
     }
 
     public static boolean isAuthorizedForActions(HttpServletRequest req, AuthorizationRequest ar) {
+        if (ar == null) {
+            log.error("AuthorizationRequest is null");
+            return false;
+        }
         if (ar.getPredefinedDecision() != DecisionResult.INCONCLUSIVE){
             return ar.getPredefinedDecision() == DecisionResult.AUTHORIZED;
         }
@@ -84,9 +92,11 @@ public class PolicyHelper {
     }
 
 	private static boolean actionRequestIsAuthorized(IdentifierBundle ids, AccessObject ar, AccessOperation operation) {
+	    if (operation == null) {
+	        log.error("Opeartion is null, accessObject " + ar );
+	        return false;
+	    }
 	    PolicyList policies = PolicyStore.getInstance().copy();
-	    
-	    
 	    PolicyDecision decision = policies.decide(ids, ar, operation);
         return decision.getDecisionResult() == DecisionResult.AUTHORIZED;
 	}

@@ -9,10 +9,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyList;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataProperty;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectProperty;
@@ -30,19 +29,12 @@ public class HideFromDisplayByPolicyFilter extends VitroFiltersImpl {
 			.getLog(HideFromDisplayByPolicyFilter.class);
 
 	private final IdentifierBundle idBundle;
-	private final PolicyList policy;
 
-	public HideFromDisplayByPolicyFilter(IdentifierBundle idBundle,
-			PolicyList policy) {
+	public HideFromDisplayByPolicyFilter(IdentifierBundle idBundle) {
 		if (idBundle == null) {
 			throw new NullPointerException("idBundle may not be null.");
 		}
-		if (policy == null) {
-			throw new NullPointerException("policy may not be null.");
-		}
-
 		this.idBundle = idBundle;
-		this.policy = policy;
 
 		setDataPropertyFilter(new DataPropertyFilterByPolicy());
 		setObjectPropertyFilter(new ObjectPropertyFilterByPolicy());
@@ -51,15 +43,7 @@ public class HideFromDisplayByPolicyFilter extends VitroFiltersImpl {
 	}
 
 	boolean checkAuthorization(AccessObject whatToAuth) {
-		PolicyDecision decision = policy.decide(idBundle, whatToAuth, null);
-		log.debug("decision is " + decision);
-
-		if (decision != null) {
-			if (decision.getDecisionResult() == DecisionResult.AUTHORIZED) {
-				return true;
-			}
-		}
-		return false;
+	    return PolicyHelper.isAuthorizedForActions(idBundle, whatToAuth, AccessOperation.DISPLAY);
 	}
 
 	private class DataPropertyFilterByPolicy extends
