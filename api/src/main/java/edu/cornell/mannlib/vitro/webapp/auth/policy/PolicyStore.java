@@ -4,8 +4,6 @@ package edu.cornell.mannlib.vitro.webapp.auth.policy;
 
 import java.util.ListIterator;
 
-import javax.servlet.ServletContext;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
