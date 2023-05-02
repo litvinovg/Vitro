@@ -15,6 +15,8 @@ import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.rdf.model.impl.Util;
 import org.apache.jena.shared.Lock;
 
+import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
+import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.HasAssociatedIndividual;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DataPropertyAccessObject;
@@ -182,20 +184,9 @@ public class EntityAccessRuleHelper {
         entityPermission.getAuthorizedResources().addAll(newResources);
     }
 
-    static boolean isAuthorizedBySimplePermission(AccessObject whatToAuth, SimpleAccessRule simplePermission, AccessOperation operation) {
-        if (whatToAuth != null) {
-    		if (simplePermission.getUri().equals(whatToAuth.getUri())) {
-    			log.debug(simplePermission + " authorizes " + whatToAuth);
-    			return true;
-    		}
-    	}
-    	log.debug(simplePermission + " does not authorize " + whatToAuth);
-    	return false;
-    }
-    
-    static boolean isAuthorizedByEntityPublishPermission(List<String> personUris, AccessObject whatToAuth, EntityAccessRule entityPublishPermission, AccessOperation operation) {
+    static boolean isAuthorizedByEntityPublishPermission(AccessObject whatToAuth, EntityAccessRule entityPublishPermission, AccessOperation operation) {
         boolean result = false;
-    
+
         if (whatToAuth instanceof DataPropertyAccessObject) {
             String predicateUri = ((DataPropertyAccessObject)whatToAuth).getDataProperty().getURI();
             result = isAuthorizedForByEntityPermission(new Property(predicateUri), entityPublishPermission);
@@ -266,9 +257,10 @@ public class EntityAccessRuleHelper {
         return result;
     }
     
-    static boolean isAuthorizedByEntityUpdatePermission(List<String> personUris, AccessObject whatToAuth, EntityAccessRule entityPermission, AccessOperation operation) {
+    static boolean isAuthorizedByEntityUpdatePermission(IdentifierBundle ac_subject, AccessObject whatToAuth, EntityAccessRule entityPermission, AccessOperation operation) {
         boolean isAuthorized = false;
-    
+        List<String> personUris = new ArrayList<String>(HasAssociatedIndividual.getIndividualUris(ac_subject));
+
         if (whatToAuth instanceof DataPropertyStatementAccessObject) {
             // Check resource
             String subjectUri = ((DataPropertyStatementAccessObject)whatToAuth).getSubjectUri();
@@ -310,25 +302,19 @@ public class EntityAccessRuleHelper {
         return false;
     }
 
-    public static boolean isAuthorizedPermission(List<String> personUris, AccessObject whatToAuth, AccessRule permission, AccessOperation operation) {
-        if (AccessOperation.DISPLAY.equals(operation)){
-            return isAuthorizedByEntityDisplayPermission(whatToAuth, (EntityAccessRule) permission, operation);    
+    public static boolean isAuthorizedPermission(IdentifierBundle ac_subject, AccessObject whatToAuth, AccessRule rule, AccessOperation operation) {
+
+        if (rule instanceof EntityAccessRule) {
+            if (AccessOperation.DISPLAY.equals(operation)){
+                return isAuthorizedByEntityDisplayPermission(whatToAuth, (EntityAccessRule) rule, operation);    
+            }
+            if (AccessOperation.UPDATE.equals(operation)){
+                return isAuthorizedByEntityUpdatePermission(ac_subject, whatToAuth, (EntityAccessRule) rule, operation);
+            }
+            if (AccessOperation.PUBLISH.equals(operation)){
+                return isAuthorizedByEntityPublishPermission(whatToAuth, (EntityAccessRule) rule, operation);
+            }
         }
-        if (AccessOperation.UPDATE.equals(operation)){
-            return isAuthorizedByEntityUpdatePermission(personUris, whatToAuth, (EntityAccessRule) permission, operation);
-        }
-        if (AccessOperation.PUBLISH.equals(operation)){
-            return isAuthorizedByEntityPublishPermission(personUris, whatToAuth, (EntityAccessRule) permission, operation);
-        }
-        if (permission instanceof NullAccessRule) {
-            return isAuthorizedByBrokenPermission();
-        }
-        if (AccessOperation.EXECUTE.equals(operation) && permission instanceof SimpleAccessRule) {
-            return isAuthorizedBySimplePermission(whatToAuth, (SimpleAccessRule) permission, operation);
-        }
-        //No more options
-        return false;
+        return rule.match(ac_subject, whatToAuth);
     }
-
-
 }

@@ -60,7 +60,7 @@ public class EntityAccessRules {
                     Statement stmt = typeIter.next();
                     if (stmt.getSubject().isURIResource()) {
                         String uri = stmt.getSubject().getURI();
-                        EntityAccessRule permission = createEntityPermission(action, uri);
+                        EntityAccessRule permission = createEntityAccessRule(action, uri);
                         Resource limitResource = accountsModel.getResource("java:edu.cornell.mannlib.vitro.webapp.auth.permissions.Entity" + action + "Permission" + "#SetLimitToRelatedUser");
                         permission.limitToRelatedUser = accountsModel.contains(stmt.getSubject(), RDF.type, limitResource);
                         allInstances.put(uri, permission);
@@ -83,7 +83,7 @@ public class EntityAccessRules {
         return "java:edu.cornell.mannlib.vitro.webapp.auth.permissions.Entity" + actionStr.substring(0,1).toUpperCase() + actionStr.substring(1).toLowerCase() + "Permission";
     }
     
-    private static EntityAccessRule createEntityPermission(AccessOperation action, String uri) {
+    private static EntityAccessRule createEntityAccessRule(AccessOperation action, String uri) {
         EntityAccessRule accessRule = new EntityAccessRule();
         accessRule.setUri(uri);
         accessRule.setOperation(action);

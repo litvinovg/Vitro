@@ -2,7 +2,6 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.policy;
 
-import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.HasAssociatedIndividual;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -15,9 +14,6 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The user is authorized to perform the RequestedAction if one of his
@@ -35,10 +31,8 @@ public class PermissionsPolicy implements PolicyIface {
             return defaultDecision("whatToAuth was null");
         }
 
-        List<String> personUris = new ArrayList<String>(HasAssociatedIndividual.getIndividualUris(ac_subject));
-
         for (AccessRule p : IdentifierPermissionProvider.getPermissions(ac_subject)) {
-            if (EntityAccessRuleHelper.isAuthorizedPermission(personUris, whatToAuth, p, operation)) {
+            if (EntityAccessRuleHelper.isAuthorizedPermission(ac_subject, whatToAuth, p, operation)) {
                 log.debug("Permission " + p + " approves request " + whatToAuth);
                 return new BasicPolicyDecision(DecisionResult.AUTHORIZED, "PermissionsPolicy: approved by " + p);
             } else {

@@ -9,12 +9,10 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.Attribute;
+import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 
-/**
- * Interface that describes a unit of authorization, or permission to perform
- * requested actions.
- */
 public abstract class AccessRule {
     AccessOperation operation;
     protected Set<Attribute> attributes = new HashSet<>();
@@ -22,6 +20,15 @@ public abstract class AccessRule {
 	public Set<Attribute> getAttributes() {
         return attributes;
     }
+	
+	public boolean match(IdentifierBundle ac_subject, AccessObject whatToAuth) {
+	   for (Attribute a : attributes) {
+	       if (!a.match(ac_subject, whatToAuth, operation)) {
+	           return false;
+	       }
+	   }
+	   return true;
+	}
 
     public abstract String getUri();
 
