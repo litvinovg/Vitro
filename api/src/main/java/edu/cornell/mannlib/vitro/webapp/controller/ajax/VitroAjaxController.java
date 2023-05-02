@@ -43,7 +43,7 @@ public abstract class VitroAjaxController extends HttpServlet {
 	protected final void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		VitroRequest vreq = new VitroRequest(req);
-		if (PolicyHelper.isAuthorizedForActions(vreq, requiredActions(vreq))) {
+		if (PolicyHelper.isAuthorizedForActions(vreq, requiredActions(vreq), null)) {
 			doRequest(vreq, resp);
 		} else {
 			resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Not authorized");

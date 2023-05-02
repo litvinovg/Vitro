@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
@@ -54,7 +55,7 @@ public class ObjectPropertyStatementTemplateModel extends PropertyStatementTempl
         // Determine whether the statement can be deleted
 		AccessObject action = new DropObjectPropertyStatement(
 				vreq.getJenaOntModel(), subjectUri, property, objectUri);
-        if ( ! PolicyHelper.isAuthorizedForActions(vreq, action) ) {
+        if ( ! PolicyHelper.isAuthorizedForActions(vreq, action, AccessOperation.DROP) ) {
             return "";
         }
 
@@ -110,7 +111,7 @@ public class ObjectPropertyStatementTemplateModel extends PropertyStatementTempl
 
        // Determine whether the statement can be edited
         AccessObject action =  new EditObjectPropertyStatement(vreq.getJenaOntModel(), subjectUri, property, objectUri);
-        if ( ! PolicyHelper.isAuthorizedForActions(vreq, action) ) {
+        if ( ! PolicyHelper.isAuthorizedForActions(vreq, action, AccessOperation.EDIT) ) {
             return "";
         }
 

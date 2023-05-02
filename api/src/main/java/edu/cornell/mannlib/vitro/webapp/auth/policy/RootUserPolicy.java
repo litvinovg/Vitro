@@ -17,6 +17,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount.Status;
 import edu.cornell.mannlib.vitro.webapp.config.ConfigurationProperties;
@@ -51,7 +52,7 @@ public class RootUserPolicy implements PolicyIface {
 	 */
 	@Override
 	public PolicyDecision decide(IdentifierBundle whoToAuth,
-			AccessObject whatToAuth) {
+			AccessObject whatToAuth, AccessOperation operation) {
 		if (IsRootUser.isRootUser(whoToAuth)) {
 			return new BasicPolicyDecision(DecisionResult.AUTHORIZED,
 					"RootUserPolicy: approved");

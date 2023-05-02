@@ -20,6 +20,7 @@ import edu.cornell.mannlib.vitro.webapp.application.ApplicationUtils;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.beans.VClassGroup;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.UrlBuilder.ParamMap;
@@ -112,7 +113,7 @@ public class BaseSiteAdminController extends FreemarkerHttpServlet {
         Map<String, Object> urls = new HashMap<>();
 
         for (AdminUrl adminUrl : siteMaintenanceUrls) {
-            if (adminUrl.permission == null || PolicyHelper.isAuthorizedForActions(vreq, adminUrl.permission)) {
+            if (adminUrl.permission == null || PolicyHelper.isAuthorizedForActions(vreq, adminUrl.permission, AccessOperation.EXECUTE)) {
                 if (adminUrl.url.startsWith("javascript:")) {
                     urls.put(adminUrl.key, adminUrl.url);
                 } else {
@@ -125,7 +126,7 @@ public class BaseSiteAdminController extends FreemarkerHttpServlet {
             }
         }
 
-        if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.SEE_STARTUP_STATUS.ACTION)) {
+        if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.SEE_STARTUP_STATUS.ACTION, AccessOperation.EXECUTE)) {
         	urls.put("startupStatusAlert", !StartupStatus.getBean(getServletContext()).allClear());
         }
 
@@ -137,7 +138,7 @@ public class BaseSiteAdminController extends FreemarkerHttpServlet {
         Map<String, Object> map = new HashMap<String, Object>();
 
 		if (PolicyHelper.isAuthorizedForActions(vreq,
-				SimplePermission.DO_BACK_END_EDITING.ACTION)) {
+				SimplePermission.DO_BACK_END_EDITING.ACTION, AccessOperation.EXECUTE)) {
 
             map.put("formAction", UrlBuilder.getUrl("/editRequestDispatch"));
 
@@ -175,7 +176,7 @@ public class BaseSiteAdminController extends FreemarkerHttpServlet {
         Map<String, Object> data = new HashMap<String, Object>();
 
         for (AdminUrl adminUrl : siteConfigData) {
-            if (adminUrl.permission == null || PolicyHelper.isAuthorizedForActions(vreq, adminUrl.permission)) {
+            if (adminUrl.permission == null || PolicyHelper.isAuthorizedForActions(vreq, adminUrl.permission, AccessOperation.EXECUTE)) {
                 if (adminUrl.url.startsWith("javascript:")) {
                     data.put(adminUrl.key, adminUrl.url);
                 } else {
@@ -195,7 +196,7 @@ public class BaseSiteAdminController extends FreemarkerHttpServlet {
 
         Map<String, Object> map = new HashMap<String, Object>();
 
-        if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.EDIT_ONTOLOGY.ACTION)) {
+        if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.EDIT_ONTOLOGY.ACTION, AccessOperation.EXECUTE)) {
 
             String error = null;
             String explanation = null;
@@ -240,13 +241,13 @@ public class BaseSiteAdminController extends FreemarkerHttpServlet {
 
         Map<String, String> urls = new HashMap<String, String>();
 
-        if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.ACTION)) {
+        if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.ACTION, AccessOperation.EXECUTE)) {
             urls.put("ingest", UrlBuilder.getUrl("/ingest"));
             urls.put("rdfData", UrlBuilder.getUrl("/uploadRDFForm"));
             urls.put("rdfExport", UrlBuilder.getUrl("/export"));
 //            urls.put("sparqlQueryBuilder", UrlBuilder.getUrl("/admin/sparqlquerybuilder"));
         }
-        if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.USE_SPARQL_QUERY_PAGE.ACTION)) {
+        if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.USE_SPARQL_QUERY_PAGE.ACTION, AccessOperation.EXECUTE)) {
         	urls.put("sparqlQuery", UrlBuilder.getUrl("/admin/sparqlquery"));
         }
 

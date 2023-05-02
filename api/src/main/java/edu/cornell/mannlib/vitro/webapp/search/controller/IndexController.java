@@ -19,6 +19,7 @@ import edu.cornell.mannlib.vitro.webapp.application.ApplicationUtils;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.FreemarkerHttpServlet;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.UrlBuilder;
@@ -150,7 +151,7 @@ public class IndexController extends FreemarkerHttpServlet {
 
 	private void showStatus(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-		if (!PolicyHelper.isAuthorizedForActions(req, REQUIRED_ACTIONS)) {
+		if (!PolicyHelper.isAuthorizedForActions(req, REQUIRED_ACTIONS,  AccessOperation.EXECUTE)) {
 			resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			resp.getWriter().write(
 					"You are not authorized to access this page.");

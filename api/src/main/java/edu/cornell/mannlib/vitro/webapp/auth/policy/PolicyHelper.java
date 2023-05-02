@@ -42,25 +42,17 @@ import edu.cornell.mannlib.vitro.webapp.controller.authenticate.Authenticator;
 public class PolicyHelper {
 	private static final Log log = LogFactory.getLog(PolicyHelper.class);
 
-	public static boolean isAuthorizedForActions(HttpServletRequest req, AccessObject ar) {
-	    PolicyList policy = PolicyStore.getInstance().copy();
+	public static boolean isAuthorizedForActions(HttpServletRequest req, AccessObject ar, AccessOperation operation) {
 		IdentifierBundle ids = RequestIdentifiers.getIdBundleForRequest(req);
-		return actionRequestIsAuthorized(ids, policy, ar);
+		return actionRequestIsAuthorized(ids, ar, operation);
 	}
 	
-	   public static boolean isAuthorizedForActions(IdentifierBundle ids, AccessOperation op, AccessObject ar) {
-	       PolicyList policy = PolicyStore.getInstance().copy();
-	        return actionRequestIsAuthorized(ids, policy, ar);
-	    }
+    public static boolean isAuthorizedForActions(IdentifierBundle ids, AccessObject ar, AccessOperation op) {
+        return actionRequestIsAuthorized(ids, ar, op);
+    }
 
-	/**
-	 * Are these actions authorized for these identifiers by these policies?
-	 */
-	public static boolean isAuthorizedForActions(IdentifierBundle ids, AccessObject ar) {
-		return actionRequestIsAuthorized(ids, PolicyStore.getInstance().copy(), ar);
-	}
-	
-	private static boolean actionRequestIsAuthorized(IdentifierBundle ids, PolicyList policy, AccessObject ar) {
+	private static boolean actionRequestIsAuthorized(IdentifierBundle ids, AccessObject ar, AccessOperation operation) {
+	    PolicyList policies = PolicyStore.getInstance().copy();
 	    if (ar.getPredefinedDecision() != DecisionResult.INCONCLUSIVE){
 	        return ar.getPredefinedDecision() == DecisionResult.AUTHORIZED;
 	    }
@@ -68,12 +60,12 @@ public class PolicyHelper {
 	        List<AccessObject> items = ar.getItems();
 	        boolean result = false;
 	        for (AccessObject item : items ) {
-	            result = result || actionRequestIsAuthorized(ids, policy, item);
+	            result = result || actionRequestIsAuthorized(ids, item, operation);
 	        }
 	        return result;
 	    }
 	    
-	    PolicyDecision decision = policy.decide(ids, ar);
+	    PolicyDecision decision = policies.decide(ids, ar, operation);
         return decision.getDecisionResult() == DecisionResult.AUTHORIZED;
 	}
 
@@ -112,8 +104,7 @@ public class PolicyHelper {
 
 			// figure out if that account can do the actions
 			IdentifierBundle ids = ActiveIdentifierBundleFactories.getUserIdentifierBundle(user);
-			PolicyList policies = PolicyStore.getInstance().copy();
-			return actionRequestIsAuthorized(ids, policies, ar);
+			return actionRequestIsAuthorized(ids, ar, null);
 		} catch (Exception ex) {
 			log.error("Error while attempting to authorize actions " + ar, ex);
 			return false;
@@ -151,7 +142,7 @@ public class PolicyHelper {
 					subject.getURI(), predicate.getURI(), objectNode
 							.asLiteral().getString());
 		}
-		return isAuthorizedForActions(req, action);
+		return isAuthorizedForActions(req, action, AccessOperation.ADD);
 	}
 
 	/**
@@ -185,7 +176,7 @@ public class PolicyHelper {
 					subject.getURI(), predicate.getURI(), objectNode
 							.asLiteral().getString());
 		}
-		return isAuthorizedForActions(req, action);
+		return isAuthorizedForActions(req, action, AccessOperation.DROP);
 	}
 
 	/**

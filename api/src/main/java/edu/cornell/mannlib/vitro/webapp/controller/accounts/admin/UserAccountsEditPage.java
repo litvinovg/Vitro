@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vedit.beans.LoginStatusBean;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.usepages.RootAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
 import edu.cornell.mannlib.vitro.webapp.beans.SelfEditingConfiguration;
@@ -122,7 +123,7 @@ public class UserAccountsEditPage extends UserAccountsPage {
 		}
 		if (userAccount.isRootUser()) {
 			if (!PolicyHelper.isAuthorizedForActions(vreq,
-					new RootAccessObject())) {
+					new RootAccessObject(), AccessOperation.EDIT)) {
 				log.warn("User is attempting to edit the root account, "
 						+ "but is not authorized to do so. Logged in as: "
 						+ LoginStatusBean.getCurrentUser(vreq));

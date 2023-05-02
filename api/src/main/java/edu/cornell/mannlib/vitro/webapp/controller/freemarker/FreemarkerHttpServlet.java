@@ -25,6 +25,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.beans.ApplicationBean;
 import edu.cornell.mannlib.vitro.webapp.beans.DisplayMessage;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroHttpServlet;
@@ -172,7 +173,7 @@ public class FreemarkerHttpServlet extends VitroHttpServlet  {
             boolean sentEmail = false;
 
             // If the user is authorized, display the error data on the page
-            if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.USE_MISCELLANEOUS_ADMIN_PAGES.ACTION)) {
+            if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.USE_MISCELLANEOUS_ADMIN_PAGES.ACTION, AccessOperation.EXECUTE)) {
                 templateMap.put("adminErrorData", adminErrorData);
 
             // Else send the data to the site administrator
@@ -396,7 +397,7 @@ public class FreemarkerHttpServlet extends VitroHttpServlet  {
             requestUrls.put("currentPage", getCurrentPageUrl(vreq));
             requestUrls.put("referringPage", getReferringPageUrl(vreq));
 
-            if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.EDIT_OWN_ACCOUNT.ACTION)) {
+            if (PolicyHelper.isAuthorizedForActions(vreq, SimplePermission.EDIT_OWN_ACCOUNT.ACTION, AccessOperation.EXECUTE)) {
             	requestUrls.put("myAccount", UrlBuilder.getUrl("/accounts/myAccount"));
             }
         } catch (TemplateModelException e) {

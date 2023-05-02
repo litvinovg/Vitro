@@ -16,6 +16,7 @@ import org.apache.jena.rdf.model.Literal;
 
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
@@ -142,7 +143,7 @@ public class DataPropertyTemplateModel extends PropertyTemplateModel {
 			action = new AddDataPropertyStatement(
 					vreq.getJenaOntModel(), subjectUri, propertyUri, SOME_LITERAL);
 		}
-        if ( ! PolicyHelper.isAuthorizedForActions(vreq, action) ) {
+        if ( ! PolicyHelper.isAuthorizedForActions(vreq, action, AccessOperation.ADD) ) {
             return;
         }
 

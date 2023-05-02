@@ -13,6 +13,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataProperty;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectProperty;
@@ -76,7 +77,7 @@ public class PropertyGroupTemplateModel extends BaseTemplateModel {
 	private boolean allowedToDisplay(VitroRequest vreq, ObjectProperty op,
 			Individual subject) {
 		AccessObject dop = new DisplayObjectProperty(op);
-		if (PolicyHelper.isAuthorizedForActions(vreq, dop)) {
+		if (PolicyHelper.isAuthorizedForActions(vreq, dop, AccessOperation.DISPLAY)) {
 			return true;
 		}
 		AccessObject dops;
@@ -85,7 +86,7 @@ public class PropertyGroupTemplateModel extends BaseTemplateModel {
 		} else {
 			dops = new DisplayObjectPropertyStatement(subject.getURI(), op, SOME_URI);
 		}
-		return PolicyHelper.isAuthorizedForActions(vreq, dops);
+		return PolicyHelper.isAuthorizedForActions(vreq, dops, AccessOperation.DISPLAY);
     }
 
 	/**
@@ -94,7 +95,7 @@ public class PropertyGroupTemplateModel extends BaseTemplateModel {
 	 */
 	private boolean allowedToDisplay(VitroRequest vreq, DataProperty dp, Individual subject) {
 		AccessObject dop = new DisplayDataProperty(dp);
-		if (PolicyHelper.isAuthorizedForActions(vreq, dop)) {
+		if (PolicyHelper.isAuthorizedForActions(vreq, dop, AccessOperation.DISPLAY)) {
 			return true;
 		}
 		DataPropertyStatementImpl dps;
@@ -104,7 +105,7 @@ public class PropertyGroupTemplateModel extends BaseTemplateModel {
 			dps = new DataPropertyStatementImpl(subject.getURI(), dp.getURI(), SOME_LITERAL);
 		}
 		AccessObject dops = new DisplayDataPropertyStatement(dps);
-        return PolicyHelper.isAuthorizedForActions(vreq, dops);	
+        return PolicyHelper.isAuthorizedForActions(vreq, dops, AccessOperation.DISPLAY);	
     }
 
 	protected boolean isEmpty() {

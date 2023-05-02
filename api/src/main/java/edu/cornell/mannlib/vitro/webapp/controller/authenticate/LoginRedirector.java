@@ -18,6 +18,7 @@ import org.apache.commons.logging.LogFactory;
 import edu.cornell.mannlib.vedit.beans.LoginStatusBean;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.beans.DisplayMessage;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
 import edu.cornell.mannlib.vitro.webapp.controller.Controllers;
@@ -153,7 +154,7 @@ public class LoginRedirector {
 
 	private boolean canSeeSiteAdminPage() {
 		return PolicyHelper.isAuthorizedForActions(request,
-				SimplePermission.SEE_SITE_ADMIN_PAGE.ACTION);
+				SimplePermission.SEE_SITE_ADMIN_PAGE.ACTION, AccessOperation.EXECUTE);
 	}
 
 	private boolean isLoginPage(String page) {

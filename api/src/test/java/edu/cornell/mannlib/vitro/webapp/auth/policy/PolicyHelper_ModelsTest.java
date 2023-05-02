@@ -37,6 +37,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.PropertyStatementAccessObject;
 
 /**
@@ -329,7 +330,7 @@ public class PolicyHelper_ModelsTest extends AbstractTestClass {
 	private class MySimplePolicy implements PolicyIface {
 		@Override
 		public PolicyDecision decide(IdentifierBundle whoToAuth,
-				AccessObject whatToAuth) {
+				AccessObject whatToAuth, AccessOperation operation) {
 			if (!(whatToAuth instanceof PropertyStatementAccessObject)) {
 				return inconclusive();
 			}

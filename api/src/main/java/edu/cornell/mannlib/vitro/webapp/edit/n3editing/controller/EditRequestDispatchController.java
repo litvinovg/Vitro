@@ -20,6 +20,7 @@ import org.apache.jena.vocabulary.RDFS;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropObjectPropertyStatement;
@@ -104,7 +105,7 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
 		}
 		boolean isAuthorized = PolicyHelper.isAuthorizedForActions(vreq, 
 		        AuthHelper.logicOr(new EditDataPropertyStatement(ontModel, subjectUri, predicateUri, objectUri),
-				objectPropertyAction));
+				objectPropertyAction), null);
 		if (!isAuthorized) {
 			// If request is for new individual, return simple do back end editing action permission
 			if (StringUtils.isNotEmpty(EditConfigurationUtils.getTypeOfNew(vreq))) {

@@ -13,6 +13,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vedit.beans.LoginStatusBean;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.usepages.RootAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
@@ -75,7 +76,7 @@ public class UserAccountsDeleter extends UserAccountsPage {
 
 			if (u.isRootUser()
 					&& (!PolicyHelper.isAuthorizedForActions(vreq,
-							new RootAccessObject()))) {
+							new RootAccessObject(), AccessOperation.DROP))) {
 				log.warn("Attempting to delete the root account, "
 						+ "but not authorized. Logged in as "
 						+ LoginStatusBean.getCurrentUser(vreq));

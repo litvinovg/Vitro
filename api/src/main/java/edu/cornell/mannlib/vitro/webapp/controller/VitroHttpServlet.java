@@ -30,6 +30,7 @@ import edu.cornell.mannlib.vedit.beans.LoginStatusBean;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.beans.DisplayMessage;
 import edu.cornell.mannlib.vitro.webapp.beans.ResourceBean;
 import edu.cornell.mannlib.vitro.webapp.controller.authenticate.LogoutRedirector;
@@ -123,7 +124,7 @@ public class VitroHttpServlet extends HttpServlet implements MultipartRequestWra
 			LogoutRedirector.recordRestrictedPageUri(request);
 		}
 
-		if (PolicyHelper.isAuthorizedForActions(request, actions)) {
+		if (PolicyHelper.isAuthorizedForActions(request, actions, AccessOperation.DISPLAY)) {
 			log.debug("Servlet '" + this.getClass().getSimpleName()
 					+ "' is authorized for actions: " + actions);
 			return true;

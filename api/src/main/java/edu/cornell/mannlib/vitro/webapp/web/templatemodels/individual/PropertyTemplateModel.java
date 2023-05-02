@@ -10,6 +10,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.beans.FauxProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
@@ -82,7 +83,7 @@ public abstract class PropertyTemplateModel extends BaseTemplateModel {
         }
 
 		if (!PolicyHelper.isAuthorizedForActions(vreq,
-				SimplePermission.SEE_VERBOSE_PROPERTY_INFORMATION.ACTION)) {
+				SimplePermission.SEE_VERBOSE_PROPERTY_INFORMATION.ACTION, AccessOperation.EXECUTE)) {
             return;
         }
 

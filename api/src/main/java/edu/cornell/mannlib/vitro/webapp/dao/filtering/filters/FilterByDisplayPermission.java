@@ -40,7 +40,7 @@ public class FilterByDisplayPermission extends VitroFiltersImpl {
 
 	boolean checkAuthorization(AccessObject accessObject) {
 	    
-		boolean decision = PolicyHelper.isAuthorizedForActions(accessSubject, requestedOperation, accessObject);
+		boolean decision = PolicyHelper.isAuthorizedForActions(accessSubject, accessObject, requestedOperation);
 		log.debug("decision is " + decision);
 		return decision;
 	}

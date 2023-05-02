@@ -9,6 +9,7 @@ import org.apache.jena.rdf.model.Literal;
 
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatement;
@@ -54,7 +55,7 @@ public class DataPropertyStatementTemplateModel extends PropertyStatementTemplat
             action = new DropDataPropertyStatement(vreq.getJenaOntModel(), dps);
         }
         
-        if ( ! PolicyHelper.isAuthorizedForActions(vreq, action) ) {
+        if ( ! PolicyHelper.isAuthorizedForActions(vreq, action, AccessOperation.DROP) ) {
             return "";
         }
         
@@ -91,7 +92,7 @@ public class DataPropertyStatementTemplateModel extends PropertyStatementTemplat
             action = new EditDataPropertyStatement(vreq.getJenaOntModel(), dps);
         }
 		
-        if ( ! PolicyHelper.isAuthorizedForActions(vreq, action) ) {
+        if ( ! PolicyHelper.isAuthorizedForActions(vreq, action, AccessOperation.EDIT) ) {
             return "";
         }
 

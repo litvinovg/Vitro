@@ -51,7 +51,7 @@ public class HideFromDisplayByPolicyFilter extends VitroFiltersImpl {
 	}
 
 	boolean checkAuthorization(AccessObject whatToAuth) {
-		PolicyDecision decision = policy.decide(idBundle, whatToAuth);
+		PolicyDecision decision = policy.decide(idBundle, whatToAuth, null);
 		log.debug("decision is " + decision);
 
 		if (decision != null) {

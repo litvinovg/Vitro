@@ -22,6 +22,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.HasAssociatedIndi
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyStore;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.config.ConfigurationProperties;
@@ -90,7 +91,7 @@ public class ShowAuthController extends FreemarkerHttpServlet {
 		AccessObject action = new EditObjectPropertyStatement(
 				vreq.getJenaOntModel(), individualUri,
 				SOME_PREDICATE, SOME_URI);
-		return PolicyHelper.isAuthorizedForActions(vreq, action);
+		return PolicyHelper.isAuthorizedForActions(vreq, action, AccessOperation.EDIT);
 	}
 
 	public class AssociatedIndividual {

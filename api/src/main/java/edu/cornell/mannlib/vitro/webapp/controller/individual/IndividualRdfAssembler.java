@@ -30,6 +30,7 @@ import org.apache.jena.vocabulary.RDFS;
 
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.publish.PublishDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.publish.PublishObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatement;
@@ -206,7 +207,7 @@ public class IndividualRdfAssembler {
 				DataPropertyStatement dps = new DataPropertyStatementImpl(
 						subjectUri, predicateUri, value);
 				AccessObject pdps = new PublishDataPropertyStatement(o, dps);
-				if (!PolicyHelper.isAuthorizedForActions(vreq, pdps)) {
+				if (!PolicyHelper.isAuthorizedForActions(vreq, pdps, AccessOperation.PUBLISH)) {
 					log.debug("not authorized: " + pdps);
 					stmts.remove();
 				}
@@ -214,7 +215,7 @@ public class IndividualRdfAssembler {
 				String objectUri = stmt.getObject().asResource().getURI();
 				AccessObject pops = new PublishObjectPropertyStatement(o,
 						subjectUri, predicateUri, objectUri);
-				if (!PolicyHelper.isAuthorizedForActions(vreq, pops)) {
+				if (!PolicyHelper.isAuthorizedForActions(vreq, pops, AccessOperation.PUBLISH)) {
 					log.debug("not authorized: " + pops);
 					stmts.remove();
 				}

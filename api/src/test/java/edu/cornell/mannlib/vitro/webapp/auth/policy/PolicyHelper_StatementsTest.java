@@ -25,6 +25,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DataPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
 
@@ -198,7 +199,7 @@ public class PolicyHelper_StatementsTest extends AbstractTestClass {
 	private static class MySimplePolicy implements PolicyIface {
 		@Override
 		public PolicyDecision decide(IdentifierBundle whoToAuth,
-				AccessObject whatToAuth) {
+				AccessObject whatToAuth, AccessOperation operation) {
 			if (whatToAuth instanceof DataPropertyStatementAccessObject) {
 				return isAuthorized((DataPropertyStatementAccessObject) whatToAuth);
 			} else if (whatToAuth instanceof ObjectPropertyStatementAccessObject) {

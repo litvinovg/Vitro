@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.FreemarkerHttpServlet;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.UrlBuilder;
@@ -84,7 +85,7 @@ public class DumpRestoreController extends FreemarkerHttpServlet {
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
-		if (!PolicyHelper.isAuthorizedForActions(req, REQUIRED_ACTION)) {
+		if (!PolicyHelper.isAuthorizedForActions(req, REQUIRED_ACTION, AccessOperation.EXECUTE)) {
 			resp.sendError(HttpServletResponse.SC_FORBIDDEN);
 		}
 

@@ -12,6 +12,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.RequestIdentifiers;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyStore;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
 
 /**
@@ -52,8 +53,7 @@ public class RestrictedAuthenticator extends Authenticator {
 		ids.addAll(getIdsForUserAccount(userAccount));
 		ids.addAll(RequestIdentifiers.getIdBundleForRequest(req));
 
-		return PolicyHelper.isAuthorizedForActions(ids,
-				SimplePermission.LOGIN_DURING_MAINTENANCE.ACTION);
+		return PolicyHelper.isAuthorizedForActions(ids, SimplePermission.LOGIN_DURING_MAINTENANCE.ACTION, AccessOperation.EXECUTE);
 	}
 
 	@Override

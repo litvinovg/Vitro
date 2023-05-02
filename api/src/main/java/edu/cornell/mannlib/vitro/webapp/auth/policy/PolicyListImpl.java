@@ -11,6 +11,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 
 public class PolicyListImpl implements PolicyList, Cloneable {
 
@@ -19,12 +20,12 @@ public class PolicyListImpl implements PolicyList, Cloneable {
     protected ArrayList<PolicyIface> policies = new ArrayList<PolicyIface>(); 
 
     @Override
-    public PolicyDecision decide(IdentifierBundle ac_subject, AccessObject whatToAuth) {
+    public PolicyDecision decide(IdentifierBundle ac_subject, AccessObject whatToAuth, AccessOperation operation) {
         PolicyDecision pd = null;
         PolicyDecisionLogger logger = new PolicyDecisionLogger(ac_subject, whatToAuth);
         for(PolicyIface policy : policies){
             try{
-                pd = policy.decide(ac_subject, whatToAuth);
+                pd = policy.decide(ac_subject, whatToAuth, operation);
                 logger.log(policy, pd);
                 if( pd != null ){
                     if(  pd.getDecisionResult() == DecisionResult.AUTHORIZED )

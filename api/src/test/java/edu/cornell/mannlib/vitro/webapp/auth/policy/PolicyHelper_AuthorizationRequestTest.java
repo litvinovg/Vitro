@@ -19,6 +19,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 
 /**
  * Test the ability of the Policy Helper to authorize a variety of simple or
@@ -113,7 +114,7 @@ public class PolicyHelper_AuthorizationRequestTest {
 
 		@Override
 		public PolicyDecision decide(IdentifierBundle whoToAuth,
-				AccessObject whatToAuth) {
+				AccessObject whatToAuth, AccessOperation operation) {
 			for (AccessObject authorized : authorizedActions) {
 				if (authorized.getClass().equals(whatToAuth.getClass())) {
 					return new BasicPolicyDecision(DecisionResult.AUTHORIZED,

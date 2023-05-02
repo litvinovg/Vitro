@@ -23,8 +23,8 @@ import java.util.List;
  * The user is authorized to perform the RequestedAction if one of his
  * Permissions will authorize it.
  */
-public class PermissionsPolicy implements PolicyIface {
-    private static final Log log = LogFactory.getLog(PermissionsPolicy.class);
+public class AttributeBasedAccessPolicy implements PolicyIface {
+    private static final Log log = LogFactory.getLog(AttributeBasedAccessPolicy.class);
 
     @Override
     public PolicyDecision decide(IdentifierBundle ac_subject, AccessObject whatToAuth, AccessOperation operation) {
