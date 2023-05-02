@@ -320,7 +320,7 @@ public class EntityAccessRuleHelper {
         if (AccessOperation.PUBLISH.equals(operation)){
             return isAuthorizedByEntityPublishPermission(personUris, whatToAuth, (EntityAccessRule) permission, operation);
         }
-        if (permission instanceof BrokenPermission) {
+        if (permission instanceof NullAccessRule) {
             return isAuthorizedByBrokenPermission();
         }
         if (AccessOperation.EXECUTE.equals(operation) && permission instanceof SimpleAccessRule) {
