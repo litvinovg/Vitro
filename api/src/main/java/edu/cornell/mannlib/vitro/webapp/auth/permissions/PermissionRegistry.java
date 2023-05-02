@@ -71,6 +71,7 @@ public class PermissionRegistry {
 	 * Get the registry from the context. If there isn't one, throw an
 	 * exception.
 	 */
+	@Deprecated
 	public static PermissionRegistry getRegistry(ServletContext ctx) {
 		if (INSTANCE == null) {
 			throw new IllegalStateException(
