@@ -159,7 +159,7 @@ public class AuthenticateTest extends AbstractTestClass {
 		PermissionSet adminPermissionSet = new PermissionSet();
 		adminPermissionSet.setUri(URI_DBA);
 		adminPermissionSet.setPermissionUris(Collections
-				.singleton(SimplePermission.SEE_SITE_ADMIN_PAGE.getUri()));
+				.singleton(SimplePermission.SEE_SITE_ADMIN_PAGE.ACTION.getObject().getURI()));
 
 		userAccountsDao = new UserAccountsDaoStub();
 		userAccountsDao.addPermissionSet(adminPermissionSet);
@@ -178,8 +178,9 @@ public class AuthenticateTest extends AbstractTestClass {
 
 		setLoggerLevel(PolicyStore.class, Level.WARN);
 		PolicyStore.addPolicy(new PermissionsPolicy());
+		
 		PermissionRegistry.createRegistry(servletContext,
-				Collections.singleton(SimplePermission.SEE_SITE_ADMIN_PAGE));
+				Collections.singleton(SimplePermission.SEE_SITE_ADMIN_PAGE.getAccessRule()));
 
 		servletConfig = new ServletConfigStub();
 		servletConfig.setServletContext(servletContext);
