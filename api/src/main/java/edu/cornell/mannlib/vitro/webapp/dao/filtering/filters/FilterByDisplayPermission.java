@@ -29,7 +29,6 @@ import net.sf.jga.fn.UnaryFunctor;
 public class FilterByDisplayPermission extends VitroFiltersImpl {
 	private static final Log log = LogFactory.getLog(FilterByDisplayPermission.class);
 	IdentifierBundle accessSubject = ActiveIdentifierBundleFactories.getUserIdentifierBundle(null);
-	AccessOperation requestedOperation = AccessOperation.DISPLAY;
 
 	public FilterByDisplayPermission() {
 	    setDataPropertyFilter(new DataPropertyFilterByPolicy());
@@ -40,7 +39,7 @@ public class FilterByDisplayPermission extends VitroFiltersImpl {
 
 	boolean checkAuthorization(AccessObject accessObject) {
 	    
-		boolean decision = PolicyHelper.isAuthorizedForActions(accessSubject, accessObject, requestedOperation);
+		boolean decision = PolicyHelper.isAuthorizedForActions(accessSubject, accessObject, AccessOperation.DISPLAY);
 		log.debug("decision is " + decision);
 		return decision;
 	}
