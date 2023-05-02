@@ -15,9 +15,9 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DataPropertyAccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.ObjectPropertyAccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DataPropertyStatementAccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatementImpl;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
@@ -82,9 +82,9 @@ public class PropertyGroupTemplateModel extends BaseTemplateModel {
 		}
 		AccessObject dops;
 		if (op instanceof FauxObjectPropertyWrapper) {
-			dops = new DisplayObjectPropertyStatement(((FauxObjectPropertyWrapper) op).getConfigUri(), op, SOME_URI);
+			dops = new ObjectPropertyStatementAccessObject(null, ((FauxObjectPropertyWrapper) op).getConfigUri(), op, SOME_URI);
 		} else {
-			dops = new DisplayObjectPropertyStatement(subject.getURI(), op, SOME_URI);
+			dops = new ObjectPropertyStatementAccessObject(null, subject.getURI(), op, SOME_URI);
 		}
 		return PolicyHelper.isAuthorizedForActions(vreq, dops, AccessOperation.DISPLAY);
     }
@@ -104,7 +104,8 @@ public class PropertyGroupTemplateModel extends BaseTemplateModel {
 		} else {
 			dps = new DataPropertyStatementImpl(subject.getURI(), dp.getURI(), SOME_LITERAL);
 		}
-		AccessObject dops = new DisplayDataPropertyStatement(dps);
+        //TODO: Model should be here to correctly check authorization
+		AccessObject dops = new DataPropertyStatementAccessObject(null, dps);
         return PolicyHelper.isAuthorizedForActions(vreq, dops, AccessOperation.DISPLAY);	
     }
 

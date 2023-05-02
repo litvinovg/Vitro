@@ -18,13 +18,10 @@ import org.apache.jena.shared.Lock;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DataPropertyAccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.ObjectPropertyAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DataPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.PropertyStatementAccessObject;
-import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.beans.FauxProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
@@ -242,23 +239,22 @@ public class EntityPermissionHelper {
             result = isAuthorizedForByEntityPermission(new Property(predicateUri), entityDisplayPermission);
         } else if (whatToAuth instanceof ObjectPropertyAccessObject) {
             result = isAuthorizedForByEntityPermission(((ObjectPropertyAccessObject)whatToAuth).getObjectProperty(), entityDisplayPermission);
-        } else if (whatToAuth instanceof DisplayDataPropertyStatement) {
-            DataPropertyStatement stmt = ((DisplayDataPropertyStatement)whatToAuth).getDataPropertyStatement();
+        } else if (whatToAuth instanceof DataPropertyStatementAccessObject) {
+            String predicateUri = ((DataPropertyStatementAccessObject)whatToAuth).getPredicate().getURI();
     
             // Subject [stmt.getIndividualURI()] is a resource
             // Previous auth code always evaluated as true when checking permissions for resources
             // Do we need to implement a check on permissions the class for the resource?
     
-            String predicateUri = stmt.getDatapropURI();
             result = isAuthorizedForByEntityPermission(new Property(predicateUri), entityDisplayPermission);
-        } else if (whatToAuth instanceof DisplayObjectPropertyStatement) {
+        } else if (whatToAuth instanceof ObjectPropertyStatementAccessObject) {
     
             // Subject [((DisplayObjectPropertyStatement)whatToAuth).getSubjectUri()] is a resource
             // Object [((DisplayObjectPropertyStatement)whatToAuth).getObjectUri()] is resource
             // Previous auth code always evaluated as true when checking permissions for resources
             // Do we need to implement a check on permissions the class for the resource?
     
-            Property op = ((DisplayObjectPropertyStatement)whatToAuth).getProperty();
+            Property op = ((ObjectPropertyStatementAccessObject)whatToAuth).getPredicate();
             result = isAuthorizedForByEntityPermission(op, entityDisplayPermission);
         }
     

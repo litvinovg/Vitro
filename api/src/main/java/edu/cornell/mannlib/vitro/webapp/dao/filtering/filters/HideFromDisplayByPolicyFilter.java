@@ -13,9 +13,9 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DataPropertyAccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.ObjectPropertyAccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DataPropertyStatementAccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.DataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
@@ -66,7 +66,8 @@ public class HideFromDisplayByPolicyFilter extends VitroFiltersImpl {
 			UnaryFunctor<DataPropertyStatement, Boolean> {
 		@Override
 		public Boolean fn(DataPropertyStatement dps) {
-			return checkAuthorization(new DisplayDataPropertyStatement(dps));
+	        //TODO: Model should be here to correctly check authorization
+			return checkAuthorization(new DataPropertyStatementAccessObject(null, dps));
 		}
 	}
 
@@ -77,8 +78,8 @@ public class HideFromDisplayByPolicyFilter extends VitroFiltersImpl {
 			String subjectUri = ops.getSubjectURI();
 			ObjectProperty predicate = getOrCreateProperty(ops);
 			String objectUri = ops.getObjectURI();
-			return checkAuthorization(new DisplayObjectPropertyStatement(
-					subjectUri, predicate, objectUri));
+			return checkAuthorization(new ObjectPropertyStatementAccessObject(
+					null, subjectUri, predicate, objectUri));
 		}
 
 		/**
