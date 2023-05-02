@@ -2,12 +2,14 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.requestedAction;
 
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AttributeType;
 
 /**
  * A RequestedAction that can be recognized by a SimplePermission.
  */
 public class NamedAccessObject extends AccessObject {
 	private final String uri;
+	private final AttributeType type = AttributeType.NAMED_OBJECT_URI;
 
 	public NamedAccessObject(String uri) {
 		if (uri == null) {
@@ -18,7 +20,7 @@ public class NamedAccessObject extends AccessObject {
 	}
 
 	@Override
-	public String getURI() {
+	public String getUri() {
 		return uri;
 	}
 
@@ -44,5 +46,10 @@ public class NamedAccessObject extends AccessObject {
 	public String toString() {
 		return "SimpleRequestedAction['" + uri + "']";
 	}
+
+    @Override
+    public AttributeType getType() {
+        return type;
+    }
 
 }

@@ -2,7 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.permissions;
 
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.EntityUriObjectAttribute;
 import edu.cornell.mannlib.vitro.webapp.dao.PropertyDao;
 
 import java.util.*;
@@ -14,19 +14,17 @@ import java.util.*;
  */
 public class EntityAccessRule extends AccessRule {
 
-    protected EntityAccessRule(String uri) {
-        super(uri);
+    public void setUri(String uri) {
+        this.uri = uri;
+        addAttribute(new EntityUriObjectAttribute(uri));
     }
 
-    private AccessOperation operation;
+    private String uri;
+
+    public String getUri() {
+        return uri;
+    }
     
-    public void setOperation(AccessOperation operation) {
-        this.operation = operation;
-    }
-
-    public AccessOperation getOperation() {
-        return operation;
-    }
     /**
      * Instance fields for each EntityPermission
      */
@@ -47,4 +45,5 @@ public class EntityAccessRule extends AccessRule {
     public boolean isLimitToRelatedUser() {
         return limitToRelatedUser;
     }
+
 }

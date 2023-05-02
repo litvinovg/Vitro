@@ -9,13 +9,13 @@ public class SimpleAccessRules {
 
     static final String NS = "java:edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission#";
     
-    private static final Map<String, SimpleAccessRule> simpleAccessRules = new HashMap<String, SimpleAccessRule>();
+    private static final Map<String, AccessRule> simpleAccessRules = new HashMap<String, AccessRule>();
 
-    public static List<SimpleAccessRule> getAllInstances() {
-        return new ArrayList<SimpleAccessRule>(simpleAccessRules.values());
+    public static List<AccessRule> getAllInstances() {
+        return new ArrayList<AccessRule>(simpleAccessRules.values());
     }
     
-    public static void add(SimpleAccessRule permission) {
+    public static void add(AccessRule permission) {
         if (SimpleAccessRules.contains(permission.getUri())) {
             throw new IllegalStateException("A SimplePermission named '" + permission.getUri() + "' already exists.");
         }

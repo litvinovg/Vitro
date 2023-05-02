@@ -134,7 +134,7 @@ public class PermissionRegistry {
 		AccessRule p = map.get(uri);
 		if (p == null) {
 			log.warn("No Permission is registered for '" + uri + "'");
-			return new NullAccessRule(uri);
+			return new NullAccessRule();
 		}
 
 		return p;

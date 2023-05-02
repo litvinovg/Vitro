@@ -2,54 +2,66 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.permissions;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.Attribute;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
+
 /**
  * Interface that describes a unit of authorization, or permission to perform
  * requested actions.
  */
-public abstract class AccessRule implements Comparable<AccessRule> {
-	protected final String uri;
-	protected AccessRule(String uri) {
-		if (uri == null) {
-			throw new NullPointerException("uri may not be null.");
-		}
-		this.uri = uri;
+public abstract class AccessRule {
+    AccessOperation operation;
+    protected Set<Attribute> attributes = new HashSet<>();
+    
+	public Set<Attribute> getAttributes() {
+        return attributes;
+    }
+
+    public abstract String getUri();
+
+    public abstract void setUri(String uri);
+	
+	public void addAttribute(Attribute attr) {
+	    attributes.add(attr);
 	}
 
-	/**
-	 * Get the URI that identifies this Permission object.
-	 */
-	public String getUri() {
-		return uri;
-	}
+    public void setOperation(AccessOperation operation) {
+        this.operation = operation;
+    }
 
-	@Override
-	public int compareTo(AccessRule that) {
-		return this.uri.compareTo(that.uri);
-	}
+    public AccessOperation getOperation() {
+        return operation;
+    }
+    
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof AccessRule)) {
+            return false;
+        }
+        if (object == this) {
+            return true;
+        }
+        AccessRule compared = (AccessRule) object;
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!obj.getClass().equals(this.getClass())) {
-			return false;
-		}
-		AccessRule that = (AccessRule) obj;
-		return this.uri.equals(that.uri);
-	}
+        return new EqualsBuilder()
+                .append(getAttributes(), compared.getAttributes())
+                .append(getOperation(), compared.getOperation())
+                .isEquals();
+    }
+    
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(15, 101)
+                .append(getAttributes())
+                .append(getOperation())
+                .toHashCode();
+    }
 
-	@Override
-	public int hashCode() {
-		return uri.hashCode();
-	}
-
-	@Override
-	public String toString() {
-		return this.getClass().getSimpleName() + "['" + uri + "']";
-	}
 
 }

@@ -261,12 +261,22 @@ public class HasPermissionFactoryTest extends AbstractTestClass {
 		for (Identifier id : actual) {
 			actualSet.add((IdentifierPermissionProvider) id);
 		}
-		assertEqualSets(message, expectedSet, actualSet);
+		expectedSet.equals(actualSet);
 	}
 
 	private static class MyPermission extends AccessRule {
 		public MyPermission(String uri) {
-			super(uri);
-		}		
+		    this.setUri(uri);
+		}
+		private String uri;
+        @Override
+        public String getUri() {
+            return uri;
+        }
+
+        @Override
+        public void setUri(String uri) {
+            this.uri = uri;
+        }		
 	}
 }

@@ -184,7 +184,7 @@ public class EntityAccessRuleHelper {
 
     static boolean isAuthorizedBySimplePermission(AccessObject whatToAuth, SimpleAccessRule simplePermission, AccessOperation operation) {
         if (whatToAuth != null) {
-    		if (simplePermission.getUri().equals(whatToAuth.getURI())) {
+    		if (simplePermission.getUri().equals(whatToAuth.getUri())) {
     			log.debug(simplePermission + " authorizes " + whatToAuth);
     			return true;
     		}

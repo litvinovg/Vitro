@@ -2,6 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.requestedAction;
 
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AttributeType;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 
 public abstract class AccessObject {
@@ -17,13 +18,17 @@ public abstract class AccessObject {
      * In its most basic form, a RequestAction needs to have an identifier.
      * Sometimes this will be enough.
      */
-    public String getURI() {
+    public String getUri() {
     	return ACTION_NAMESPACE + this.getClass().getName();
     }
 
     @Override
     public String toString() {
     	return this.getClass().getSimpleName();
+    }
+    
+    public AttributeType getType() {
+        return AttributeType.NAMED_OBJECT_URI;
     }
 
 }

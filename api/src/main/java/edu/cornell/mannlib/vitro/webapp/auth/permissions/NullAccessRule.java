@@ -7,7 +7,13 @@ package edu.cornell.mannlib.vitro.webapp.auth.permissions;
  * that it doesn't know about. Nothing is authorized by this Permission.
  */
 public class NullAccessRule extends AccessRule {
-	public NullAccessRule(String uri) {
-		super(uri);
-	}
+
+    @Override
+    public String getUri() {
+        return null;
+    }
+
+    @Override
+    public void setUri(String uri) {
+    }
 }

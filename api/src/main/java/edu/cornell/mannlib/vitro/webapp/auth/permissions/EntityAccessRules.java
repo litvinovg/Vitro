@@ -84,9 +84,10 @@ public class EntityAccessRules {
     }
     
     private static EntityAccessRule createEntityPermission(AccessOperation action, String uri) {
-        EntityAccessRule entityPermission = new EntityAccessRule(uri);
-        entityPermission.setOperation(action);
-        return entityPermission;
+        EntityAccessRule accessRule = new EntityAccessRule();
+        accessRule.setUri(uri);
+        accessRule.setOperation(action);
+        return accessRule;
     }
 
     private static void updateAllPermissions() {

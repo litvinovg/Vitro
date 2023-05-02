@@ -89,13 +89,17 @@ public class PolicyHelper {
         return actionRequestIsAuthorized(ids, ar.getAccessObject(), ar.getAccessOperation());
     }
 
-	private static boolean actionRequestIsAuthorized(IdentifierBundle ids, AccessObject ar, AccessOperation operation) {
+	private static boolean actionRequestIsAuthorized(IdentifierBundle ids, AccessObject ao, AccessOperation operation) {
 	    if (operation == null) {
-	        log.error("Opeartion is null, accessObject " + ar );
+	        log.error("Opeartion is null, accessObject " + ao );
 	        return false;
 	    }
+        if (ao == null) {
+            log.error("Access object is null, operation " + operation);
+            return false;
+        }
 	    PolicyList policies = PolicyStore.getInstance().copy();
-	    PolicyDecision decision = policies.decide(ids, ar, operation);
+	    PolicyDecision decision = policies.decide(ids, ao, operation);
         return decision.getDecisionResult() == DecisionResult.AUTHORIZED;
 	}
 

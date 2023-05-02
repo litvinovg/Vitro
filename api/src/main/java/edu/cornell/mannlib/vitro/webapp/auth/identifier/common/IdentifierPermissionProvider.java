@@ -13,8 +13,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.permissions.AccessRule;
 /**
  * The current user has this Permission, through one or more PermissionSets.
  */
-public class IdentifierPermissionProvider extends AbstractCommonIdentifier implements
-		Identifier, Comparable<IdentifierPermissionProvider> {
+public class IdentifierPermissionProvider extends AbstractCommonIdentifier implements Identifier {
 	private static Collection<IdentifierPermissionProvider> getIdentifiers(IdentifierBundle ids) {
 		return getIdentifiersForClass(ids, IdentifierPermissionProvider.class);
 	}
@@ -65,8 +64,4 @@ public class IdentifierPermissionProvider extends AbstractCommonIdentifier imple
 		return this.permission.equals(that.permission);
 	}
 
-	@Override
-	public int compareTo(IdentifierPermissionProvider that) {
-		return this.permission.compareTo(that.permission);
-	}
 }

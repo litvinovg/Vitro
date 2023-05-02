@@ -61,16 +61,18 @@ public class SimplePermission {
     
     
     public SimpleAuthorizationRequest ACTION;
-    private SimpleAccessRule accessRule;
+    private AccessRule accessRule;
 
-    public SimplePermission(String uri) {
+    private SimplePermission(String uri) {
         uri = SimpleAccessRules.NS + uri;
         this.ACTION = new SimpleAuthorizationRequest(uri, AccessOperation.EXECUTE);
-        accessRule = new SimpleAccessRule(uri);
+        accessRule = new SimpleAccessRule();
+        accessRule.setUri(uri);
+        accessRule.setOperation(AccessOperation.EXECUTE);
         SimpleAccessRules.add(accessRule);
     }
     
-    public SimpleAccessRule getAccessRule() {
+    public AccessRule getAccessRule() {
         return accessRule;
     }
 }

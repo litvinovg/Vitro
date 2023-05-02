@@ -44,5 +44,4 @@ public class SimpleAuthorizationRequest implements AuthorizationRequest {
     public AccessOperation getAccessOperation() {
         return operation;
     }
-
 }
