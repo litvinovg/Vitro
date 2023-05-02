@@ -9,9 +9,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyList;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataProperty;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DisplayDataPropertyStatement;
@@ -30,10 +30,10 @@ public class HideFromDisplayByPolicyFilter extends VitroFiltersImpl {
 			.getLog(HideFromDisplayByPolicyFilter.class);
 
 	private final IdentifierBundle idBundle;
-	private final PolicyIface policy;
+	private final PolicyList policy;
 
 	public HideFromDisplayByPolicyFilter(IdentifierBundle idBundle,
-			PolicyIface policy) {
+			PolicyList policy) {
 		if (idBundle == null) {
 			throw new NullPointerException("idBundle may not be null.");
 		}

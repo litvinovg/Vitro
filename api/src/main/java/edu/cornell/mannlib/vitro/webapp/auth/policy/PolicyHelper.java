@@ -25,7 +25,6 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.RequestIdentifiers;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddDataPropertyStatement;
@@ -44,13 +43,13 @@ public class PolicyHelper {
 	private static final Log log = LogFactory.getLog(PolicyHelper.class);
 
 	public static boolean isAuthorizedForActions(HttpServletRequest req, AccessObject ar) {
-		PolicyIface policy = PolicyStore.getInstance().copy();
+	    PolicyList policy = PolicyStore.getInstance().copy();
 		IdentifierBundle ids = RequestIdentifiers.getIdBundleForRequest(req);
 		return actionRequestIsAuthorized(ids, policy, ar);
 	}
 	
 	   public static boolean isAuthorizedForActions(IdentifierBundle ids, AccessOperation op, AccessObject ar) {
-	        PolicyIface policy = PolicyStore.getInstance().copy();
+	       PolicyList policy = PolicyStore.getInstance().copy();
 	        return actionRequestIsAuthorized(ids, policy, ar);
 	    }
 
@@ -61,7 +60,7 @@ public class PolicyHelper {
 		return actionRequestIsAuthorized(ids, PolicyStore.getInstance().copy(), ar);
 	}
 	
-	private static boolean actionRequestIsAuthorized(IdentifierBundle ids, PolicyIface policy, AccessObject ar) {
+	private static boolean actionRequestIsAuthorized(IdentifierBundle ids, PolicyList policy, AccessObject ar) {
 	    if (ar.getPredefinedDecision() != DecisionResult.INCONCLUSIVE){
 	        return ar.getPredefinedDecision() == DecisionResult.AUTHORIZED;
 	    }
@@ -113,7 +112,7 @@ public class PolicyHelper {
 
 			// figure out if that account can do the actions
 			IdentifierBundle ids = ActiveIdentifierBundleFactories.getUserIdentifierBundle(user);
-			PolicyIface policies = PolicyStore.getInstance().copy();
+			PolicyList policies = PolicyStore.getInstance().copy();
 			return actionRequestIsAuthorized(ids, policies, ar);
 		} catch (Exception ex) {
 			log.error("Error while attempting to authorize actions " + ar, ex);
