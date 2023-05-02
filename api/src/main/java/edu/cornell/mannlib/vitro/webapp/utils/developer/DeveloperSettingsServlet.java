@@ -17,7 +17,6 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.ajax.VitroAjaxController;
 import edu.cornell.mannlib.vitro.webapp.services.freemarker.FreemarkerProcessingService.TemplateProcessingException;
@@ -91,7 +90,7 @@ public class DeveloperSettingsServlet extends VitroAjaxController {
 		boolean authBySetting = DeveloperSettings.getInstance().getBoolean(
 				PERMIT_ANONYMOUS_CONTROL);
 		boolean authByPolicy = PolicyHelper.isAuthorizedForActions(vreq,
-				SimplePermission.ENABLE_DEVELOPER_PANEL.ACTION,  AccessOperation.EXECUTE);
+				SimplePermission.ENABLE_DEVELOPER_PANEL.ACTION);
 		return authBySetting || authByPolicy;
 	}
 }

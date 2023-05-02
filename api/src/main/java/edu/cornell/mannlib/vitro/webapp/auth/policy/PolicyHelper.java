@@ -52,7 +52,7 @@ public class PolicyHelper {
         return actionRequestIsAuthorized(ids, ar, op);
     }
     
-    public static boolean isAuthorizedForActions(IdentifierBundle ids, AuthorizationRequest ar, AccessOperation operation) {
+    public static boolean isAuthorizedForActions(IdentifierBundle ids, AuthorizationRequest ar) {
         if (ar.getPredefinedDecision() != DecisionResult.INCONCLUSIVE){
             return ar.getPredefinedDecision() == DecisionResult.AUTHORIZED;
         }
@@ -60,14 +60,14 @@ public class PolicyHelper {
             List<AuthorizationRequest> items = ar.getItems();
             boolean result = false;
             for (AuthorizationRequest item : items ) {
-                result = result || isAuthorizedForActions(ids, item, operation);
+                result = result || isAuthorizedForActions(ids, item);
             }
             return result;
         }
         return actionRequestIsAuthorized(ids, ar.getAccessObject(), ar.getAccessOperation());
     }
 
-    public static boolean isAuthorizedForActions(HttpServletRequest req, AuthorizationRequest ar, AccessOperation operation) {
+    public static boolean isAuthorizedForActions(HttpServletRequest req, AuthorizationRequest ar) {
         if (ar.getPredefinedDecision() != DecisionResult.INCONCLUSIVE){
             return ar.getPredefinedDecision() == DecisionResult.AUTHORIZED;
         }
@@ -75,7 +75,7 @@ public class PolicyHelper {
             List<AuthorizationRequest> items = ar.getItems();
             boolean result = false;
             for (AuthorizationRequest item : items ) {
-                result = result || isAuthorizedForActions(req, item, operation);
+                result = result || isAuthorizedForActions(req, item);
             }
             return result;
         }
@@ -126,7 +126,7 @@ public class PolicyHelper {
 
 			// figure out if that account can do the actions
 			IdentifierBundle ids = ActiveIdentifierBundleFactories.getUserIdentifierBundle(user);
-			return isAuthorizedForActions(ids, ar, null);
+			return isAuthorizedForActions(ids, ar);
 		} catch (Exception ex) {
 			log.error("Error while attempting to authorize actions " + ar, ex);
 			return false;

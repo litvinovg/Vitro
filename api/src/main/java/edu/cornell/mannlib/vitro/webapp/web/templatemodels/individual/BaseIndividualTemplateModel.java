@@ -128,12 +128,12 @@ public abstract class BaseIndividualTemplateModel extends BaseTemplateModel {
 		AddObjectPropertyStatement aops = new AddObjectPropertyStatement(
 				vreq.getJenaOntModel(), individual.getURI(),
 				SOME_PREDICATE, SOME_URI);
-    	return PolicyHelper.isAuthorizedForActions(vreq, AuthHelper.logicOr(new SimpleAuthorizationRequest(adps, AccessOperation.ADD), new SimpleAuthorizationRequest(aops, AccessOperation.ADD)), AccessOperation.ADD);
+    	return PolicyHelper.isAuthorizedForActions(vreq, AuthHelper.logicOr(new SimpleAuthorizationRequest(adps, AccessOperation.ADD), new SimpleAuthorizationRequest(aops, AccessOperation.ADD)));
     }
 
     public boolean getShowAdminPanel() {
 		return PolicyHelper.isAuthorizedForActions(vreq,
-				SimplePermission.SEE_INDVIDUAL_EDITING_PANEL.ACTION, AccessOperation.EXECUTE);
+				SimplePermission.SEE_INDVIDUAL_EDITING_PANEL.ACTION);
     }
 
     /* rdfs:label needs special treatment, because it is not possible to construct a

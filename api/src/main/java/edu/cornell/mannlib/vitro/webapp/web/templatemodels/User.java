@@ -9,7 +9,6 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.RequestIdentifiers;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.HasProfile;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.RevisionInfoController;
@@ -75,15 +74,15 @@ public class User extends BaseTemplateModel {
     }
 
     public boolean getHasSiteAdminAccess() {
-    	return PolicyHelper.isAuthorizedForActions(vreq, SiteAdminController.REQUIRED_ACTIONS,  AccessOperation.EXECUTE);
+    	return PolicyHelper.isAuthorizedForActions(vreq, SiteAdminController.REQUIRED_ACTIONS);
     }
 
     public boolean getHasRevisionInfoAccess() {
-    	return PolicyHelper.isAuthorizedForActions(vreq, RevisionInfoController.REQUIRED_ACTIONS,  AccessOperation.EXECUTE);
+    	return PolicyHelper.isAuthorizedForActions(vreq, RevisionInfoController.REQUIRED_ACTIONS);
     }
 
     public boolean isAuthorizedToRebuildSearchIndex() {
-        return PolicyHelper.isAuthorizedForActions(vreq, IndexController.REQUIRED_ACTIONS,  AccessOperation.EXECUTE);
+        return PolicyHelper.isAuthorizedForActions(vreq, IndexController.REQUIRED_ACTIONS);
     }
 
     public boolean getHasProfile() {

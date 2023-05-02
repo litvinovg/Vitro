@@ -47,7 +47,7 @@ public class ConfirmAuthorization extends BodyTagSupport {
 	 */
 	private boolean isAuthorized() {
 		return PolicyHelper.isAuthorizedForActions(getRequest(),
-				getActionsFromRequestAttribute(), null);
+				getActionsFromRequestAttribute());
 	}
 
 	/**

@@ -113,8 +113,7 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
         boolean isAuthorized = PolicyHelper.isAuthorizedForActions(vreq, 
 		        AuthHelper.logicOr(
 		                new SimpleAuthorizationRequest(editDataPropertyStatement, AccessOperation.EDIT), 
-		                new SimpleAuthorizationRequest(objectPropertyAction, ao))
-		        , null);
+		                new SimpleAuthorizationRequest(objectPropertyAction, ao)));
 		if (!isAuthorized) {
 			// If request is for new individual, return simple do back end editing action permission
 			if (StringUtils.isNotEmpty(EditConfigurationUtils.getTypeOfNew(vreq))) {

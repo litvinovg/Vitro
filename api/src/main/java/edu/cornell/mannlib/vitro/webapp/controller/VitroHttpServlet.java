@@ -122,7 +122,7 @@ public class VitroHttpServlet extends HttpServlet implements MultipartRequestWra
 			LogoutRedirector.recordRestrictedPageUri(request);
 		}
 
-		if (PolicyHelper.isAuthorizedForActions(request, actions, null)) {
+		if (PolicyHelper.isAuthorizedForActions(request, actions)) {
 			log.debug("Servlet '" + this.getClass().getSimpleName()
 					+ "' is authorized for actions: " + actions);
 			return true;
