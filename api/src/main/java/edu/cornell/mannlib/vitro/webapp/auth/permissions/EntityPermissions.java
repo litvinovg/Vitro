@@ -12,6 +12,7 @@ import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.shared.Lock;
 import org.apache.jena.vocabulary.RDF;
 
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.FauxProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
@@ -27,6 +28,7 @@ public class EntityPermissions {
      * Static fields for all EntityPermissions
      */
     static final Map<String, EntityPermission> allInstances = new HashMap<>();
+    private static AccessOperation[] actions = new AccessOperation[] {AccessOperation.DISPLAY, AccessOperation.UPDATE, AccessOperation.PUBLISH};
 
     public static List<EntityPermission> getAllInstances() {
     
@@ -52,9 +54,8 @@ public class EntityPermissions {
         OntModel accountsModel = ModelAccess.getInstance().getOntModel(ModelNames.USER_ACCOUNTS);
         try {
             accountsModel.enterCriticalSection(Lock.READ);
-            String[] actions = {"Display", "Update","Publish"};
-            for (String action : actions) {
-                StmtIterator typeIter = accountsModel.listStatements(null, RDF.type, accountsModel.getResource("java:edu.cornell.mannlib.vitro.webapp.auth.permissions.Entity" + action + "Permission" + "#Set"));
+            for (AccessOperation action : actions) {
+                StmtIterator typeIter = accountsModel.listStatements(null, RDF.type, accountsModel.getResource(getSetClassName(action)));
                 while (typeIter.hasNext()) {
                     Statement stmt = typeIter.next();
                     if (stmt.getSubject().isURIResource()) {
@@ -71,16 +72,21 @@ public class EntityPermissions {
             accountsModel.leaveCriticalSection();
         }
     }
+
+    private static String getSetClassName(AccessOperation action) {
+        final String className = getClassUri(action);
+        return className + "#Set";
+    }
+
+    public static String getClassUri(AccessOperation action) {
+        final String actionStr = action.toString();
+        return "java:edu.cornell.mannlib.vitro.webapp.auth.permissions.Entity" + actionStr.substring(0,1).toUpperCase() + actionStr.substring(1).toLowerCase() + "Permission";
+    }
     
-    private static EntityPermission createEntityPermission(String action, String uri) {
-        if (action.equals("Update")) {
-            return new EntityUpdatePermission(uri);
-        }
-        if (action.equals("Publish")) {
-            return new EntityPublishPermission(uri);
-        }
-        //Display
-        return new EntityDisplayPermission(uri);
+    private static EntityPermission createEntityPermission(AccessOperation action, String uri) {
+        EntityPermission entityPermission = new EntityPermission(uri);
+        entityPermission.setOperation(action);
+        return entityPermission;
     }
 
     private static void updateAllPermissions() {

@@ -26,7 +26,6 @@ import edu.cornell.mannlib.vitro.webapp.beans.FauxProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 import edu.cornell.mannlib.vitro.webapp.dao.PropertyDao;
-import edu.cornell.mannlib.vitro.webapp.dao.PropertyDao.FullPropertyKey;
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelNames;
@@ -231,7 +230,7 @@ public class EntityPermissionHelper {
         return result;
     }
 
-    static boolean isAuthorizedByEntityDisplayPermission(AccessObject whatToAuth, EntityDisplayPermission entityDisplayPermission, AccessOperation operation) {
+    static boolean isAuthorizedByEntityDisplayPermission(AccessObject whatToAuth, EntityPermission entityDisplayPermission, AccessOperation operation) {
         boolean result = false;
     
         if (whatToAuth instanceof DataPropertyAccessObject) {
@@ -267,7 +266,7 @@ public class EntityPermissionHelper {
         return result;
     }
     
-    static boolean isAuthorizedByEntityUpdatePermission(List<String> personUris, AccessObject whatToAuth, EntityUpdatePermission entityUpdatePermission, AccessOperation operation) {
+    static boolean isAuthorizedByEntityUpdatePermission(List<String> personUris, AccessObject whatToAuth, EntityPermission entityPermission, AccessOperation operation) {
         boolean isAuthorized = false;
     
         if (whatToAuth instanceof DataPropertyStatementAccessObject) {
@@ -276,12 +275,12 @@ public class EntityPermissionHelper {
             if (isModifiable(subjectUri)) {
                 Property predicate = ((DataPropertyStatementAccessObject)whatToAuth).getPredicate();
                 if (isModifiable(predicate.getURI())) {
-                    isAuthorized = isAuthorizedForByEntityPermission(predicate, entityUpdatePermission);
+                    isAuthorized = isAuthorizedForByEntityPermission(predicate, entityPermission);
                 }
             }
     
             if (isAuthorized) {
-                isAuthorized = isAuthorizedForByEntityPermission((PropertyStatementAccessObject) whatToAuth, personUris, entityUpdatePermission);
+                isAuthorized = isAuthorizedForByEntityPermission((PropertyStatementAccessObject) whatToAuth, personUris, entityPermission);
             }
         } else if (whatToAuth instanceof ObjectPropertyStatementAccessObject) {
             String subjectUri = ((ObjectPropertyStatementAccessObject)whatToAuth).getSubjectUri();
@@ -289,19 +288,19 @@ public class EntityPermissionHelper {
             if (isModifiable(subjectUri) && isModifiable(objectUri)) {
                 Property predicate = ((ObjectPropertyStatementAccessObject)whatToAuth).getPredicate();
                 if (isModifiable(predicate.getURI())) {
-                    isAuthorized = isAuthorizedForByEntityPermission(predicate, entityUpdatePermission);
+                    isAuthorized = isAuthorizedForByEntityPermission(predicate, entityPermission);
                 }
             }
     
             if (isAuthorized) {
-                isAuthorized = isAuthorizedForByEntityPermission((PropertyStatementAccessObject) whatToAuth, personUris, entityUpdatePermission);
+                isAuthorized = isAuthorizedForByEntityPermission((PropertyStatementAccessObject) whatToAuth, personUris, entityPermission);
             }
         } 
     
         if (isAuthorized) {
-            log.debug(entityUpdatePermission + " authorizes " + whatToAuth);
+            log.debug(entityPermission + " authorizes " + whatToAuth);
         } else {
-            log.debug(entityUpdatePermission + " does not authorize " + whatToAuth);
+            log.debug(entityPermission + " does not authorize " + whatToAuth);
         }
     
         return isAuthorized;
@@ -312,24 +311,20 @@ public class EntityPermissionHelper {
     }
 
     public static boolean isAuthorizedPermission(List<String> personUris, AccessObject whatToAuth, AccessRule permission, AccessOperation operation) {
-        if (permission instanceof EntityDisplayPermission) {
-            if (AccessOperation.DISPLAY.equals(operation)){
-                return isAuthorizedByEntityDisplayPermission(whatToAuth, (EntityDisplayPermission) permission, operation);    
-            }
+        if (AccessOperation.DISPLAY.equals(operation)){
+            return isAuthorizedByEntityDisplayPermission(whatToAuth, (EntityPermission) permission, operation);    
         }
-        if (permission instanceof EntityUpdatePermission) {
-            return isAuthorizedByEntityUpdatePermission(personUris, whatToAuth, (EntityUpdatePermission) permission, operation);
+        if (AccessOperation.UPDATE.equals(operation)){
+            return isAuthorizedByEntityUpdatePermission(personUris, whatToAuth, (EntityPermission) permission, operation);
         }
-        if (permission instanceof EntityPublishPermission) {
-            if (AccessOperation.PUBLISH.equals(operation)){
-                return isAuthorizedByEntityPublishPermission(personUris, whatToAuth, (EntityPublishPermission) permission, operation);
-            }
-        }
-        if (permission instanceof SimpleAccessRule) {
-            return isAuthorizedBySimplePermission(whatToAuth, (SimpleAccessRule) permission, operation);
+        if (AccessOperation.PUBLISH.equals(operation)){
+            return isAuthorizedByEntityPublishPermission(personUris, whatToAuth, (EntityPermission) permission, operation);
         }
         if (permission instanceof BrokenPermission) {
             return isAuthorizedByBrokenPermission();
+        }
+        if (AccessOperation.EXECUTE.equals(operation) && permission instanceof SimpleAccessRule) {
+            return isAuthorizedBySimplePermission(whatToAuth, (SimpleAccessRule) permission, operation);
         }
         //No more options
         return false;

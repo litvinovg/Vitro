@@ -19,10 +19,8 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityDisplayPermission;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityPermission;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityPublishPermission;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityUpdatePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityPermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.beans.PermissionSet;
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
 import org.apache.commons.lang3.StringUtils;
@@ -247,9 +245,9 @@ public class BaseEditController extends VitroHttpServlet {
             OntModel userAccounts = ModelAccess.on(req).getOntModelSelector().getUserAccountsModel();
 
             // Get the permission sets that are granted permission for this entity
-            req.setAttribute("displayRoles", getGrantedRolesForEntity(userAccounts, permissionsEntityURI, EntityDisplayPermission.class));
-            req.setAttribute("updateRoles",  getGrantedRolesForEntity(userAccounts, permissionsEntityURI, EntityUpdatePermission.class));
-            req.setAttribute("publishRoles", getGrantedRolesForEntity(userAccounts, permissionsEntityURI, EntityPublishPermission.class));
+            req.setAttribute("displayRoles", getGrantedRolesForEntity(userAccounts, permissionsEntityURI, AccessOperation.DISPLAY));
+            req.setAttribute("updateRoles",  getGrantedRolesForEntity(userAccounts, permissionsEntityURI, AccessOperation.UPDATE));
+            req.setAttribute("publishRoles", getGrantedRolesForEntity(userAccounts, permissionsEntityURI, AccessOperation.PUBLISH));
         }
     }
 
@@ -284,14 +282,14 @@ public class BaseEditController extends VitroHttpServlet {
         return list;
     }
 
-    protected static List<String> getGrantedRolesForEntity(OntModel userAccounts, String key, Class<? extends EntityPermission> permission) {
+    protected static List<String> getGrantedRolesForEntity(OntModel userAccounts, String key, AccessOperation operation) {
         List<String> roles = new ArrayList<>();
 
         userAccounts.enterCriticalSection(Lock.READ);
         try {
             Query query = QueryFactory.create("SELECT ?role WHERE { " +
                     " ?role <http://vitro.mannlib.cornell.edu/ns/vitro/authorization#hasPermission> ?permission . " +
-                    " ?permission a <java:" + permission.getName() + "#Set> . " +
+                    " ?permission a <" + EntityPermissions.getClassUri(operation) + "#Set> . " +
                     " ?permission <" + VitroVocabulary.PERMISSION_FOR_ENTITY + "> <" + key + "> . " +
                     "}");
 

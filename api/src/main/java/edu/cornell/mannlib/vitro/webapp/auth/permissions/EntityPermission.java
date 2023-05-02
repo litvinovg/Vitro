@@ -2,6 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.permissions;
 
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.dao.PropertyDao;
 
 import java.util.*;
@@ -11,12 +12,21 @@ import java.util.*;
  * An entity may be a class, property or faux property defined in the ontologies.
  * Subclass to define the type of permission that is being granted (e.g. display, update, publish)
  */
-public abstract class EntityPermission extends AccessRule {
+public class EntityPermission extends AccessRule {
 
     protected EntityPermission(String uri) {
         super(uri);
     }
 
+    private AccessOperation operation;
+    
+    public void setOperation(AccessOperation operation) {
+        this.operation = operation;
+    }
+
+    public AccessOperation getOperation() {
+        return operation;
+    }
     /**
      * Instance fields for each EntityPermission
      */

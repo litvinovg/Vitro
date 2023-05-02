@@ -151,6 +151,9 @@ public class PermissionRegistry {
 		public void contextInitialized(ServletContextEvent sce) {
 			ServletContext ctx = sce.getServletContext();
 			StartupStatus ss = StartupStatus.getBean(ctx);
+		    //Value is not used. Triggers static fields initialization
+			SimplePermission test = SimplePermission.EDIT_OWN_ACCOUNT;
+
 			try {
 				List<AccessRule> permissions = new ArrayList<AccessRule>();
 

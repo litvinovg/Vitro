@@ -9,9 +9,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityDisplayPermission;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityPublishPermission;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityUpdatePermission;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityPermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;
@@ -489,18 +489,18 @@ public class UserAccountsDaoJena extends JenaBaseDao implements UserAccountsDao 
 			getOntModel().removeAll(null, getOntModel().getProperty(VitroVocabulary.PERMISSION_FOR_ENTITY), getOntModel().getResource(entityKey));
 
 			// Add the new set of permissions of the entity
-			addPermissions(entityKey, (displaySets != null ? displaySets : new HashSet<>()), EntityDisplayPermission.class);
-			addPermissions(entityKey, (editSets    != null ? editSets    : new HashSet<>()), EntityUpdatePermission.class);
-			addPermissions(entityKey, (publishSets != null ? publishSets : new HashSet<>()), EntityPublishPermission.class);
+			addPermissions(entityKey, (displaySets != null ? displaySets : new HashSet<>()), AccessOperation.DISPLAY);
+			addPermissions(entityKey, (editSets    != null ? editSets    : new HashSet<>()), AccessOperation.UPDATE);
+			addPermissions(entityKey, (publishSets != null ? publishSets : new HashSet<>()), AccessOperation.PUBLISH);
 		} finally {
 			getOntModel().leaveCriticalSection();
 		}
 	}
 
-	private void addPermissions(String entityKey, Collection<PermissionSet> permissionSets, Class permissionClass) {
+	private void addPermissions(String entityKey, Collection<PermissionSet> permissionSets, AccessOperation operation) {
 		if (permissionSets != null && permissionSets.size() > 0) {
 			// To add the permissions, we need to find the actual permissions that have been defined for each role
-			Query query = QueryFactory.create("SELECT ?role ?permission WHERE { ?role <http://vitro.mannlib.cornell.edu/ns/vitro/authorization#hasPermission> ?permission . ?permission a <java:" + permissionClass.getName() + "#Set> . }");
+			Query query = QueryFactory.create("SELECT ?role ?permission WHERE { ?role <http://vitro.mannlib.cornell.edu/ns/vitro/authorization#hasPermission> ?permission . ?permission a <" + EntityPermissions.getClassUri(operation) + "#Set> . }");
 			QueryExecution qexec = QueryExecutionFactory.create(query, getOntModel());
 			try {
 				ResultSet rs = qexec.execSelect();
