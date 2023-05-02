@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityPermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityAccessRules;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 
 import org.apache.commons.lang3.StringUtils;
@@ -500,7 +500,7 @@ public class UserAccountsDaoJena extends JenaBaseDao implements UserAccountsDao 
 	private void addPermissions(String entityKey, Collection<PermissionSet> permissionSets, AccessOperation operation) {
 		if (permissionSets != null && permissionSets.size() > 0) {
 			// To add the permissions, we need to find the actual permissions that have been defined for each role
-			Query query = QueryFactory.create("SELECT ?role ?permission WHERE { ?role <http://vitro.mannlib.cornell.edu/ns/vitro/authorization#hasPermission> ?permission . ?permission a <" + EntityPermissions.getClassUri(operation) + "#Set> . }");
+			Query query = QueryFactory.create("SELECT ?role ?permission WHERE { ?role <http://vitro.mannlib.cornell.edu/ns/vitro/authorization#hasPermission> ?permission . ?permission a <" + EntityAccessRules.getClassUri(operation) + "#Set> . }");
 			QueryExecution qexec = QueryExecutionFactory.create(query, getOntModel());
 			try {
 				ResultSet rs = qexec.execSelect();

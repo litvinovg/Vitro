@@ -19,7 +19,7 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityPermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityAccessRules;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.beans.PermissionSet;
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
@@ -289,7 +289,7 @@ public class BaseEditController extends VitroHttpServlet {
         try {
             Query query = QueryFactory.create("SELECT ?role WHERE { " +
                     " ?role <http://vitro.mannlib.cornell.edu/ns/vitro/authorization#hasPermission> ?permission . " +
-                    " ?permission a <" + EntityPermissions.getClassUri(operation) + "#Set> . " +
+                    " ?permission a <" + EntityAccessRules.getClassUri(operation) + "#Set> . " +
                     " ?permission <" + VitroVocabulary.PERMISSION_FOR_ENTITY + "> <" + key + "> . " +
                     "}");
 

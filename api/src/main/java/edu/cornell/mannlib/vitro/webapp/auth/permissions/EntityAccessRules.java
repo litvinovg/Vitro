@@ -22,17 +22,17 @@ import edu.cornell.mannlib.vitro.webapp.dao.WebappDaoFactory;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelNames;
 
-public class EntityPermissions {
+public class EntityAccessRules {
     
     /**
      * Static fields for all EntityPermissions
      */
-    static final Map<String, EntityPermission> allInstances = new HashMap<>();
+    static final Map<String, EntityAccessRule> allInstances = new HashMap<>();
     private static AccessOperation[] actions = new AccessOperation[] {AccessOperation.DISPLAY, AccessOperation.UPDATE, AccessOperation.PUBLISH};
 
-    public static List<EntityPermission> getAllInstances() {
+    public static List<EntityAccessRule> getAllInstances() {
     
-        if (EntityPermissions.allInstances.isEmpty()) {
+        if (EntityAccessRules.allInstances.isEmpty()) {
             collectRoleTypes();
             updateAllPermissions();
         }
@@ -45,8 +45,8 @@ public class EntityPermissions {
             return;
         }
     
-        for (EntityPermission instance : allInstances.values()) {
-            EntityPermissionHelper.updateForEntityPermission(p, instance);
+        for (EntityAccessRule instance : allInstances.values()) {
+            EntityAccessRuleHelper.updateForEntityPermission(p, instance);
         }
     }
 
@@ -60,7 +60,7 @@ public class EntityPermissions {
                     Statement stmt = typeIter.next();
                     if (stmt.getSubject().isURIResource()) {
                         String uri = stmt.getSubject().getURI();
-                        EntityPermission permission = createEntityPermission(action, uri);
+                        EntityAccessRule permission = createEntityPermission(action, uri);
                         Resource limitResource = accountsModel.getResource("java:edu.cornell.mannlib.vitro.webapp.auth.permissions.Entity" + action + "Permission" + "#SetLimitToRelatedUser");
                         permission.limitToRelatedUser = accountsModel.contains(stmt.getSubject(), RDF.type, limitResource);
                         allInstances.put(uri, permission);
@@ -83,8 +83,8 @@ public class EntityPermissions {
         return "java:edu.cornell.mannlib.vitro.webapp.auth.permissions.Entity" + actionStr.substring(0,1).toUpperCase() + actionStr.substring(1).toLowerCase() + "Permission";
     }
     
-    private static EntityPermission createEntityPermission(AccessOperation action, String uri) {
-        EntityPermission entityPermission = new EntityPermission(uri);
+    private static EntityAccessRule createEntityPermission(AccessOperation action, String uri) {
+        EntityAccessRule entityPermission = new EntityAccessRule(uri);
         entityPermission.setOperation(action);
         return entityPermission;
     }
@@ -111,8 +111,8 @@ public class EntityPermissions {
             }
         }
 
-        for (EntityPermission instance : allInstances.values()) {
-            EntityPermissionHelper.updateEntityPermission(propertyKeyMap, instance);
+        for (EntityAccessRule instance : allInstances.values()) {
+            EntityAccessRuleHelper.updateEntityPermission(propertyKeyMap, instance);
         }
     }
 

@@ -32,12 +32,12 @@ import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelNames;
 import edu.cornell.mannlib.vitro.webapp.utils.RelationshipChecker;
 import edu.cornell.mannlib.vitro.webapp.web.templatemodels.individual.FauxPropertyWrapper;
 
-public class EntityPermissionHelper {
+public class EntityAccessRuleHelper {
 
-    static final Log log = LogFactory.getLog(EntityPermissionHelper.class);
+    static final Log log = LogFactory.getLog(EntityAccessRuleHelper.class);
 
     
-    static boolean isAuthorizedForByEntityPermission(PropertyStatementAccessObject action, List<String> personUris, EntityPermission entityPermission) {
+    static boolean isAuthorizedForByEntityPermission(PropertyStatementAccessObject action, List<String> personUris, EntityAccessRule entityPermission) {
         // If we are not limiting to only objects that the user has a relationship with
         // We can just authorise the access right now
         if (!entityPermission.isLimitToRelatedUser()) {
@@ -74,7 +74,7 @@ public class EntityPermissionHelper {
         return RelationshipChecker.anyRelated(action.getOntModel(), Arrays.asList(action.getResourceUris()), personUris);
     }
 
-    static boolean isAuthorizedForByEntityPermission(Property prop, EntityPermission entityPermission) {
+    static boolean isAuthorizedForByEntityPermission(Property prop, EntityAccessRule entityPermission) {
         if (AccessObject.SOME_URI.equals(prop.getURI())) {
             return true;
         }
@@ -89,8 +89,8 @@ public class EntityPermissionHelper {
 
    
     static boolean isModifiable(String uri) {
-        if (EntityPermissionHelper.PROHIBITED_NAMESPACES.contains(uri.substring(0, Util.splitNamespaceXML(uri)))) {
-            if (EntityPermissionHelper.PERMITTED_EXCEPTIONS.contains(uri)) {
+        if (EntityAccessRuleHelper.PROHIBITED_NAMESPACES.contains(uri.substring(0, Util.splitNamespaceXML(uri)))) {
+            if (EntityAccessRuleHelper.PERMITTED_EXCEPTIONS.contains(uri)) {
                 return true;
             } else {
                 return false;
@@ -113,7 +113,7 @@ public class EntityPermissionHelper {
 
     
 
-    static void updateForEntityPermission(Property p, EntityPermission entityPermission) {
+    static void updateForEntityPermission(Property p, EntityAccessRule entityPermission) {
         String uri = null;      // Due to the data model of Vitro, this could be a property or a property config uri
         PropertyDao.FullPropertyKey key = null;
     
@@ -141,7 +141,7 @@ public class EntityPermissionHelper {
         }
     }
 
-    static void updateEntityPermission(Map<String, PropertyDao.FullPropertyKey> propertyKeyMap, EntityPermission entityPermission) {
+    static void updateEntityPermission(Map<String, PropertyDao.FullPropertyKey> propertyKeyMap, EntityAccessRule entityPermission) {
         List<PropertyDao.FullPropertyKey> newKeys = new ArrayList<>();
         List<String> newResources = new ArrayList<>();
     
@@ -193,7 +193,7 @@ public class EntityPermissionHelper {
     	return false;
     }
     
-    static boolean isAuthorizedByEntityPublishPermission(List<String> personUris, AccessObject whatToAuth, EntityPermission entityPublishPermission, AccessOperation operation) {
+    static boolean isAuthorizedByEntityPublishPermission(List<String> personUris, AccessObject whatToAuth, EntityAccessRule entityPublishPermission, AccessOperation operation) {
         boolean result = false;
     
         if (whatToAuth instanceof DataPropertyAccessObject) {
@@ -230,7 +230,7 @@ public class EntityPermissionHelper {
         return result;
     }
 
-    static boolean isAuthorizedByEntityDisplayPermission(AccessObject whatToAuth, EntityPermission entityDisplayPermission, AccessOperation operation) {
+    static boolean isAuthorizedByEntityDisplayPermission(AccessObject whatToAuth, EntityAccessRule entityDisplayPermission, AccessOperation operation) {
         boolean result = false;
     
         if (whatToAuth instanceof DataPropertyAccessObject) {
@@ -266,7 +266,7 @@ public class EntityPermissionHelper {
         return result;
     }
     
-    static boolean isAuthorizedByEntityUpdatePermission(List<String> personUris, AccessObject whatToAuth, EntityPermission entityPermission, AccessOperation operation) {
+    static boolean isAuthorizedByEntityUpdatePermission(List<String> personUris, AccessObject whatToAuth, EntityAccessRule entityPermission, AccessOperation operation) {
         boolean isAuthorized = false;
     
         if (whatToAuth instanceof DataPropertyStatementAccessObject) {
@@ -312,13 +312,13 @@ public class EntityPermissionHelper {
 
     public static boolean isAuthorizedPermission(List<String> personUris, AccessObject whatToAuth, AccessRule permission, AccessOperation operation) {
         if (AccessOperation.DISPLAY.equals(operation)){
-            return isAuthorizedByEntityDisplayPermission(whatToAuth, (EntityPermission) permission, operation);    
+            return isAuthorizedByEntityDisplayPermission(whatToAuth, (EntityAccessRule) permission, operation);    
         }
         if (AccessOperation.UPDATE.equals(operation)){
-            return isAuthorizedByEntityUpdatePermission(personUris, whatToAuth, (EntityPermission) permission, operation);
+            return isAuthorizedByEntityUpdatePermission(personUris, whatToAuth, (EntityAccessRule) permission, operation);
         }
         if (AccessOperation.PUBLISH.equals(operation)){
-            return isAuthorizedByEntityPublishPermission(personUris, whatToAuth, (EntityPermission) permission, operation);
+            return isAuthorizedByEntityPublishPermission(personUris, whatToAuth, (EntityAccessRule) permission, operation);
         }
         if (permission instanceof BrokenPermission) {
             return isAuthorizedByBrokenPermission();

@@ -2,7 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.migration.auth;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityPermissions;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityAccessRules;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ContextModelAccess;
@@ -60,25 +60,25 @@ public class AuthMigrator implements ServletContextListener {
             Map<String, String> publishRoleToPropertySetMap = new HashMap<>();
 
             // Map the roles to equivalent display permissions
-            displayRoleToPropertySetMap.put(ROLE_PUBLIC,   EntityPermissions.getClassUri(AccessOperation.DISPLAY) + "#PUBLIC");
-            displayRoleToPropertySetMap.put(ROLE_SELF,     EntityPermissions.getClassUri(AccessOperation.DISPLAY) + "#SELF_EDITOR");
-            displayRoleToPropertySetMap.put(ROLE_EDITOR,   EntityPermissions.getClassUri(AccessOperation.DISPLAY) + "#EDITOR");
-            displayRoleToPropertySetMap.put(ROLE_CURATOR,  EntityPermissions.getClassUri(AccessOperation.DISPLAY) + "#CURATOR");
-            displayRoleToPropertySetMap.put(ROLE_DB_ADMIN, EntityPermissions.getClassUri(AccessOperation.DISPLAY) + "#ADMIN");
+            displayRoleToPropertySetMap.put(ROLE_PUBLIC,   EntityAccessRules.getClassUri(AccessOperation.DISPLAY) + "#PUBLIC");
+            displayRoleToPropertySetMap.put(ROLE_SELF,     EntityAccessRules.getClassUri(AccessOperation.DISPLAY) + "#SELF_EDITOR");
+            displayRoleToPropertySetMap.put(ROLE_EDITOR,   EntityAccessRules.getClassUri(AccessOperation.DISPLAY) + "#EDITOR");
+            displayRoleToPropertySetMap.put(ROLE_CURATOR,  EntityAccessRules.getClassUri(AccessOperation.DISPLAY) + "#CURATOR");
+            displayRoleToPropertySetMap.put(ROLE_DB_ADMIN, EntityAccessRules.getClassUri(AccessOperation.DISPLAY) + "#ADMIN");
 
             // Map the roles to equivalent update permissions
-            updateRoleToPropertySetMap.put(ROLE_PUBLIC,   EntityPermissions.getClassUri(AccessOperation.UPDATE) + "#PUBLIC");
-            updateRoleToPropertySetMap.put(ROLE_SELF,     EntityPermissions.getClassUri(AccessOperation.UPDATE) + "#SELF_EDITOR");
-            updateRoleToPropertySetMap.put(ROLE_EDITOR,   EntityPermissions.getClassUri(AccessOperation.UPDATE) + "#EDITOR");
-            updateRoleToPropertySetMap.put(ROLE_CURATOR,  EntityPermissions.getClassUri(AccessOperation.UPDATE) + "#CURATOR");
-            updateRoleToPropertySetMap.put(ROLE_DB_ADMIN, EntityPermissions.getClassUri(AccessOperation.UPDATE) + "#ADMIN");
+            updateRoleToPropertySetMap.put(ROLE_PUBLIC,   EntityAccessRules.getClassUri(AccessOperation.UPDATE) + "#PUBLIC");
+            updateRoleToPropertySetMap.put(ROLE_SELF,     EntityAccessRules.getClassUri(AccessOperation.UPDATE) + "#SELF_EDITOR");
+            updateRoleToPropertySetMap.put(ROLE_EDITOR,   EntityAccessRules.getClassUri(AccessOperation.UPDATE) + "#EDITOR");
+            updateRoleToPropertySetMap.put(ROLE_CURATOR,  EntityAccessRules.getClassUri(AccessOperation.UPDATE) + "#CURATOR");
+            updateRoleToPropertySetMap.put(ROLE_DB_ADMIN, EntityAccessRules.getClassUri(AccessOperation.UPDATE) + "#ADMIN");
 
             // Map the roles to equivalent publish permissions
-            publishRoleToPropertySetMap.put(ROLE_PUBLIC,   EntityPermissions.getClassUri(AccessOperation.PUBLISH) + "#PUBLIC");
-            publishRoleToPropertySetMap.put(ROLE_SELF,     EntityPermissions.getClassUri(AccessOperation.PUBLISH) + "#SELF_EDITOR");
-            publishRoleToPropertySetMap.put(ROLE_EDITOR,   EntityPermissions.getClassUri(AccessOperation.PUBLISH) + "#EDITOR");
-            publishRoleToPropertySetMap.put(ROLE_CURATOR,  EntityPermissions.getClassUri(AccessOperation.PUBLISH) + "#CURATOR");
-            publishRoleToPropertySetMap.put(ROLE_DB_ADMIN, EntityPermissions.getClassUri(AccessOperation.PUBLISH) + "#ADMIN");
+            publishRoleToPropertySetMap.put(ROLE_PUBLIC,   EntityAccessRules.getClassUri(AccessOperation.PUBLISH) + "#PUBLIC");
+            publishRoleToPropertySetMap.put(ROLE_SELF,     EntityAccessRules.getClassUri(AccessOperation.PUBLISH) + "#SELF_EDITOR");
+            publishRoleToPropertySetMap.put(ROLE_EDITOR,   EntityAccessRules.getClassUri(AccessOperation.PUBLISH) + "#EDITOR");
+            publishRoleToPropertySetMap.put(ROLE_CURATOR,  EntityAccessRules.getClassUri(AccessOperation.PUBLISH) + "#CURATOR");
+            publishRoleToPropertySetMap.put(ROLE_DB_ADMIN, EntityAccessRules.getClassUri(AccessOperation.PUBLISH) + "#ADMIN");
 
             // Create a map between the permission and the appropriate sets
             actionToRoleAndPropertySetMap.put("http://vitro.mannlib.cornell.edu/ns/vitro/0.7#hiddenFromDisplayBelowRoleLevelAnnot",    displayRoleToPropertySetMap);

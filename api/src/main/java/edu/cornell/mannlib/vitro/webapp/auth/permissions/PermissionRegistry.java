@@ -12,8 +12,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import edu.cornell.mannlib.vitro.webapp.modelaccess.ContextModelAccess;
-import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -158,7 +156,7 @@ public class PermissionRegistry {
 				List<AccessRule> permissions = new ArrayList<AccessRule>();
 
 				permissions.addAll(SimpleAccessRules.getAllInstances());
-				permissions.addAll(EntityPermissions.getAllInstances());
+				permissions.addAll(EntityAccessRules.getAllInstances());
 
 				PermissionRegistry.createRegistry(ctx, permissions);
 

@@ -8,7 +8,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.IdentifierPermissionProvider;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityPermissionHelper;
+import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityAccessRuleHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.AccessRule;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
@@ -38,7 +38,7 @@ public class PermissionsPolicy implements PolicyIface {
         List<String> personUris = new ArrayList<String>(HasAssociatedIndividual.getIndividualUris(ac_subject));
 
         for (AccessRule p : IdentifierPermissionProvider.getPermissions(ac_subject)) {
-            if (EntityPermissionHelper.isAuthorizedPermission(personUris, whatToAuth, p, operation)) {
+            if (EntityAccessRuleHelper.isAuthorizedPermission(personUris, whatToAuth, p, operation)) {
                 log.debug("Permission " + p + " approves request " + whatToAuth);
                 return new BasicPolicyDecision(DecisionResult.AUTHORIZED, "PermissionsPolicy: approved by " + p);
             } else {
