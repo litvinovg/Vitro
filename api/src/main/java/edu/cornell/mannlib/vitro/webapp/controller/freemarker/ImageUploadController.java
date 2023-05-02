@@ -17,8 +17,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleAuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropObjectPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditObjectPropertyStatement;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 import edu.cornell.mannlib.vitro.webapp.config.ConfigurationProperties;
@@ -154,12 +153,12 @@ public class ImageUploadController extends FreemarkerHttpServlet {
 			if (ACTION_DELETE.equals(action)
 					|| ACTION_DELETE_EDIT.equals(action)) {
 			    ao = AccessOperation.DROP;
-				ra = new DropObjectPropertyStatement(vreq.getJenaOntModel(),
+				ra = new ObjectPropertyStatementAccessObject(vreq.getJenaOntModel(),
 						entity.getURI(), indMainImage,
 						imageUri);
 			} else if (imageUri != null) {
 			    ao = AccessOperation.EDIT;
-				ra = new EditObjectPropertyStatement(vreq.getJenaOntModel(),
+				ra = new ObjectPropertyStatementAccessObject(vreq.getJenaOntModel(),
 						entity.getURI(), indMainImage,
 						imageUri);
 			} else {

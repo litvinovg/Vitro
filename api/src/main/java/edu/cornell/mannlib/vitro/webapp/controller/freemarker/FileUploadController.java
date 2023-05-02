@@ -34,7 +34,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleAuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropObjectPropertyStatement;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 import edu.cornell.mannlib.vitro.webapp.config.ConfigurationProperties;
@@ -98,7 +98,7 @@ public class FileUploadController extends FreemarkerHttpServlet {
 				ra = new AddObjectPropertyStatement(jenaOntModel, subject, predicate,AccessObject.SOME_URI);
 				ao = AccessOperation.ADD;
 			} else { // delete
-				ra = new DropObjectPropertyStatement(jenaOntModel, subject, predicate, getFileUri(vreq));
+				ra = new ObjectPropertyStatementAccessObject(jenaOntModel, subject, predicate, getFileUri(vreq));
 				ao = AccessOperation.DROP;
 			}
 			return new SimpleAuthorizationRequest(ra, ao);

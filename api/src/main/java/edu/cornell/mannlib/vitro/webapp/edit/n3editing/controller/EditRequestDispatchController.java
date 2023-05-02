@@ -25,9 +25,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleAuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditDataPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.FauxProperty;
@@ -101,11 +99,10 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
 			objectPropertyAction = new AddObjectPropertyStatement(ontModel, subjectUri, predicateProp, AccessObject.SOME_URI);
 			ao = AccessOperation.ADD;
 		} else {
+            objectPropertyAction = new ObjectPropertyStatementAccessObject(ontModel, subjectUri, predicateProp, objectUri);
 			if (isDeleteForm(vreq)) {
-				objectPropertyAction = new DropObjectPropertyStatement(ontModel, subjectUri, predicateProp, objectUri);
 				ao = AccessOperation.DROP;
 			} else {
-				objectPropertyAction = new EditObjectPropertyStatement(ontModel, subjectUri, predicateProp, objectUri);
 				ao = AccessOperation.EDIT;
 			}
 		}

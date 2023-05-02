@@ -12,8 +12,6 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropObjectPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.dao.DisplayVocabulary;
 
 /**
@@ -24,13 +22,12 @@ public class RestrictHomeMenuItemEditingPolicy implements PolicyIface {
 	@Override
 	public PolicyDecision decide(IdentifierBundle whoToAuth,
 			AccessObject whatToAuth, AccessOperation operation) {
-		if (whatToAuth instanceof EditObjectPropertyStatement) {
-			return isAuthorized((EditObjectPropertyStatement) whatToAuth);
-		} else if (whatToAuth instanceof DropObjectPropertyStatement) {
-			return isAuthorized((DropObjectPropertyStatement) whatToAuth);
-		} else {
-			return notHandled();
-		}
+	    if(AccessOperation.EDIT.equals(operation) || AccessOperation.DROP.equals(operation)) {
+	        if (whatToAuth instanceof ObjectPropertyStatementAccessObject) {
+	            return isAuthorized((ObjectPropertyStatementAccessObject) whatToAuth);
+	        }
+	    }
+		return notHandled();
 	}
 
 	private PolicyDecision isAuthorized(

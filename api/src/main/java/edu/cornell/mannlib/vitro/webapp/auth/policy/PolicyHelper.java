@@ -31,7 +31,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationReques
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropDataPropertyStatement;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropObjectPropertyStatement;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
 import edu.cornell.mannlib.vitro.webapp.controller.authenticate.Authenticator;
@@ -200,7 +200,7 @@ public class PolicyHelper {
 			Property property = new Property(predicate.getURI());
 			property.setDomainVClassURI(SOME_URI);
 			property.setRangeVClassURI(SOME_URI);
-			action = new DropObjectPropertyStatement(modelToBeModified,
+			action = new ObjectPropertyStatementAccessObject(modelToBeModified,
 					subject.getURI(), property, objectNode.asResource()
 							.getURI());
 		} else {
