@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.FreemarkerHttpServlet;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.responsevalues.ResponseValues;
@@ -23,7 +23,7 @@ import javax.servlet.annotation.WebServlet;
 public class StartupStatusController extends FreemarkerHttpServlet {
 
 	@Override
-	protected AccessObject requiredActions(VitroRequest vreq) {
+	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
 		return SimplePermission.SEE_STARTUP_STATUS.ACTION;
 	}
 

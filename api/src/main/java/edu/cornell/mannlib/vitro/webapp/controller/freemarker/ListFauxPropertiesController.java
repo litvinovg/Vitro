@@ -13,7 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.FauxProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
@@ -39,7 +39,7 @@ public class ListFauxPropertiesController extends FreemarkerHttpServlet {
     private String notFoundMessage = "";
 
     @Override
-    protected AccessObject requiredActions(VitroRequest vreq) {
+    protected AuthorizationRequest requiredActions(VitroRequest vreq) {
         return SimplePermission.EDIT_ONTOLOGY.ACTION;
     }
 

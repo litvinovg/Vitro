@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.AbstractPageHandler;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.authenticate.Authenticator;
@@ -35,7 +35,7 @@ public class RestrictLoginsController extends FreemarkerHttpServlet {
 	public static final String MESSAGE_ALREADY_OPEN = "messageAlreadyOpen";
 
 	@Override
-	protected AccessObject requiredActions(VitroRequest vreq) {
+	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
 		return SimplePermission.LOGIN_DURING_MAINTENANCE.ACTION;
 	}
 

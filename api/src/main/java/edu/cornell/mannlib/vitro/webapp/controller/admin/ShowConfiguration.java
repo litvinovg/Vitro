@@ -9,7 +9,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.config.ConfigurationProperties;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.FreemarkerHttpServlet;
@@ -24,7 +24,7 @@ import javax.servlet.annotation.WebServlet;
 @WebServlet(name = "ShowConfiguration", urlPatterns = {"/admin/showConfiguration"} )
 public class ShowConfiguration extends FreemarkerHttpServlet {
 	@Override
-	protected AccessObject requiredActions(VitroRequest vreq) {
+	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
 		return SimplePermission.SEE_CONFIGURATION.ACTION;
 	}
 

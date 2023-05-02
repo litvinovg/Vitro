@@ -12,9 +12,8 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vedit.beans.LoginStatusBean;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroHttpServlet;
 
 /**
@@ -58,14 +57,14 @@ public class ConfirmAuthorization extends BodyTagSupport {
 	 * When we are done, clear the attribute, so any included or forwarded page
 	 * will not see it.
 	 */
-	private AccessObject getActionsFromRequestAttribute() {
+	private AuthorizationRequest getActionsFromRequestAttribute() {
 		Object attribute = getRequest().getAttribute("requestedActions");
 		getRequest().removeAttribute("requestedActions");
 
 		if (attribute == null) {
 			return AuthHelper.AUTHORIZED;
-		} else if (attribute instanceof AccessObject) {
-			AccessObject ra = (AccessObject) attribute;
+		} else if (attribute instanceof AuthorizationRequest) {
+		    AuthorizationRequest ra = (AuthorizationRequest) attribute;
 			log.debug("requested action was " + ra.getClass().getSimpleName());
 			return ra;
 		} else {

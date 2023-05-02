@@ -12,8 +12,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.ajax.VitroAjaxController;
 
@@ -28,7 +28,7 @@ public class ManageProxiesAjaxController extends VitroAjaxController {
 	private static final String PARAMETER_ACTION = "action";
 
 	@Override
-	protected AccessObject requiredActions(VitroRequest vreq) {
+	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
 		return AuthHelper.logicOr(
 		        SimplePermission.MANAGE_OWN_PROXIES.ACTION
 				,SimplePermission.MANAGE_PROXIES.ACTION);

@@ -22,6 +22,8 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleAuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditDataPropertyStatement;
@@ -73,7 +75,7 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
     final String MANAGE_MENUS_FORM = "edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators.ManagePageGenerator";
     
 	@Override
-	protected AccessObject requiredActions(VitroRequest vreq) {
+	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
 
 		if (isIndividualDeletion(vreq)) {
 			return SimplePermission.DO_BACK_END_EDITING.ACTION;
@@ -94,18 +96,25 @@ public class EditRequestDispatchController extends FreemarkerHttpServlet {
 		predicateProp.setRangeVClassURI(rangeUri);
 		OntModel ontModel = ModelAccess.on(vreq).getOntModel();
 		ObjectPropertyStatementAccessObject objectPropertyAction;
+		AccessOperation ao;
 		if (StringUtils.isBlank(objectUri)) {
 			objectPropertyAction = new AddObjectPropertyStatement(ontModel, subjectUri, predicateProp, AccessObject.SOME_URI);
+			ao = AccessOperation.ADD;
 		} else {
 			if (isDeleteForm(vreq)) {
 				objectPropertyAction = new DropObjectPropertyStatement(ontModel, subjectUri, predicateProp, objectUri);
+				ao = AccessOperation.DROP;
 			} else {
 				objectPropertyAction = new EditObjectPropertyStatement(ontModel, subjectUri, predicateProp, objectUri);
+				ao = AccessOperation.EDIT;
 			}
 		}
-		boolean isAuthorized = PolicyHelper.isAuthorizedForActions(vreq, 
-		        AuthHelper.logicOr(new EditDataPropertyStatement(ontModel, subjectUri, predicateUri, objectUri),
-				objectPropertyAction), null);
+		final EditDataPropertyStatement editDataPropertyStatement = new EditDataPropertyStatement(ontModel, subjectUri, predicateUri, objectUri);
+        boolean isAuthorized = PolicyHelper.isAuthorizedForActions(vreq, 
+		        AuthHelper.logicOr(
+		                new SimpleAuthorizationRequest(editDataPropertyStatement, AccessOperation.EDIT), 
+		                new SimpleAuthorizationRequest(objectPropertyAction, ao))
+		        , null);
 		if (!isAuthorized) {
 			// If request is for new individual, return simple do back end editing action permission
 			if (StringUtils.isNotEmpty(EditConfigurationUtils.getTypeOfNew(vreq))) {

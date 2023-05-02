@@ -21,6 +21,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.beans.VClassGroup;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.UrlBuilder.ParamMap;
@@ -37,12 +38,12 @@ public class BaseSiteAdminController extends FreemarkerHttpServlet {
     private static final Log log = LogFactory.getLog(BaseSiteAdminController.class);
     protected static final String TEMPLATE_DEFAULT = "siteAdmin-main.ftl";
 
-    public static final AccessObject REQUIRED_ACTIONS = SimplePermission.SEE_SITE_ADMIN_PAGE.ACTION;
+    public static final AuthorizationRequest REQUIRED_ACTIONS = SimplePermission.SEE_SITE_ADMIN_PAGE.ACTION;
 
     private static final List<AdminUrl> siteMaintenanceUrls = new ArrayList<>();
     private static final List<AdminUrl> siteConfigData = new ArrayList<>();
 
-    public static void registerSiteMaintenanceUrl(String key, String url, ParamMap urlParams, AccessObject permission) {
+    public static void registerSiteMaintenanceUrl(String key, String url, ParamMap urlParams, AuthorizationRequest permission) {
         AdminUrl adminUrl = new AdminUrl();
 
         adminUrl.key = key;
@@ -53,7 +54,7 @@ public class BaseSiteAdminController extends FreemarkerHttpServlet {
         siteMaintenanceUrls.add(adminUrl);
     }
 
-    public static void registerSiteConfigData(String key, String url, ParamMap urlParams, AccessObject permission) {
+    public static void registerSiteConfigData(String key, String url, ParamMap urlParams, AuthorizationRequest permission) {
         AdminUrl adminUrl = new AdminUrl();
 
         adminUrl.key = key;
@@ -85,7 +86,7 @@ public class BaseSiteAdminController extends FreemarkerHttpServlet {
     }
 
     @Override
-	protected AccessObject requiredActions(VitroRequest vreq) {
+	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
     	return REQUIRED_ACTIONS;
 	}
 
@@ -258,6 +259,6 @@ public class BaseSiteAdminController extends FreemarkerHttpServlet {
         String key;
         String url;
         ParamMap urlParams;
-        AccessObject permission;
+        AuthorizationRequest permission;
     }
 }

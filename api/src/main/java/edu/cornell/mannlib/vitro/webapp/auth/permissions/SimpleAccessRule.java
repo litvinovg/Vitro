@@ -2,8 +2,9 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.permissions;
 
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.NamedAccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleAuthorizationRequest;
 
 /**
  * A class of simple permissions. Each instance holds a RequestedAction, and
@@ -13,11 +14,11 @@ public class SimpleAccessRule extends AccessRule {
 
     //Access object named action for compatibility reasons.
     //TODO:fix the name after merged into the code base
-	public final AccessObject ACTION;
+	public final AuthorizationRequest ACTION;
 
 	public SimpleAccessRule(String uri) {
 		super(uri);
-	    this.ACTION = new NamedAccessObject(uri);
+	    this.ACTION = new SimpleAuthorizationRequest(uri, AccessOperation.EXECUTE);
 		SimpleAccessRules.add(this);
 	}
 

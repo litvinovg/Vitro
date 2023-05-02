@@ -34,6 +34,7 @@ import edu.cornell.mannlib.vedit.controller.BaseEditController;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.Controllers;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.dao.jena.JenaModelUtils;
@@ -45,7 +46,7 @@ import edu.cornell.mannlib.vitro.webapp.utils.jena.JenaOutputUtils;
 
 @WebServlet(name = "JenaExportController", urlPatterns = {"/export/*"} )
 public class JenaExportController extends BaseEditController {
-	private static final AccessObject REQUIRED_ACTIONS = 
+	private static final AuthorizationRequest REQUIRED_ACTIONS = 
 	        AuthHelper.logicOr(
 	        SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.ACTION,
 			SimplePermission.EDIT_ONTOLOGY.ACTION);

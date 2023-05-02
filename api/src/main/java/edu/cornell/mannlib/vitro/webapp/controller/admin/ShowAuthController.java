@@ -24,6 +24,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyStore;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.config.ConfigurationProperties;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
@@ -40,7 +41,7 @@ import edu.cornell.mannlib.vitro.webapp.controller.freemarker.responsevalues.Tem
 public class ShowAuthController extends FreemarkerHttpServlet {
 
 	@Override
-	protected AccessObject requiredActions(VitroRequest vreq) {
+	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
 		return AuthHelper.AUTHORIZED;
 	}
 

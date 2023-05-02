@@ -2,10 +2,6 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.requestedAction;
 
-import java.util.Collections;
-import java.util.List;
-
-import edu.cornell.mannlib.vitro.webapp.auth.policy.contract.PolicyContract;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 
@@ -39,17 +35,5 @@ public abstract class AccessObject {
     public String toString() {
     	return this.getClass().getSimpleName();
     }
-    @Deprecated
-    public Object getPredefinedDecision() {
-        return predefinedDecision;
-    }
-
-    public boolean isContainer() {
-        return false;
-    }
-
-    public List<AccessObject> getItems(){
-        return Collections.EMPTY_LIST;
-    };
 
 }

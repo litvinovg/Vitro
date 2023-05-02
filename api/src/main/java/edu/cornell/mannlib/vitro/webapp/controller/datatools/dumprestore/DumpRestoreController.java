@@ -15,8 +15,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.FreemarkerHttpServlet;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.UrlBuilder;
@@ -38,7 +38,7 @@ import edu.cornell.mannlib.vitro.webapp.rdfservice.RDFServiceException;
 @WebServlet(name = "DumpRestoreController", urlPatterns = {"/dumpRestore/*"} )
 public class DumpRestoreController extends FreemarkerHttpServlet {
 
-	private static final AccessObject REQUIRED_ACTION = SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.ACTION;
+	private static final AuthorizationRequest REQUIRED_ACTION = SimplePermission.USE_ADVANCED_DATA_TOOLS_PAGES.ACTION;
 
 	static final String ACTION_DUMP = "/dump";
 	static final String ACTION_RESTORE = "/restore";

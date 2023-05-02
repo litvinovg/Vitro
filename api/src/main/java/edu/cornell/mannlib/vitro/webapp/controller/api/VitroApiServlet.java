@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
 import edu.cornell.mannlib.vitro.webapp.controller.authenticate.Authenticator;
 import edu.cornell.mannlib.vitro.webapp.utils.http.AcceptHeaderParsingException;
@@ -41,7 +42,7 @@ public class VitroApiServlet extends HttpServlet {
 	 * them for this action, throw an AuthException.
 	 */
 	protected void confirmAuthorization(HttpServletRequest req,
-			AccessObject requiredActions) throws AuthException {
+	        AuthorizationRequest requiredActions) throws AuthException {
 		String email = req.getParameter("email");
 		String password = req.getParameter("password");
 

@@ -5,11 +5,11 @@ import java.util.List;
 
 public class AuthHelper {
 
-    static class OrAuthorizationRequest extends AccessObject {
-    	private final AccessObject ar1;
-    	private final AccessObject ar2;
+    static class OrAuthorizationRequest implements AuthorizationRequest {
+    	private final AuthorizationRequest ar1;
+    	private final AuthorizationRequest ar2;
     
-    	private OrAuthorizationRequest(AccessObject ar1, AccessObject ar2) {
+    	private OrAuthorizationRequest(AuthorizationRequest ar1, AuthorizationRequest ar2) {
     		this.ar1 = ar1;
     		this.ar2 = ar2;
     	}
@@ -18,7 +18,7 @@ public class AuthHelper {
             return true;
         }
 
-        public List<AccessObject> getItems(){
+        public List<AuthorizationRequest> getItems(){
             return Arrays.asList(ar1, ar2);
         };
 
@@ -27,10 +27,19 @@ public class AuthHelper {
     	public String toString() {
     		return "(" + ar1 + " || " + ar2 + ")";
     	}
-    
+        @Override
+        public AccessObject getAccessObject() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+        @Override
+        public AccessOperation getAccessOperation() {
+            // TODO Auto-generated method stub
+            return null;
+        }
     }
 
-    public static AccessObject logicOr(AccessObject fist, AccessObject second) {
+    public static AuthorizationRequest logicOr(AuthorizationRequest fist, AuthorizationRequest second) {
         if (fist == null) {
             return second;
         } else if (second == null) {
@@ -41,7 +50,7 @@ public class AuthHelper {
     }
 
     
-    public static final AccessObject AUTHORIZED = new AllowedAccessObject();
-    public static final AccessObject UNAUTHORIZED = new ForbiddenAccessObject();
+    public static final AuthorizationRequest AUTHORIZED = new AllowedAccessObject();
+    public static final AuthorizationRequest UNAUTHORIZED = new ForbiddenAccessObject();
 
 }

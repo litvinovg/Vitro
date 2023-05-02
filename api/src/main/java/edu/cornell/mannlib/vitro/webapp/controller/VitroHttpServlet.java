@@ -10,7 +10,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.List;
@@ -29,8 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import edu.cornell.mannlib.vedit.beans.LoginStatusBean;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.beans.DisplayMessage;
 import edu.cornell.mannlib.vitro.webapp.beans.ResourceBean;
 import edu.cornell.mannlib.vitro.webapp.controller.authenticate.LogoutRedirector;
@@ -118,13 +116,13 @@ public class VitroHttpServlet extends HttpServlet implements MultipartRequestWra
 	 *            the combination of RequestedActions that must be authorized.
 	 */
 	protected boolean isAuthorizedToDisplayPage(HttpServletRequest request,
-			HttpServletResponse response, AccessObject actions) {
+			HttpServletResponse response, AuthorizationRequest actions) {
 		// Record restricted pages so we won't return to them on logout
 		if (actions != AuthHelper.AUTHORIZED) {
 			LogoutRedirector.recordRestrictedPageUri(request);
 		}
 
-		if (PolicyHelper.isAuthorizedForActions(request, actions, AccessOperation.DISPLAY)) {
+		if (PolicyHelper.isAuthorizedForActions(request, actions, null)) {
 			log.debug("Servlet '" + this.getClass().getSimpleName()
 					+ "' is authorized for actions: " + actions);
 			return true;

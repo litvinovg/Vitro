@@ -12,7 +12,10 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.application.ApplicationUtils;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleAuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.EditObjectPropertyStatement;
@@ -137,7 +140,7 @@ public class ImageUploadController extends FreemarkerHttpServlet {
 	 * The required action depends on what we are trying to do.
 	 */
 	@Override
-	protected AccessObject requiredActions(VitroRequest vreq) {
+	protected AuthorizationRequest requiredActions(VitroRequest vreq) {
 		try {
 			String action = vreq.getParameter(PARAMETER_ACTION);
 			Individual entity = validateEntityUri(vreq);
@@ -147,21 +150,25 @@ public class ImageUploadController extends FreemarkerHttpServlet {
 			indMainImage.setURI(VitroVocabulary.IND_MAIN_IMAGE);
 
 			AccessObject ra;
+			AccessOperation ao;
 			if (ACTION_DELETE.equals(action)
 					|| ACTION_DELETE_EDIT.equals(action)) {
+			    ao = AccessOperation.DROP;
 				ra = new DropObjectPropertyStatement(vreq.getJenaOntModel(),
 						entity.getURI(), indMainImage,
 						imageUri);
 			} else if (imageUri != null) {
+			    ao = AccessOperation.EDIT;
 				ra = new EditObjectPropertyStatement(vreq.getJenaOntModel(),
 						entity.getURI(), indMainImage,
 						imageUri);
 			} else {
+			    ao = AccessOperation.ADD;
 				ra = new AddObjectPropertyStatement(vreq.getJenaOntModel(),
 						entity.getURI(), indMainImage,
 						AccessObject.SOME_URI);
 			}
-			return ra;
+			return new SimpleAuthorizationRequest(ra, ao);
 		} catch (UserMistakeException e) {
 			return AuthHelper.UNAUTHORIZED;
 		}

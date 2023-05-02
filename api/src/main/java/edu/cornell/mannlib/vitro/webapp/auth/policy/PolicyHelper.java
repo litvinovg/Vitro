@@ -27,6 +27,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddDataPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.AddObjectPropertyStatement;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DropDataPropertyStatement;
@@ -50,20 +51,41 @@ public class PolicyHelper {
     public static boolean isAuthorizedForActions(IdentifierBundle ids, AccessObject ar, AccessOperation op) {
         return actionRequestIsAuthorized(ids, ar, op);
     }
+    
+    public static boolean isAuthorizedForActions(IdentifierBundle ids, AuthorizationRequest ar, AccessOperation operation) {
+        if (ar.getPredefinedDecision() != DecisionResult.INCONCLUSIVE){
+            return ar.getPredefinedDecision() == DecisionResult.AUTHORIZED;
+        }
+        if (ar.isContainer()) {
+            List<AuthorizationRequest> items = ar.getItems();
+            boolean result = false;
+            for (AuthorizationRequest item : items ) {
+                result = result || isAuthorizedForActions(ids, item, operation);
+            }
+            return result;
+        }
+        return actionRequestIsAuthorized(ids, ar.getAccessObject(), ar.getAccessOperation());
+    }
+
+    public static boolean isAuthorizedForActions(HttpServletRequest req, AuthorizationRequest ar, AccessOperation operation) {
+        if (ar.getPredefinedDecision() != DecisionResult.INCONCLUSIVE){
+            return ar.getPredefinedDecision() == DecisionResult.AUTHORIZED;
+        }
+        if (ar.isContainer()) {
+            List<AuthorizationRequest> items = ar.getItems();
+            boolean result = false;
+            for (AuthorizationRequest item : items ) {
+                result = result || isAuthorizedForActions(req, item, operation);
+            }
+            return result;
+        }
+        IdentifierBundle ids = RequestIdentifiers.getIdBundleForRequest(req);
+        return actionRequestIsAuthorized(ids, ar.getAccessObject(), ar.getAccessOperation());
+    }
 
 	private static boolean actionRequestIsAuthorized(IdentifierBundle ids, AccessObject ar, AccessOperation operation) {
 	    PolicyList policies = PolicyStore.getInstance().copy();
-	    if (ar.getPredefinedDecision() != DecisionResult.INCONCLUSIVE){
-	        return ar.getPredefinedDecision() == DecisionResult.AUTHORIZED;
-	    }
-	    if (ar.isContainer()) {
-	        List<AccessObject> items = ar.getItems();
-	        boolean result = false;
-	        for (AccessObject item : items ) {
-	            result = result || actionRequestIsAuthorized(ids, item, operation);
-	        }
-	        return result;
-	    }
+	    
 	    
 	    PolicyDecision decision = policies.decide(ids, ar, operation);
         return decision.getDecisionResult() == DecisionResult.AUTHORIZED;
@@ -77,7 +99,7 @@ public class PolicyHelper {
 	 * It may be better to check this as part of a servlet Filter and add an
 	 * identifier bundle.
 	 */
-	public static boolean isAuthorizedForActions(HttpServletRequest req, String email, String password, AccessObject ar) {
+	public static boolean isAuthorizedForActions(HttpServletRequest req, String email, String password, AuthorizationRequest ar) {
 		if (password == null || email == null || password.isEmpty()
 				|| email.isEmpty()) {
 			return false;
@@ -104,7 +126,7 @@ public class PolicyHelper {
 
 			// figure out if that account can do the actions
 			IdentifierBundle ids = ActiveIdentifierBundleFactories.getUserIdentifierBundle(user);
-			return actionRequestIsAuthorized(ids, ar, null);
+			return isAuthorizedForActions(ids, ar, null);
 		} catch (Exception ex) {
 			log.error("Error while attempting to authorize actions " + ar, ex);
 			return false;
@@ -320,5 +342,6 @@ public class PolicyHelper {
 	private PolicyHelper() {
 		// nothing to do.
 	}
+
 
 }

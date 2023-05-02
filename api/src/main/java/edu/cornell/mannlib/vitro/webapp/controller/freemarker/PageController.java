@@ -19,9 +19,9 @@ import org.apache.commons.logging.LogFactory;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthHelper;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.NamedAccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleAuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.responsevalues.ResponseValues;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.responsevalues.TemplateResponseValues;
@@ -53,7 +53,7 @@ public class PageController extends FreemarkerHttpServlet{
      * AND them together.
      */
     @Override
-    protected AccessObject requiredActions(VitroRequest vreq) {
+    protected AuthorizationRequest requiredActions(VitroRequest vreq) {
         try {
 			return getActionsForPage(vreq);
         } catch (Exception e) {
@@ -65,9 +65,9 @@ public class PageController extends FreemarkerHttpServlet{
     /**
      * Get all the required actions directly required for the page.
      */
-    private AccessObject getActionsForPage( VitroRequest vreq ) throws Exception{
+    private AuthorizationRequest getActionsForPage( VitroRequest vreq ) throws Exception{
         String uri = vreq.getWebappDaoFactory().getPageDao().getRequiredActions( getPageUri(vreq) );
-        return new NamedAccessObject(uri);
+        return new SimpleAuthorizationRequest(uri);
     }
 
     @Override
