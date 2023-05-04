@@ -20,7 +20,7 @@ public class VClassGroup extends LinkedList <VClass> implements Comparable<VClas
     private String URI          = null;
     private String namespace    = null;
     private String localName    = null;
-    private String publicName   = null;
+    private String publicName   = "";
     private int    displayRank  = -1;
     private int individualCount = -1;
 
