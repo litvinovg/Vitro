@@ -1,0 +1,154 @@
+# $This file is distributed under the terms of the license in LICENSE$
+
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix auth: <http://vitro.mannlib.cornell.edu/ns/vitro/authorization#> .
+@prefix ai: <https://vivoweb.org/ontology/vitro-application/auth/individual/>
+@prefix ao: <https://vivoweb.org/ontology/vitro-application/auth/vocabulary/>
+
+##### Ontology
+<https://vivoweb.org/ontology/vitro-application/auth/vocabulary> rdf:type owl:Ontology .
+
+#### Classes
+ao:Rule rdf:type owl:Class ;
+     rdfs:label "Access rule"@en-US .
+
+ao:Attribute rdf:type owl:Class ;
+     rdfs:label "Access rule attribute"@en-US .
+     
+ao:Test rdf:type owl:Class ;
+     rdfs:label "Test type"@en-US .
+
+ao:Value rdf:type owl:Class ;
+     rdfs:label "String value"@en-US .
+
+ao:Operation rdf:type owl:Class ;
+     rdfs:label "Operation"@en-US .
+
+ao:AccesObject rdf:type owl:Class ;
+     rdfs:label "Access object"@en-US .
+     
+ao:ObjectPropertyAccesObject rdf:type owl:Class ;
+     rdfs:subClassOf ao:AccesObject ;
+     rdfs:label "Object property access object"@en-US .
+
+ao:DataPropertyAccesObject rdf:type owl:Class ;
+     rdfs:subClassOf ao:AccesObject ;
+     rdfs:label "Data property access object"@en-US .
+     
+ao:ObjectPropertyStatementAccesObject rdf:type owl:Class ;
+     rdfs:subClassOf ao:AccesObject ;
+     rdfs:label "Object property statement access object"@en-US .     
+
+ao:DataPropertyStatementAccesObject rdf:type owl:Class ;
+     rdfs:subClassOf ao:AccesObject ;
+     rdfs:label "Data property statement access object"@en-US . 
+
+ao:Class rdf:type owl:Class ;
+     rdfs:subClassOf ao:AccesObject ;
+     rdfs:label "Class access object"@en-US . 
+
+ao:AttributeType rdf:type owl:Class ;
+     rdfs:label "Attribute type"@en-US .
+     
+#### Data properties
+
+ao:attributeName rdf:type owl:DatatypeProperty ,
+            owl:FunctionalProperty ;
+            rdfs:domain ao:Attribute ;
+            rdfs:range xsd:string ;
+            rdfs:label "Attribute name"@en-US .
+
+ao:id rdf:type owl:DatatypeProperty ,
+            owl:FunctionalProperty ;
+            rdfs:domain ao:AttributeType ;
+            rdfs:range xsd:string ;
+            rdfs:label "id"@en-US .
+
+ao:stringValue rdf:type owl:DatatypeProperty ,
+            owl:FunctionalProperty ;
+            rdfs:range xsd:string ;
+            rdfs:label "id"@en-US .            
+
+#### Object properties
+
+ao:attribute rdf:type owl:ObjectProperty ;
+          rdfs:domain ao:Rule ;
+          rdfs:range ao:Attribute .
+          
+ao:uri rdf:type owl:ObjectProperty .
+
+ao:value rdf:type owl:ObjectProperty ;
+          rdfs:domain ao:Attribute .
+    
+ao:operation rdf:type owl:ObjectProperty ;
+          rdfs:domain ao:Rule ;
+          rdfs:range ao:Operation .
+
+ao:object rdf:type owl:ObjectProperty ;
+          rdfs:domain ao:Rule ;
+          rdfs:range ao:object .
+          
+##### Individuals
+         
+### Tests
+ai:Equals rdf:type ao:Test;
+         rdfs:label "Test if attribute value equals to..." .
+
+ai:NotEquals rdf:type ao:Test;
+         rdfs:label "Test if attribute value not equals to..." .
+
+### Attribute types
+ai:Subject rdf:type ao:AttributeType ;
+         ao:id "Subject" .
+
+ai:SubjectRole rdf:type ao:AttributeType ;
+         ao:id "SubjectRole" .
+
+### Operations
+ai:DisplayOperation rdf:type ao:Operation ;
+         ao:id "Display" .
+         
+ai:UpdateOperation rdf:type ao:Operation ;
+         ao:id "Update" .
+         
+ai:PublishOperation rdf:type ao:Operation ;
+         ao:id "Publish" .         
+
+ai:AddOperation rdf:type ao:Operation ;
+         ao:id "Add" .
+         
+ai:DropOperation rdf:type ao:Operation ;
+         ao:id "Drop" .
+
+ai:EditOperation rdf:type ao:Operation ;
+         ao:id "Edit" .
+
+ai:ExecuteOperation rdf:type ao:Operation ;
+         ao:id "Execute" .
+
+### Access objects
+ai:ObjectProperty rdf:type ao:ObjectPropertyAccesObject ;
+         ao:id "ObjectProperty" .
+
+ai:DataProperty rdf:type ao:DataPropertyAccesObject ;
+         ao:id "DataProperty" .
+
+### Object property access objects
+ai:RdfsLabelObjectProperty rdf:type ao:ObjectPropertyAccesObject ;
+         ao:uri rdfs:label .
+
+### Rules
+ai:AllowDisplayRdfsLabelToAdminsRule rdf:type ao:Rule;
+          ao:attribute ai:SubjectRoleEqualsAdminRoleAttribute ;
+          ao:operation ai:DisplayOperation ;
+          ao:object ai:RdfsLabelObjectProperty .
+
+### Attributes
+ai:SubjectRoleEqualsAdminRoleAttribute rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
+         ao:type ai:SubjectRole ;
+         ao:value auth:ADMIN .
+
