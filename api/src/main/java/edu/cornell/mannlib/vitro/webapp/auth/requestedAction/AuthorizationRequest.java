@@ -3,24 +3,46 @@ package edu.cornell.mannlib.vitro.webapp.auth.requestedAction;
 import java.util.Collections;
 import java.util.List;
 
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 
-public interface AuthorizationRequest {
+public abstract class AuthorizationRequest {
 
-    public default boolean isContainer() {
+    IdentifierBundle ids;
+    List<String> roleUris = Collections.emptyList();
+    
+    public void setRoleUris(List<String> roleUris) {
+        this.roleUris = roleUris;
+    }
+
+    public boolean isContainer() {
         return false;
     }
 
-    public default DecisionResult getPredefinedDecision(){
+    public DecisionResult getPredefinedDecision(){
         return DecisionResult.INCONCLUSIVE;
     }
     
-    public default List<AuthorizationRequest> getItems() {
+    public List<AuthorizationRequest> getItems() {
         return Collections.emptyList();
     }
     
-    public AccessObject getAccessObject();
+    public abstract AccessObject getAccessObject();
     
-    public AccessOperation getAccessOperation();
+    public abstract AccessOperation getAccessOperation();
+
+    public IdentifierBundle getIds() {
+        return ids;
+    }
+    
+    public List<String> getRoleUris() {
+        return roleUris;
+    }
+    
+    public void setIds(IdentifierBundle ids) {
+        this.ids = ids;
+    }
     
 }

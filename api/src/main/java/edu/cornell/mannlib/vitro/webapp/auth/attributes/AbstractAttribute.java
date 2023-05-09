@@ -7,18 +7,31 @@ import java.util.Set;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public abstract class PlainAttribute implements Attribute {
+public abstract class AbstractAttribute implements Attribute {
     
-    private AttributeType type;
+    private String value;
     private String uri;
+    private TestType testType = TestType.EQUALS;
     private Set<AttributeGroup> groups = Collections.emptySet();
-    
-    public PlainAttribute(AttributeType type, String uri) {
+
+    public AbstractAttribute(String uri, String value) {
         super();
-        this.type = type;
         this.uri = uri;
+        this.value = value;
+    }
+    
+    public String getUri() {
+        return uri;
     }
 
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+    
+    public TestType getTestType() {
+        return testType;
+    }
+    
     public void addGroup(AttributeGroup ag) {
         if (groups.isEmpty()) {
             groups = new HashSet<>();
@@ -26,13 +39,9 @@ public abstract class PlainAttribute implements Attribute {
         groups.add(ag);
     }
     
-    public String getUri() {
-        return uri;
-    }
-
     @Override
-    public AttributeType getType() {
-        return type;
+    public String getValue() {
+        return value;
     }
 
     @Override
@@ -42,17 +51,17 @@ public abstract class PlainAttribute implements Attribute {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof PlainAttribute)) {
+        if (!(object instanceof AbstractAttribute)) {
             return false;
         }
         if (object == this) {
             return true;
         }
-        PlainAttribute compared = (PlainAttribute) object;
+        AbstractAttribute compared = (AbstractAttribute) object;
     
         return new EqualsBuilder()
-                .append(getType(), compared.getType())
                 .append(getUri(), compared.getUri())
+                .append(getValue(), compared.getValue())
                 .append(getGroups(), compared.getGroups())
                 .isEquals();
     }
@@ -60,8 +69,8 @@ public abstract class PlainAttribute implements Attribute {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(15, 101)
-                .append(getType())
                 .append(getUri())
+                .append(getValue())
                 .append(getGroups())
                 .toHashCode();
     }

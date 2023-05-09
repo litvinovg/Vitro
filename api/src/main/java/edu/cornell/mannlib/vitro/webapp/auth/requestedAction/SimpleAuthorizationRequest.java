@@ -1,8 +1,11 @@
 package edu.cornell.mannlib.vitro.webapp.auth.requestedAction;
 
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObjectImpl;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 
-public class SimpleAuthorizationRequest implements AuthorizationRequest {
+public class SimpleAuthorizationRequest extends AuthorizationRequest {
 
     private AccessObject object;
     public AccessObject getObject() {
@@ -15,18 +18,13 @@ public class SimpleAuthorizationRequest implements AuthorizationRequest {
 
     private AccessOperation operation;
     
-    public SimpleAuthorizationRequest(String namedAccessObject, AccessOperation operation) {
-        this.object = new NamedAccessObject(namedAccessObject);
-        this.operation = operation;
-    }
-    
     public SimpleAuthorizationRequest(AccessObject object, AccessOperation operation) {
         this.object = object;
         this.operation = operation;
     }
     
     public SimpleAuthorizationRequest(String namedAccessObject) {
-        this.object = new NamedAccessObject(namedAccessObject);
+        this.object = new AccessObjectImpl(namedAccessObject);
         this.operation = AccessOperation.EXECUTE;
     }
 
@@ -44,4 +42,5 @@ public class SimpleAuthorizationRequest implements AuthorizationRequest {
     public AccessOperation getAccessOperation() {
         return operation;
     }
+
 }

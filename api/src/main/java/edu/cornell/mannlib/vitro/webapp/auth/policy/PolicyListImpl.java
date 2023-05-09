@@ -6,12 +6,13 @@ import java.util.ListIterator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 
 public class PolicyListImpl implements PolicyList, Cloneable {
 
@@ -20,12 +21,12 @@ public class PolicyListImpl implements PolicyList, Cloneable {
     protected ArrayList<PolicyIface> policies = new ArrayList<PolicyIface>(); 
 
     @Override
-    public PolicyDecision decide(IdentifierBundle whoToAuth, AccessObject whatToAuth, AccessOperation operation) {
+    public PolicyDecision decide(AuthorizationRequest ar) {
         PolicyDecision pd = null;
-        PolicyDecisionLogger logger = new PolicyDecisionLogger(whoToAuth, whatToAuth);
+        PolicyDecisionLogger logger = new PolicyDecisionLogger(ar.getIds(), ar.getAccessObject());
         for(PolicyIface policy : policies){
             try{
-                pd = policy.decide(whoToAuth, whatToAuth, operation);
+                pd = policy.decide(ar);
                 logger.log(policy, pd);
                 if( pd != null ){
                     if(  pd.getDecisionResult() == DecisionResult.AUTHORIZED )
@@ -43,7 +44,7 @@ public class PolicyListImpl implements PolicyList, Cloneable {
         }
 
         pd = new BasicPolicyDecision(DecisionResult.INCONCLUSIVE,
-                "No policy returned a conclusive decision on " + whatToAuth);
+                "No policy returned a conclusive decision on " + ar.getAccessObject());
         logger.logNoDecision(pd);
         return pd;
     }

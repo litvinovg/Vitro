@@ -5,13 +5,13 @@ package edu.cornell.mannlib.vitro.webapp.auth.policy;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.dao.DisplayVocabulary;
 
 /**
@@ -20,8 +20,9 @@ import edu.cornell.mannlib.vitro.webapp.dao.DisplayVocabulary;
 public class RestrictHomeMenuItemEditingPolicy implements PolicyIface {
 
 	@Override
-	public PolicyDecision decide(IdentifierBundle whoToAuth,
-			AccessObject whatToAuth, AccessOperation operation) {
+	public PolicyDecision decide(AuthorizationRequest ar) {
+        AccessObject whatToAuth = ar.getAccessObject();
+        AccessOperation operation = ar.getAccessOperation();
 	    if(AccessOperation.EDIT.equals(operation) || AccessOperation.DROP.equals(operation)) {
 	        if (whatToAuth instanceof ObjectPropertyStatementAccessObject) {
 	            return isAuthorized((ObjectPropertyStatementAccessObject) whatToAuth);

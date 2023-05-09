@@ -1,23 +1,25 @@
 /* $This file is distributed under the terms of the license in LICENSE$ */
 
-package edu.cornell.mannlib.vitro.webapp.auth.requestedAction;
+package edu.cornell.mannlib.vitro.webapp.auth.objects;
 
-import edu.cornell.mannlib.vitro.webapp.auth.attributes.AttributeType;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType;
 
 /**
  * A RequestedAction that can be recognized by a SimplePermission.
  */
-public class NamedAccessObject extends AccessObject {
+public class AccessObjectImpl extends AccessObject {
 	private final String uri;
-	private final AttributeType type = AttributeType.NAMED_OBJECT_URI;
+	private AccessObjectType type;
 
-	public NamedAccessObject(String uri) {
-		if (uri == null) {
-			throw new NullPointerException("uri may not be null.");
-		}
-
+	public AccessObjectImpl(String uri, AccessObjectType type) {
 		this.uri = uri;
+		this.type = type;
 	}
+	
+    public AccessObjectImpl(String uri) {
+        this.uri = uri;
+        this.type = AccessObjectType.NAMED_OBJECT_URI;
+    }
 
 	@Override
 	public String getUri() {
@@ -31,8 +33,8 @@ public class NamedAccessObject extends AccessObject {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof NamedAccessObject) {
-			NamedAccessObject that = (NamedAccessObject) o;
+		if (o instanceof AccessObjectImpl) {
+			AccessObjectImpl that = (AccessObjectImpl) o;
 			return equivalent(this.uri, that.uri);
 		}
 		return false;
@@ -48,7 +50,7 @@ public class NamedAccessObject extends AccessObject {
 	}
 
     @Override
-    public AttributeType getType() {
+    public AccessObjectType getType() {
         return type;
     }
 

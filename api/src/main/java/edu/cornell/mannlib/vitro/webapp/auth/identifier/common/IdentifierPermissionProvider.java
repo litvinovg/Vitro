@@ -8,7 +8,7 @@ import java.util.Set;
 
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.Identifier;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.AccessRule;
+import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRule;
 
 /**
  * The current user has this Permission, through one or more PermissionSets.

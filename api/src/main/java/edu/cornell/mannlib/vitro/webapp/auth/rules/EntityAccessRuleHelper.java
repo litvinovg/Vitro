@@ -1,36 +1,28 @@
-package edu.cornell.mannlib.vitro.webapp.auth.permissions;
+package edu.cornell.mannlib.vitro.webapp.auth.rules;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.jena.ontology.OntModel;
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.rdf.model.impl.Util;
-import org.apache.jena.shared.Lock;
 
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.HasAssociatedIndividual;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.DataPropertyStatementAccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.ObjectPropertyStatementAccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.PropertyStatementAccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.DataPropertyAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display.ObjectPropertyAccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DataPropertyStatementAccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.PropertyStatementAccessObject;
-import edu.cornell.mannlib.vitro.webapp.beans.FauxProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 import edu.cornell.mannlib.vitro.webapp.dao.PropertyDao;
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
-import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
-import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelNames;
 import edu.cornell.mannlib.vitro.webapp.utils.RelationshipChecker;
 import edu.cornell.mannlib.vitro.webapp.web.templatemodels.individual.FauxPropertyWrapper;
 
@@ -111,78 +103,6 @@ public class EntityAccessRuleHelper {
             VitroVocabulary.LINK, VitroVocabulary.PRIMARY_LINK,
             VitroVocabulary.ADDITIONAL_LINK,
             VitroVocabulary.LINK_ANCHOR, VitroVocabulary.LINK_URL );
-
-
-    
-
-    static void updateForEntityPermission(Property p, EntityAccessRule entityPermission) {
-        String uri = null;      // Due to the data model of Vitro, this could be a property or a property config uri
-        PropertyDao.FullPropertyKey key = null;
-    
-        if (p instanceof FauxProperty) {
-            FauxProperty fp = (FauxProperty)p;
-            uri = fp.getConfigUri();
-        } else {
-            uri = p.getURI();
-        }
-        key = new PropertyDao.FullPropertyKey(uri);
-    
-        OntModel accountsModel = ModelAccess.getInstance().getOntModel(ModelNames.USER_ACCOUNTS);
-        accountsModel.enterCriticalSection(Lock.READ);
-    
-        try {
-            if (accountsModel.contains(accountsModel.getResource(entityPermission.getUri()), accountsModel.getProperty(VitroVocabulary.PERMISSION_FOR_ENTITY), accountsModel.getResource(uri))) {
-                entityPermission.getAuthorizedKeys().add(key);
-                entityPermission.getAuthorizedResources().add(uri);
-            } else {
-                entityPermission.getAuthorizedKeys().remove(key);
-                entityPermission.getAuthorizedResources().remove(uri);
-            }
-        } finally {
-            accountsModel.leaveCriticalSection();
-        }
-    }
-
-    static void updateEntityPermission(Map<String, PropertyDao.FullPropertyKey> propertyKeyMap, EntityAccessRule entityPermission) {
-        List<PropertyDao.FullPropertyKey> newKeys = new ArrayList<>();
-        List<String> newResources = new ArrayList<>();
-    
-        OntModel accountsModel = ModelAccess.getInstance().getOntModel(ModelNames.USER_ACCOUNTS);
-        accountsModel.enterCriticalSection(Lock.READ);
-        StmtIterator propIter = null;
-        try {
-            propIter = accountsModel.listStatements(
-                accountsModel.getResource(entityPermission.getUri()),
-                accountsModel.getProperty(VitroVocabulary.PERMISSION_FOR_ENTITY),
-                (RDFNode) null
-            );
-            while (propIter.hasNext()) {
-                Statement proptStmt = propIter.next();
-                if (proptStmt.getObject().isURIResource()) {
-                    String uri = proptStmt.getObject().asResource().getURI();
-                    PropertyDao.FullPropertyKey key = propertyKeyMap.get(uri);
-                    if (key != null) {
-                        newKeys.add(key);
-                    } else {
-                        newResources.add(uri);
-                    }
-                }
-            }
-        } finally {
-            if (propIter != null) {
-                propIter.close();
-            }
-            accountsModel.leaveCriticalSection();
-        }
-    
-        // replace authorized keys
-        entityPermission.getAuthorizedKeys().clear();
-        entityPermission.getAuthorizedKeys().addAll(newKeys);
-        
-        // replace authorized resources
-        entityPermission.getAuthorizedResources().clear();
-        entityPermission.getAuthorizedResources().addAll(newResources);
-    }
 
     static boolean isAuthorizedByEntityPublishPermission(AccessObject whatToAuth, EntityAccessRule entityPublishPermission, AccessOperation operation) {
         boolean result = false;
@@ -302,8 +222,10 @@ public class EntityAccessRuleHelper {
         return false;
     }
 
-    public static boolean isAuthorizedPermission(IdentifierBundle ac_subject, AccessObject whatToAuth, AccessRule rule, AccessOperation operation) {
-
+    public static boolean isAuthorizedPermission(AuthorizationRequest ar , AccessRule rule) {
+        IdentifierBundle ac_subject = ar.getIds();
+        AccessObject whatToAuth = ar.getAccessObject();
+        AccessOperation operation = ar.getAccessOperation();
         if (rule instanceof EntityAccessRule) {
             if (AccessOperation.DISPLAY.equals(operation)){
                 return isAuthorizedByEntityDisplayPermission(whatToAuth, (EntityAccessRule) rule, operation);    
@@ -315,6 +237,6 @@ public class EntityAccessRuleHelper {
                 return isAuthorizedByEntityPublishPermission(whatToAuth, (EntityAccessRule) rule, operation);
             }
         }
-        return rule.match(ac_subject, whatToAuth);
+        return rule.match(ar);
     }
 }

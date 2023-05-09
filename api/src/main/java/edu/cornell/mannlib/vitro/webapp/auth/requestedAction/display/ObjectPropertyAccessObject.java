@@ -1,7 +1,7 @@
 package edu.cornell.mannlib.vitro.webapp.auth.requestedAction.display;
 
-import edu.cornell.mannlib.vitro.webapp.auth.attributes.AttributeType;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
 
 public class ObjectPropertyAccessObject extends AccessObject {
@@ -23,7 +23,7 @@ public class ObjectPropertyAccessObject extends AccessObject {
     }
     
     @Override
-    public AttributeType getType() {
-        return AttributeType.OBJECT_PROPERTY;
+    public AccessObjectType getType() {
+        return AccessObjectType.OBJECT_PROPERTY;
     }
 }

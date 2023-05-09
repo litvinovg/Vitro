@@ -20,14 +20,15 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 
 import edu.cornell.mannlib.vitro.testing.AbstractTestClass;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.DataPropertyStatementAccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.DataPropertyStatementAccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.ObjectPropertyStatementAccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 
 /**
  * Test the function of PolicyHelper in authorizing statements and models.
@@ -198,8 +199,8 @@ public class PolicyHelper_StatementsTest extends AbstractTestClass {
 
 	private static class MySimplePolicy implements PolicyIface {
 		@Override
-		public PolicyDecision decide(IdentifierBundle whoToAuth,
-				AccessObject whatToAuth, AccessOperation operation) {
+		public PolicyDecision decide(AuthorizationRequest ar) {
+	        AccessObject whatToAuth = ar.getAccessObject();
 			if (whatToAuth instanceof DataPropertyStatementAccessObject) {
 				return isAuthorized((DataPropertyStatementAccessObject) whatToAuth);
 			} else if (whatToAuth instanceof ObjectPropertyStatementAccessObject) {

@@ -14,12 +14,13 @@ import org.junit.Test;
 import stubs.javax.servlet.ServletContextStub;
 import stubs.javax.servlet.http.HttpServletRequestStub;
 import stubs.javax.servlet.http.HttpSessionStub;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 
 /**
  * Test the ability of the Policy Helper to authorize a variety of simple or
@@ -113,8 +114,8 @@ public class PolicyHelper_AuthorizationRequestTest {
 		}
 
 		@Override
-		public PolicyDecision decide(IdentifierBundle whoToAuth,
-				AccessObject whatToAuth, AccessOperation operation) {
+		public PolicyDecision decide(AuthorizationRequest ar) {
+            AccessObject whatToAuth = ar.getAccessObject();
 			for (AccessObject authorized : authorizedActions) {
 				if (authorized.getClass().equals(whatToAuth.getClass())) {
 					return new BasicPolicyDecision(DecisionResult.AUTHORIZED,

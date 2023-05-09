@@ -14,6 +14,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.factory.HasProfileOrIsBl
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.factory.HasProxyEditingRightsFactory;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.factory.IsRootUserFactory;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.factory.IsUserFactory;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.AccessRulesPolicy;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PermissionsPolicy;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyStore;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
@@ -31,6 +32,7 @@ public class CommonPolicyFamilySetup implements ServletContextListener {
 
 		try {
 			policy(new PermissionsPolicy());
+            policy(new AccessRulesPolicy());
 
 			factory(new IsUserFactory());
 			factory(new IsRootUserFactory());

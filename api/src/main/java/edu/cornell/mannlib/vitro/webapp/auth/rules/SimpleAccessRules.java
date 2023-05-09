@@ -1,4 +1,4 @@
-package edu.cornell.mannlib.vitro.webapp.auth.permissions;
+package edu.cornell.mannlib.vitro.webapp.auth.rules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class SimpleAccessRules {
 
-    static final String NS = "java:edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission#";
+    public static final String NS = "java:edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission#";
     
     private static final Map<String, AccessRule> simpleAccessRules = new HashMap<String, AccessRule>();
 
@@ -16,10 +16,10 @@ public class SimpleAccessRules {
     }
     
     public static void add(AccessRule permission) {
-        if (SimpleAccessRules.contains(permission.getUri())) {
-            throw new IllegalStateException("A SimplePermission named '" + permission.getUri() + "' already exists.");
+        if (SimpleAccessRules.contains(permission.getObjectUri())) {
+            throw new IllegalStateException("A SimplePermission named '" + permission.getObjectUri() + "' already exists.");
         }
-        simpleAccessRules.put(permission.getUri(), permission);
+        simpleAccessRules.put(permission.getObjectUri(), permission);
     }
     
     public static boolean contains(String uri) {

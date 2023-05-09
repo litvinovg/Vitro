@@ -1,8 +1,8 @@
 /* $This file is distributed under the terms of the license in LICENSE$ */
 
-package edu.cornell.mannlib.vitro.webapp.auth.requestedAction;
+package edu.cornell.mannlib.vitro.webapp.auth.objects;
 
-import edu.cornell.mannlib.vitro.webapp.auth.attributes.AttributeType;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 
 public abstract class AccessObject {
@@ -27,8 +27,8 @@ public abstract class AccessObject {
     	return this.getClass().getSimpleName();
     }
     
-    public AttributeType getType() {
-        return AttributeType.NAMED_OBJECT_URI;
+    public AccessObjectType getType() {
+        return AccessObjectType.NAMED_OBJECT_URI;
     }
 
 }

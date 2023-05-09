@@ -2,15 +2,21 @@ package edu.cornell.mannlib.vitro.webapp.auth.attributes;
 
 import java.util.Set;
 
-import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 
 public interface Attribute {
 
-    public boolean match(IdentifierBundle ac_subject, AccessObject whatToAuth, AccessOperation operation);
-    
     public Set<AttributeGroup> getGroups();
+    
+    public void setUri(String uri);
+    
+    public String getUri();
 
-    public AttributeType getType();
+    public boolean match(AuthorizationRequest ar);
+    
+    public AttributeType getAttributeType();
+    
+    public TestType getTestType();
+
+    String getValue();
 }

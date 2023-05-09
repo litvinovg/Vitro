@@ -3,9 +3,13 @@ package edu.cornell.mannlib.vitro.webapp.auth.requestedAction;
 import java.util.Arrays;
 import java.util.List;
 
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
+
 public class AuthHelper {
 
-    static class OrAuthorizationRequest implements AuthorizationRequest {
+    static class OrAuthorizationRequest extends AuthorizationRequest {
     	private final AuthorizationRequest ar1;
     	private final AuthorizationRequest ar2;
     
@@ -34,6 +38,11 @@ public class AuthHelper {
         }
         @Override
         public AccessOperation getAccessOperation() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+        @Override
+        public IdentifierBundle getIds() {
             // TODO Auto-generated method stub
             return null;
         }

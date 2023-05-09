@@ -5,15 +5,16 @@ package edu.cornell.mannlib.vitro.webapp.auth.policy;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.IdentifierPermissionProvider;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityAccessRuleHelper;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.AccessRule;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
+import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRule;
+import edu.cornell.mannlib.vitro.webapp.auth.rules.EntityAccessRuleHelper;
 
 /**
  * The user is authorized to perform the RequestedAction if one of his
@@ -23,20 +24,26 @@ public class PermissionsPolicy implements PolicyIface {
     private static final Log log = LogFactory.getLog(PermissionsPolicy.class);
 
     @Override
-    public PolicyDecision decide(IdentifierBundle ac_subject, AccessObject whatToAuth, AccessOperation operation) {
+    public PolicyDecision decide(AuthorizationRequest ar) {
+        IdentifierBundle ac_subject = ar.getIds();
+        AccessObject whatToAuth = ar.getAccessObject();
+        AccessOperation operation = ar.getAccessOperation();
         if (ac_subject == null) {
             return defaultDecision("whomToAuth was null");
         }
         if (whatToAuth == null) {
             return defaultDecision("whatToAuth was null");
         }
+        if (!AccessOperation.EXECUTE.equals(operation)) {
+            return defaultDecision("Only execute operations are approved by permissions");
+        }
 
-        for (AccessRule p : IdentifierPermissionProvider.getPermissions(ac_subject)) {
-            if (EntityAccessRuleHelper.isAuthorizedPermission(ac_subject, whatToAuth, p, operation)) {
-                log.debug("Permission " + p + " approves request " + whatToAuth);
-                return new BasicPolicyDecision(DecisionResult.AUTHORIZED, "PermissionsPolicy: approved by " + p);
+        for (AccessRule rule : IdentifierPermissionProvider.getPermissions(ac_subject)) {
+            if (EntityAccessRuleHelper.isAuthorizedPermission(ar, rule)) {
+                log.debug("Permission " + rule + " approves request " + whatToAuth);
+                return new BasicPolicyDecision(DecisionResult.AUTHORIZED, "PermissionsPolicy: approved by " + rule);
             } else {
-                log.trace("Permission " + p + " denies request " + whatToAuth);
+                log.trace("Permission " + rule + " denies request " + whatToAuth);
             }
         }
         log.debug("No permission will approve " + whatToAuth);

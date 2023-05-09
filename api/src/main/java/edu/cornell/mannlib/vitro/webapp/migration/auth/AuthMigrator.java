@@ -2,8 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.migration.auth;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityAccessRules;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ContextModelAccess;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
@@ -60,25 +59,25 @@ public class AuthMigrator implements ServletContextListener {
             Map<String, String> publishRoleToPropertySetMap = new HashMap<>();
 
             // Map the roles to equivalent display permissions
-            displayRoleToPropertySetMap.put(ROLE_PUBLIC,   EntityAccessRules.getClassUri(AccessOperation.DISPLAY) + "#PUBLIC");
-            displayRoleToPropertySetMap.put(ROLE_SELF,     EntityAccessRules.getClassUri(AccessOperation.DISPLAY) + "#SELF_EDITOR");
-            displayRoleToPropertySetMap.put(ROLE_EDITOR,   EntityAccessRules.getClassUri(AccessOperation.DISPLAY) + "#EDITOR");
-            displayRoleToPropertySetMap.put(ROLE_CURATOR,  EntityAccessRules.getClassUri(AccessOperation.DISPLAY) + "#CURATOR");
-            displayRoleToPropertySetMap.put(ROLE_DB_ADMIN, EntityAccessRules.getClassUri(AccessOperation.DISPLAY) + "#ADMIN");
+            displayRoleToPropertySetMap.put(ROLE_PUBLIC,   AuthMigrator.getClassUri(AccessOperation.DISPLAY) + "#PUBLIC");
+            displayRoleToPropertySetMap.put(ROLE_SELF,     AuthMigrator.getClassUri(AccessOperation.DISPLAY) + "#SELF_EDITOR");
+            displayRoleToPropertySetMap.put(ROLE_EDITOR,   AuthMigrator.getClassUri(AccessOperation.DISPLAY) + "#EDITOR");
+            displayRoleToPropertySetMap.put(ROLE_CURATOR,  AuthMigrator.getClassUri(AccessOperation.DISPLAY) + "#CURATOR");
+            displayRoleToPropertySetMap.put(ROLE_DB_ADMIN, AuthMigrator.getClassUri(AccessOperation.DISPLAY) + "#ADMIN");
 
             // Map the roles to equivalent update permissions
-            updateRoleToPropertySetMap.put(ROLE_PUBLIC,   EntityAccessRules.getClassUri(AccessOperation.UPDATE) + "#PUBLIC");
-            updateRoleToPropertySetMap.put(ROLE_SELF,     EntityAccessRules.getClassUri(AccessOperation.UPDATE) + "#SELF_EDITOR");
-            updateRoleToPropertySetMap.put(ROLE_EDITOR,   EntityAccessRules.getClassUri(AccessOperation.UPDATE) + "#EDITOR");
-            updateRoleToPropertySetMap.put(ROLE_CURATOR,  EntityAccessRules.getClassUri(AccessOperation.UPDATE) + "#CURATOR");
-            updateRoleToPropertySetMap.put(ROLE_DB_ADMIN, EntityAccessRules.getClassUri(AccessOperation.UPDATE) + "#ADMIN");
+            updateRoleToPropertySetMap.put(ROLE_PUBLIC,   AuthMigrator.getClassUri(AccessOperation.UPDATE) + "#PUBLIC");
+            updateRoleToPropertySetMap.put(ROLE_SELF,     AuthMigrator.getClassUri(AccessOperation.UPDATE) + "#SELF_EDITOR");
+            updateRoleToPropertySetMap.put(ROLE_EDITOR,   AuthMigrator.getClassUri(AccessOperation.UPDATE) + "#EDITOR");
+            updateRoleToPropertySetMap.put(ROLE_CURATOR,  AuthMigrator.getClassUri(AccessOperation.UPDATE) + "#CURATOR");
+            updateRoleToPropertySetMap.put(ROLE_DB_ADMIN, AuthMigrator.getClassUri(AccessOperation.UPDATE) + "#ADMIN");
 
             // Map the roles to equivalent publish permissions
-            publishRoleToPropertySetMap.put(ROLE_PUBLIC,   EntityAccessRules.getClassUri(AccessOperation.PUBLISH) + "#PUBLIC");
-            publishRoleToPropertySetMap.put(ROLE_SELF,     EntityAccessRules.getClassUri(AccessOperation.PUBLISH) + "#SELF_EDITOR");
-            publishRoleToPropertySetMap.put(ROLE_EDITOR,   EntityAccessRules.getClassUri(AccessOperation.PUBLISH) + "#EDITOR");
-            publishRoleToPropertySetMap.put(ROLE_CURATOR,  EntityAccessRules.getClassUri(AccessOperation.PUBLISH) + "#CURATOR");
-            publishRoleToPropertySetMap.put(ROLE_DB_ADMIN, EntityAccessRules.getClassUri(AccessOperation.PUBLISH) + "#ADMIN");
+            publishRoleToPropertySetMap.put(ROLE_PUBLIC,   AuthMigrator.getClassUri(AccessOperation.PUBLISH) + "#PUBLIC");
+            publishRoleToPropertySetMap.put(ROLE_SELF,     AuthMigrator.getClassUri(AccessOperation.PUBLISH) + "#SELF_EDITOR");
+            publishRoleToPropertySetMap.put(ROLE_EDITOR,   AuthMigrator.getClassUri(AccessOperation.PUBLISH) + "#EDITOR");
+            publishRoleToPropertySetMap.put(ROLE_CURATOR,  AuthMigrator.getClassUri(AccessOperation.PUBLISH) + "#CURATOR");
+            publishRoleToPropertySetMap.put(ROLE_DB_ADMIN, AuthMigrator.getClassUri(AccessOperation.PUBLISH) + "#ADMIN");
 
             // Create a map between the permission and the appropriate sets
             actionToRoleAndPropertySetMap.put("http://vitro.mannlib.cornell.edu/ns/vitro/0.7#hiddenFromDisplayBelowRoleLevelAnnot",    displayRoleToPropertySetMap);
@@ -261,5 +260,10 @@ public class AuthMigrator implements ServletContextListener {
                     permissionsModel.createResource(resourceUri)
             );
         }
+    }
+
+    public static String getClassUri(AccessOperation action) {
+        final String actionStr = action.toString();
+        return "java:edu.cornell.mannlib.vitro.webapp.auth.permissions.Entity" + actionStr.substring(0,1).toUpperCase() + actionStr.substring(1).toLowerCase() + "Permission";
     }
 }

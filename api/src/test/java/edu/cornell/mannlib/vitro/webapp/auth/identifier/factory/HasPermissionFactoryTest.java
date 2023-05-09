@@ -26,9 +26,9 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.ArrayIdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.Identifier;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.IdentifierPermissionProvider;
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.AccessRule;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.PermissionRegistry;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRule;
 import edu.cornell.mannlib.vitro.webapp.beans.PermissionSet;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
 
@@ -236,7 +236,7 @@ public class HasPermissionFactoryTest extends AbstractTestClass {
 	private void setPermissions(PermissionSet ps, AccessRule... permissions) {
 		List<String> uris = new ArrayList<String>();
 		for (AccessRule p : permissions) {
-			uris.add(p.getUri());
+			uris.add(p.getObjectUri());
 		}
 		ps.setPermissionUris(uris);
 	}
@@ -266,16 +266,16 @@ public class HasPermissionFactoryTest extends AbstractTestClass {
 
 	private static class MyPermission extends AccessRule {
 		public MyPermission(String uri) {
-		    this.setUri(uri);
+		    this.setObjectUri(uri);
 		}
 		private String uri;
         @Override
-        public String getUri() {
+        public String getObjectUri() {
             return uri;
         }
 
         @Override
-        public void setUri(String uri) {
+        public void setObjectUri(String uri) {
             this.uri = uri;
         }		
 	}

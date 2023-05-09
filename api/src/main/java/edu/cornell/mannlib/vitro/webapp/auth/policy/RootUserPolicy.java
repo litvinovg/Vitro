@@ -16,8 +16,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.IsRootUser;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount.Status;
 import edu.cornell.mannlib.vitro.webapp.config.ConfigurationProperties;
@@ -51,9 +50,9 @@ public class RootUserPolicy implements PolicyIface {
 	 * This is the entire policy. If you are a root user, you are authorized.
 	 */
 	@Override
-	public PolicyDecision decide(IdentifierBundle whoToAuth,
-			AccessObject whatToAuth, AccessOperation operation) {
-		if (IsRootUser.isRootUser(whoToAuth)) {
+	public PolicyDecision decide(AuthorizationRequest ar) {
+        IdentifierBundle ac_subject = ar.getIds();
+		if (IsRootUser.isRootUser(ac_subject)) {
 			return new BasicPolicyDecision(DecisionResult.AUTHORIZED,
 					"RootUserPolicy: approved");
 		} else {

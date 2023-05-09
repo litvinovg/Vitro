@@ -1,6 +1,6 @@
 /* $This file is distributed under the terms of the license in LICENSE$ */
 
-package edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt;
+package edu.cornell.mannlib.vitro.webapp.auth.objects;
 
 import org.apache.jena.ontology.OntModel;
 

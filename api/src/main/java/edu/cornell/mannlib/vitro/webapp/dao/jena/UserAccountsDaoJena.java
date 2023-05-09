@@ -5,23 +5,13 @@ package edu.cornell.mannlib.vitro.webapp.dao.jena;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityAccessRules;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntResource;
-import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.QuerySolution;
-import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
@@ -474,64 +464,6 @@ public class UserAccountsDaoJena extends JenaBaseDao implements UserAccountsDao 
 		list.sort(new PermissionSetsByUri());
 
 		return list;
-	}
-
-	@Override
-	public void setEntityPermissions(String entityKey, Collection<PermissionSet> displaySets, Collection<PermissionSet> editSets, Collection<PermissionSet> publishSets) {
-		// Do nothing if we don't have an entity
-		if (StringUtils.isEmpty(entityKey)) {
-			return;
-		}
-
-		getOntModel().enterCriticalSection(Lock.WRITE);
-		try {
-			// Remove all of the existing permissions for the entity
-			getOntModel().removeAll(null, getOntModel().getProperty(VitroVocabulary.PERMISSION_FOR_ENTITY), getOntModel().getResource(entityKey));
-
-			// Add the new set of permissions of the entity
-			addPermissions(entityKey, (displaySets != null ? displaySets : new HashSet<>()), AccessOperation.DISPLAY);
-			addPermissions(entityKey, (editSets    != null ? editSets    : new HashSet<>()), AccessOperation.UPDATE);
-			addPermissions(entityKey, (publishSets != null ? publishSets : new HashSet<>()), AccessOperation.PUBLISH);
-		} finally {
-			getOntModel().leaveCriticalSection();
-		}
-	}
-
-	private void addPermissions(String entityKey, Collection<PermissionSet> permissionSets, AccessOperation operation) {
-		if (permissionSets != null && permissionSets.size() > 0) {
-			// To add the permissions, we need to find the actual permissions that have been defined for each role
-			Query query = QueryFactory.create("SELECT ?role ?permission WHERE { ?role <http://vitro.mannlib.cornell.edu/ns/vitro/authorization#hasPermission> ?permission . ?permission a <" + EntityAccessRules.getClassUri(operation) + "#Set> . }");
-			QueryExecution qexec = QueryExecutionFactory.create(query, getOntModel());
-			try {
-				ResultSet rs = qexec.execSelect();
-				while (rs.hasNext()) {
-					boolean addToSet = false;
-
-					QuerySolution qs = rs.next();
-					String roleURI = qs.getResource("role").getURI();
-
-					// Check if the current role is in the permission sets that we are granting permission to
-					for (PermissionSet ps : permissionSets) {
-						if (roleURI.equals(ps.getUri())) {
-							addToSet = true;
-						}
-					}
-
-					// If this permission belongs to a set we are granting, add the entity to the permission
-					if (addToSet) {
-						getOntModel().add(
-								getOntModel().createStatement(
-										qs.getResource("permission"),
-										getOntModel().getProperty(VitroVocabulary.PERMISSION_FOR_ENTITY),
-										getOntModel().getResource(entityKey)
-								)
-						);
-					}
-				}
-			} finally {
-				qexec.close();
-			}
-		}
 	}
 
 	private String getUnusedURI() throws InsertException {

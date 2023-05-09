@@ -19,10 +19,9 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
-import edu.cornell.mannlib.vitro.webapp.auth.permissions.EntityAccessRules;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRuleStore;
 import edu.cornell.mannlib.vitro.webapp.beans.PermissionSet;
-import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,14 +34,6 @@ import edu.cornell.mannlib.vitro.webapp.controller.VitroHttpServlet;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
 import edu.cornell.mannlib.vitro.webapp.dao.WebappDaoFactory;
-import org.apache.jena.ontology.OntModel;
-import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.QuerySolution;
-import org.apache.jena.query.ResultSet;
-import org.apache.jena.shared.Lock;
 
 public class BaseEditController extends VitroHttpServlet {
 
@@ -200,7 +191,7 @@ public class BaseEditController extends VitroHttpServlet {
    }
 
     protected WebappDaoFactory getWebappDaoFactory() {
-    	return ModelAccess.on(getServletContext()).getWebappDaoFactory(ASSERTIONS_ONLY);
+    	return ModelAccess.getInstance().getWebappDaoFactory(ASSERTIONS_ONLY);
     }
 
     protected WebappDaoFactory getWebappDaoFactory(String userURI) {
@@ -241,13 +232,12 @@ public class BaseEditController extends VitroHttpServlet {
             req.setAttribute("updateRoles",  updateRoles);
             req.setAttribute("publishRoles", publishRoles);
         } else {
-            // Get the User Accounts model
-            OntModel userAccounts = ModelAccess.on(req).getOntModelSelector().getUserAccountsModel();
 
             // Get the permission sets that are granted permission for this entity
-            req.setAttribute("displayRoles", getGrantedRolesForEntity(userAccounts, permissionsEntityURI, AccessOperation.DISPLAY));
-            req.setAttribute("updateRoles",  getGrantedRolesForEntity(userAccounts, permissionsEntityURI, AccessOperation.UPDATE));
-            req.setAttribute("publishRoles", getGrantedRolesForEntity(userAccounts, permissionsEntityURI, AccessOperation.PUBLISH));
+            final AccessRuleStore ruleStore = AccessRuleStore.getInstance();
+            req.setAttribute("displayRoles", ruleStore.getGrantedRoleUris(permissionsEntityURI, AccessOperation.DISPLAY));
+            req.setAttribute("updateRoles",  ruleStore.getGrantedRoleUris(permissionsEntityURI, AccessOperation.UPDATE));
+            req.setAttribute("publishRoles", ruleStore.getGrantedRoleUris(permissionsEntityURI, AccessOperation.PUBLISH));
         }
     }
 
@@ -280,33 +270,5 @@ public class BaseEditController extends VitroHttpServlet {
         }
 
         return list;
-    }
-
-    protected static List<String> getGrantedRolesForEntity(OntModel userAccounts, String key, AccessOperation operation) {
-        List<String> roles = new ArrayList<>();
-
-        userAccounts.enterCriticalSection(Lock.READ);
-        try {
-            Query query = QueryFactory.create("SELECT ?role WHERE { " +
-                    " ?role <http://vitro.mannlib.cornell.edu/ns/vitro/authorization#hasPermission> ?permission . " +
-                    " ?permission a <" + EntityAccessRules.getClassUri(operation) + "#Set> . " +
-                    " ?permission <" + VitroVocabulary.PERMISSION_FOR_ENTITY + "> <" + key + "> . " +
-                    "}");
-
-            QueryExecution qexec = QueryExecutionFactory.create(query, userAccounts);
-            try {
-                ResultSet rs = qexec.execSelect();
-                while (rs.hasNext()) {
-                    QuerySolution qs = rs.next();
-                    roles.add(qs.getResource("role").getURI());
-                }
-            } finally {
-                qexec.close();
-            }
-        } finally {
-            userAccounts.leaveCriticalSection();
-        }
-
-        return roles;
     }
 }

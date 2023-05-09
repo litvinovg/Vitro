@@ -15,6 +15,10 @@ import javax.servlet.ServletContextListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRule;
+import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRuleStore;
+import edu.cornell.mannlib.vitro.webapp.auth.rules.NullAccessRule;
+import edu.cornell.mannlib.vitro.webapp.auth.rules.SimpleAccessRules;
 import edu.cornell.mannlib.vitro.webapp.startup.StartupStatus;
 
 /**
@@ -108,7 +112,7 @@ public class PermissionRegistry {
 	 * context initialization.
 	 */
 	public void addPermission(AccessRule p) {
-		String uri = p.getUri();
+		String uri = p.getObjectUri();
 		if (map.containsKey(uri)) {
 			throw new IllegalStateException("A Permission is already "
 					+ "registered with this URI: '" + uri + "'.");
@@ -151,13 +155,12 @@ public class PermissionRegistry {
 			StartupStatus ss = StartupStatus.getBean(ctx);
 		    //Value is not used. Triggers static fields initialization
 			SimplePermission test = SimplePermission.EDIT_OWN_ACCOUNT;
-
+			AccessRuleStore.initialize(null);
 			try {
 				List<AccessRule> permissions = new ArrayList<AccessRule>();
 
 				permissions.addAll(SimpleAccessRules.getAllInstances());
-				permissions.addAll(EntityAccessRules.getAllInstances());
-
+				
 				PermissionRegistry.createRegistry(ctx, permissions);
 
 				ss.info(this, "Created the PermissionRegistry with "

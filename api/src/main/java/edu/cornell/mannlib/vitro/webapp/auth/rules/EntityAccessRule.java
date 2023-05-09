@@ -1,8 +1,8 @@
 /* $This file is distributed under the terms of the license in LICENSE$ */
 
-package edu.cornell.mannlib.vitro.webapp.auth.permissions;
+package edu.cornell.mannlib.vitro.webapp.auth.rules;
 
-import edu.cornell.mannlib.vitro.webapp.auth.attributes.EntityUriObjectAttribute;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.ObjectUriAttribute;
 import edu.cornell.mannlib.vitro.webapp.dao.PropertyDao;
 
 import java.util.*;
@@ -14,14 +14,14 @@ import java.util.*;
  */
 public class EntityAccessRule extends AccessRule {
 
-    public void setUri(String uri) {
+    public void setObjectUri(String uri) {
         this.uri = uri;
-        addAttribute(new EntityUriObjectAttribute(uri));
+        addAttribute(new ObjectUriAttribute(uri, uri));
     }
 
     private String uri;
 
-    public String getUri() {
+    public String getObjectUri() {
         return uri;
     }
     

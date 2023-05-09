@@ -11,7 +11,7 @@ import java.util.Set;
  * Reflects a collection of Permissions that can be made available to a user.
  * Similar to the concept of a Role.
  */
-public class PermissionSet {
+public class PermissionSet { 
 	/** This may be empty, but it should never be null. */
 	private String uri = "";
 

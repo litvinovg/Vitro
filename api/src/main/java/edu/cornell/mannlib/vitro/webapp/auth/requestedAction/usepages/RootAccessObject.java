@@ -2,8 +2,8 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.requestedAction.usepages;
 
-import edu.cornell.mannlib.vitro.webapp.auth.attributes.AttributeType;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
 
 /**
  * Should we allow the user to edit or delete the root account?
@@ -11,7 +11,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
 public class RootAccessObject extends AccessObject {
     
     @Override
-    public AttributeType getType() {
-        return AttributeType.ROOT_USER;
+    public AccessObjectType getType() {
+        return AccessObjectType.ROOT_USER;
     }
 }

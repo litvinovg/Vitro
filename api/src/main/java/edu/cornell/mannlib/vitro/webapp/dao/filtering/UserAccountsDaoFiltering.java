@@ -84,9 +84,4 @@ public class UserAccountsDaoFiltering extends BaseFiltering implements
 		return innerDao.getAllPermissionSets();
 	}
 
-	@Override
-	public void setEntityPermissions(String entityKey, Collection<PermissionSet> displaySets, Collection<PermissionSet> editSets, Collection<PermissionSet> publishSets) {
-		innerDao.setEntityPermissions(entityKey, displaySets, editSets, publishSets);
-	}
-
 }

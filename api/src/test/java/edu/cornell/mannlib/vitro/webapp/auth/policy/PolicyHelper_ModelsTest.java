@@ -32,13 +32,14 @@ import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.util.iterator.NiceIterator;
 
 import edu.cornell.mannlib.vitro.testing.AbstractTestClass;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.PropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AccessOperation;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.propstmt.PropertyStatementAccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 
 /**
  * Test the function of PolicyHelper in authorizing models of additions and
@@ -329,8 +330,8 @@ public class PolicyHelper_ModelsTest extends AbstractTestClass {
 	 */
 	private class MySimplePolicy implements PolicyIface {
 		@Override
-		public PolicyDecision decide(IdentifierBundle whoToAuth,
-				AccessObject whatToAuth, AccessOperation operation) {
+		public PolicyDecision decide(AuthorizationRequest ar) {
+	        AccessObject whatToAuth = ar.getAccessObject();
 			if (!(whatToAuth instanceof PropertyStatementAccessObject)) {
 				return inconclusive();
 			}

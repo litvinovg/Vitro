@@ -6,8 +6,10 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -16,10 +18,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRuleStore;
 import edu.cornell.mannlib.vitro.webapp.beans.PermissionSet;
 import edu.cornell.mannlib.vitro.webapp.dao.UserAccountsDao;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -132,42 +138,30 @@ public class OperationController extends BaseEditController {
             // If contains restrictions
             if (request.getParameter("_permissions") != null) {
                 // Get the namespace that we are editing
-                String entityKey = request.getParameter("_permissionsEntityURI");
-                if (StringUtils.isEmpty(entityKey)) {
+                String entityUri = request.getParameter("_permissionsEntityURI");
+                if (StringUtils.isEmpty(entityUri)) {
                     // If we don't have a namespace set, we are creating a new entity so use that namespace
                     if (!StringUtils.isEmpty(request.getParameter("Namespace")) && !StringUtils.isEmpty(request.getParameter("LocalName"))) {
-                        entityKey = "" + request.getParameter("Namespace") + request.getParameter("LocalName");    
+                        entityUri = "" + request.getParameter("Namespace") + request.getParameter("LocalName");    
                     }
                 }
+                String entityType = request.getParameter("_permissionsEntityType");
+                
 
                 // Get the granted permissions from the request object
-                String[] displayRoles = request.getParameterValues("displayRoles");
-                String[] updateRoles = request.getParameterValues("updateRoles");
-                String[] publishRoles = request.getParameterValues("publishRoles");
-
-                UserAccountsDao userDao = ModelAccess.on(request).getWebappDaoFactory().getUserAccountsDao();
-
-                // Convert the list of roles into lists of permission sets
-                List<PermissionSet> displaySets = new ArrayList<>();
-                List<PermissionSet> updateSets  = new ArrayList<>();
-                List<PermissionSet> publishSets = new ArrayList<>();
-
-                for (PermissionSet ps : userDao.getAllPermissionSets()) {
-                    if (ArrayUtils.contains(displayRoles, ps.getUri())) {
-                        displaySets.add(ps);
-                    }
-
-                    if (ArrayUtils.contains(updateRoles, ps.getUri())) {
-                        updateSets.add(ps);
-                    }
-
-                    if (ArrayUtils.contains(publishRoles, ps.getUri())) {
-                        publishSets.add(ps);
+                for (AccessOperation ao : AccessOperation.values()) {
+                    String operation = ao.toString().toLowerCase();
+                    String[] roles = request.getParameterValues(operation + "Roles");
+                    if (roles == null) {
+                        log.error(operation + "Roles not received (null)");
+                    } else if(StringUtils.isBlank(entityUri)) {
+                        log.error("EntityUri is blank");
+                    } else if (StringUtils.isBlank(entityType) ||  EnumUtils.isValidEnum(AccessObjectType.class, entityType)) {
+                        log.error("EntityType is not valid " + entityType);
+                    } else {
+                        AccessRuleStore.getInstance().updateEntityRules(entityUri, AccessObjectType.valueOf(entityType), ao, new HashSet<String>(Arrays.asList(roles)));
                     }
                 }
-
-                // Set the various permissions for the given entity
-                userDao.setEntityPermissions(entityKey, displaySets, updateSets, publishSets);
             }
 
             /* put request parameters and attributes into epo where the listeners can see */
