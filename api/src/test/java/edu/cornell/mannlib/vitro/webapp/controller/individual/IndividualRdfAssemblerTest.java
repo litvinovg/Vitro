@@ -455,7 +455,7 @@ public class IndividualRdfAssemblerTest extends AbstractTestClass {
 		        ObjectPropertyStatementAccessObject pops) {
 			String propertyUri = pops.getPredicateUri();
 			if (VitroVocabulary.RDF_TYPE.equals(propertyUri)) {
-				return filter(propertyUri, pops.getObjectUri());
+				return filter(propertyUri, pops.getStatementObject());
 			} else {
 				return filter(propertyUri, null);
 			}

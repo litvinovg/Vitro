@@ -35,7 +35,7 @@ public class RestrictHomeMenuItemEditingPolicy implements PolicyIface {
 			ObjectPropertyStatementAccessObject whatToAuth) {
 		if (whatToAuth.getPredicateUri()
 				.equals(DisplayVocabulary.HAS_ELEMENT)
-				&& whatToAuth.getObjectUri().equals(
+				&& whatToAuth.getStatementObject().equals(
 						DisplayVocabulary.HOME_MENU_ITEM)) {
 			return notAuthorized();
 		} else {

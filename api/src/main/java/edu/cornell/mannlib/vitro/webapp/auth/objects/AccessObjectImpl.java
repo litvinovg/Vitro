@@ -11,6 +11,11 @@ public class AccessObjectImpl extends AccessObject {
 	private final String uri;
 	private AccessObjectType type;
 
+    public AccessObjectImpl() {
+        this.uri = "";
+        this.type = AccessObjectType.NAMED_OBJECT_URI;
+    }
+	
 	public AccessObjectImpl(String uri, AccessObjectType type) {
 		this.uri = uri;
 		this.type = type;

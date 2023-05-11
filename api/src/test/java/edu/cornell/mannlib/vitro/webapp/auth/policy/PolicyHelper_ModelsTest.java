@@ -35,7 +35,6 @@ import edu.cornell.mannlib.vitro.testing.AbstractTestClass;
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.objects.PropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
@@ -332,11 +331,11 @@ public class PolicyHelper_ModelsTest extends AbstractTestClass {
 		@Override
 		public PolicyDecision decide(AuthorizationRequest ar) {
 	        AccessObject whatToAuth = ar.getAccessObject();
-			if (!(whatToAuth instanceof PropertyStatementAccessObject)) {
+			if (!(whatToAuth instanceof AccessObject)) {
 				return inconclusive();
 			}
 
-			PropertyStatementAccessObject action = (PropertyStatementAccessObject) whatToAuth;
+			AccessObject action = (AccessObject) whatToAuth;
 
 			String subjectUri = action.getResourceUris()[0];
 			if (PRIMARY_RESOURCE_URI.equals(subjectUri)) {
@@ -345,7 +344,7 @@ public class PolicyHelper_ModelsTest extends AbstractTestClass {
 
 			Statement friendStmt = objectStatement(PRIMARY_RESOURCE_URI,
 					FRIEND_PREDICATE_URI, subjectUri);
-			if (statementExists(action.getOntModel(), friendStmt)) {
+			if (statementExists(action.getStatementOntModel(), friendStmt)) {
 				return authorized();
 			}
 
