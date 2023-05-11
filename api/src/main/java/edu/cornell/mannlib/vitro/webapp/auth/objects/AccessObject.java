@@ -76,7 +76,8 @@ public abstract class AccessObject {
     }
 
     public String getPredicateUri() {
-        return getPredicate().getURI();
+        final Property predicate = getPredicate();
+        return predicate.getURI();
     }
     
     public void setStatementObject(String objectUri) {

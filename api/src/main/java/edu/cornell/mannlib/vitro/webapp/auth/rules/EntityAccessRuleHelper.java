@@ -26,7 +26,7 @@ public class EntityAccessRuleHelper {
     static final Log log = LogFactory.getLog(EntityAccessRuleHelper.class);
 
     
-    static boolean isAuthorizedForByEntityPermission(AccessObject ao, List<String> personUris, EntityAccessRule entityPermission) {
+    static boolean isAuthorizedBySparqlQuery(AccessObject ao, List<String> personUris, EntityAccessRule entityPermission) {
         // If we are not limiting to only objects that the user has a relationship with
         // We can just authorise the access right now
         if (!entityPermission.isLimitToRelatedUser()) {
@@ -59,17 +59,11 @@ public class EntityAccessRuleHelper {
         return RelationshipChecker.anyRelated(ao.getStatementOntModel(), Arrays.asList(ao.getResourceUris()), personUris);
     }
 
-    static boolean isAuthorized(Property prop, EntityAccessRule entityPermission) {
-        if (AccessObject.SOME_URI.equals(prop.getURI())) {
+    static boolean matches(String uri, EntityAccessRule entityPermission) {
+        if (AccessObject.SOME_URI.equals(uri)) {
             return true;
         }
-        if (entityPermission.getAuthorizedKeys().contains(new PropertyDao.FullPropertyKey(prop))) {
-            return true;
-        }
-        if (prop instanceof FauxPropertyWrapper) {
-            return entityPermission.getAuthorizedKeys().contains(new PropertyDao.FullPropertyKey(((FauxPropertyWrapper) prop).getConfigUri()));
-        }
-        return entityPermission.getAuthorizedKeys().contains(new PropertyDao.FullPropertyKey(prop.getURI()));
+        return false;
     }
 
    
@@ -93,13 +87,13 @@ public class EntityAccessRuleHelper {
         boolean result = false;
         final AccessObjectType type = ao.getType();
         if (AccessObjectType.DATA_PROPERTY.equals(type)) {
-            result = isAuthorized(new Property(ao.getDataProperty().getURI()), ear);
+            result = matches(ao.getDataProperty().getURI(), ear);
         } else if (AccessObjectType.OBJECT_PROPERTY.equals(type)) {
-            result = isAuthorized(ao.getObjectProperty(), ear);
+            result = matches(ao.getObjectProperty().getURI(), ear);
         } else if (AccessObjectType.DATA_PROPERTY_STMT.equals(type)) {
-            result = isAuthorized(new Property(ao.getPredicateUri()), ear);
+            result = matches((ao.getPredicateUri()), ear);
         } else if (AccessObjectType.OBJECT_PROPERTY_STMT.equals(type)) {
-            result = isAuthorized(ao.getPredicate(), ear);
+            result = matches(ao.getPredicateUri(), ear);
         }
     
         if (result) {
@@ -111,7 +105,7 @@ public class EntityAccessRuleHelper {
         return result;
     }
     
-    static boolean isAuthorizedByEntityUpdatePermission(IdentifierBundle ac_subject, AccessObject ao, EntityAccessRule entityPermission, AccessOperation operation) {
+    static boolean isAuthorizedByEntityUpdatePermission(IdentifierBundle ac_subject, AccessObject ao, EntityAccessRule ear, AccessOperation operation) {
         boolean isAuthorized = false;
         List<String> personUris = new ArrayList<String>(HasAssociatedIndividual.getIndividualUris(ac_subject));
         final AccessObjectType type = ao.getType();
@@ -119,31 +113,26 @@ public class EntityAccessRuleHelper {
         if (AccessObjectType.DATA_PROPERTY_STMT.equals(type)) {
             // Check resource
             if (isModifiable(ao.getStatementSubject())) {
-                Property predicate = ao.getPredicate();
-                if (isModifiable(predicate.getURI())) {
-                    isAuthorized = isAuthorized(predicate, entityPermission);
+                if (isModifiable(ao.getPredicateUri())) {
+                    isAuthorized = matches(ao.getPredicateUri(), ear) &&
+                            isAuthorizedBySparqlQuery(ao, personUris, ear);
                 }
             }
     
-            if (isAuthorized) {
-                isAuthorized = isAuthorizedForByEntityPermission(ao, personUris, entityPermission);
-            }
         } else if (AccessObjectType.OBJECT_PROPERTY_STMT.equals(type)) {
             if (isModifiable(ao.getStatementSubject()) && isModifiable(ao.getStatementObject())) {
                 if (isModifiable(ao.getPredicateUri())) {
-                    isAuthorized = isAuthorized(ao.getPredicate(), entityPermission);
+                    isAuthorized = matches(ao.getPredicateUri(), ear) &&
+                    isAuthorizedBySparqlQuery(ao, personUris, ear);
                 }
             }
     
-            if (isAuthorized) {
-                isAuthorized = isAuthorizedForByEntityPermission(ao, personUris, entityPermission);
-            }
         } 
     
         if (isAuthorized) {
-            log.debug(entityPermission + " authorizes " + ao);
+            log.debug(ear + " authorizes " + ao);
         } else {
-            log.debug(entityPermission + " does not authorize " + ao);
+            log.debug(ear + " does not authorize " + ao);
         }
     
         return isAuthorized;

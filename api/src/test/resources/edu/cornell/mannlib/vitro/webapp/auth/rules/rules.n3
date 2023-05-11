@@ -117,6 +117,9 @@ ai:SubjectNotMatch rdf:type ao:AttributeType ;
          
 ai:ObjectNotMatch rdf:type ao:AttributeType ;
          ao:id "OBJECT_EQUALS" .
+         
+ai:RelatesToSubjectProfile rdf:type ao:AttributeType ;
+         ao:id "RELATES_TO_SUBJECT_PROFILE" .
 
 ### Object types
      
