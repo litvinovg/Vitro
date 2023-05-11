@@ -70,13 +70,16 @@ public abstract class AccessObject {
         getStatement().setPredicate(predicate);
     }
     
-    public Property getPredicate() {
+    private Property getPredicate() {
         initializeStatement();
         return getStatement().getPredicate();
     }
 
-    public String getPredicateUri() {
-        final Property predicate = getPredicate();
+    public String getStatementPredicateUri() {
+        if (statement == null || statement.getPredicate() == null) {
+            return null;
+        }
+        Property predicate = getPredicate();
         return predicate.getURI();
     }
     

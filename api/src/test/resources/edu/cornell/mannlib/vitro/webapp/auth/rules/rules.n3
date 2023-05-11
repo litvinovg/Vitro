@@ -120,6 +120,15 @@ ai:ObjectNotMatch rdf:type ao:AttributeType ;
          
 ai:RelatesToSubjectProfile rdf:type ao:AttributeType ;
          ao:id "RELATES_TO_SUBJECT_PROFILE" .
+         
+ai:StatementPredicateUri rdf:type ao:AttributeType ;
+         ao:id "STATEMENT_PREDICATE_URI" .
+
+ai:ObjectPropertyUri rdf:type ao:AttributeType ;
+         ao:id "OBJECT_PROPERTY_URI" .
+         
+ai:DataPropertyUri rdf:type ao:AttributeType ;
+         ao:id "DATA_PROPERTY_URI" .
 
 ### Object types
      

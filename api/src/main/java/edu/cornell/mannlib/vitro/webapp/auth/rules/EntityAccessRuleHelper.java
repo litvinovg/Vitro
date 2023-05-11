@@ -15,11 +15,8 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.HasAssociatedIndividual;
 import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
-import edu.cornell.mannlib.vitro.webapp.beans.Property;
-import edu.cornell.mannlib.vitro.webapp.dao.PropertyDao;
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
 import edu.cornell.mannlib.vitro.webapp.utils.RelationshipChecker;
-import edu.cornell.mannlib.vitro.webapp.web.templatemodels.individual.FauxPropertyWrapper;
 
 public class EntityAccessRuleHelper {
 
@@ -91,9 +88,9 @@ public class EntityAccessRuleHelper {
         } else if (AccessObjectType.OBJECT_PROPERTY.equals(type)) {
             result = matches(ao.getObjectProperty().getURI(), ear);
         } else if (AccessObjectType.DATA_PROPERTY_STMT.equals(type)) {
-            result = matches((ao.getPredicateUri()), ear);
+            result = matches((ao.getStatementPredicateUri()), ear);
         } else if (AccessObjectType.OBJECT_PROPERTY_STMT.equals(type)) {
-            result = matches(ao.getPredicateUri(), ear);
+            result = matches(ao.getStatementPredicateUri(), ear);
         }
     
         if (result) {
@@ -113,16 +110,16 @@ public class EntityAccessRuleHelper {
         if (AccessObjectType.DATA_PROPERTY_STMT.equals(type)) {
             // Check resource
             if (isModifiable(ao.getStatementSubject())) {
-                if (isModifiable(ao.getPredicateUri())) {
-                    isAuthorized = matches(ao.getPredicateUri(), ear) &&
+                if (isModifiable(ao.getStatementPredicateUri())) {
+                    isAuthorized = matches(ao.getStatementPredicateUri(), ear) &&
                             isAuthorizedBySparqlQuery(ao, personUris, ear);
                 }
             }
     
         } else if (AccessObjectType.OBJECT_PROPERTY_STMT.equals(type)) {
             if (isModifiable(ao.getStatementSubject()) && isModifiable(ao.getStatementObject())) {
-                if (isModifiable(ao.getPredicateUri())) {
-                    isAuthorized = matches(ao.getPredicateUri(), ear) &&
+                if (isModifiable(ao.getStatementPredicateUri())) {
+                    isAuthorized = matches(ao.getStatementPredicateUri(), ear) &&
                     isAuthorizedBySparqlQuery(ao, personUris, ear);
                 }
             }

@@ -214,7 +214,7 @@ public class PolicyHelper_StatementsTest extends AbstractTestClass {
 				DataPropertyStatementAccessObject whatToAuth) {
 			if ((APPROVED_SUBJECT_URI.equals(whatToAuth.getStatementSubject()))
 					&& (APPROVED_PREDICATE_URI.equals(whatToAuth
-							.getPredicateUri()))) {
+							.getStatementPredicateUri()))) {
 				return authorized();
 			} else {
 				return inconclusive();
@@ -225,7 +225,7 @@ public class PolicyHelper_StatementsTest extends AbstractTestClass {
 				ObjectPropertyStatementAccessObject whatToAuth) {
 			if ((APPROVED_SUBJECT_URI.equals(whatToAuth.getStatementSubject()))
 					&& (APPROVED_PREDICATE_URI.equals(whatToAuth
-							.getPredicateUri()))
+							.getStatementPredicateUri()))
 					&& (APPROVED_OBJECT_URI.equals(whatToAuth.getStatementObject()))) {
 				return authorized();
 			} else {

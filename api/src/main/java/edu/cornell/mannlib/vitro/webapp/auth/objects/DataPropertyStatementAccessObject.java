@@ -31,7 +31,7 @@ public class DataPropertyStatementAccessObject extends AccessObject {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + ": <" + getStatementSubject() + "> <" + getPredicateUri() + ">";
+        return getClass().getSimpleName() + ": <" + getStatementSubject() + "> <" + getStatementPredicateUri() + ">";
     }
 
     @Override

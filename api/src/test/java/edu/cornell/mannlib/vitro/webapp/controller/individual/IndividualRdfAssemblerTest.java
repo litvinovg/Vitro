@@ -448,12 +448,12 @@ public class IndividualRdfAssemblerTest extends AbstractTestClass {
 
 		private PolicyDecision filterDataProperty(
 		        DataPropertyStatementAccessObject pdps) {
-			return filter(pdps.getPredicateUri(), null);
+			return filter(pdps.getStatementPredicateUri(), null);
 		}
 
 		private PolicyDecision filterObjectProperty(
 		        ObjectPropertyStatementAccessObject pops) {
-			String propertyUri = pops.getPredicateUri();
+			String propertyUri = pops.getStatementPredicateUri();
 			if (VitroVocabulary.RDF_TYPE.equals(propertyUri)) {
 				return filter(propertyUri, pops.getStatementObject());
 			} else {
