@@ -15,7 +15,6 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.HasAssociatedIndividual;
 import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
-import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 import edu.cornell.mannlib.vitro.webapp.dao.PropertyDao;
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
@@ -40,23 +39,18 @@ public class EntityAccessRuleHelper {
         }
         
         // Obtain the subject and object URIs
-        String subjectUri = null;
         String objectUri = null;
         final AccessObjectType type = ao.getType();
-
         if (AccessObjectType.DATA_PROPERTY_STMT.equals(type)) {
-            subjectUri = ao.getStatementSubject();
         } else if (AccessObjectType.OBJECT_PROPERTY_STMT.equals(type)) {
-            subjectUri = ao.getStatementSubject();
             objectUri = ao.getStatementObject();
         }
         
-        // If the subject or object is a user URI for the current user, authorise access
+        // If the subject or object is a user URI for the current user, authorize access
         for (String userUri : personUris) {
-            if (subjectUri != null && subjectUri.equals(userUri)) {
+            if (ao.getStatementSubject() != null && ao.getStatementSubject().equals(userUri)) {
                 return true;
             }
-        
             if (objectUri != null && objectUri.equals(userUri)) {
                 return true;
             }
@@ -65,7 +59,7 @@ public class EntityAccessRuleHelper {
         return RelationshipChecker.anyRelated(ao.getStatementOntModel(), Arrays.asList(ao.getResourceUris()), personUris);
     }
 
-    static boolean isAuthorizedForByEntityPermission(Property prop, EntityAccessRule entityPermission) {
+    static boolean isAuthorized(Property prop, EntityAccessRule entityPermission) {
         if (AccessObject.SOME_URI.equals(prop.getURI())) {
             return true;
         }
@@ -95,117 +89,61 @@ public class EntityAccessRuleHelper {
             VitroVocabulary.ADDITIONAL_LINK,
             VitroVocabulary.LINK_ANCHOR, VitroVocabulary.LINK_URL );
 
-    static boolean isAuthorizedByEntityPublishPermission(AccessObject whatToAuth, EntityAccessRule entityPublishPermission, AccessOperation operation) {
+    static boolean isAuthorizedByEntityPublishOrDisplayPermission(AccessObject ao, EntityAccessRule ear, AccessOperation operation) {
         boolean result = false;
-        final AccessObjectType type = whatToAuth.getType();
+        final AccessObjectType type = ao.getType();
         if (AccessObjectType.DATA_PROPERTY.equals(type)) {
-            String predicateUri = whatToAuth.getDataProperty().getURI();
-            result = isAuthorizedForByEntityPermission(new Property(predicateUri), entityPublishPermission);
+            result = isAuthorized(new Property(ao.getDataProperty().getURI()), ear);
         } else if (AccessObjectType.OBJECT_PROPERTY.equals(type)) {
-            ObjectProperty op = whatToAuth.getObjectProperty();
-            result = isAuthorizedForByEntityPermission(op, entityPublishPermission);
+            result = isAuthorized(ao.getObjectProperty(), ear);
         } else if (AccessObjectType.DATA_PROPERTY_STMT.equals(type)) {
-    
-            // Subject [((PublishDataPropertyStatement)whatToAuth).getSubjectUri()] is a resource
-            // Previous auth code always evaluated as true when checking permissions for resources
-            // Do we need to implement a check on permissions the class for the resource?
-    
-            String predicateUri = whatToAuth.getPredicateUri();
-            result = isAuthorizedForByEntityPermission(new Property(predicateUri), entityPublishPermission);
+            result = isAuthorized(new Property(ao.getPredicateUri()), ear);
         } else if (AccessObjectType.OBJECT_PROPERTY_STMT.equals(type)) {
-    
-            // Subject [((PublishObjectPropertyStatement)whatToAuth).getSubjectUri()] is a resource
-            // Object  [((PublishObjectPropertyStatement)whatToAuth).getObjectUri()] is a resource
-            // Previous auth code always evaluated as true when checking permissions for resources
-            // Do we need to implement a check on permissions the class for the resource?
-    
-            Property predicate = whatToAuth.getPredicate();
-            result = isAuthorizedForByEntityPermission(predicate, entityPublishPermission);
+            result = isAuthorized(ao.getPredicate(), ear);
         }
     
         if (result) {
-            log.debug(entityPublishPermission + " authorizes " + whatToAuth);
+            log.debug(ear + " authorizes " + ao);
         } else {
-            log.debug(entityPublishPermission + " does not authorize " + whatToAuth);
-        }
-    
-        return result;
-    }
-
-    static boolean isAuthorizedByEntityDisplayPermission(AccessObject whatToAuth, EntityAccessRule entityDisplayPermission, AccessOperation operation) {
-        boolean result = false;
-        final AccessObjectType type = whatToAuth.getType();
-        
-        if (AccessObjectType.DATA_PROPERTY.equals(type)) {
-            String predicateUri = whatToAuth.getDataProperty().getURI();
-            result = isAuthorizedForByEntityPermission(new Property(predicateUri), entityDisplayPermission);
-        } else if (AccessObjectType.OBJECT_PROPERTY.equals(type)) {
-            result = isAuthorizedForByEntityPermission(whatToAuth.getObjectProperty(), entityDisplayPermission);
-        } else if (AccessObjectType.DATA_PROPERTY_STMT.equals(type)) {
-            String predicateUri = whatToAuth.getPredicate().getURI();
-    
-            // Subject [stmt.getIndividualURI()] is a resource
-            // Previous auth code always evaluated as true when checking permissions for resources
-            // Do we need to implement a check on permissions the class for the resource?
-    
-            result = isAuthorizedForByEntityPermission(new Property(predicateUri), entityDisplayPermission);
-        } else if (AccessObjectType.OBJECT_PROPERTY_STMT.equals(type)) {
-    
-            // Subject [((DisplayObjectPropertyStatement)whatToAuth).getSubjectUri()] is a resource
-            // Object [((DisplayObjectPropertyStatement)whatToAuth).getObjectUri()] is resource
-            // Previous auth code always evaluated as true when checking permissions for resources
-            // Do we need to implement a check on permissions the class for the resource?
-    
-            Property op = whatToAuth.getPredicate();
-            result = isAuthorizedForByEntityPermission(op, entityDisplayPermission);
-        }
-    
-        if (result) {
-            log.debug(entityDisplayPermission + " authorizes " + whatToAuth);
-        } else {
-            log.debug(entityDisplayPermission + " does not authorize " + whatToAuth);
+            log.debug(ear + " does not authorize " + ao);
         }
     
         return result;
     }
     
-    static boolean isAuthorizedByEntityUpdatePermission(IdentifierBundle ac_subject, AccessObject whatToAuth, EntityAccessRule entityPermission, AccessOperation operation) {
+    static boolean isAuthorizedByEntityUpdatePermission(IdentifierBundle ac_subject, AccessObject ao, EntityAccessRule entityPermission, AccessOperation operation) {
         boolean isAuthorized = false;
         List<String> personUris = new ArrayList<String>(HasAssociatedIndividual.getIndividualUris(ac_subject));
-        final AccessObjectType type = whatToAuth.getType();
+        final AccessObjectType type = ao.getType();
 
         if (AccessObjectType.DATA_PROPERTY_STMT.equals(type)) {
             // Check resource
-            String subjectUri = whatToAuth.getStatementSubject();
-            if (isModifiable(subjectUri)) {
-                Property predicate = whatToAuth.getPredicate();
+            if (isModifiable(ao.getStatementSubject())) {
+                Property predicate = ao.getPredicate();
                 if (isModifiable(predicate.getURI())) {
-                    isAuthorized = isAuthorizedForByEntityPermission(predicate, entityPermission);
+                    isAuthorized = isAuthorized(predicate, entityPermission);
                 }
             }
     
             if (isAuthorized) {
-                isAuthorized = isAuthorizedForByEntityPermission(whatToAuth, personUris, entityPermission);
+                isAuthorized = isAuthorizedForByEntityPermission(ao, personUris, entityPermission);
             }
         } else if (AccessObjectType.OBJECT_PROPERTY_STMT.equals(type)) {
-            String subjectUri = whatToAuth.getStatementSubject();
-            String objectUri = whatToAuth.getStatementObject();
-            if (isModifiable(subjectUri) && isModifiable(objectUri)) {
-                Property predicate = whatToAuth.getPredicate();
-                if (isModifiable(predicate.getURI())) {
-                    isAuthorized = isAuthorizedForByEntityPermission(predicate, entityPermission);
+            if (isModifiable(ao.getStatementSubject()) && isModifiable(ao.getStatementObject())) {
+                if (isModifiable(ao.getPredicateUri())) {
+                    isAuthorized = isAuthorized(ao.getPredicate(), entityPermission);
                 }
             }
     
             if (isAuthorized) {
-                isAuthorized = isAuthorizedForByEntityPermission(whatToAuth, personUris, entityPermission);
+                isAuthorized = isAuthorizedForByEntityPermission(ao, personUris, entityPermission);
             }
         } 
     
         if (isAuthorized) {
-            log.debug(entityPermission + " authorizes " + whatToAuth);
+            log.debug(entityPermission + " authorizes " + ao);
         } else {
-            log.debug(entityPermission + " does not authorize " + whatToAuth);
+            log.debug(entityPermission + " does not authorize " + ao);
         }
     
         return isAuthorized;
@@ -221,13 +159,13 @@ public class EntityAccessRuleHelper {
         AccessOperation operation = ar.getAccessOperation();
         if (rule instanceof EntityAccessRule) {
             if (AccessOperation.DISPLAY.equals(operation)){
-                return isAuthorizedByEntityDisplayPermission(whatToAuth, (EntityAccessRule) rule, operation);    
+                return isAuthorizedByEntityPublishOrDisplayPermission(whatToAuth, (EntityAccessRule) rule, operation);    
             }
             if (AccessOperation.UPDATE.equals(operation)){
                 return isAuthorizedByEntityUpdatePermission(ac_subject, whatToAuth, (EntityAccessRule) rule, operation);
             }
             if (AccessOperation.PUBLISH.equals(operation)){
-                return isAuthorizedByEntityPublishPermission(whatToAuth, (EntityAccessRule) rule, operation);
+                return isAuthorizedByEntityPublishOrDisplayPermission(whatToAuth, (EntityAccessRule) rule, operation);
             }
         }
         return rule.match(ar);

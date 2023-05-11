@@ -105,6 +105,18 @@ ai:ObjectType rdf:type ao:AttributeType ;
 
 ai:Operation rdf:type ao:AttributeType ;
          ao:id "OPERATION" .
+         
+ai:SubjectNotMatch rdf:type ao:AttributeType ;
+         ao:id "SUBJECT_NOT_MATCH" .
+         
+ai:ObjectNotMatch rdf:type ao:AttributeType ;
+         ao:id "OBJECT_NOT_MATCH" .
+         
+ai:SubjectNotMatch rdf:type ao:AttributeType ;
+         ao:id "SUBJECT_EQUALS" .
+         
+ai:ObjectNotMatch rdf:type ao:AttributeType ;
+         ao:id "OBJECT_EQUALS" .
 
 ### Object types
      

@@ -66,6 +66,9 @@ public class PageController extends FreemarkerHttpServlet{
      */
     private AuthorizationRequest getActionsForPage( VitroRequest vreq ) throws Exception{
         String uri = vreq.getWebappDaoFactory().getPageDao().getRequiredActions( getPageUri(vreq) );
+        if (StringUtils.isBlank(uri)) {
+            return AuthHelper.AUTHORIZED;
+        }
         return new SimpleAuthorizationRequest(uri);
     }
 
