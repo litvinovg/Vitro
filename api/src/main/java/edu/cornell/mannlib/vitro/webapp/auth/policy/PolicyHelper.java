@@ -103,10 +103,17 @@ public class PolicyHelper {
         ar.setIds(ids);
 	    PolicyList policies = PolicyStore.getInstance().copy();
 	    PolicyDecision decision = policies.decide(ar);
+	    debug(ar, decision);
         return decision.getDecisionResult() == DecisionResult.AUTHORIZED;
 	}
 
-	/**
+	private static void debug(AuthorizationRequest ar, PolicyDecision decision) {
+	    if (true) {//log.isDebugEnabled()
+	        log.error(String.format("Request for %s on object %s resulted in decision %s", ar.getAccessOperation(), ar.getAccessObject(), decision.getDecisionResult()));
+	    }
+    }
+
+    /**
 	 * Is the email/password authorized for these actions? This should be used
 	 * when a controller or something needs allow actions if the user passes in
 	 * their email and password.

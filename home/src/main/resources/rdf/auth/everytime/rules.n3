@@ -109,20 +109,22 @@ ai:Operation rdf:type ao:AttributeType ;
 ### Object types
      
 ai:ObjectPropertyAccesObject rdf:type ao:ObjectType ;
-     ao:id "object_property" .
+     ao:id "OBJECT_PROPERTY" .
 
 ai:DataPropertyAccesObject rdf:type ao:ObjectType ;
-     ao:id "data_property" .
+     ao:id "DATA_PROPERTY" .
+     
+ai:FauxPropertyAccesObject rdf:type ao:ObjectType ;
+     ao:id "FAUX_PROPERTY" .
      
 ai:ObjectPropertyStatementAccesObject rdf:type ao:ObjectType ;
-     ao:id "object_property_statement" .
+     ao:id "OBJECT_PROPERTY_STATEMENT" .
 
 ai:DataPropertyStatementAccesObject rdf:type ao:ObjectType ;
-     ao:id "data_property_statement" .
+     ao:id "DATA_PROPERTY_STATEMENT" .
 
 ai:Class rdf:type ao:ObjectType ;
      ao:id "CLASS" .
-
 
 ### Operations
 ai:DisplayOperation rdf:type ao:Operation ;

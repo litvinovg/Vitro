@@ -1,10 +1,10 @@
 package edu.cornell.mannlib.vitro.webapp.auth.rules;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.shared.Lock;
@@ -21,7 +21,7 @@ public class AccessRuleStoreTest {
     private static final String ROLE_EDITOR_URI = "http://vitro.mannlib.cornell.edu/ns/vitro/authorization#EDITOR";
     private static final String ROLE_CURATOR_URI = "http://vitro.mannlib.cornell.edu/ns/vitro/authorization#CURATOR";
 
-    public static final String RULES_PATH = "src/main/resources/edu/cornell/mannlib/vitro/webapp/auth/rules/rules.n3";
+    public static final String RULES_PATH = "src/test/resources/edu/cornell/mannlib/vitro/webapp/auth/rules/rules.n3";
     private Model model;
     private AccessRuleStore store;
 
@@ -48,8 +48,12 @@ public class AccessRuleStoreTest {
         List<String> grantedRoles = store.getGrantedRoleUris(RDFS_LABEL_URI, AccessOperation.DISPLAY);
         assertEquals(1, grantedRoles.size());
         assertTrue(grantedRoles.contains(ROLE_ADMIN_URI));
-        grantedRoles = store.getGrantedRoleUris(RDFS_LABEL_URI, AccessOperation.PUBLISH);
-        assertEquals(1, grantedRoles.size());
+    }
+    
+    @Test
+    public void testGetGrantedRoleUrisNotExists() {
+        List<String> grantedRoles = store.getGrantedRoleUris(RDFS_LABEL_URI + "_NOT_EXISTS", AccessOperation.DISPLAY);
+        assertEquals(0, grantedRoles.size());
     }
     
     @Test
@@ -87,4 +91,22 @@ public class AccessRuleStoreTest {
         assertTrue(grantedRoles.size() < prevRolesCount);
     }
     
+    
+    @Test
+    public void getGetAttributeUri() {
+        assertEquals("https://vivoweb.org/ontology/vitro-application/auth/individual/PublishOperationAttribute", store.getAttributeUriFromModel("EQUALS","OPERATION","PUBLISH",true));
+        assertEquals("", store.getAttributeUriFromModel("EQUALS","OPERATION","DO_SOMETHING_NEW", true));
+    }
+    
+    @Test
+    public void testUpdateEntityRules() {
+        HashSet<String> roles = new HashSet<String>(Arrays.asList(ROLE_ADMIN_URI, ROLE_EDITOR_URI ));
+        HashSet<String> newRoles = new HashSet<String>(Arrays.asList(ROLE_CURATOR_URI));
+        store.updateEntityRules(RDFS_LABEL_URI, AccessObjectType.OBJECT_PROPERTY, AccessOperation.PUBLISH, roles);
+        HashSet<String> grantedRoles = new HashSet<String>(store.getGrantedRoleUris(RDFS_LABEL_URI, AccessOperation.PUBLISH));
+        assertEquals(roles, grantedRoles);
+        store.updateEntityRules(RDFS_LABEL_URI, AccessObjectType.OBJECT_PROPERTY, AccessOperation.PUBLISH, newRoles);
+        grantedRoles = new HashSet<String>(store.getGrantedRoleUris(RDFS_LABEL_URI, AccessOperation.PUBLISH));
+        assertEquals(newRoles, grantedRoles);
+    }
 }

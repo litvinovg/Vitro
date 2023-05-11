@@ -89,6 +89,7 @@
 <c:if test="${!empty roles}">
     <input id="_permissions" type="hidden" name="_permissions" value="enabled" />
     <input id="_permissionsEntityURI" type="hidden" name="_permissionsEntityURI" value="${_permissionsEntityURI}" />
+    <input id="_permissionsEntityType" type="hidden" name="_permissionsEntityType" value="CLASS" />
     <tr class="editformcell">
         <td valign="top" colspan="4">
             <b>Display</b> permissions for this property<br/>

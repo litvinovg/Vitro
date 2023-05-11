@@ -28,6 +28,7 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.sparql.resultset.ResultsFormat;
 
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType;
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
@@ -42,6 +43,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleAuthorization
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 import edu.cornell.mannlib.vitro.webapp.dao.jena.event.BulkUpdateEvent;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
+import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess.WhichService;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelNames;
 import edu.cornell.mannlib.vitro.webapp.rdfservice.ChangeSet;
 import edu.cornell.mannlib.vitro.webapp.rdfservice.RDFService;
@@ -50,6 +52,7 @@ import edu.cornell.mannlib.vitro.webapp.rdfservice.RDFServiceException;
 import edu.cornell.mannlib.vitro.webapp.rdfservice.impl.jena.model.RDFServiceModel;
 
 public class AccessRuleStore {
+    private static final String NO_URI_VALUE = "";
     public static final String ATTR_VALUE = "value";
     public static final String LITERAL_VALUE = "lit_value";
     public static final String TYPE_ID = "typeId";
@@ -135,7 +138,8 @@ public class AccessRuleStore {
             + "  }"
             + "}";
     
-    private static final String ATTRIBUTE_URI_QUERY = 
+    private static final String getAttributeUriQuery(boolean hasLiteralValue) {
+            return
             "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
           + "prefix owl: <http://www.w3.org/2002/07/owl#>\n"
           + "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
@@ -151,10 +155,11 @@ public class AccessRuleStore {
           + "?" + ATTRIBUTE + " ao:type ?type .\n"
           + "?type ao:id ?" + TYPE_ID + " .\n"
           + "?" + ATTRIBUTE + " ao:value ?" + ATTR_VALUE + " .\n"
-          + "OPTIONAL {?" + ATTR_VALUE + " ao:id ?" + LITERAL_VALUE + " . }\n"
+          + (hasLiteralValue ? "?" + ATTR_VALUE + " ao:id ?" + LITERAL_VALUE + " . \n" : NO_URI_VALUE)
           + "}";
+    }
     
-    private static final String URI_BY_ID_QUERY = ""
+    private static final String URI_BY_ID_QUERY = NO_URI_VALUE
           + "prefix ao: <https://vivoweb.org/ontology/vitro-application/auth/vocabulary/>\n"
           + "SELECT ?" + URI + " \n"
           + "WHERE {\n"
@@ -162,6 +167,7 @@ public class AccessRuleStore {
           + "}";
     
     private static final Log log = LogFactory.getLog(AccessRuleStore.class);
+    
     
     private static AccessRuleStore INSTANCE;
 
@@ -175,17 +181,21 @@ public class AccessRuleStore {
     private Map<String,Set<AccessRule>> ruleSetsByObjectUri;
     
     private Model userAccountsModel;
+    private Model getUserAccountsModel() {
+        return userAccountsModel;
+    }
+
     private RDFService rdfService;
     
     
-    private AccessRuleStore(Model userAccountsModel){
-        if (userAccountsModel != null) {
-            this.userAccountsModel = userAccountsModel;
-            this.rdfService = new RDFServiceModel(userAccountsModel);
+    private AccessRuleStore(Model model){
+        if (model != null) {
+            this.userAccountsModel = model;
         } else {
-            userAccountsModel = ModelAccess.getInstance().getOntModelSelector().getUserAccountsModel();
-            rdfService = ModelAccess.getInstance().getRDFService();
+            this.userAccountsModel = ModelAccess.getInstance().getOntModelSelector().getUserAccountsModel();
+            //this.rdfService = ModelAccess.getInstance().getRDFService(WhichService.CONFIGURATION);
         }
+        this.rdfService = new RDFServiceModel(userAccountsModel);
         initilizeRuleSetsByOperation();
         initilizeRuleSetsByObjectType();
         initilizeRuleSetsByObjectUri();
@@ -195,7 +205,7 @@ public class AccessRuleStore {
     private void initilizeRuleSetsByObjectUri() {
         ruleSetsByObjectUri = Collections.synchronizedMap(new HashMap<>());
         Set<AccessRule> set = Collections.synchronizedSet(new HashSet<>());
-        ruleSetsByObjectUri.put("", set);
+        ruleSetsByObjectUri.put(NO_URI_VALUE, set);
     }
     
     private void initilizeRuleSetsByObjectType() {
@@ -215,9 +225,6 @@ public class AccessRuleStore {
     }
 
     public static void initialize(Model model) {
-        if (INSTANCE != null) {
-            return;
-        }
         INSTANCE = new AccessRuleStore(model);
     }
 
@@ -232,8 +239,9 @@ public class AccessRuleStore {
     }
 
     private void loadRulesFromModel(String sparqlQuery) {
+        debug("SPARQL Query to get rule from the model:\n %s", sparqlQuery);
         Query query = QueryFactory.create(sparqlQuery);
-        QueryExecution qexec = QueryExecutionFactory.create(query, userAccountsModel);
+        QueryExecution qexec = QueryExecutionFactory.create(query, getUserAccountsModel());
         try {
             ResultSet rs = qexec.execSelect();
             AccessRule rule = null;
@@ -253,6 +261,8 @@ public class AccessRuleStore {
             }
             if (rule != null) {
                 addRule(rule);    
+            } {
+                debug("Rule wasn't loaded from the user accounts model.");
             }
         } catch (Exception e) {
             log.error(e, e);
@@ -264,40 +274,43 @@ public class AccessRuleStore {
     private String getAttributeUri(String testId, String typeId, String value, boolean valueIsLiteral) throws Exception {
         String uri = getAttributeUriFromModel(testId, typeId, value, valueIsLiteral);
         if (StringUtils.isBlank(uri)) {
-            final String attributeUri = generateAttributeUri();
-            String ttl = ""
-                    + "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n"
-                    + "@prefix ai: <https://vivoweb.org/ontology/vitro-application/auth/individual/> .\n"
-                    + "@prefix ao: <https://vivoweb.org/ontology/vitro-application/auth/vocabulary/> .\n"
-                    + "<" + attributeUri + "> rdf:type ao:Attribute . \n"
-                    + "<" + attributeUri + "> ao:test <" + getUriById(testId) + "> .\n"
-                    + "<" + attributeUri + "> ao:type <" + getUriById(typeId) + "> .\n"
-                    + "";
-            if (AttributeType.OBJECT_URI.toString().equals(typeId) || 
-                AttributeType.SUBJECT_ROLE_URI.toString().equals(typeId)) {
-                ttl += "<" + attributeUri + "> ao:value <" + value + "> . \n";
-            } else {
-                System.out.println(typeId);
-                ttl += "<" + attributeUri + "> ao:value <" + getUriById(value) + "> . \n";
-            }
-            try {
-                Model ruleData = ModelFactory.createDefaultModel();
-                ruleData.read(IOUtils.toInputStream(ttl, "UTF-8"), null, "TTL");
-                updateUserAccountsModel(ruleData, false);
-            } catch (IOException e) {
-                log.error(e, e);
-            }
-            return attributeUri;
+            uri = createNewAttribute(testId, typeId, value);
+        } 
+        return uri;
+    }
+
+    private String createNewAttribute(String testId, String typeId, String value) throws Exception {
+        final String attributeUri = generateAttributeUri(testId, typeId);
+        String ttl = NO_URI_VALUE
+                + "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n"
+                + "@prefix ai: <https://vivoweb.org/ontology/vitro-application/auth/individual/> .\n"
+                + "@prefix ao: <https://vivoweb.org/ontology/vitro-application/auth/vocabulary/> .\n"
+                + "<" + attributeUri + "> rdf:type ao:Attribute . \n"
+                + "<" + attributeUri + "> ao:test <" + getUriById(testId) + "> .\n"
+                + "<" + attributeUri + "> ao:type <" + getUriById(typeId) + "> .\n"
+                + NO_URI_VALUE;
+        if (AttributeType.OBJECT_URI.toString().equals(typeId) || 
+            AttributeType.SUBJECT_ROLE_URI.toString().equals(typeId)) {
+            ttl += "<" + attributeUri + "> ao:value <" + value + "> . \n";
         } else {
-            return uri;
+            System.out.println(typeId);
+            ttl += "<" + attributeUri + "> ao:value <" + getUriById(value) + "> . \n";
         }
+        try {
+            Model attributeData = ModelFactory.createDefaultModel();
+            attributeData.read(IOUtils.toInputStream(ttl, "UTF-8"), null, "TTL");
+            updateUserAccountsModel(attributeData, false);
+        } catch (IOException e) {
+            log.error(e, e);
+        }
+        return attributeUri;
     }
     
     private String getUriById(String id) throws Exception {
         ParameterizedSparqlString pss = new ParameterizedSparqlString(URI_BY_ID_QUERY);
         pss.setLiteral(ID, id);    
         Query query = QueryFactory.create(pss.toString());
-        QueryExecution qexec = QueryExecutionFactory.create(query, userAccountsModel);
+        QueryExecution qexec = QueryExecutionFactory.create(query, getUserAccountsModel());
         try {
             ResultSet rs = qexec.execSelect();
             while (rs.hasNext()) {
@@ -319,8 +332,8 @@ public class AccessRuleStore {
         return UUID.randomUUID().toString();
     }
 
-    private String getAttributeUriFromModel(String testId, String typeId, String value, boolean valueIsLiteral) {
-        ParameterizedSparqlString pss = new ParameterizedSparqlString(ATTRIBUTE_URI_QUERY);
+    protected String getAttributeUriFromModel(String testId, String typeId, String value, boolean valueIsLiteral) {
+        ParameterizedSparqlString pss = new ParameterizedSparqlString(getAttributeUriQuery(valueIsLiteral));
         if (testId != null) {
             pss.setLiteral(TEST_ID,testId);    
         }
@@ -335,7 +348,7 @@ public class AccessRuleStore {
             }
         }
         Query query = QueryFactory.create(pss.toString());
-        QueryExecution qexec = QueryExecutionFactory.create(query, userAccountsModel);
+        QueryExecution qexec = QueryExecutionFactory.create(query, getUserAccountsModel());
         try {
             ResultSet rs = qexec.execSelect();
             while (rs.hasNext()) {
@@ -350,14 +363,14 @@ public class AccessRuleStore {
         } finally {
             qexec.close();
         }
-        return "";
+        return NO_URI_VALUE;
     }
     
     private void removeRuleFromModel(String ruleUri) {
         ParameterizedSparqlString pss = new ParameterizedSparqlString(DELETE_QUERY);
         pss.setIri(RULE, ruleUri);
         Query query = QueryFactory.create(pss.toString());
-        QueryExecution qexec = QueryExecutionFactory.create(query, userAccountsModel);
+        QueryExecution qexec = QueryExecutionFactory.create(query, getUserAccountsModel());
         Model ruleData = null;
         try {
               ruleData = qexec.execConstruct();
@@ -371,24 +384,31 @@ public class AccessRuleStore {
         }
     }
     
-    private void updateUserAccountsModel(Model ruleData, boolean remove) {
+    private void updateUserAccountsModel(Model ruleData, boolean isRemove) {
         try {
             ChangeSet changeSet = makeChangeSet();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ruleData.write(baos, "N3");
+            ruleData.write(baos, "TTL");
             InputStream in = new ByteArrayInputStream(baos.toByteArray());
-            if (remove) {
-                changeSet.addRemoval(in, ModelSerializationFormat.N3, ModelNames.USER_ACCOUNTS);    
+            debug(modelToString(ruleData, isRemove));
+            if (isRemove) {
+                changeSet.addRemoval(in, ModelSerializationFormat.N3, ModelNames.USER_ACCOUNTS);  
             } else {
                 changeSet.addAddition(in, ModelSerializationFormat.N3, ModelNames.USER_ACCOUNTS);    
             }
             rdfService.changeSetUpdate(changeSet);
         } catch (RDFServiceException e) {
-            StringWriter sw = new StringWriter();
-            ruleData.write(sw, "TTL");
-            log.error("Got " + e.getClass().getSimpleName() + " while updating (remove? " + remove + ") user accounts model \n" + sw.toString());
+            String message = modelToString(ruleData, isRemove);
+            log.error(message);
             log.error(e,e);
         }
+    }
+
+    private String modelToString(Model ruleData, boolean isRemove) {
+        StringWriter sw = new StringWriter();
+        ruleData.write(sw, "TTL");
+        String message = (isRemove ? "Removing from" : "Adding to") + " user accounts model \n" + sw.toString();
+        return message;
     }
 
     private void addRule(AccessRule rule) {
@@ -396,6 +416,7 @@ public class AccessRuleStore {
         addRuleToOperationSets(rule);
         addRuleToObjectTypeSets(rule);
         addRuleToObjectUriSets(rule);
+        debug("Added rule %s with %s attributes to store sets ", rule.getRuleUri(), rule.attributes.size());
     }
 
     private synchronized void addRuleToObjectUriSets(AccessRule rule) {
@@ -472,13 +493,19 @@ public class AccessRuleStore {
     private Set<AccessRule> getGrantedRoleRulesForEntityUri(String entityURI, AccessOperation operation) {
         Set<Set<AccessRule>> ruleSets = new HashSet<>();
         Set<AccessRule> filteredByObjectUri = ruleSetsByObjectUri.get(entityURI);
-        if (filteredByObjectUri != null) {
-            ruleSets.add(filteredByObjectUri);
+        if (filteredByObjectUri == null) {
+            filteredByObjectUri = new HashSet<>();
         }
+        filteredByObjectUri.addAll(ruleSetsByObjectUri.get(NO_URI_VALUE));
+        ruleSets.add(filteredByObjectUri); 
+        
         Set<AccessRule> filteredByOperation = ruleSetsByOperation.get(operation);
-        if (filteredByOperation != null) {
-            ruleSets.add(filteredByOperation);
+        if (filteredByOperation == null) {
+            filteredByOperation = new HashSet<>();
         }
+        filteredByObjectUri.addAll(ruleSetsByOperation.get(AccessOperation.ANY));
+        ruleSets.add(filteredByOperation);
+
         Set<AccessRule> ruleset = getIntersection(ruleSets);
         return ruleset;
     }
@@ -542,15 +569,18 @@ public class AccessRuleStore {
     }
 
     public void updateEntityRules(String entityUri, AccessObjectType aot, AccessOperation operation, Set<String> newRoleUris) {
-        Set<String> currentRoleUris =  new HashSet<>(getGrantedRoleUris(entityUri, operation));
+        debug("Update entity rules uri: %s object type %s operation %s roleUris %s", entityUri, aot, operation, newRoleUris);
+        Set<String> currentRoleUris = new HashSet<>(getGrantedRoleUris(entityUri, operation));
         //remove already existing roles, now list contains roles to allow access.
         Set<String> roleUrisToCreate = new HashSet<String>(newRoleUris);
         roleUrisToCreate.removeAll(currentRoleUris);
+        debug("Going to create rules for objectUri: %s objectType: %s operation %s roles %s", entityUri, aot, operation, roleUrisToCreate);
         for (String roleUri : roleUrisToCreate) {
             createEntityRule(entityUri, aot, operation, roleUri);
         }
         Set<String> rolesUrisToRemove = new HashSet<String>(currentRoleUris);
         rolesUrisToRemove.removeAll(newRoleUris);
+        debug("Going to remove rules for objectUri: %s objectType: %s operation %s roles %s", entityUri, aot, operation, rolesUrisToRemove);
         for (String roleUri : rolesUrisToRemove) {
             removeEntityRule(entityUri, aot, operation, roleUri);
         }
@@ -565,12 +595,14 @@ public class AccessRuleStore {
             //Check number of attributes to avoid removing custom rules
             if (rule.match(ar) && rule.getAttributes().size() == 4) {
                 rule.removeFromSets();
-                removeRuleFromModel(rule.getRuleUri()); 
+                removeRuleFromModel(rule.getRuleUri());
+                debug("Removed rule for objectUri: %s objectType: %s operation %s role %s", entityUri, aot, operation, roleUri);
             }
+            
         }
     }
 
-    protected void createEntityRule(String objectUri, AccessObjectType accessObjectType, AccessOperation operation, String roleUri) {
+    protected void createEntityRule(String objectUri, AccessObjectType aot, AccessOperation operation, String roleUri) {
         //create 4 attribute uris or get uris 
         String equals = TestType.EQUALS.toString();
         String ruleUri = generateRuleUri();
@@ -578,8 +610,9 @@ public class AccessRuleStore {
             String subjectRoleAtt = getAttributeUri(equals, AttributeType.SUBJECT_ROLE_URI.toString(), roleUri, false);
             String operationAtt = getAttributeUri(equals, AttributeType.OPERATION.toString(), operation.toString(), true);
             String objectUriAtt = getAttributeUri(equals,  AttributeType.OBJECT_URI.toString(), objectUri, true);
-            String objectTypeAtt = getAttributeUri(equals, AttributeType.OBJECT_TYPE.toString(), accessObjectType.toString(), true);
+            String objectTypeAtt = getAttributeUri(equals, AttributeType.OBJECT_TYPE.toString(), aot.toString(), true);
             String ttl = generateEntityRuleData(ruleUri, subjectRoleAtt, operationAtt, objectUriAtt, objectTypeAtt);
+            debug("Going to load new rule for objectUri: %s objectType: %s operation %s role. TTL: %s \n %s", objectUri, aot, operation, roleUri, ttl);
             Model ruleData = ModelFactory.createDefaultModel();
             ruleData.read(IOUtils.toInputStream(ttl, "UTF-8"), null, "TTL");
             updateUserAccountsModel(ruleData, false);
@@ -593,14 +626,13 @@ public class AccessRuleStore {
         return "https://vivoweb.org/ontology/vitro-application/auth/individual/rule/" + generateUUID();
     }
     
-    private String generateAttributeUri() {
-        return "https://vivoweb.org/ontology/vitro-application/auth/individual/attribute/" + generateUUID();
+    private String generateAttributeUri(String testId, String typeId) {
+        return "https://vivoweb.org/ontology/vitro-application/auth/individual/attribute/"+ typeId + "/" + testId + "/" + generateUUID();
     }
-    
 
     private String generateEntityRuleData(String ruleUri, String subjectRoleAttribute, String operationAttribute,
             String objectUriAttribute, String objectTypeAttribute) {
-        String ttl = ""
+        String ttl = NO_URI_VALUE
                 + "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n"
                 + "@prefix ai: <https://vivoweb.org/ontology/vitro-application/auth/individual/> .\n"
                 + "@prefix ao: <https://vivoweb.org/ontology/vitro-application/auth/vocabulary/> .\n"
@@ -613,19 +645,17 @@ public class AccessRuleStore {
     }
 
     public static void deletedEntityEvent(Property oldObj) {
-        log.error("delete entity event for property " + oldObj );
-        // TODO Auto-generated method stub
+        log.debug("Don't delete access rule if property has been deleted " + oldObj );
     }
 
     public static void updatedEntityEvent(Object oldObj, Object newObj) {
-        // TODO Auto-generated method stub
-        if (oldObj instanceof Property || newObj instanceof Property)
-        log.error("update entity event old " + oldObj + " new object " + newObj );
+        if (oldObj instanceof Property || newObj instanceof Property) {
+            log.error("update entity event old " + oldObj + " new object " + newObj );    
+        }
     }
 
     public static void insertedEntityEvent(Property newObj) {
-        // TODO Auto-generated method stub
-        log.error("insert entity event for property " + newObj );
+        log.debug("Nothing to do " + newObj );
     }
 
     public List<String> getGrantedRoleUris(String entityUri, AccessOperation operation) {
@@ -633,7 +663,16 @@ public class AccessRuleStore {
             return Collections.emptyList();
         }
         Set<AccessRule> rulesWithGrantedRoles = getGrantedRoleRulesForEntityUri(entityUri, operation);
-        return getGrantedUrisFromRules(rulesWithGrantedRoles);
+        List<String> grantedUrisFromRules = getGrantedUrisFromRules(rulesWithGrantedRoles);
+        debug("Execute action %s on entity with uri %s found to be allowed to %s", entityUri, operation, grantedUrisFromRules);
+        return grantedUrisFromRules;
+    }
+
+
+    private void debug(String template, Object... objects) {
+        if (true) {
+            log.error(String.format(template, objects ));
+        }
     }
 
     private List<String> getGrantedUrisFromRules(Set<AccessRule> ruleset) {
@@ -659,7 +698,7 @@ public class AccessRuleStore {
     }
     
     public long getModelSize() {
-        return userAccountsModel.size();
+        return getUserAccountsModel().size();
     }
     
     private ChangeSet makeChangeSet() {

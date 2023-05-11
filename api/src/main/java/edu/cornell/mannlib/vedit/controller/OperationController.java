@@ -147,18 +147,18 @@ public class OperationController extends BaseEditController {
                 }
                 String entityType = request.getParameter("_permissionsEntityType");
                 
-
                 // Get the granted permissions from the request object
-                for (AccessOperation ao : AccessOperation.values()) {
+                for (AccessOperation ao : operations) {
                     String operation = ao.toString().toLowerCase();
                     String[] roles = request.getParameterValues(operation + "Roles");
-                    if (roles == null) {
-                        log.error(operation + "Roles not received (null)");
-                    } else if(StringUtils.isBlank(entityUri)) {
+                    if(StringUtils.isBlank(entityUri)) {
                         log.error("EntityUri is blank");
-                    } else if (StringUtils.isBlank(entityType) ||  EnumUtils.isValidEnum(AccessObjectType.class, entityType)) {
+                    } else if (StringUtils.isBlank(entityType) || !EnumUtils.isValidEnum(AccessObjectType.class, entityType)) {
                         log.error("EntityType is not valid " + entityType);
                     } else {
+                        if (roles == null) {
+                            roles = new String[0];
+                        }
                         AccessRuleStore.getInstance().updateEntityRules(entityUri, AccessObjectType.valueOf(entityType), ao, new HashSet<String>(Arrays.asList(roles)));
                     }
                 }
@@ -384,6 +384,7 @@ public class OperationController extends BaseEditController {
 
     private boolean SUCCESS = false;
     private boolean FAILURE = !SUCCESS;
+    private static final List<AccessOperation> operations = Arrays.asList(AccessOperation.PUBLISH, AccessOperation.UPDATE, AccessOperation.DISPLAY, AccessOperation.ADD, AccessOperation.DROP, AccessOperation.EDIT);
 
     private boolean performEdit(EditProcessObject epo, Object newObj, String action) {
     	/* do the actual edit operation */
