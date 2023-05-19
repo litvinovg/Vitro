@@ -6,8 +6,6 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationReques
 
 public interface Attribute {
 
-    public Set<AttributeGroup> getGroups();
-    
     public void setUri(String uri);
     
     public String getUri();

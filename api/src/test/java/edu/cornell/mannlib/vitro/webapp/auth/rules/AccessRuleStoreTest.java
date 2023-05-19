@@ -40,7 +40,7 @@ public class AccessRuleStoreTest {
     
     @Test
     public void testInitilization() {
-        assertEquals(2, store.getRulesCount());
+        assertEquals(3, store.getRulesCount());
     }
     
     @Test

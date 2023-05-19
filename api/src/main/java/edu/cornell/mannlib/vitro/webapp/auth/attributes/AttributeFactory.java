@@ -9,7 +9,7 @@ public class AttributeFactory {
     public static Attribute createAttribute(QuerySolution qs) {
         String typeId = qs.getLiteral(AccessRuleStore.TYPE_ID).getString();
         String attributeUri = qs.getResource(AccessRuleStore.ATTRIBUTE).getURI();
-        AttributeType type = AttributeType.valueOf(typeId.toUpperCase());
+        AttributeType type = AttributeType.valueOf(typeId);
         String testId = qs.getLiteral("testId").getString();
         String value = getValue(qs);
 
@@ -19,7 +19,7 @@ public class AttributeFactory {
             return at;
         }
         if (type.equals(AttributeType.OPERATION)) {
-            at = new OperationAttribute(attributeUri, value.toUpperCase());
+            at = new OperationAttribute(attributeUri, value);
             return at;
         }
         if (type.equals(AttributeType.OBJECT_URI)) {
@@ -27,10 +27,13 @@ public class AttributeFactory {
             return at;
         }
         if (type.equals(AttributeType.OBJECT_TYPE)) {
-            at = new ObjectTypeAttribute(attributeUri, value.toUpperCase());
+            at = new ObjectTypeAttribute(attributeUri, value);
             return at;
         }
-        //TODO: Create an attribute based on type id
+        if (type.equals(AttributeType.STATEMENT_PREDICATE_URI)) {
+            at = new ObjectTypeAttribute(attributeUri, value);
+            return at;
+        }
         throw new RuntimeException();
     }
 

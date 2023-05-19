@@ -88,17 +88,10 @@ public class EntityAccessRuleHelper {
         } else if (AccessObjectType.OBJECT_PROPERTY.equals(type)) {
             result = matches(ao.getObjectProperty().getURI(), ear);
         } else if (AccessObjectType.DATA_PROPERTY_STMT.equals(type)) {
-            result = matches((ao.getStatementPredicateUri()), ear);
+            result = matches(ao.getStatementPredicateUri(), ear);
         } else if (AccessObjectType.OBJECT_PROPERTY_STMT.equals(type)) {
             result = matches(ao.getStatementPredicateUri(), ear);
         }
-    
-        if (result) {
-            log.debug(ear + " authorizes " + ao);
-        } else {
-            log.debug(ear + " does not authorize " + ao);
-        }
-    
         return result;
     }
     

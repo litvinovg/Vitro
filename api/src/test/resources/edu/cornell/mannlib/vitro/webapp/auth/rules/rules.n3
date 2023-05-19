@@ -14,10 +14,22 @@
 #### Classes
 
 ao:Policy rdf:type owl:Class ;
-     rdfs:label "Access rule"@en-US .
+     rdfs:label "Access rule policy"@en-US .
+
+ao:TestValueSet rdf:type owl:Class ;
+     rdfs:label "Test value set"@en-US .
      
+ao:TestValue rdf:type owl:Class ;
+     rdfs:label "Test value"@en-US .
+
 ao:Rule rdf:type owl:Class ;
      rdfs:label "Access rule"@en-US .
+     
+ao:PolicyKey rdf:type owl:Class ;
+     rdfs:label "Meta access rule key"@en-US .
+     
+ao:RuleSet rdf:type owl:Class ;
+     rdfs:label "Access rule set"@en-US .
 
 ao:Attribute rdf:type owl:Class ;
      rdfs:label "Access rule attribute"@en-US .
@@ -27,6 +39,9 @@ ao:Test rdf:type owl:Class ;
 
 ao:Operation rdf:type owl:Class ;
      rdfs:label "Operation"@en-US .
+
+ao:MetaOperation rdf:type owl:Class ;
+     rdfs:label "Meta operation"@en-US .
 
 ao:ObjectType rdf:type owl:Class ;
      rdfs:label "Object type"@en-US .
@@ -62,6 +77,14 @@ ao:attribute rdf:type owl:ObjectProperty ;
           rdfs:domain ao:Rule ;
           rdfs:range ao:Attribute .
           
+ao:ruleSet rdf:type owl:ObjectProperty ;
+          rdfs:domain ao:Policy ;
+          rdfs:range ao:RuleSet .
+
+ao:testSet rdf:type owl:ObjectProperty ;
+          rdfs:domain ao:Policy ;
+          rdfs:range ao:TestValueSet .
+          
 ao:uri rdf:type owl:ObjectProperty .
 
 ao:value rdf:type owl:ObjectProperty ;
@@ -78,6 +101,21 @@ ao:rule rdf:type owl:ObjectProperty ;
 ao:object rdf:type owl:ObjectProperty ;
           rdfs:domain ao:Rule ;
           rdfs:range ao:object .
+          
+ao:keyObjectType rdf:type owl:ObjectProperty ;
+          rdfs:domain ao:PolicyKey ;
+          rdfs:range ao:ObjectType .
+          
+ao:keyRoleUri rdf:type owl:ObjectProperty ;
+          rdfs:domain ao:PolicyKey .
+          
+ao:keyMetaOperation rdf:type owl:ObjectProperty ;
+          rdfs:domain ao:PolicyKey ;
+          rdfs:range ao:MetaOperation .      
+          
+ao:policyKey rdf:type owl:ObjectProperty ;
+          rdfs:domain ao:Policy ;
+          rdfs:range ao:PolicyKey .            
           
 ##### Individuals
          
@@ -113,10 +151,10 @@ ai:ObjectNotMatch rdf:type ao:AttributeType ;
          ao:id "OBJECT_NOT_MATCH" .
          
 ai:SubjectNotMatch rdf:type ao:AttributeType ;
-         ao:id "SUBJECT_EQUALS" .
+         ao:id "SUBJECT_NOT_MATCH" .
          
 ai:ObjectNotMatch rdf:type ao:AttributeType ;
-         ao:id "OBJECT_EQUALS" .
+         ao:id "OBJECT_NOT_MATCH" .
          
 ai:RelatesToSubjectProfile rdf:type ao:AttributeType ;
          ao:id "RELATES_TO_SUBJECT_PROFILE" .
@@ -172,13 +210,61 @@ ai:EditOperation rdf:type ao:Operation ;
 ai:ExecuteOperation rdf:type ao:Operation ;
          ao:id "EXECUTE" .
 
+### Meta operations
+
+ai:MetaDisplayOperation rdf:type ao:MetaOperation ;
+         ao:id "META_DISPLAY" .
+         
+ai:MetaUpdateOperation rdf:type ao:MetaOperation ;
+         ao:id "META_UPDATE" .
+         
+ai:MetaPublishOperation rdf:type ao:MetaOperation ;
+         ao:id "META_PUBLISH" .         
+
 ### Access objects
 
 ### Object property access objects
 ai:RdfsLabelObjectProperty rdf:type ao:ObjectPropertyAccesObject ;
          ao:uri rdfs:label .
 
+### Policies
+
+ai:ObjectPropertyDisplayPolicy rdf:type ao:Policy ;
+          ao:ruleSet ai:ObjectPropertyDisplayRuleSet ;
+          ao:testSet ai:ObjectPropertyDisplayTestSet ;
+          ao:policyKey ai:ObjectPropertyDisplayPolicyKey .
+                   
+### RuleSets
+
+ai:ObjectPropertyDisplayRuleSet rdf:type ao:RuleSet ;
+          ao:rule ai:AllowUpdateRdfsLabelToAdminsRule .
+
+### TestSets
+
+ai:ObjectPropertyDisplayTestSet rdf:type ao:TestValueSet ;
+          ao:testValue ai:someTestValue .
+
+### TestValues
+
+ai:someTestValue rdf:type ao:TestValue .
+          
+
+
+### Policy keys
+
+ai:ObjectPropertyDisplayPolicyKey rdf:type ao:PolicyKey ;
+          ao:keyObjectType ai:ObjectPropertyAccesObject ;
+          ao:keyRoleUri auth:ADMIN ;
+          ao:keyMetaOperation ai:MetaDisplayOperation .
+
 ### Rules
+
+ai:AllowUpdateRdfsLabelToAdminsRule rdf:type ao:Rule;
+          ao:attribute ai:SubjectRoleEqualsAdminRoleAttribute ;
+          ao:attribute ai:UpdateOperationAttribute ;
+          ao:attribute ai:ObjectPropertyTypeAttribute ;
+          ao:attribute ai:RdfsLabelAttribute .
+
 ai:AllowDisplayRdfsLabelToAdminsRule rdf:type ao:Rule;
           ao:attribute ai:SubjectRoleEqualsAdminRoleAttribute ;
           ao:attribute ai:DisplayOperationAttribute ;
@@ -195,25 +281,36 @@ ai:AllowPublishRdfsLabelToAdminsRule rdf:type ao:Rule;
 ai:SubjectRoleEqualsAdminRoleAttribute rdf:type ao:Attribute ;
          ao:test ai:Equals ;
          ao:type ai:SubjectRole ;
+         
          ao:value auth:ADMIN .
          
 ai:DisplayOperationAttribute rdf:type ao:Attribute ;
          ao:test ai:Equals ;
          ao:type ai:Operation ;
+         
          ao:value ai:DisplayOperation .
          
 ai:PublishOperationAttribute rdf:type ao:Attribute ;
          ao:test ai:Equals ;
          ao:type ai:Operation ;
+         
          ao:value ai:PublishOperation .
+         
+ai:UpdateOperationAttribute rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
+         ao:type ai:Operation ;
+         
+         ao:value ai:UpdateOperation .
          
 ai:RdfsLabelAttribute rdf:type ao:Attribute ;
          ao:test ai:Equals ;
          ao:type ai:ObjectUri ;
+         
          ao:value rdfs:label .
          
 ai:ObjectPropertyTypeAttribute rdf:type ao:Attribute ;
          ao:test ai:Equals ;
          ao:type ai:ObjectType ;
+         
          ao:value ai:ObjectPropertyAccesObject .
 
