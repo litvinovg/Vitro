@@ -19,7 +19,15 @@ public class DynamicPolicy implements PolicyIface {
     private static final Log log = LogFactory.getLog(DynamicPolicy.class);
     private String uri;
     private long priority;
+    public long getPriority() {
+        return priority;
+    }
+
     private Set<AccessRule> rules = Collections.synchronizedSet(new HashSet<>());
+
+    public Set<AccessRule> getRules() {
+        return rules;
+    }
 
     public void addRules(Set<AccessRule> addition) {
         rules.addAll(addition);
@@ -45,7 +53,7 @@ public class DynamicPolicy implements PolicyIface {
                 log.debug("Access rule " + rule + " approves request " + whatToAuth);
                 return new BasicPolicyDecision(DecisionResult.AUTHORIZED, "Dynamic policy '" + uri + "' rule '" + rule + "' approved " + ar);
             } else {
-                log.trace("Dynamic policy '" + uri + "' rule '" + rule + "' denies request " + ar);
+                log.trace("Dynamic policy '" + uri + "' rule '" + rule + "' doesn't match the request " + ar);
             }
         }
         

@@ -61,6 +61,9 @@ ao:AccesObject rdf:type owl:Class ;
 ao:AttributeType rdf:type owl:Class ;
      rdfs:label "Attribute type"@en-US .
      
+ao:Decision rdf:type owl:Class ;
+     rdfs:label "Decision"@en-US .
+     
 #### Data properties
 
 ao:attributeName rdf:type owl:DatatypeProperty ,
@@ -90,6 +93,10 @@ ao:priority rdf:type owl:DatatypeProperty ,
 ao:attribute rdf:type owl:ObjectProperty ;
           rdfs:domain ao:Rule ;
           rdfs:range ao:Attribute .
+          
+ao:decision rdf:type owl:ObjectProperty ;
+          rdfs:domain ao:Rule ;
+          rdfs:range ao:Decision .          
           
 ao:rules rdf:type owl:ObjectProperty ;
           rdfs:domain ao:Policy ;

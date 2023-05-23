@@ -64,9 +64,11 @@ public class PolicyLoader {
           + "prefix auth: <http://vitro.mannlib.cornell.edu/ns/vitro/authorization#>\n"
           + "prefix ai: <https://vivoweb.org/ontology/vitro-application/auth/individual/>\n"
           + "prefix ao: <https://vivoweb.org/ontology/vitro-application/auth/vocabulary/>\n"
-          + "SELECT DISTINCT ?priority ?rules ?rule ?attribute ?testId ?typeId ?value ?lit_value ?dataSet \n"
+          + "SELECT DISTINCT ?priority ?rules ?rule ?attribute ?testId ?typeId ?value ?lit_value ?dataSet ?decision_id \n"
           + "WHERE {\n"
           + "?policy rdf:type ao:Policy .\n"
+          + "OPTIONAL {?" + POLICY + " ao:priority ?set_priority" + " . }\n"
+          + "BIND(COALESCE(?set_priority, 0 ) as ?" + PRIORITY + " ) .\n"
           + "?policy ao:rules ?rules . \n"
           + "?rules ao:rule ?rule . \n"
           + "?rule ao:attribute ?attribute .\n"
@@ -74,6 +76,10 @@ public class PolicyLoader {
           + "?attributeTest ao:id ?testId . \n"
           + "?attribute ao:type ?attributeType . \n"
           + "?attributeType ao:id ?typeId . \n"
+          + "OPTIONAL {"
+          + "   ?rule ao:decision ?decision . \n"
+          + "   ?decision ao:id ?decision_id"
+          + "}"
           + "OPTIONAL { "
           + "   SELECT ?dataSet WHERE \n"
           + "   {\n"
@@ -102,8 +108,6 @@ public class PolicyLoader {
           + "   OPTIONAL {?value ao:id ?lit_value . }\n"
           + "}"
           + "FILTER( (?cond1 || ?cond2) && ! (?cond1 && ?cond2) )\n"
-          + "OPTIONAL {?policy ao:priority ?set_priority" + " . }\n"
-          + "BIND(COALESCE(?set_priority, 0 ) as ?" + PRIORITY + " ) .\n"
           + "} ORDER BY ?priority ?rule ?attribute";
     
     private Model userAccountsModel;
@@ -183,6 +187,7 @@ public class PolicyLoader {
                 if (isInvalidPolicySolution(qs)) {
                     return null;
                 }
+                priority = qs.getLiteral("priority").getLong();
                 if (isRuleContinues(rule, qs)){
                     populateRule(rule, qs);
                 } else {

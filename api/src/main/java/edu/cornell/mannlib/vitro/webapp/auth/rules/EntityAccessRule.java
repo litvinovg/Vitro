@@ -4,6 +4,7 @@ package edu.cornell.mannlib.vitro.webapp.auth.rules;
 
 import java.util.*;
 
+@Deprecated
 public class EntityAccessRule extends AccessRule {
 
 

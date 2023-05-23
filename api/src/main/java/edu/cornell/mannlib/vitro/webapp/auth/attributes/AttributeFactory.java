@@ -35,9 +35,14 @@ public class AttributeFactory {
             return at;
         }
         if (type.equals(AttributeType.STATEMENT_PREDICATE_URI)) {
-            at = new ObjectTypeAttribute(attributeUri, value);
+            at = new StatementPredicateUriAttribute(attributeUri, value);
             return at;
         }
+        if (type.equals(AttributeType.STATEMENT_OBJECT_URI)) {
+            at = new StatementObjectUriAttribute(attributeUri, value);
+            return at;
+        }
+        
         throw new RuntimeException();
     }
 

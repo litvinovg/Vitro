@@ -20,9 +20,17 @@ public abstract class AccessRule {
     private AccessObjectType objectType = AccessObjectType.ANY;
     private Set<Set<AccessRule>> ruleSets = new HashSet<>();
     protected Set<Attribute> attributes = new HashSet<>();
+    private boolean allowMatched = true;
     private String objectUri = "";
     private String ruleUri;
 
+    public boolean isAllowMatched() {
+        return allowMatched;
+    }
+
+    public void setAllowMatched(boolean allowMatched) {
+        this.allowMatched = allowMatched;
+    }
 
     public String getRuleUri() {
         return ruleUri;

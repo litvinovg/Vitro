@@ -8,13 +8,8 @@
 @prefix ai: <https://vivoweb.org/ontology/vitro-application/auth/individual/> .
 @prefix ao: <https://vivoweb.org/ontology/vitro-application/auth/vocabulary/> .
 
-ai:RootUserPolicy rdf:type ao:Policy ;
-          ao:priority 10000 ;
-          ao:rules ai:RootRuleSet .
+ai:Deny rdf:type ao:Decision;
+         ao:id "DENY" .
 
-ai:RootRuleSet rdf:type ao:Rules ;
-          ao:rule ai:AllowRootUserRule .
-          
-ai:AllowRootUserRule rdf:type ao:Rule;
-          ao:attribute ai:IsRootUserAttribute .
-
+ai:Allow rdf:type ao:Decison;
+         ao:id "ALLOW" .
