@@ -40,6 +40,12 @@ public class PolicyLoaderTest {
     
     @Test
     public void getPolicyUris() {
+        try {
+            model.enterCriticalSection(Lock.WRITE);
+            model.read(ROOT_POLICY_PATH);
+        } finally {
+            model.leaveCriticalSection();
+        }
         List<String> uris = loader.getPolicyUris();
         System.out.println(uris);
         assertTrue(!uris.isEmpty());
@@ -47,6 +53,12 @@ public class PolicyLoaderTest {
     
     @Test
     public void testLoadPolicyWithDataSets() {
+        try {
+            model.enterCriticalSection(Lock.WRITE);
+            model.read(DISPLAY_OBJ_PROP_PATH);
+        } finally {
+            model.leaveCriticalSection();
+        }
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/ObjectPropertyDisplayPolicy";
         DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);

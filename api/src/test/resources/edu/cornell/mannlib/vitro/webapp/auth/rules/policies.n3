@@ -21,5 +21,3 @@ ai:IsRootUserAttribute rdf:type ao:Attribute ;
          ao:test ai:Equals ;
          ao:type ai:SubjectType ;
          ao:value ai:RootUserSubject .
-
-

@@ -8,7 +8,6 @@
 @prefix ai: <https://vivoweb.org/ontology/vitro-application/auth/individual/> .
 @prefix ao: <https://vivoweb.org/ontology/vitro-application/auth/vocabulary/> .
 
-### Policies
 ai:ObjectPropertyDisplayPolicy rdf:type ao:Policy ;
           ao:rules ai:ObjectPropertyDisplayRuleSet ;
           ao:testDatasets ai:ObjectPropertyDisplayTestDatasets ;
@@ -20,17 +19,11 @@ ai:ObjectPropertyDisplayRuleSet rdf:type ao:Rules ;
 ai:ObjectPropertyDisplayTestDatasets rdf:type ao:TestDatasets ;
           ao:testDataset ai:firstDataset .
 
-### TestDataset
-
 ai:firstDataset rdf:type ao:TestDataSet ;
           ao:testData ai:RdfsLabelTestData .
           
-### TestData
-
 ai:RdfsLabelTestData rdf:type ao:TestData ;
           ai:dataValue rdfs:label .
-
-### Policy keys
 
 ai:ObjectPropertyDisplayPolicyKey rdf:type ao:PolicyKey ;
           ao:keyObjectType ai:ObjectPropertyAccesObject ;
@@ -43,9 +36,6 @@ ai:AllowUpdateRdfsLabelToAdminsRule rdf:type ao:Rule;
           ao:attribute ai:UpdateOperationAttribute ;
           ao:attribute ai:ObjectPropertyTypeAttribute ;
           ao:attribute ai:RdfsLabelAttribute .
-
-
-### Attributes
 
          
 ai:SubjectRoleEqualsAdminRoleAttribute rdf:type ao:Attribute ;
