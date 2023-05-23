@@ -15,6 +15,7 @@ import javax.servlet.ServletContextListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyLoader;
 import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRule;
 import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRuleStore;
 import edu.cornell.mannlib.vitro.webapp.auth.rules.NullAccessRule;
@@ -155,7 +156,7 @@ public class PermissionRegistry {
 			StartupStatus ss = StartupStatus.getBean(ctx);
 		    //Value is not used. Triggers static fields initialization
 			SimplePermission test = SimplePermission.EDIT_OWN_ACCOUNT;
-			AccessRuleStore.initialize(null);
+			PolicyLoader.initialize(null);
 			try {
 				List<AccessRule> permissions = new ArrayList<AccessRule>();
 

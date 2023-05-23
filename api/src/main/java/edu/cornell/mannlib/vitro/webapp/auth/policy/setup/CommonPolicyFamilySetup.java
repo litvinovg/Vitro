@@ -32,7 +32,6 @@ public class CommonPolicyFamilySetup implements ServletContextListener {
 
 		try {
 			policy(new PermissionsPolicy());
-            policy(new AccessRulesPolicy());
 
 			factory(new IsUserFactory());
 			factory(new IsRootUserFactory());

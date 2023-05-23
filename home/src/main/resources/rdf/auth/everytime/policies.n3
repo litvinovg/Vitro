@@ -1,0 +1,112 @@
+# $This file is distributed under the terms of the license in LICENSE$
+
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix auth: <http://vitro.mannlib.cornell.edu/ns/vitro/authorization#> .
+@prefix ai: <https://vivoweb.org/ontology/vitro-application/auth/individual/> .
+@prefix ao: <https://vivoweb.org/ontology/vitro-application/auth/vocabulary/> .
+
+### Policies
+
+
+ai:RootUserPolicy rdf:type ao:Policy ;
+          ao:rules ai:RootRuleSet ;
+          ao:testDatasets ai:rootPolicyDatasets .
+
+ai:ObjectPropertyDisplayPolicy rdf:type ao:Policy ;
+          ao:rules ai:ObjectPropertyDisplayRuleSet ;
+          ao:testDatasets ai:ObjectPropertyDisplayTestDatasets ;
+          ao:policyKey ai:ObjectPropertyDisplayPolicyKey .
+                   
+### RuleSets
+
+ai:ObjectPropertyDisplayRuleSet rdf:type ao:Rules ;
+          ao:rule ai:AllowUpdateRdfsLabelToAdminsRule .
+
+ai:RootRuleSet rdf:type ao:Rules ;
+          ao:rule ai:AllowRootUserRule .
+
+### TestDatasets
+
+ai:ObjectPropertyDisplayTestDatasets rdf:type ao:TestDatasets ;
+          ao:testDataset ai:firstDataset .
+
+### TestDataset
+
+ai:firstDataset rdf:type ao:TestDataSet ;
+          ao:testData ai:RdfsLabelTestData .
+          
+### TestData
+
+ai:RdfsLabelTestData rdf:type ao:TestData ;
+          ai:dataValue rdfs:label .
+
+### Policy keys
+
+ai:ObjectPropertyDisplayPolicyKey rdf:type ao:PolicyKey ;
+          ao:keyObjectType ai:ObjectPropertyAccesObject ;
+          ao:keyRoleUri auth:ADMIN ;
+          ao:keyMetaOperation ai:MetaDisplayOperation .
+
+### Rules
+
+ai:AllowRootUserRule rdf:type ao:Rule;
+          ao:attribute ai:IsRootUserAttribute .
+
+ai:AllowUpdateRdfsLabelToAdminsRule rdf:type ao:Rule;
+          ao:attribute ai:SubjectRoleEqualsAdminRoleAttribute ;
+          ao:attribute ai:UpdateOperationAttribute ;
+          ao:attribute ai:ObjectPropertyTypeAttribute ;
+          ao:attribute ai:RdfsLabelAttribute .
+
+#ai:AllowDisplayRdfsLabelToAdminsRule rdf:type ao:Rule;
+#          ao:attribute ai:SubjectRoleEqualsAdminRoleAttribute ;
+#          ao:attribute ai:DisplayOperationAttribute ;
+#          ao:attribute ai:ObjectPropertyTypeAttribute ;
+#          ao:attribute ai:RdfsLabelAttribute .
+#          
+#ai:AllowPublishRdfsLabelToAdminsRule rdf:type ao:Rule;
+#          ao:attribute ai:SubjectRoleEqualsAdminRoleAttribute ;
+#          ao:attribute ai:PublishOperationAttribute ;
+#          ao:attribute ai:ObjectPropertyTypeAttribute ;
+#          ao:attribute ai:RdfsLabelAttribute .
+
+### Attributes
+
+ai:IsRootUserAttribute rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
+         ao:type ai:SubjectType ;
+         ao:value ai:RootUserSubject .
+         
+ai:SubjectRoleEqualsAdminRoleAttribute rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
+         ao:type ai:SubjectRole ;
+         ao:value auth:ADMIN .
+         
+ai:DisplayOperationAttribute rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
+         ao:type ai:Operation ;
+         ao:value ai:DisplayOperation .
+         
+ai:PublishOperationAttribute rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
+         ao:type ai:Operation ;
+         ao:value ai:PublishOperation .
+         
+ai:UpdateOperationAttribute rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
+         ao:type ai:Operation ;
+         ao:value ai:UpdateOperation .
+         
+ai:RdfsLabelAttribute rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
+         ao:type ai:ObjectUri ;
+         ao:setValue ai:RdfsLabelTestData .
+         
+ai:ObjectPropertyTypeAttribute rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
+         ao:type ai:ObjectType ;
+         ao:value ai:ObjectPropertyAccesObject .
+

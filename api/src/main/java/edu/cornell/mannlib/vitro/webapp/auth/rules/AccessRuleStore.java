@@ -62,7 +62,7 @@ public class AccessRuleStore {
     public static final String OPERATION_ID = "operationId";
     public static final String ATTRIBUTE = "attribute";
     public static final String RULE = "rule";
-
+    
     private static final String RULES_QUERY =
             "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
           + "prefix owl: <http://www.w3.org/2002/07/owl#>\n"

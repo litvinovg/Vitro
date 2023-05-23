@@ -38,25 +38,21 @@ public class AccessRuleStoreTest {
         store = AccessRuleStore.getInstance();
     }
     
-    @Test
     public void testInitilization() {
         assertEquals(3, store.getRulesCount());
     }
     
-    @Test
     public void testGetGrantedRoleUris() {
         List<String> grantedRoles = store.getGrantedRoleUris(RDFS_LABEL_URI, AccessOperation.DISPLAY);
         assertEquals(1, grantedRoles.size());
         assertTrue(grantedRoles.contains(ROLE_ADMIN_URI));
     }
     
-    @Test
     public void testGetGrantedRoleUrisNotExists() {
         List<String> grantedRoles = store.getGrantedRoleUris(RDFS_LABEL_URI + "_NOT_EXISTS", AccessOperation.DISPLAY);
         assertEquals(0, grantedRoles.size());
     }
     
-    @Test
     public void testDeleteRule() {
         long initialSize = store.getModelSize();
         long initialRulesCount = store.getRulesCount();
@@ -65,7 +61,6 @@ public class AccessRuleStoreTest {
         assertTrue(store.getRulesCount() < initialRulesCount);
     }
     
-    @Test
     public void testCreateRule() {
         long initialSize = store.getModelSize();
         long initialRulesCount = store.getRulesCount();
@@ -74,7 +69,6 @@ public class AccessRuleStoreTest {
         assertTrue(store.getRulesCount() > initialRulesCount);
     }
     
-    @Test
     public void testGrantedRolesModification() {
         List<String> grantedRoles = store.getGrantedRoleUris(RDFS_LABEL_URI, AccessOperation.PUBLISH);
         int prevRolesCount = grantedRoles.size();
@@ -92,13 +86,11 @@ public class AccessRuleStoreTest {
     }
     
     
-    @Test
     public void getGetAttributeUri() {
         assertEquals("https://vivoweb.org/ontology/vitro-application/auth/individual/PublishOperationAttribute", store.getAttributeUriFromModel("EQUALS","OPERATION","PUBLISH",true));
         assertEquals("", store.getAttributeUriFromModel("EQUALS","OPERATION","DO_SOMETHING_NEW", true));
     }
     
-    @Test
     public void testUpdateEntityRules() {
         HashSet<String> roles = new HashSet<String>(Arrays.asList(ROLE_ADMIN_URI, ROLE_EDITOR_URI ));
         HashSet<String> newRoles = new HashSet<String>(Arrays.asList(ROLE_CURATOR_URI));

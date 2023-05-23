@@ -4,12 +4,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.PermissionsPolicy;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 
 public class ObjectTypeAttribute extends AbstractAttribute {
 
-    private static final Log log = LogFactory.getLog(PermissionsPolicy.class);
+    private static final Log log = LogFactory.getLog(ObjectTypeAttribute.class);
 
     public ObjectTypeAttribute(String uri, String roleValue) {
         super(uri, roleValue);
@@ -28,7 +27,6 @@ public class ObjectTypeAttribute extends AbstractAttribute {
 
     @Override
     public AttributeType getAttributeType() {
-        return AttributeType.OBJECT_TYPE;
+        return AttributeType.SUBJECT_TYPE;
     }
-
 }

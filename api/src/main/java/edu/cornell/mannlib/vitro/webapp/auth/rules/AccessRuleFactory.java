@@ -10,7 +10,7 @@ public class AccessRuleFactory {
 
     private static final Log log = LogFactory.getLog(AccessRuleFactory.class);
 
-    static AccessRule createRule(QuerySolution qs) {
+    public static AccessRule createRule(QuerySolution qs) {
         AccessRule ar = new SimpleAccessRule();
         try {
             ar.setRuleUri(qs.getResource(AccessRuleStore.RULE).getURI());

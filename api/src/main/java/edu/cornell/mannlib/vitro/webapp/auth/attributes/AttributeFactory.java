@@ -30,6 +30,10 @@ public class AttributeFactory {
             at = new ObjectTypeAttribute(attributeUri, value);
             return at;
         }
+        if (type.equals(AttributeType.SUBJECT_TYPE)) {
+            at = new SubjectTypeAttribute(attributeUri, value);
+            return at;
+        }
         if (type.equals(AttributeType.STATEMENT_PREDICATE_URI)) {
             at = new ObjectTypeAttribute(attributeUri, value);
             return at;

@@ -11,12 +11,6 @@ import javax.servlet.ServletContextListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
-import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.IsRootUser;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount.Status;
 import edu.cornell.mannlib.vitro.webapp.config.ConfigurationProperties;
@@ -33,7 +27,7 @@ import edu.cornell.mannlib.vitro.webapp.startup.StartupStatus;
  *
  * If any other root users exist, warn about them.
  */
-public class RootUserPolicy implements PolicyIface {
+public class RootUserPolicy  {
 	private static final Log log = LogFactory.getLog(RootUserPolicy.class);
 
 	private static final String PROPERTY_ROOT_USER_EMAIL = "rootUser.emailAddress";
@@ -45,26 +39,6 @@ public class RootUserPolicy implements PolicyIface {
 
 	private static final String ROOT_USER_INITIAL_PASSWORD = "rootPassword";
 	private static final String ROOT_USER_INITIAL_PASSWORD_CHANGE_REQUIRED = "true";
-
-	/**
-	 * This is the entire policy. If you are a root user, you are authorized.
-	 */
-	@Override
-	public PolicyDecision decide(AuthorizationRequest ar) {
-        IdentifierBundle ac_subject = ar.getIds();
-		if (IsRootUser.isRootUser(ac_subject)) {
-			return new BasicPolicyDecision(DecisionResult.AUTHORIZED,
-					"RootUserPolicy: approved");
-		} else {
-			return new BasicPolicyDecision(DecisionResult.INCONCLUSIVE,
-					"not root user");
-		}
-	}
-
-	@Override
-	public String toString() {
-		return "RootUserPolicy - " + hashCode();
-	}
 
 	// ----------------------------------------------------------------------
 	// Setup class
@@ -106,8 +80,6 @@ public class RootUserPolicy implements PolicyIface {
 						complainAboutWrongRootUsers();
 					}
 				}
-
-				PolicyStore.addPolicy(new RootUserPolicy());
 			} catch (Exception e) {
 				ss.fatal(this, "Failed to set up the RootUserPolicy", e);
 			}
