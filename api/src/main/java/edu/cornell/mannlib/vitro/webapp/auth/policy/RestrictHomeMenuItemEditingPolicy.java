@@ -31,17 +31,14 @@ public class RestrictHomeMenuItemEditingPolicy implements PolicyIface {
 		return notHandled();
 	}
 
-	private PolicyDecision isAuthorized(
-			ObjectPropertyStatementAccessObject whatToAuth) {
-		if (whatToAuth.getStatementPredicateUri()
-				.equals(DisplayVocabulary.HAS_ELEMENT)
-				&& whatToAuth.getStatementObject().equals(
-						DisplayVocabulary.HOME_MENU_ITEM)) {
-			return notAuthorized();
-		} else {
-			return notHandled();
-		}
-	}
+    private PolicyDecision isAuthorized(ObjectPropertyStatementAccessObject whatToAuth) {
+        if (whatToAuth.getStatementPredicateUri().equals(DisplayVocabulary.HAS_ELEMENT)
+                && whatToAuth.getStatementObject().equals(DisplayVocabulary.HOME_MENU_ITEM)) {
+            return notAuthorized();
+        } else {
+            return notHandled();
+        }
+    }
 
 	private BasicPolicyDecision notHandled() {
 		return new BasicPolicyDecision(DecisionResult.INCONCLUSIVE,

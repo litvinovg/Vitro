@@ -27,8 +27,8 @@ public class PolicyLoaderTest {
     public static final String ATTRIBUTE_TYPES_PATH = USER_ACCOUNTS_HOME + "attribute_types.n3";
     public static final String TEST_TYPES_PATH = USER_ACCOUNTS_HOME + "test_types.n3";
 
-    public static final String ROOT_POLICY_PATH = USER_ACCOUNTS_HOME + "root_user_policy.n3";
-    public static final String DISPLAY_OBJ_PROP_PATH = USER_ACCOUNTS_HOME + "display_object_property_policy.n3";
+    public static final String ROOT_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_root_user.n3";
+    public static final String DISPLAY_OBJ_PROP_PATH = USER_ACCOUNTS_HOME + "policy_display_object_property.n3";
 
     private Model model;
     private PolicyLoader loader;
