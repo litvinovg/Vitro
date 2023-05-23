@@ -8,18 +8,24 @@
 @prefix ai: <https://vivoweb.org/ontology/vitro-application/auth/individual/> .
 @prefix ao: <https://vivoweb.org/ontology/vitro-application/auth/vocabulary/> .
 
-ai:RootUserPolicy rdf:type ao:Policy ;
-          ao:rules ai:RootRuleSet .
+ai:DisplayOperation rdf:type ao:Operation ;
+         ao:id "DISPLAY" .
+         
+ai:UpdateOperation rdf:type ao:Operation ;
+         ao:id "UPDATE" .
+         
+ai:PublishOperation rdf:type ao:Operation ;
+         ao:id "PUBLISH" .         
 
-ai:RootRuleSet rdf:type ao:Rules ;
-          ao:rule ai:AllowRootUserRule .
-          
-ai:AllowRootUserRule rdf:type ao:Rule;
-          ao:attribute ai:IsRootUserAttribute .
+ai:AddOperation rdf:type ao:Operation ;
+         ao:id "ADD" .
+         
+ai:DropOperation rdf:type ao:Operation ;
+         ao:id "DROP" .
 
-ai:IsRootUserAttribute rdf:type ao:Attribute ;
-         ao:test ai:Equals ;
-         ao:type ai:SubjectType ;
-         ao:value ai:RootUserSubject .
+ai:EditOperation rdf:type ao:Operation ;
+         ao:id "EDIT" .
 
+ai:ExecuteOperation rdf:type ao:Operation ;
+         ao:id "EXECUTE" .
 

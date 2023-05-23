@@ -35,7 +35,7 @@ ao:Rules rdf:type owl:Class ;
      rdfs:label "Access rule set"@en-US .
      
 ao:PolicyKey rdf:type owl:Class ;
-     rdfs:label "Meta access rule key"@en-US .
+     rdfs:label "Policy key"@en-US .
 
 ao:Attribute rdf:type owl:Class ;
      rdfs:label "Access rule attribute"@en-US .
@@ -46,8 +46,8 @@ ao:Test rdf:type owl:Class ;
 ao:Operation rdf:type owl:Class ;
      rdfs:label "Operation"@en-US .
 
-ao:MetaOperation rdf:type owl:Class ;
-     rdfs:label "Meta operation"@en-US .
+ao:OperationGroup rdf:type owl:Class ;
+     rdfs:label "Operation group"@en-US .
 
 ao:ObjectType rdf:type owl:Class ;
      rdfs:label "Object type"@en-US .
@@ -130,9 +130,9 @@ ao:keyObjectType rdf:type owl:ObjectProperty ;
 ao:keyRoleUri rdf:type owl:ObjectProperty ;
           rdfs:domain ao:PolicyKey .
           
-ao:keyMetaOperation rdf:type owl:ObjectProperty ;
+ao:keyOperationGroup rdf:type owl:ObjectProperty ;
           rdfs:domain ao:PolicyKey ;
-          rdfs:range ao:MetaOperation .      
+          rdfs:range ao:OperationGroup .      
           
 ao:policyKey rdf:type owl:ObjectProperty ;
           rdfs:domain ao:Policy ;

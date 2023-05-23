@@ -1,5 +1,4 @@
 # $This file is distributed under the terms of the license in LICENSE$
-
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -8,7 +7,7 @@
 @prefix ai: <https://vivoweb.org/ontology/vitro-application/auth/individual/> .
 @prefix ao: <https://vivoweb.org/ontology/vitro-application/auth/vocabulary/> .
 
-ai:ObjectPropertyDisplayPolicy rdf:type ao:Policy ;
+ai:ObjectPropertyDisplayOperationGroupPolicy rdf:type ao:Policy ;
           ao:rules ai:ObjectPropertyDisplayRuleSet ;
           ao:testDatasets ai:ObjectPropertyDisplayTestDatasets ;
           ao:policyKey ai:ObjectPropertyDisplayPolicyKey .
@@ -17,9 +16,9 @@ ai:ObjectPropertyDisplayRuleSet rdf:type ao:Rules ;
           ao:rule ai:AllowUpdateRdfsLabelToAdminsRule .
 
 ai:ObjectPropertyDisplayTestDatasets rdf:type ao:TestDatasets ;
-          ao:testDataset ai:firstDataset .
+          ao:testDataset ai:ObjectPropertyDisplayOperationGroupDataset .
 
-ai:firstDataset rdf:type ao:TestDataSet ;
+ai:ObjectPropertyDisplayOperationGroupDataset rdf:type ao:TestDataSet ;
           ao:testData ai:RdfsLabelTestData .
           
 ai:RdfsLabelTestData rdf:type ao:TestData ;
@@ -28,15 +27,13 @@ ai:RdfsLabelTestData rdf:type ao:TestData ;
 ai:ObjectPropertyDisplayPolicyKey rdf:type ao:PolicyKey ;
           ao:keyObjectType ai:ObjectPropertyAccesObject ;
           ao:keyRoleUri auth:ADMIN ;
-          ao:keyMetaOperation ai:MetaDisplayOperation .
-
+          ao:keyOperationGroup ai:DisplayOperationGroup .
 
 ai:AllowUpdateRdfsLabelToAdminsRule rdf:type ao:Rule;
           ao:attribute ai:SubjectRoleEqualsAdminRoleAttribute ;
           ao:attribute ai:UpdateOperationAttribute ;
           ao:attribute ai:ObjectPropertyTypeAttribute ;
           ao:attribute ai:RdfsLabelAttribute .
-
          
 ai:SubjectRoleEqualsAdminRoleAttribute rdf:type ao:Attribute ;
          ao:test ai:Equals ;

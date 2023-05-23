@@ -8,16 +8,6 @@
 @prefix ai: <https://vivoweb.org/ontology/vitro-application/auth/individual/> .
 @prefix ao: <https://vivoweb.org/ontology/vitro-application/auth/vocabulary/> .
 
-### Tests
-ai:Equals rdf:type ao:Test;
-         ao:id "EQUALS" ;
-         rdfs:label "Test if attribute value equals to..." .
-
-ai:NotEquals rdf:type ao:Test;
-         ao:id "NOT_EQUALS" ;
-         rdfs:label "Test if attribute value not equals to..." .
-
-### Attribute types
 ai:Subject rdf:type ao:AttributeType ;
          ao:id "SUBJECT" .
 
@@ -59,61 +49,3 @@ ai:ObjectPropertyUri rdf:type ao:AttributeType ;
          
 ai:DataPropertyUri rdf:type ao:AttributeType ;
          ao:id "DATA_PROPERTY_URI" .
-
-### Subject types
-
-ai:RootUserSubject rdf:type ao:SubjectType ;
-     ao:id "ROOT_USER" .
-
-### Object types
-     
-ai:ObjectPropertyAccesObject rdf:type ao:ObjectType ;
-     ao:id "OBJECT_PROPERTY" .
-
-ai:DataPropertyAccesObject rdf:type ao:ObjectType ;
-     ao:id "DATA_PROPERTY" .
-     
-ai:FauxPropertyAccesObject rdf:type ao:ObjectType ;
-     ao:id "FAUX_PROPERTY" .
-     
-ai:ObjectPropertyStatementAccesObject rdf:type ao:ObjectType ;
-     ao:id "OBJECT_PROPERTY_STATEMENT" .
-
-ai:DataPropertyStatementAccesObject rdf:type ao:ObjectType ;
-     ao:id "DATA_PROPERTY_STATEMENT" .
-
-ai:Class rdf:type ao:ObjectType ;
-     ao:id "CLASS" .
-
-### Operations
-ai:DisplayOperation rdf:type ao:Operation ;
-         ao:id "DISPLAY" .
-         
-ai:UpdateOperation rdf:type ao:Operation ;
-         ao:id "UPDATE" .
-         
-ai:PublishOperation rdf:type ao:Operation ;
-         ao:id "PUBLISH" .         
-
-ai:AddOperation rdf:type ao:Operation ;
-         ao:id "ADD" .
-         
-ai:DropOperation rdf:type ao:Operation ;
-         ao:id "DROP" .
-
-ai:EditOperation rdf:type ao:Operation ;
-         ao:id "EDIT" .
-
-ai:ExecuteOperation rdf:type ao:Operation ;
-         ao:id "EXECUTE" .
-
-### Meta operations
-
-ai:MetaDisplayOperation rdf:type ao:MetaOperation ;
-         ao:id "META_DISPLAY" .
-         
-ai:MetaUpdateOperation rdf:type ao:MetaOperation ;
-         ao:id "META_UPDATE" .
-         
-ai:MetaPublishOperation rdf:type ao:MetaOperation ;
-         ao:id "META_PUBLISH" .         

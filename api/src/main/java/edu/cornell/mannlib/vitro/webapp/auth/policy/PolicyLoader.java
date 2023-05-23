@@ -43,6 +43,19 @@ public class PolicyLoader {
           + "BIND(COALESCE(?set_priority, 0 ) as ?" + PRIORITY + " ) .\n"
           + "} ORDER BY ?" + PRIORITY;
     
+    private static final String POLICY_URI_BY_KEY =
+            "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
+          + "prefix owl: <http://www.w3.org/2002/07/owl#>\n"
+          + "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+          + "prefix xsd: <http://www.w3.org/2001/XMLSchema#>\n"
+          + "prefix auth: <http://vitro.mannlib.cornell.edu/ns/vitro/authorization#>\n"
+          + "prefix ai: <https://vivoweb.org/ontology/vitro-application/auth/individual/>\n"
+          + "prefix ao: <https://vivoweb.org/ontology/vitro-application/auth/vocabulary/>\n"
+          + "SELECT DISTINCT ?" + POLICY + " \n"
+          + "WHERE {\n"
+          + "?" + POLICY + " rdf:type ao:Policy .\n"
+          + "}";
+    
     private static final String POLICY_QUERY =
             "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
           + "prefix owl: <http://www.w3.org/2002/07/owl#>\n"
