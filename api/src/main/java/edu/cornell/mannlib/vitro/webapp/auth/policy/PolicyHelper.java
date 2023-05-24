@@ -4,6 +4,8 @@ package edu.cornell.mannlib.vitro.webapp.auth.policy;
 
 import static edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject.SOME_URI;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +26,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.ActiveIdentifierBundleFactories;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.RequestIdentifiers;
+import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.IdentifierPermissionSetProvider;
 import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.objects.DataPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.objects.ObjectPropertyStatementAccessObject;
@@ -100,6 +103,8 @@ public class PolicyHelper {
             return false;
         }
         AuthorizationRequest ar = new SimpleAuthorizationRequest(ao, operation);
+        Collection<String> uris = IdentifierPermissionSetProvider.getPermissionSetUris(ids);
+        ar.setRoleUris(new ArrayList<String>(uris));
         ar.setIds(ids);
 	    PolicyList policies = PolicyStore.getInstance().copy();
 	    PolicyDecision decision = policies.decide(ar);

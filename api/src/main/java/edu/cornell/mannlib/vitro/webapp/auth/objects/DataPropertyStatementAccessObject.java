@@ -36,6 +36,6 @@ public class DataPropertyStatementAccessObject extends AccessObject {
 
     @Override
     public AccessObjectType getType() {
-        return AccessObjectType.DATA_PROPERTY_STMT;
+        return AccessObjectType.DATA_PROPERTY_STATEMENT;
     }
 }

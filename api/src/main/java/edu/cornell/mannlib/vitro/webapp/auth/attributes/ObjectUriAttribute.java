@@ -4,12 +4,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.PermissionsPolicy;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 
 public class ObjectUriAttribute extends AbstractAttribute {
 
-    private static final Log log = LogFactory.getLog(PermissionsPolicy.class);
+    private static final Log log = LogFactory.getLog(ObjectUriAttribute.class);
 
     public ObjectUriAttribute(String uri, String objectUri) {
         super(uri, objectUri);

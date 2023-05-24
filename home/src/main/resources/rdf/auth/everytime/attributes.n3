@@ -58,6 +58,21 @@ ai:UpdateOperationAttribute rdf:type ao:Attribute ;
          ao:test ai:Equals ;
          ao:type ai:Operation ;
          ao:value ai:UpdateOperation .
+         
+ai:EditOperationAttribute rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
+         ao:type ai:Operation ;
+         ao:value ai:EditOperation .
+         
+ai:DropOperationAttribute rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
+         ao:type ai:Operation ;
+         ao:value ai:DropOperation .
+         
+ai:AddOperationAttribute rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
+         ao:type ai:Operation ;
+         ao:value ai:AddOperation .
 
 ###########################################################################
 ### Object attributes

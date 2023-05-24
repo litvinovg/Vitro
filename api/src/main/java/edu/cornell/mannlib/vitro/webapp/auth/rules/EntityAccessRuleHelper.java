@@ -38,8 +38,8 @@ public class EntityAccessRuleHelper {
         // Obtain the subject and object URIs
         String objectUri = null;
         final AccessObjectType type = ao.getType();
-        if (AccessObjectType.DATA_PROPERTY_STMT.equals(type)) {
-        } else if (AccessObjectType.OBJECT_PROPERTY_STMT.equals(type)) {
+        if (AccessObjectType.DATA_PROPERTY_STATEMENT.equals(type)) {
+        } else if (AccessObjectType.OBJECT_PROPERTY_STATEMENT.equals(type)) {
             objectUri = ao.getStatementObject();
         }
         
@@ -87,9 +87,9 @@ public class EntityAccessRuleHelper {
             result = matches(ao.getDataProperty().getURI(), ear);
         } else if (AccessObjectType.OBJECT_PROPERTY.equals(type)) {
             result = matches(ao.getObjectProperty().getURI(), ear);
-        } else if (AccessObjectType.DATA_PROPERTY_STMT.equals(type)) {
+        } else if (AccessObjectType.DATA_PROPERTY_STATEMENT.equals(type)) {
             result = matches(ao.getStatementPredicateUri(), ear);
-        } else if (AccessObjectType.OBJECT_PROPERTY_STMT.equals(type)) {
+        } else if (AccessObjectType.OBJECT_PROPERTY_STATEMENT.equals(type)) {
             result = matches(ao.getStatementPredicateUri(), ear);
         }
         return result;
@@ -100,7 +100,7 @@ public class EntityAccessRuleHelper {
         List<String> personUris = new ArrayList<String>(HasAssociatedIndividual.getIndividualUris(ac_subject));
         final AccessObjectType type = ao.getType();
 
-        if (AccessObjectType.DATA_PROPERTY_STMT.equals(type)) {
+        if (AccessObjectType.DATA_PROPERTY_STATEMENT.equals(type)) {
             // Check resource
             if (isModifiable(ao.getStatementSubject())) {
                 if (isModifiable(ao.getStatementPredicateUri())) {
@@ -109,7 +109,7 @@ public class EntityAccessRuleHelper {
                 }
             }
     
-        } else if (AccessObjectType.OBJECT_PROPERTY_STMT.equals(type)) {
+        } else if (AccessObjectType.OBJECT_PROPERTY_STATEMENT.equals(type)) {
             if (isModifiable(ao.getStatementSubject()) && isModifiable(ao.getStatementObject())) {
                 if (isModifiable(ao.getStatementPredicateUri())) {
                     isAuthorized = matches(ao.getStatementPredicateUri(), ear) &&

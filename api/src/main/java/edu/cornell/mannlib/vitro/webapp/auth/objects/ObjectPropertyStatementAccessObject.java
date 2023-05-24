@@ -22,7 +22,7 @@ public class ObjectPropertyStatementAccessObject extends AccessObject {
 
     @Override
     public AccessObjectType getType() {
-        return AccessObjectType.OBJECT_PROPERTY_STMT;
+        return AccessObjectType.OBJECT_PROPERTY_STATEMENT;
     }
 
     @Override

@@ -14,10 +14,8 @@ import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
 /**
  * Figure out what PermissionSets the user is entitled to have.
  */
-public class HasPermissionSetFactory extends
-		BaseUserBasedIdentifierBundleFactory {
-	private static final Log log = LogFactory
-			.getLog(HasPermissionFactory.class);
+public class HasPermissionSetFactory extends BaseUserBasedIdentifierBundleFactory {
+	private static final Log log = LogFactory.getLog(HasPermissionSetFactory.class);
 
 	@Override
 	public IdentifierBundle getIdentifierBundleForUser(UserAccount user) {

@@ -13,10 +13,19 @@ ai:RestrictHomeMenuItemsEditingPolicy rdf:type ao:Policy ;
           ao:rules ai:RestrictHomeMenuItemsEditingRuleSet .
 
 ai:RestrictHomeMenuItemsEditingRuleSet rdf:type ao:Rules ;
-          ao:rule ai:RestrictEditingHomeMenuItems .
+          ao:rule ai:RestrictEditHomeMenuItems ;
+          ao:rule ai:RestrictDropHomeMenuItems .
           
-ai:RestrictEditingHomeMenuItems rdf:type ao:Rule ;
+ai:RestrictEditHomeMenuItems rdf:type ao:Rule ;
           ao:decision ai:Deny ;
+          ao:attribute ai:EditOperationAttribute ;
+          ao:attribute ai:ObjectPropertyStatementTypeAttribute ;
+          ao:attribute ai:ObjectPropertyStatementPredicateUriEqualsToHasHomeAttribute ;
+          ao:attribute ai:ObjectPropertyStatementObjectUriEqualsToHomeMenuItemAttribute .
+          
+ai:RestrictDropHomeMenuItems rdf:type ao:Rule ;
+          ao:decision ai:Deny ;
+          ao:attribute ai:DropOperationAttribute ;
           ao:attribute ai:ObjectPropertyStatementTypeAttribute ;
           ao:attribute ai:ObjectPropertyStatementPredicateUriEqualsToHasHomeAttribute ;
           ao:attribute ai:ObjectPropertyStatementObjectUriEqualsToHomeMenuItemAttribute .

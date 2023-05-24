@@ -46,9 +46,9 @@ public class AccessObjectStatement {
 
 
     public String[] getResourceUris(AccessObjectType type) {
-        if (AccessObjectType.DATA_PROPERTY_STMT.equals(type)) {
+        if (AccessObjectType.DATA_PROPERTY_STATEMENT.equals(type)) {
             return new String[] { getSubject() };
-        } else if (AccessObjectType.OBJECT_PROPERTY_STMT.equals(type)) {
+        } else if (AccessObjectType.OBJECT_PROPERTY_STATEMENT.equals(type)) {
             return new String[] { getSubject(), getObject() };
         }
         return new String[0];
