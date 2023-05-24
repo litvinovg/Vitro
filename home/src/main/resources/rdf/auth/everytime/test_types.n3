@@ -9,9 +9,10 @@
 @prefix ao: <https://vivoweb.org/ontology/vitro-application/auth/vocabulary/> .
 
 ai:Equals rdf:type ao:Test;
-         ao:id "EQUALS" ;
-         rdfs:label "Test if attribute value equals to..." .
+         ao:id "EQUALS" .
 
 ai:NotEquals rdf:type ao:Test;
-         ao:id "NOT_EQUALS" ;
-         rdfs:label "Test if attribute value not equals to..." .
+         ao:id "NOT_EQUALS" .
+         
+ai:Contains rdf:type ao:Test;
+         ao:id "CONTAINS" .

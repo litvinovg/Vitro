@@ -1,18 +1,21 @@
 package edu.cornell.mannlib.vitro.webapp.auth.attributes;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public abstract class AbstractAttribute implements Attribute {
     
-    private String value;
+    private Set<String> values = new HashSet<>();
     private String uri;
     private TestType testType = TestType.EQUALS;
 
     public AbstractAttribute(String uri, String value) {
         super();
         this.uri = uri;
-        this.value = value;
+        values.add(value);
     }
     
     public String getUri() {
@@ -27,9 +30,18 @@ public abstract class AbstractAttribute implements Attribute {
         return testType;
     }
     
+    public void setTestType(TestType testType) {
+        this.testType = testType;
+    }
+    
     @Override
-    public String getValue() {
-        return value;
+    public void addValue(String value) {
+        values.add(value);
+    }
+    
+    @Override
+    public Set<String> getValues() {
+        return values;
     }
 
     @Override
@@ -44,7 +56,7 @@ public abstract class AbstractAttribute implements Attribute {
     
         return new EqualsBuilder()
                 .append(getUri(), compared.getUri())
-                .append(getValue(), compared.getValue())
+                .append(getValues(), compared.getValues())
                 .isEquals();
     }
 
@@ -52,7 +64,7 @@ public abstract class AbstractAttribute implements Attribute {
     public int hashCode() {
         return new HashCodeBuilder(15, 101)
                 .append(getUri())
-                .append(getValue())
+                .append(getValues())
                 .toHashCode();
     }
 }

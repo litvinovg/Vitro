@@ -21,6 +21,26 @@ ai:SubjectRoleEqualsAdminRoleAttribute rdf:type ao:Attribute ;
          ao:type ai:SubjectRole ;
          ao:value auth:ADMIN .
          
+ai:SubjectRoleEqualsCuratorRoleAttribute rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
+         ao:type ai:SubjectRole ;
+         ao:value auth:CURATOR .
+
+ai:SubjectRoleEqualsEditorRoleAttribute rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
+         ao:type ai:SubjectRole ;
+         ao:value auth:EDITOR .
+
+ai:SubjectRoleEqualsSelfEditorRoleAttribute rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
+         ao:type ai:SubjectRole ;
+         ao:value auth:SELF_EDITOR .
+
+ai:SubjectRoleEqualsPublicRoleAttribute rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
+         ao:type ai:SubjectRole ;
+         ao:value auth:PUBLIC .
+
 ###########################################################################
 ### Operation attributes
 
@@ -51,3 +71,8 @@ ai:ObjectPropertyStatementTypeAttribute rdf:type ao:Attribute ;
          ao:test ai:Equals ;
          ao:type ai:ObjectType ;
          ao:value ai:ObjectPropertyStatementAccesObject .
+
+ai:NamedObjectTypeAttribute rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
+         ao:type ai:ObjectType ;
+         ao:value ai:NamedObject .

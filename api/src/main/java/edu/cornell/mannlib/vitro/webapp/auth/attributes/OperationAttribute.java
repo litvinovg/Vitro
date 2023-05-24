@@ -16,12 +16,13 @@ public class OperationAttribute extends AbstractAttribute {
 
     @Override
     public boolean match(AuthorizationRequest ar) {
-         AccessOperation aop = ar.getAccessOperation();
-        if (getValue().equals(aop.toString())) {
-            log.debug("Attribute '" + getValue() + "' match requested operation '" + aop.toString() + "'");
+        AccessOperation aop = ar.getAccessOperation();
+        final String inputValue = aop.toString();
+        if (AttributeValueTester.test(this, inputValue)) {
+            log.debug("Attribute match requested operation '" + inputValue + "'");
             return true;
         }
-        log.debug("Attribute '" + getValue() + "' not match requested operation '" + aop.toString() + "'");
+        log.debug("Attribute don't match requested operation '" + inputValue + "'");
         return false;
     }
 

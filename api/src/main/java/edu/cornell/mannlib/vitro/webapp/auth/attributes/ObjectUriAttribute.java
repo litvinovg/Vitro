@@ -18,11 +18,12 @@ public class ObjectUriAttribute extends AbstractAttribute {
     @Override
     public boolean match(AuthorizationRequest ar) {
         AccessObject ao = ar.getAccessObject();
-        if (getValue().equals(ao.getUri())) {
-            log.debug("Attribute '" + getValue() + "' matched requested '" + ao.getUri() + "'");
+        final String inputValue = ao.getUri();
+        if (AttributeValueTester.test(this, inputValue)) {
+            log.debug("Attribute match requested '" + inputValue + "'");
             return true;
         }
-        log.debug("Attribute '" + getValue() + "' not matched requested '" + ao.getUri() + "'");
+        log.debug("Attribute don't match requested '" + inputValue + "'");
         return false;
     }
 

@@ -17,11 +17,12 @@ public class ObjectTypeAttribute extends AbstractAttribute {
     @Override
     public boolean match(AuthorizationRequest ar) {
          AccessObject ao = ar.getAccessObject();
-        if (getValue().equals(ao.getType().toString())) {
-            log.debug("Attribute '" + getValue() + "' match requested object type '" + ao.getType().toString() + "'");
+        final String inputValue = ao.getType().toString();
+        if (AttributeValueTester.test(this, inputValue)) {
+            log.debug("Attribute match requested object type '" + inputValue + "'");
             return true;
         }
-        log.debug("Attribute '" + getValue() + "' not match requested object type '" + ao.getType().toString() + "'");
+        log.debug("Attribute don't match requested object type '" + inputValue + "'");
         return false;
     }
 

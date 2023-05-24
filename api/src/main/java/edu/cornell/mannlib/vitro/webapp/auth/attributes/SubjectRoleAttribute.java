@@ -1,5 +1,7 @@
 package edu.cornell.mannlib.vitro.webapp.auth.attributes;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -16,11 +18,12 @@ public class SubjectRoleAttribute extends AbstractAttribute {
 
     @Override
     public boolean match(AuthorizationRequest ar) {
-        if (ar.getRoleUris().contains(getValue())) {
-            log.debug("Attribute '" + getValue() + "' match requested '" + ar.getRoleUris() + "'");
+        final List<String> inputValues = ar.getRoleUris();
+        if (AttributeValueTester.test(this,  inputValues.toArray(new String[0]))) {
+            log.debug("Attribute match requested '" + inputValues + "'");
             return true;
         }
-        log.debug("Attribute '" + getValue() + "' not match requested '" + ar.getRoleUris() + "'");
+        log.debug("Attribute don't match requested '" + inputValues + "'");
         return false;
     }
 

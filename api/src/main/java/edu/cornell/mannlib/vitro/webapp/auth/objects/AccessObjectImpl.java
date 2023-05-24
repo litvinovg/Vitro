@@ -13,7 +13,7 @@ public class AccessObjectImpl extends AccessObject {
 
     public AccessObjectImpl() {
         this.uri = "";
-        this.type = AccessObjectType.NAMED_OBJECT_URI;
+        this.type = AccessObjectType.NAMED_OBJECT;
     }
 	
 	public AccessObjectImpl(String uri, AccessObjectType type) {
@@ -23,7 +23,7 @@ public class AccessObjectImpl extends AccessObject {
 	
     public AccessObjectImpl(String uri) {
         this.uri = uri;
-        this.type = AccessObjectType.NAMED_OBJECT_URI;
+        this.type = AccessObjectType.NAMED_OBJECT;
     }
 
 	@Override

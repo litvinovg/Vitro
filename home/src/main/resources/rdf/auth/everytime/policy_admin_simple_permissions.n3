@@ -1,0 +1,84 @@
+# $This file is distributed under the terms of the license in LICENSE$
+
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix auth: <http://vitro.mannlib.cornell.edu/ns/vitro/authorization#> .
+@prefix ai: <https://vivoweb.org/ontology/vitro-application/auth/individual/> .
+@prefix ao: <https://vivoweb.org/ontology/vitro-application/auth/vocabulary/> .
+@prefix simplePermission: <java:edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission#> .
+
+ai:AdminSimplePermissionsPolicy rdf:type ao:Policy ;
+        ao:priority 1000 ;
+        ao:testDatasets ai:AdminSimplePermissionsDatasets ;
+        ao:rules ai:AdminSimplePermissionsRuleSet .
+
+ai:AdminSimplePermissionsDatasets rdf:type ao:TestDatasets ;
+        ao:testDataset ai:AdminSimplePermissionsDataset .
+          
+ai:AdminSimplePermissionsDataset rdf:type ao:TestDataSet ;
+        ao:testData ai:AdminSimplePermissionsTestData .
+
+ai:AdminSimplePermissionsRuleSet rdf:type ao:Rules ;
+        ao:rule ai:AllowAdminSimplePermissions .
+          
+ai:AllowAdminSimplePermissions rdf:type ao:Rule;
+        ao:attribute ai:NamedObjectTypeAttribute ;
+        ao:attribute ai:PermissionNameInAdminAllowed ;
+        ao:attribute ai:SubjectRoleEqualsAdminRoleAttribute .
+          
+ai:PermissionNameInAdminAllowed rdf:type ao:Attribute ;
+        ao:test ai:Contains ;
+        ao:type ai:ObjectUri ;
+        ao:setValue ai:AdminSimplePermissionsTestData .
+
+ai:AdminSimplePermissionsTestData rdf:type ao:TestData ;
+        ai:dataValue simplePermission:AccessSpecialDataModels ;
+        ai:dataValue simplePermission:EnableDeveloperPanel ;
+        ai:dataValue simplePermission:LoginDuringMaintenance ;
+        ai:dataValue simplePermission:ManageMenus ;
+        ai:dataValue simplePermission:ManageProxies ;
+        ai:dataValue simplePermission:ManageSearchIndex ;
+        ai:dataValue simplePermission:ManageUserAccounts ;
+        ai:dataValue simplePermission:RefreshVisualizationCache ;
+        ai:dataValue simplePermission:SeeConfiguration ;
+        ai:dataValue simplePermission:SeeStartupStatus ;
+        ai:dataValue simplePermission:UseAdvancedDataToolsPages ;
+        ai:dataValue simplePermission:UseMiscellaneousAdminPages ;
+        ai:dataValue simplePermission:UseSparqlQueryPage ;
+        ai:dataValue simplePermission:PageViewableAdmin ;
+
+        # Uncomment the following permission line to enable the SPARQL update API.
+        # Before enabling, be sure that the URL api/sparqlUpdate is secured by HTTPS,
+        # so passwords will not be sent in clear text.
+        #ai:dataValue simplePermission:UseSparqlUpdateApi ;
+
+        # permissions for CURATOR and above.
+        ai:dataValue simplePermission:EditOntology ;
+        ai:dataValue simplePermission:EditSiteInformation ;
+        ai:dataValue simplePermission:SeeVerbosePropertyInformation ;
+        ai:dataValue simplePermission:UseMiscellaneousCuratorPages ;
+        ai:dataValue simplePermission:PageViewableCurator ;
+
+        # permissions for EDITOR and above.
+        ai:dataValue simplePermission:DoBackEndEditing ;
+        ai:dataValue simplePermission:SeeIndividualEditingPanel ;
+        ai:dataValue simplePermission:SeeRevisionInfo ;
+        ai:dataValue simplePermission:SeeSiteAdminPage ;
+        ai:dataValue simplePermission:UseIndividualControlPanel ;
+        ai:dataValue simplePermission:PageViewableEditor ;
+
+        # permissions for ANY logged-in user.
+        ai:dataValue simplePermission:DoFrontEndEditing ;
+        ai:dataValue simplePermission:EditOwnAccount ;
+        ai:dataValue simplePermission:ManageOwnProxies ;
+        ai:dataValue simplePermission:QueryUserAccountsModel ;
+        ai:dataValue simplePermission:UseBasicAjaxControllers ;
+        ai:dataValue simplePermission:UseMiscellaneousPages ;
+        ai:dataValue simplePermission:PageViewableLoggedIn ;
+
+        # permissions for ANY user, even if they are not logged in.
+        ai:dataValue simplePermission:QueryFullModel ;
+        ai:dataValue simplePermission:PageViewablePublic ;
+        .

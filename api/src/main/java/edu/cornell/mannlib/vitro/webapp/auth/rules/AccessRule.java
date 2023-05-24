@@ -2,12 +2,16 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.rules;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.Attribute;
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.AttributeType;
@@ -16,10 +20,11 @@ import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 
 public abstract class AccessRule {
+    private static final Log log = LogFactory.getLog(AccessRule.class);
     private AccessOperation operation = AccessOperation.ANY;
     private AccessObjectType objectType = AccessObjectType.ANY;
     private Set<Set<AccessRule>> ruleSets = new HashSet<>();
-    protected Set<Attribute> attributes = new HashSet<>();
+    protected Map<String,Attribute> attributes = new HashMap<>();
     private boolean allowMatched = true;
     private String objectUri = "";
     private String ruleUri;
@@ -52,12 +57,12 @@ public abstract class AccessRule {
         ruleSets.clear();
     }
     
-	public Set<Attribute> getAttributes() {
+	public Map<String, Attribute> getAttributes() {
         return attributes;
     }
 	
 	public boolean match(AuthorizationRequest ar) {
-	   for (Attribute a : attributes) {
+	   for (Attribute a : attributes.values()) {
 	       if (!a.match(ar)) {
 	           return false;
 	       }
@@ -74,15 +79,18 @@ public abstract class AccessRule {
     };
 	
 	public void addAttribute(Attribute attr) {
-	    attributes.add(attr);
+	    if (attributes.containsKey(attr.getUri())) {
+	        log.error(String.format("attribute %s already exists in the rule",attr.getUri()));
+	    }
+	    attributes.put(attr.getUri(), attr);
 	    if (attr.getAttributeType().equals(AttributeType.OPERATION)) {
-	        operation = AccessOperation.valueOf(attr.getValue());
+	        operation = AccessOperation.valueOf(attr.getValues().iterator().next());
 	    }
         if (attr.getAttributeType().equals(AttributeType.OBJECT_TYPE)) {
-            objectType = AccessObjectType.valueOf(attr.getValue());
+            objectType = AccessObjectType.valueOf(attr.getValues().iterator().next());
         }
         if (attr.getAttributeType().equals(AttributeType.OBJECT_URI)) {
-            objectUri = attr.getValue();
+            objectUri = attr.getValues().iterator().next();
         }
 	}
 
@@ -127,10 +135,22 @@ public abstract class AccessRule {
     }
 
     public Set<String> getAttributeUris() {
-        return attributes.stream().map(a -> a.getUri()).collect(Collectors.toSet());
+        return attributes.keySet();
+    }
+    
+    public boolean containsAttributeUri(String uri) {
+        return attributes.containsKey(uri);
     }
 
     protected Set<Attribute> getAttributesByType(AttributeType type){
-        return getAttributes().stream().filter(a -> a.getAttributeType().equals(type)).collect(Collectors.toSet());
+        return getAttributes().values().stream().filter(a -> a.getAttributeType().equals(type)).collect(Collectors.toSet());
+    }
+    
+    public long getAttributesCount() {
+        return attributes.size();
+    }
+    
+    public Attribute getAttribute(String uri) {
+        return attributes.get(uri);
     }
 }

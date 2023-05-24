@@ -42,9 +42,9 @@ public class DynamicPolicy implements PolicyIface {
     public PolicyDecision decide(AuthorizationRequest ar) {
         IdentifierBundle ac_subject = ar.getIds();
         AccessObject whatToAuth = ar.getAccessObject();
-        if (ac_subject == null) {
-            return defaultDecision("whomToAuth was null");
-        }
+        //if (ac_subject == null) {
+        //    return defaultDecision("whomToAuth was null");
+        //}
         if (whatToAuth == null) {
             return defaultDecision("whatToAuth was null");
         }

@@ -15,6 +15,10 @@ public interface Attribute {
     public AttributeType getAttributeType();
     
     public TestType getTestType();
+    
+    Set<String> getValues();
 
-    String getValue();
+    public void addValue(String value);
+
+    public void setTestType(TestType valueOf);
 }

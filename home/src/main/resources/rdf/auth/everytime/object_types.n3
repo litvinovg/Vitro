@@ -25,3 +25,6 @@ ai:DataPropertyStatementAccesObject rdf:type ao:ObjectType ;
 
 ai:Class rdf:type ao:ObjectType ;
      ao:id "CLASS" .
+     
+ai:NamedObject rdf:type ao:ObjectType ;
+     ao:id "NAMED_OBJECT" .

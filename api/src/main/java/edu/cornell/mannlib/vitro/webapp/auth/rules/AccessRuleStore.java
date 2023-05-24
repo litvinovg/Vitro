@@ -591,7 +591,7 @@ public class AccessRuleStore {
         Set<AccessRule> rules = getFilteredRules(ar);
         for (AccessRule rule : rules) {
             //Check number of attributes to avoid removing custom rules
-            if (rule.match(ar) && rule.getAttributes().size() == 4) {
+            if (rule.match(ar) && rule.getAttributesCount() == 4) {
                 rule.removeFromSets();
                 removeRuleFromModel(rule.getRuleUri());
                 debug("Removed rule for objectUri: %s objectType: %s operation %s role %s", entityUri, aot, operation, roleUri);
@@ -678,7 +678,7 @@ public class AccessRuleStore {
         for (AccessRule ar : ruleset) {
             Set<Attribute> atts = ar.getAttributesByType(AttributeType.SUBJECT_ROLE_URI);
             if (!atts.isEmpty()) {
-                String uri = atts.iterator().next().getValue();
+                String uri = atts.iterator().next().getValues().iterator().next();
                 if (uri != null) {
                     if(roleUris.isEmpty()) {
                         roleUris = new LinkedList<>();

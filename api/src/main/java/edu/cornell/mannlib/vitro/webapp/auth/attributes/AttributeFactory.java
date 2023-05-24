@@ -14,36 +14,33 @@ public class AttributeFactory {
         String value = getValue(qs);
 
         Attribute at = null;
-        if (type.equals(AttributeType.SUBJECT_ROLE_URI)) {
+        switch (type) {
+        case SUBJECT_ROLE_URI:
             at = new SubjectRoleAttribute(attributeUri, value);
-            return at;
-        }
-        if (type.equals(AttributeType.OPERATION)) {
+            break;
+        case OPERATION:
             at = new OperationAttribute(attributeUri, value);
-            return at;
-        }
-        if (type.equals(AttributeType.OBJECT_URI)) {
+            break;
+        case OBJECT_URI:
             at = new ObjectUriAttribute(attributeUri, value);
-            return at;
-        }
-        if (type.equals(AttributeType.OBJECT_TYPE)) {
+            break;
+        case OBJECT_TYPE:
             at = new ObjectTypeAttribute(attributeUri, value);
-            return at;
-        }
-        if (type.equals(AttributeType.SUBJECT_TYPE)) {
+            break;
+        case SUBJECT_TYPE:
             at = new SubjectTypeAttribute(attributeUri, value);
-            return at;
-        }
-        if (type.equals(AttributeType.STATEMENT_PREDICATE_URI)) {
+            break;
+        case STATEMENT_PREDICATE_URI:
             at = new StatementPredicateUriAttribute(attributeUri, value);
-            return at;
-        }
-        if (type.equals(AttributeType.STATEMENT_OBJECT_URI)) {
+            break;
+        case STATEMENT_OBJECT_URI:
             at = new StatementObjectUriAttribute(attributeUri, value);
-            return at;
-        }
-        
-        throw new RuntimeException();
+            break;
+        default :
+            at = null;
+        }    
+        at.setTestType(TestType.valueOf(testId));
+        return at;
     }
 
     private static String getValue(QuerySolution qs) {
@@ -56,4 +53,11 @@ public class AttributeFactory {
         return value;
     }
 
+    public static void extendAttribute(Attribute attribute, QuerySolution qs) {
+        String testId = qs.getLiteral("testId").getString();
+        if (TestType.CONTAINS.toString().equals(testId) ||
+            TestType.NOT_CONTAINS.toString().equals(testId)) {
+            attribute.addValue(getValue(qs));
+        }
+    }
 }

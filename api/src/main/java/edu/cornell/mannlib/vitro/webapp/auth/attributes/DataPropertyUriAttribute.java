@@ -20,15 +20,15 @@ public class DataPropertyUriAttribute extends AbstractAttribute {
     public boolean match(AuthorizationRequest ar) {
         AccessObject ao = ar.getAccessObject();
         DataProperty dataProperty = ao.getDataProperty();
-        String uri = dataProperty.getURI();
+        String inputValue = dataProperty.getURI();
         if (dataProperty != null) {
-            uri = dataProperty.getURI();
+            inputValue = dataProperty.getURI();
         }
-        if (getValue().equals(uri)) {
-            log.debug("Attribute value '" + getValue() + "' matched requested statement data property uri '" + uri + "'");
+        if (AttributeValueTester.test(this, inputValue)) {
+            log.debug("Attribute value(s) match requested statement data property uri '" + inputValue + "'");
             return true;
         }
-        log.debug("Attribute value '" + getValue() + "' not matched requested statement data property uri '" + uri + "'");
+        log.debug("Attribute value(s) don't match requested statement data property uri '" + inputValue + "'");
         return false;
     }
 

@@ -20,15 +20,15 @@ public class ObjectPropertyUriAttribute extends AbstractAttribute {
     public boolean match(AuthorizationRequest ar) {
         AccessObject ao = ar.getAccessObject();
         ObjectProperty objectProperty = ao.getObjectProperty();
-        String uri = objectProperty.getURI();
+        String inputValue = objectProperty.getURI();
         if (objectProperty != null) {
-            uri = objectProperty.getURI();
+            inputValue = objectProperty.getURI();
         }
-        if (getValue().equals(uri)) {
-            log.debug("Attribute value '" + getValue() + "' matched requested statement object property uri '" + uri + "'");
+        if (AttributeValueTester.test(this, inputValue)) {
+            log.debug("Attribute value match requested statement object property uri '" + inputValue + "'");
             return true;
         }
-        log.debug("Attribute value '" + getValue() + "' not matched requested statement object property uri '" + uri + "'");
+        log.debug("Attribute value don't match requested statement object property uri '" + inputValue + "'");
         return false;
     }
 

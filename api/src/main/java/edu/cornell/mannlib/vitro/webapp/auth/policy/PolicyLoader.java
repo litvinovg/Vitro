@@ -17,6 +17,7 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
 
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.AttributeFactory;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.TestType;
 import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRule;
 import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRuleFactory;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
@@ -228,10 +229,10 @@ public class PolicyLoader {
             return;
         }
         String attributeUri = qs.getResource("attribute").getURI();
-        if (ar.getAttributeUris().contains(attributeUri)) {
-            log.error("Attribute has already been processed. Shouldn't be here.");
+        if (ar.containsAttributeUri(attributeUri)) {
+            AttributeFactory.extendAttribute(ar.getAttribute(attributeUri), qs);
             return;
-        }
+        } 
         try {
             ar.addAttribute(AttributeFactory.createAttribute(qs));
         } catch (Exception e) {

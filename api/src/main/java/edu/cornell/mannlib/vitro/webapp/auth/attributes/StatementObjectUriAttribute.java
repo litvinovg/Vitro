@@ -18,11 +18,12 @@ public class StatementObjectUriAttribute extends AbstractAttribute {
     @Override
     public boolean match(AuthorizationRequest ar) {
         AccessObject ao = ar.getAccessObject();
-        if (getValue().equals(ao.getStatementObject())) {
-            log.debug("Attribute value '" + getValue() + "' matched requested statement object uri '" + ao.getStatementObject() + "'");
+        final String inputValue = ao.getStatementObject();
+        if (AttributeValueTester.test(this, inputValue)) {
+            log.debug("Attribute value match requested statement object uri '" + inputValue + "'");
             return true;
         }
-        log.debug("Attribute value '" + getValue() + "' not matched requested statement object uri '" + ao.getStatementObject() + "'");
+        log.debug("Attribute value don't match requested statement object uri '" + inputValue + "'");
         return false;
     }
 

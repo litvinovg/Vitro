@@ -73,7 +73,7 @@ public class SimplePermission {
 
     private SimplePermission(String uri) {
         uri = SimpleAccessRules.NS + uri;
-        AccessObjectImpl ao = new AccessObjectImpl(uri, AccessObjectType.NAMED_OBJECT_URI);
+        AccessObjectImpl ao = new AccessObjectImpl(uri, AccessObjectType.NAMED_OBJECT);
         this.ACTION = new SimpleAuthorizationRequest(ao, AccessOperation.EXECUTE);
         accessRule = new SimpleAccessRule();
         accessRule.setObjectUri(uri);
