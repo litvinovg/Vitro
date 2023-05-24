@@ -23,8 +23,6 @@ import edu.cornell.mannlib.vitro.webapp.beans.Property;
 
 public class PolicyLoaderTest {
     private static final String USER_ACCOUNTS_HOME = "../home/src/main/resources/rdf/auth/everytime/";
-    private static final String TEST_RESOURCES_PREFIX = "src/test/resources/edu/cornell/mannlib/vitro/webapp/auth/rules/";
-    private static final String RDFS_LABEL_URI = "http://www.w3.org/2000/01/rdf-schema#label";
     private static final String ROLE_ADMIN_URI = "http://vitro.mannlib.cornell.edu/ns/vitro/authorization#ADMIN";
     private static final String ROLE_EDITOR_URI = "http://vitro.mannlib.cornell.edu/ns/vitro/authorization#EDITOR";
     private static final String ROLE_SELF_EDITOR_URI = "http://vitro.mannlib.cornell.edu/ns/vitro/authorization#SELF_EDITOR";
@@ -42,71 +40,441 @@ public class PolicyLoaderTest {
     public static final String TEST_DECISIONS = USER_ACCOUNTS_HOME + "decisions.n3";
 
     public static final String ROOT_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_root_user.n3";
-    public static final String DISPLAY_OBJ_PROP_PATH = USER_ACCOUNTS_HOME + "policy_display_object_property.n3";
     public static final String MENU_ITEMS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_menu_items_editing.n3";
+    //Simple permission policies
     public static final String ADMIN_SIMPLE_PERMISSIONS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_admin_simple_permissions.n3";
     public static final String CURATOR_SIMPLE_PERMISSIONS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_curator_simple_permissions.n3";
     public static final String EDITOR_SIMPLE_PERMISSIONS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_editor_simple_permissions.n3";
     public static final String SELF_EDITOR_SIMPLE_PERMISSIONS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_self_editor_simple_permissions.n3";
     public static final String PUBLIC_SIMPLE_PERMISSIONS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_public_simple_permissions.n3";
+    //Entity permission policies
+    //Display
+    public static final String ADMIN_DISPLAY_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_admin_display_object_property.n3";
+    public static final String ADMIN_DISPLAY_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_admin_display_data_property.n3";
+    public static final String ADMIN_DISPLAY_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_admin_display_class.n3";
 
+    public static final String CURATOR_DISPLAY_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_curator_display_object_property.n3";
+    public static final String CURATOR_DISPLAY_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_curator_display_data_property.n3";
+    public static final String CURATOR_DISPLAY_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_curator_display_class.n3";
+
+    public static final String PUBLIC_DISPLAY_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_public_display_object_property.n3";
+    public static final String PUBLIC_DISPLAY_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_public_display_data_property.n3";
+    public static final String PUBLIC_DISPLAY_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_public_display_class.n3";
+    
+    public static final String SELF_EDITOR_DISPLAY_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_self_editor_display_object_property.n3";
+    public static final String SELF_EDITOR_DISPLAY_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_self_editor_display_data_property.n3";
+    public static final String SELF_EDITOR_DISPLAY_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_self_editor_display_class.n3";
+    
+    public static final String EDITOR_DISPLAY_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_editor_display_object_property.n3";
+    public static final String EDITOR_DISPLAY_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_editor_display_data_property.n3";
+    public static final String EDITOR_DISPLAY_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_editor_display_class.n3";
+    //Update
+    public static final String ADMIN_UPDATE_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_admin_update_object_property.n3";
+    public static final String ADMIN_UPDATE_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_admin_update_data_property.n3";
+    public static final String ADMIN_UPDATE_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_admin_update_class.n3";
+
+    public static final String CURATOR_UPDATE_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_curator_update_object_property.n3";
+    public static final String CURATOR_UPDATE_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_curator_update_data_property.n3";
+    public static final String CURATOR_UPDATE_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_curator_update_class.n3";
+
+    public static final String PUBLIC_UPDATE_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_public_update_object_property.n3";
+    public static final String PUBLIC_UPDATE_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_public_update_data_property.n3";
+    public static final String PUBLIC_UPDATE_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_public_update_class.n3";
+    
+    public static final String SELF_EDITOR_UPDATE_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_self_editor_update_object_property.n3";
+    public static final String SELF_EDITOR_UPDATE_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_self_editor_update_data_property.n3";
+    public static final String SELF_EDITOR_UPDATE_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_self_editor_update_class.n3";
+    
+    public static final String EDITOR_UPDATE_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_editor_update_object_property.n3";
+    public static final String EDITOR_UPDATE_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_editor_update_data_property.n3";
+    public static final String EDITOR_UPDATE_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_editor_update_class.n3"; 
+    //Publish
+    public static final String ADMIN_PUBLISH_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_admin_publish_object_property.n3";
+    public static final String ADMIN_PUBLISH_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_admin_publish_data_property.n3";
+    public static final String ADMIN_PUBLISH_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_admin_publish_class.n3";
+
+    public static final String CURATOR_PUBLISH_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_curator_publish_object_property.n3";
+    public static final String CURATOR_PUBLISH_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_curator_publish_data_property.n3";
+    public static final String CURATOR_PUBLISH_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_curator_publish_class.n3";
+
+    public static final String PUBLIC_PUBLISH_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_public_publish_object_property.n3";
+    public static final String PUBLIC_PUBLISH_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_public_publish_data_property.n3";
+    public static final String PUBLIC_PUBLISH_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_public_publish_class.n3";
+    
+    public static final String SELF_EDITOR_PUBLISH_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_self_editor_publish_object_property.n3";
+    public static final String SELF_EDITOR_PUBLISH_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_self_editor_publish_data_property.n3";
+    public static final String SELF_EDITOR_PUBLISH_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_self_editor_publish_class.n3";
+    
+    public static final String EDITOR_PUBLISH_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_editor_publish_object_property.n3";
+    public static final String EDITOR_PUBLISH_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_editor_publish_data_property.n3";
+    public static final String EDITOR_PUBLISH_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_editor_publish_class.n3";
+    
     private Model model;
     private PolicyLoader loader;
 
     @Before
     public void init() {
         model = ModelFactory.createDefaultModel();
-        try {
-            model.enterCriticalSection(Lock.WRITE);
-            model.read(ATTRIBUTES_PATH);
-            model.read(OPERATIONS_PATH);
-            model.read(OPERATION_GROUPS);
-            model.read(SUBJECT_TYPES);
-            model.read(OBJECT_TYPES);
-            model.read(ATTRIBUTE_TYPES_PATH);
-            model.read(TEST_TYPES_PATH);
-            model.read(TEST_DECISIONS);
-        } finally {
-            model.leaveCriticalSection();
-        }
+        load(ATTRIBUTES_PATH);
+        load(OPERATIONS_PATH);
+        load(OPERATION_GROUPS);
+        load(SUBJECT_TYPES);
+        load(OBJECT_TYPES);
+        load(ATTRIBUTE_TYPES_PATH);
+        load(TEST_TYPES_PATH);
+        load(TEST_DECISIONS);
+        
         PolicyLoader.initialize(model);
         loader = PolicyLoader.getInstance();
     }
     
     @Test
     public void getPolicyUris() {
-        try {
-            model.enterCriticalSection(Lock.WRITE);
-            model.read(ROOT_POLICY_PATH);
-        } finally {
-            model.leaveCriticalSection();
-        }
+        load(ROOT_POLICY_PATH);
         List<String> uris = loader.getPolicyUris();
         System.out.println(uris);
         assertTrue(!uris.isEmpty());
     }
     
     @Test
-    public void testLoadPolicyWithDataSets() {
-        try {
-            model.enterCriticalSection(Lock.WRITE);
-            model.read(DISPLAY_OBJ_PROP_PATH);
-        } finally {
-            model.leaveCriticalSection();
-        }
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/ObjectPropertyDisplayOperationGroupPolicy";
+    public void testAdminDisplayObjectPropertyPolicy() {
+        load(ADMIN_DISPLAY_OBJ_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminDisplayObjectPropertyPolicy";
         Policy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
     @Test
+    public void testAdminDisplayDataPropertyPolicy() {
+        load(ADMIN_DISPLAY_DATA_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminDisplayDataPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testAdminDisplayClassPolicy() {
+        load(ADMIN_DISPLAY_CLASS_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminDisplayClassPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testCuratorDisplayObjectPropertyPolicy() {
+        load(CURATOR_DISPLAY_OBJ_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorDisplayObjectPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testCuratorDisplayDataPropertyPolicy() {
+        load(CURATOR_DISPLAY_DATA_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorDisplayDataPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testCuratorDisplayClassPolicy() {
+        load(CURATOR_DISPLAY_CLASS_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorDisplayClassPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testPublicDisplayObjectPropertyPolicy() {
+        load(PUBLIC_DISPLAY_OBJ_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/PublicDisplayObjectPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testPublicDisplayDataPropertyPolicy() {
+        load(PUBLIC_DISPLAY_DATA_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/PublicDisplayDataPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testPublicDisplayClassPolicy() {
+        load(PUBLIC_DISPLAY_CLASS_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/PublicDisplayClassPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testSelfEditorDisplayObjectPropertyPolicy() {
+        load(SELF_EDITOR_DISPLAY_OBJ_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorDisplayObjectPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testSelfEditorDisplayDataPropertyPolicy() {
+        load(SELF_EDITOR_DISPLAY_DATA_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorDisplayDataPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testSelfEditorDisplayClassPolicy() {
+        load(SELF_EDITOR_DISPLAY_CLASS_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorDisplayClassPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testEditorDisplayObjectPropertyPolicy() {
+        load(EDITOR_DISPLAY_OBJ_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorDisplayObjectPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testEditorDisplayDataPropertyPolicy() {
+        load(EDITOR_DISPLAY_DATA_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorDisplayDataPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testEditorDisplayClassPolicy() {
+        load(EDITOR_DISPLAY_CLASS_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorDisplayClassPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+   
+    @Test
+    public void testAdminUpdateObjectPropertyPolicy() {
+        load(ADMIN_UPDATE_OBJ_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminUpdateObjectPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testAdminUpdateDataPropertyPolicy() {
+        load(ADMIN_UPDATE_DATA_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminUpdateDataPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testAdminUpdateClassPolicy() {
+        load(ADMIN_UPDATE_CLASS_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminUpdateClassPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testCuratorUpdateObjectPropertyPolicy() {
+        load(CURATOR_UPDATE_OBJ_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorUpdateObjectPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testCuratorUpdateDataPropertyPolicy() {
+        load(CURATOR_UPDATE_DATA_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorUpdateDataPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testCuratorUpdateClassPolicy() {
+        load(CURATOR_UPDATE_CLASS_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorUpdateClassPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testPublicUpdateObjectPropertyPolicy() {
+        load(PUBLIC_UPDATE_OBJ_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/PublicUpdateObjectPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testPublicUpdateDataPropertyPolicy() {
+        load(PUBLIC_UPDATE_DATA_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/PublicUpdateDataPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testPublicUpdateClassPolicy() {
+        load(PUBLIC_UPDATE_CLASS_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/PublicUpdateClassPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testSelfEditorUpdateObjectPropertyPolicy() {
+        load(SELF_EDITOR_UPDATE_OBJ_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorUpdateObjectPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testSelfEditorUpdateDataPropertyPolicy() {
+        load(SELF_EDITOR_UPDATE_DATA_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorUpdateDataPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testSelfEditorUpdateClassPolicy() {
+        load(SELF_EDITOR_UPDATE_CLASS_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorUpdateClassPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testEditorUpdateObjectPropertyPolicy() {
+        load(EDITOR_UPDATE_OBJ_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorUpdateObjectPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testEditorUpdateDataPropertyPolicy() {
+        load(EDITOR_UPDATE_DATA_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorUpdateDataPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testEditorUpdateClassPolicy() {
+        load(EDITOR_UPDATE_CLASS_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorUpdateClassPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+
+    @Test
+    public void testAdminPublishObjectPropertyPolicy() {
+        load(ADMIN_PUBLISH_OBJ_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminPublishObjectPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testAdminPublishDataPropertyPolicy() {
+        load(ADMIN_PUBLISH_DATA_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminPublishDataPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testAdminPublishClassPolicy() {
+        load(ADMIN_PUBLISH_CLASS_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminPublishClassPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testCuratorPublishObjectPropertyPolicy() {
+        load(CURATOR_PUBLISH_OBJ_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorPublishObjectPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testCuratorPublishDataPropertyPolicy() {
+        load(CURATOR_PUBLISH_DATA_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorPublishDataPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testCuratorPublishClassPolicy() {
+        load(CURATOR_PUBLISH_CLASS_POLICY_PATH);
+        
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorPublishClassPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testSelfEditorPublishObjectPropertyPolicy() {
+        load(SELF_EDITOR_PUBLISH_OBJ_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorPublishObjectPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testSelfEditorPublishDataPropertyPolicy() {
+        load(SELF_EDITOR_PUBLISH_DATA_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorPublishDataPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testSelfEditorPublishClassPolicy() {
+        load(SELF_EDITOR_PUBLISH_CLASS_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorPublishClassPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testEditorPublishObjectPropertyPolicy() {
+        load(EDITOR_PUBLISH_OBJ_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorPublishObjectPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testEditorPublishDataPropertyPolicy() {
+        load(EDITOR_PUBLISH_DATA_PROP_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorPublishDataPropertyPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    
+    @Test
+    public void testEditorPublishClassPolicy() {
+        load(EDITOR_PUBLISH_CLASS_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorPublishClassPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+    }
+    @Test
     public void testLoadRootUserPolicy() {        
-        try {
-            model.enterCriticalSection(Lock.WRITE);
-            model.read(ROOT_POLICY_PATH);
-        } finally {
-            model.leaveCriticalSection();
-        }
+        load(ROOT_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/RootUserPolicy";
         Policy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
@@ -119,12 +487,7 @@ public class PolicyLoaderTest {
     
     @Test
     public void testLoadHomeMenuItemsRestrictionPolicy() {        
-        try {
-            model.enterCriticalSection(Lock.WRITE);
-            model.read(MENU_ITEMS_POLICY_PATH);
-        } finally {
-            model.leaveCriticalSection();
-        }
+        load(MENU_ITEMS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/RestrictHomeMenuItemsEditingPolicy";
         Policy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
@@ -145,12 +508,7 @@ public class PolicyLoaderTest {
     
     @Test
     public void testAdminSimplePermissionPolicy() {        
-        try {
-            model.enterCriticalSection(Lock.WRITE);
-            model.read(ADMIN_SIMPLE_PERMISSIONS_POLICY_PATH);
-        } finally {
-            model.leaveCriticalSection();
-        }
+        load(ADMIN_SIMPLE_PERMISSIONS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminSimplePermissionsPolicy";
         Policy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
@@ -169,12 +527,7 @@ public class PolicyLoaderTest {
     
     @Test
     public void testCuratorSimplePermissionPolicy() {        
-        try {
-            model.enterCriticalSection(Lock.WRITE);
-            model.read(CURATOR_SIMPLE_PERMISSIONS_POLICY_PATH);
-        } finally {
-            model.leaveCriticalSection();
-        }
+        load(CURATOR_SIMPLE_PERMISSIONS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorSimplePermissionsPolicy";
         Policy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
@@ -193,12 +546,7 @@ public class PolicyLoaderTest {
     
     @Test
     public void testEditorSimplePermissionPolicy() {        
-        try {
-            model.enterCriticalSection(Lock.WRITE);
-            model.read(EDITOR_SIMPLE_PERMISSIONS_POLICY_PATH);
-        } finally {
-            model.leaveCriticalSection();
-        }
+        load(EDITOR_SIMPLE_PERMISSIONS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorSimplePermissionsPolicy";
         Policy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
@@ -217,12 +565,7 @@ public class PolicyLoaderTest {
 
     @Test
     public void testSelfEditorSimplePermissionPolicy() {        
-        try {
-            model.enterCriticalSection(Lock.WRITE);
-            model.read(SELF_EDITOR_SIMPLE_PERMISSIONS_POLICY_PATH);
-        } finally {
-            model.leaveCriticalSection();
-        }
+        load(SELF_EDITOR_SIMPLE_PERMISSIONS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorSimplePermissionsPolicy";
         Policy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
@@ -241,12 +584,7 @@ public class PolicyLoaderTest {
     
     @Test
     public void testPublicSimplePermissionPolicy() {        
-        try {
-            model.enterCriticalSection(Lock.WRITE);
-            model.read(PUBLIC_SIMPLE_PERMISSIONS_POLICY_PATH);
-        } finally {
-            model.leaveCriticalSection();
-        }
+        load(PUBLIC_SIMPLE_PERMISSIONS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/PublicSimplePermissionsPolicy";
         Policy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
@@ -261,5 +599,14 @@ public class PolicyLoaderTest {
         assertEquals(DecisionResult.INCONCLUSIVE, policy.decide(ar).getDecisionResult());
         ar.setRoleUris(Arrays.asList(PUBLIC_URI));
         assertEquals(DecisionResult.AUTHORIZED, policy.decide(ar).getDecisionResult());
+    }
+    
+    private void load(String filePath) {
+        try {
+            model.enterCriticalSection(Lock.WRITE);
+            model.read(filePath);
+        } finally {
+            model.leaveCriticalSection();
+        }
     }
 }

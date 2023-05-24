@@ -18,6 +18,12 @@ import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRule;
 public class Policy implements PolicyIface {
     private static final Log log = LogFactory.getLog(Policy.class);
     private String uri;
+    
+    @Override
+    public String getUri() {
+        return uri;
+    }
+
     private long priority;
     public long getPriority() {
         return priority;

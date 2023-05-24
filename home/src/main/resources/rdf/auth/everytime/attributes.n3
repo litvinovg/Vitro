@@ -81,7 +81,12 @@ ai:ObjectPropertyTypeAttribute rdf:type ao:Attribute ;
          ao:test ai:Equals ;
          ao:type ai:ObjectType ;
          ao:value ai:ObjectPropertyAccesObject .
-         
+
+ai:DataPropertyTypeAttribute rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
+         ao:type ai:ObjectType ;
+         ao:value ai:DataPropertyAccesObject .
+
 ai:ObjectPropertyStatementTypeAttribute rdf:type ao:Attribute ;
          ao:test ai:Equals ;
          ao:type ai:ObjectType ;
@@ -91,3 +96,8 @@ ai:NamedObjectTypeAttribute rdf:type ao:Attribute ;
          ao:test ai:Equals ;
          ao:type ai:ObjectType ;
          ao:value ai:NamedObject .
+         
+ai:ClassTypeAttribute rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
+         ao:type ai:ObjectType ;
+         ao:value ai:Class .

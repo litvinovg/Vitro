@@ -1,7 +1,6 @@
 package edu.cornell.mannlib.vitro.webapp.auth.policy;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,7 +10,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 
-public class PolicyListImpl implements PolicyList, Cloneable {
+public class PolicyListImpl implements Policies, Cloneable {
 
     private static final Log log = LogFactory.getLog(PolicyListImpl.class.getName());
 
@@ -57,21 +56,10 @@ public class PolicyListImpl implements PolicyList, Cloneable {
     }
 
     @Override
-    public void add(int i, PolicyIface policy) {
-        policies.add(i, policy);
-        
-    }
-    
-    @Override
     public void clear() {
         policies.clear();
     }
 
-    @Override
-    public ListIterator<PolicyIface> listIterator() {
-        return policies.listIterator();
-    }
-    
     public PolicyListImpl copy() {
         PolicyListImpl copy = new PolicyListImpl();
         copy.policies = new ArrayList<>(this.policies);

@@ -14,4 +14,8 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationReques
  */
 public interface PolicyIface  {
     public PolicyDecision decide(AuthorizationRequest ar);
+
+    public default String getUri() {
+        return "";
+    }
 }

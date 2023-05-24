@@ -106,7 +106,7 @@ public class PolicyHelper {
         Collection<String> uris = IdentifierPermissionSetProvider.getPermissionSetUris(ids);
         ar.setRoleUris(new ArrayList<String>(uris));
         ar.setIds(ids);
-	    PolicyList policies = PolicyStore.getInstance().copy();
+	    Policies policies = PolicyStore.getInstance();
 	    PolicyDecision decision = policies.decide(ar);
 	    debug(ar, decision);
         return decision.getDecisionResult() == DecisionResult.AUTHORIZED;

@@ -2,6 +2,9 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.policy;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -37,7 +40,7 @@ public class PolicyStore extends PolicyListImpl{
     	if (policy == null) {
     		return;
     	}
-    	PolicyList policies = getInstance();
+    	Policies policies = getInstance();
     	if (!policies.contains(policy)) {
     		policies.add(policy);
     		log.debug("Added policy: " + policy.toString());
@@ -46,22 +49,12 @@ public class PolicyStore extends PolicyListImpl{
     	}
     }
 
-    /**
-     * Add the policy to the front of the list. It may be moved further down the
-     * list by other policies that are later added using this method.
-     */
-    public static void addPolicyAtFront(PolicyIface policy) {
-    	if (policy == null) {
-    		return;
-    	}
-    	PolicyList policies = getInstance();
-    	if (!policies.contains(policy)) {
-    		policies.add(0, policy);
-    		log.debug("Added policy at front: " + policy.toString());
-    	} else {
-    		log.warn("Ignored attempt to add redundant policy.");
-    	}
+    public List<String> getUris() {
+        List<String> uris = new LinkedList<>();
+        for (PolicyIface policy : policies) {
+            uris.add(policy.getUri());
+        }
+        return uris;
     }
-
 
 }
