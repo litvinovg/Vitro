@@ -1,4 +1,4 @@
-package edu.cornell.mannlib.vitro.webapp.utils;
+package edu.cornell.mannlib.vitro.webapp.auth.attributes;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -23,7 +23,7 @@ public class PersonResourceMapCache implements AutoCloseable {
 		log.debug("Person resource map cache closed");
 	}
 
-	static HashMap<String, List<String>> get() {
+	public static HashMap<String, List<String>> get() {
 		HashMap<String, List<String>> personResourceMap = threadLocal.get();
     	if (personResourceMap == null) {
     		personResourceMap = new HashMap<String, List<String>>();
@@ -34,7 +34,7 @@ public class PersonResourceMapCache implements AutoCloseable {
 		return personResourceMap;
 	}
 
-	static void update(HashMap<String, List<String>> personResourceMap) {
+	public static void update(HashMap<String, List<String>> personResourceMap) {
 		if (threadLocal.get() != null ) {
 			threadLocal.set(personResourceMap);
     		log.debug("Person resource map cache has been updated");

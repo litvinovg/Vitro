@@ -19,7 +19,7 @@ public class SubjectTypeAttribute extends AbstractAttribute {
     public boolean match(AuthorizationRequest ar) {
         IdentifierBundle ac_subject = ar.getIds();
         String inputValue = IsRootUser.isRootUser(ac_subject) ? "ROOT_USER" : "";
-        if (AttributeValueTester.test(this, inputValue)) {
+        if (AttributeValueTester.test(this, ar, inputValue)) {
             log.debug("Attribute subject type match requested object type '");
             return true;
         } else {

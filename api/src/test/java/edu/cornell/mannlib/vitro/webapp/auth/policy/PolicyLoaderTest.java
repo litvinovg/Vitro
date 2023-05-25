@@ -38,8 +38,15 @@ public class PolicyLoaderTest {
     public static final String OBJECT_TYPES = USER_ACCOUNTS_HOME + "object_types.n3";
     public static final String ATTRIBUTE_TYPES_PATH = USER_ACCOUNTS_HOME + "attribute_types.n3";
     public static final String TEST_TYPES_PATH = USER_ACCOUNTS_HOME + "test_types.n3";
+    public static final String TEST_VALUES_PATH = USER_ACCOUNTS_HOME + "test_values.n3";
     public static final String TEST_DECISIONS = USER_ACCOUNTS_HOME + "decisions.n3";
+    
+    private static final String TEST_RESOURCES_PREFIX = "src/test/resources/edu/cornell/mannlib/vitro/webapp/auth/rules/";
 
+    private static final String PROXIMITY_POLICY_PATH = TEST_RESOURCES_PREFIX + "proximity_test_policy.n3";
+    private static final String PROXIMITY_DATA_PATH = TEST_RESOURCES_PREFIX + "proximity_test_data.n3";
+
+    
     public static final String ROOT_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_root_user.n3";
     public static final String MENU_ITEMS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_menu_items_editing.n3";
     //Simple permission policies
@@ -125,6 +132,7 @@ public class PolicyLoaderTest {
         load(OBJECT_TYPES);
         load(ATTRIBUTE_TYPES_PATH);
         load(TEST_TYPES_PATH);
+        load(TEST_VALUES_PATH);
         load(TEST_DECISIONS);
         
         PolicyLoader.initialize(model);
@@ -653,6 +661,34 @@ public class PolicyLoaderTest {
         ao = new DataPropertyStatementAccessObject(null, null, "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime", null);
         ar = new SimpleAuthorizationRequest(ao, AccessOperation.DROP);
         assertEquals(DecisionResult.INCONCLUSIVE, policy.decide(ar).getDecisionResult());
+    }
+    
+    @Test
+    public void testProximityPolicy() {        
+        load(PROXIMITY_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/ProximityTestPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+        assertTrue(policy.getRules().size() == 1 );
+        AccessRule rule = policy.getRules().iterator().next();
+        assertEquals(true, rule.isAllowMatched());
+        assertEquals(1, rule.getAttributesCount());
+        
+        Model targetModel = ModelFactory.createDefaultModel();
+        try {
+            targetModel.enterCriticalSection(Lock.WRITE);
+            targetModel.read(PROXIMITY_DATA_PATH);
+        } finally {
+            targetModel.leaveCriticalSection();
+        }
+        AccessObject ao = new ObjectPropertyStatementAccessObject(targetModel, "test:publication", null, null);
+        SimpleAuthorizationRequest ar = new SimpleAuthorizationRequest(ao, AccessOperation.EDIT);
+        ar.setEditorUris(Arrays.asList("test:bob"));
+        assertEquals(DecisionResult.INCONCLUSIVE, policy.decide(ar).getDecisionResult());
+        ar = new SimpleAuthorizationRequest(ao, AccessOperation.EDIT);
+        ar.setEditorUris(Arrays.asList("test:alice"));
+        assertEquals(DecisionResult.AUTHORIZED, policy.decide(ar).getDecisionResult());
+        ar = new SimpleAuthorizationRequest(ao, AccessOperation.EDIT);
     }
     
     private void load(String filePath) {

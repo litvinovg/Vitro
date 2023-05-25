@@ -26,6 +26,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.ActiveIdentifierBundleFactories;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.RequestIdentifiers;
+import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.HasAssociatedIndividual;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.IdentifierPermissionSetProvider;
 import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.objects.DataPropertyStatementAccessObject;
@@ -106,6 +107,7 @@ public class PolicyHelper {
         Collection<String> uris = IdentifierPermissionSetProvider.getPermissionSetUris(ids);
         ar.setRoleUris(new ArrayList<String>(uris));
         ar.setIds(ids);
+        ar.setEditorUris(new ArrayList<String>(HasAssociatedIndividual.getIndividualUris(ids)));
 	    Policies policies = PolicyStore.getInstance();
 	    PolicyDecision decision = policies.decide(ar);
 	    debug(ar, decision);

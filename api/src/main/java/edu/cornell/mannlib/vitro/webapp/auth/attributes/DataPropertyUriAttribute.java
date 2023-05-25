@@ -23,7 +23,7 @@ public class DataPropertyUriAttribute extends AbstractAttribute {
         if (dataProperty != null) {
             inputValue = dataProperty.getURI();
         }
-        if (AttributeValueTester.test(this, inputValue)) {
+        if (AttributeValueTester.test(this, ar, inputValue)) {
             log.debug("Attribute value(s) match requested statement data property uri '" + inputValue + "'");
             return true;
         }

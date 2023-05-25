@@ -18,7 +18,7 @@ public class SubjectRoleAttribute extends AbstractAttribute {
     @Override
     public boolean match(AuthorizationRequest ar) {
         final List<String> inputValues = ar.getRoleUris();
-        if (AttributeValueTester.test(this,  inputValues.toArray(new String[0]))) {
+        if (AttributeValueTester.test(this,  ar, inputValues.toArray(new String[0]))) {
             log.debug("Attribute match requested '" + inputValues + "'");
             return true;
         }

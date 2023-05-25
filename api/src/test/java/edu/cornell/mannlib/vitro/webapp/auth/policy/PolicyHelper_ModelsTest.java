@@ -351,7 +351,7 @@ public class PolicyHelper_ModelsTest extends AbstractTestClass {
 			return inconclusive();
 		}
 
-		private boolean statementExists(OntModel oModel, Statement stmt) {
+		private boolean statementExists(Model oModel, Statement stmt) {
 			StmtIterator stmts = oModel.listStatements(stmt.getSubject(),
 					stmt.getPredicate(), stmt.getObject());
 			try {

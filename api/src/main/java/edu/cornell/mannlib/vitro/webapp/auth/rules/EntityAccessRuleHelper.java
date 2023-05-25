@@ -11,12 +11,12 @@ import org.apache.jena.rdf.model.impl.Util;
 
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType;
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.ProximityChecker;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.common.HasAssociatedIndividual;
 import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
-import edu.cornell.mannlib.vitro.webapp.utils.RelationshipChecker;
 
 public class EntityAccessRuleHelper {
 
@@ -53,7 +53,7 @@ public class EntityAccessRuleHelper {
             }
         }
         
-        return RelationshipChecker.anyRelated(ao.getStatementOntModel(), Arrays.asList(ao.getResourceUris()), personUris);
+        return ProximityChecker.isAanyRelated(ao.getStatementOntModel(), Arrays.asList(ao.getResourceUris()), personUris, "");
     }
 
     static boolean matches(String uri, EntityAccessRule entityPermission) {

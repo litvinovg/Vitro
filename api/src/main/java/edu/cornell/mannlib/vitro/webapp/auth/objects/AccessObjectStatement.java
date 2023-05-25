@@ -1,22 +1,22 @@
 package edu.cornell.mannlib.vitro.webapp.auth.objects;
 
-import org.apache.jena.ontology.OntModel;
+import org.apache.jena.rdf.model.Model;
 
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 
 public class AccessObjectStatement {
 
-    private OntModel model = null;
+    private Model model = null;
     private String subject = null;
     private Property predicate = null;
     private String object = null;
 
-    public OntModel getModel() {
+    public Model getModel() {
         return model;
     }
 
-    public void setModel(OntModel model) {
+    public void setModel(Model model) {
         this.model = model;
     }
 

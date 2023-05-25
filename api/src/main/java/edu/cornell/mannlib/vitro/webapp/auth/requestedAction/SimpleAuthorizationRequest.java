@@ -8,6 +8,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 public class SimpleAuthorizationRequest extends AuthorizationRequest {
 
     private AccessObject object;
+
     public AccessObject getObject() {
         return object;
     }

@@ -18,7 +18,7 @@ public class StatementPredicateUriAttribute extends AbstractAttribute {
     public boolean match(AuthorizationRequest ar) {
         AccessObject ao = ar.getAccessObject();
         final String inputValue = ao.getStatementPredicateUri();
-        if (AttributeValueTester.test(this, inputValue)) {
+        if (AttributeValueTester.test(this, ar, inputValue)) {
             log.debug("Attribute value match requested statement predicate uri '" + inputValue + "'");
             return true;
         }

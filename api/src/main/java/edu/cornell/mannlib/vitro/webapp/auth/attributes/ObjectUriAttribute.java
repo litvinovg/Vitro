@@ -18,7 +18,7 @@ public class ObjectUriAttribute extends AbstractAttribute {
     public boolean match(AuthorizationRequest ar) {
         AccessObject ao = ar.getAccessObject();
         final String inputValue = ao.getUri();
-        if (AttributeValueTester.test(this, inputValue)) {
+        if (AttributeValueTester.test(this, ar, inputValue)) {
             log.debug("Attribute match requested '" + inputValue + "'");
             return true;
         }

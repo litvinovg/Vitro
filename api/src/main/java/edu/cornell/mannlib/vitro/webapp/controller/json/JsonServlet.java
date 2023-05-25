@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.PersonResourceMapCache;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroHttpServlet;
@@ -23,7 +24,6 @@ import edu.cornell.mannlib.vitro.webapp.controller.freemarker.IndividualListCont
 import edu.cornell.mannlib.vitro.webapp.controller.individuallist.IndividualListResults;
 import edu.cornell.mannlib.vitro.webapp.controller.individuallist.IndividualListResultsUtils;
 import edu.cornell.mannlib.vitro.webapp.dao.WebappDaoFactory;
-import edu.cornell.mannlib.vitro.webapp.utils.PersonResourceMapCache;
 import edu.cornell.mannlib.vitro.webapp.utils.log.LogUtils;
 
 /**

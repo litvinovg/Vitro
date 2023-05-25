@@ -18,7 +18,7 @@ public class StatementSubjectUriAttribute extends AbstractAttribute {
     public boolean match(AuthorizationRequest ar) {
         AccessObject ao = ar.getAccessObject();
         final String inputValue = ao.getStatementSubject();
-        if (AttributeValueTester.test(this, inputValue)) {
+        if (AttributeValueTester.test(this, ar, inputValue)) {
             log.debug("Attribute value match requested statement subject uri '" + inputValue + "'");
             return true;
         }

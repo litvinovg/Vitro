@@ -2,7 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.objects;
 
-import org.apache.jena.ontology.OntModel;
+import org.apache.jena.rdf.model.Model;
 
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
@@ -13,7 +13,7 @@ import edu.cornell.mannlib.vitro.webapp.beans.Property;
  */
 public class ObjectPropertyStatementAccessObject extends AccessObject {
 
-	public ObjectPropertyStatementAccessObject(OntModel ontModel, String subjectUri, Property predicate, String objectUri) {
+	public ObjectPropertyStatementAccessObject(Model ontModel, String subjectUri, Property predicate, String objectUri) {
 	    setStatementOntModel(ontModel);
         setStatementSubject(subjectUri);
         setStatementPredicate(predicate);

@@ -17,7 +17,7 @@ public class OperationAttribute extends AbstractAttribute {
     public boolean match(AuthorizationRequest ar) {
         AccessOperation aop = ar.getAccessOperation();
         final String inputValue = aop.toString();
-        if (AttributeValueTester.test(this, inputValue)) {
+        if (AttributeValueTester.test(this, ar, inputValue)) {
             log.debug("Attribute match requested operation '" + inputValue + "'");
             return true;
         }

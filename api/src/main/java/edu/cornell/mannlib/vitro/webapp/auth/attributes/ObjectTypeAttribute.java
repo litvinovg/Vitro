@@ -18,7 +18,7 @@ public class ObjectTypeAttribute extends AbstractAttribute {
     public boolean match(AuthorizationRequest ar) {
          AccessObject ao = ar.getAccessObject();
         final String inputValue = ao.getType().toString();
-        if (AttributeValueTester.test(this, inputValue)) {
+        if (AttributeValueTester.test(this, ar, inputValue)) {
             log.debug("Attribute match requested object type '" + inputValue + "'");
             return true;
         }

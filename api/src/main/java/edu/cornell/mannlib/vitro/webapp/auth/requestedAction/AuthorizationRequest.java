@@ -11,6 +11,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 public abstract class AuthorizationRequest {
 
     IdentifierBundle ids;
+    private List<String> editorUris = Collections.emptyList();
     List<String> roleUris = Collections.emptyList();
     
     public void setRoleUris(List<String> roleUris) {
@@ -44,5 +45,13 @@ public abstract class AuthorizationRequest {
     public void setIds(IdentifierBundle ids) {
         this.ids = ids;
     }
+
+    public void setEditorUris(List<String> list) {
+        editorUris = list;
+    }
+
+    public List<String> getEditorUris(){
+        return editorUris;
+    };
     
 }

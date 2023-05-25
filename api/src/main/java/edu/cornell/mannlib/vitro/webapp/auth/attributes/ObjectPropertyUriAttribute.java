@@ -23,7 +23,7 @@ public class ObjectPropertyUriAttribute extends AbstractAttribute {
         if (objectProperty != null) {
             inputValue = objectProperty.getURI();
         }
-        if (AttributeValueTester.test(this, inputValue)) {
+        if (AttributeValueTester.test(this, ar, inputValue)) {
             log.debug("Attribute value match requested statement object property uri '" + inputValue + "'");
             return true;
         }
