@@ -13,6 +13,7 @@ ai:CuratorDisplayDataPropertyPolicy rdf:type ao:Policy ;
           ao:policyKey ai:CuratorDisplayDataPropertyPolicyKey .
 
 ai:CuratorDisplayDataPropertyRuleSet rdf:type ao:Rules ;
+          ao:rule ai:AllowCuratorDisplayDataPropertyStatementRule;
           ao:rule ai:AllowCuratorDisplayDataPropertyRule .
 
 ai:CuratorDisplayDataPropertyTestDatasets rdf:type ao:TestDatasets ;
@@ -31,7 +32,18 @@ ai:AllowCuratorDisplayDataPropertyRule rdf:type ao:Rule;
           ao:attribute ai:DisplayOperationAttribute ;
           ao:attribute ai:DataPropertyTypeAttribute ;
           ao:attribute ai:CuratorDisplayDataPropertyAttribute .
+
+ai:AllowCuratorDisplayDataPropertyStatementRule rdf:type ao:Rule;
+          ao:attribute ai:SubjectRoleEqualsAdminRoleAttribute ;
+          ao:attribute ai:DisplayOperationAttribute ;
+          ao:attribute ai:DataPropertyStatementTypeAttribute ;
+          ao:attribute ai:CuratorDisplayDataPropertyStatementAttribute .
          
+ai:CuratorDisplayDataPropertyStatementAttribute rdf:type ao:Attribute ;
+         ao:test ai:Contains ;
+         ao:type ai:PredicateUri ;
+         ao:setValue ai:CuratorDisplayDataPropertyTestData .
+
 ai:CuratorDisplayDataPropertyAttribute rdf:type ao:Attribute ;
          ao:test ai:Contains ;
          ao:type ai:ObjectUri ;

@@ -13,6 +13,7 @@ ai:AdminPublishDataPropertyPolicy rdf:type ao:Policy ;
           ao:policyKey ai:AdminPublishDataPropertyPolicyKey .
 
 ai:AdminPublishDataPropertyRuleSet rdf:type ao:Rules ;
+          ao:rule ai:AllowAdminPublishDataPropertyStatementRule ;
           ao:rule ai:AllowAdminPublishDataPropertyRule .
 
 ai:AdminPublishDataPropertyTestDatasets rdf:type ao:TestDatasets ;
@@ -31,7 +32,18 @@ ai:AllowAdminPublishDataPropertyRule rdf:type ao:Rule;
           ao:attribute ai:PublishOperationAttribute ;
           ao:attribute ai:DataPropertyTypeAttribute ;
           ao:attribute ai:AdminPublishDataPropertyAttribute .
+
+ai:AllowAdminPublishDataPropertyStatementRule rdf:type ao:Rule;
+          ao:attribute ai:SubjectRoleEqualsAdminRoleAttribute ;
+          ao:attribute ai:PublishOperationAttribute ;
+          ao:attribute ai:DataPropertyStatementTypeAttribute ;
+          ao:attribute ai:AdminPublishDataPropertyStatementAttribute .
          
+ai:AdminPublishDataPropertyStatementAttribute rdf:type ao:Attribute ;
+         ao:test ai:Contains ;
+         ao:type ai:PredicateUri ;
+         ao:setValue ai:AdminPublishDataPropertyTestData .
+
 ai:AdminPublishDataPropertyAttribute rdf:type ao:Attribute ;
          ao:test ai:Contains ;
          ao:type ai:ObjectUri ;

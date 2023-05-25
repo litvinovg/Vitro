@@ -13,6 +13,7 @@ ai:PublicDisplayDataPropertyPolicy rdf:type ao:Policy ;
           ao:policyKey ai:PublicDisplayDataPropertyPolicyKey .
 
 ai:PublicDisplayDataPropertyRuleSet rdf:type ao:Rules ;
+          ao:rule ai:AllowPublicDisplayDataPropertyStatementRule ;
           ao:rule ai:AllowPublicDisplayDataPropertyRule .
 
 ai:PublicDisplayDataPropertyTestDatasets rdf:type ao:TestDatasets ;
@@ -31,6 +32,17 @@ ai:AllowPublicDisplayDataPropertyRule rdf:type ao:Rule;
           ao:attribute ai:DisplayOperationAttribute ;
           ao:attribute ai:DataPropertyTypeAttribute ;
           ao:attribute ai:PublicDisplayDataPropertyAttribute .
+
+ai:AllowPublicDisplayDataPropertyStatementRule rdf:type ao:Rule;
+          ao:attribute ai:SubjectRoleEqualsPublicRoleAttribute ;
+          ao:attribute ai:DisplayOperationAttribute ;
+          ao:attribute ai:DataPropertyStatementTypeAttribute ;
+          ao:attribute ai:PublicDisplayDataPropertyStatementAttribute .
+         
+ai:PublicDisplayDataPropertyStatementAttribute rdf:type ao:Attribute ;
+         ao:test ai:Contains ;
+         ao:type ai:PredicateUri ;
+         ao:setValue ai:PublicDisplayDataPropertyTestData .
          
 ai:PublicDisplayDataPropertyAttribute rdf:type ao:Attribute ;
          ao:test ai:Contains ;
