@@ -73,7 +73,7 @@ ai:AddOperationAttribute rdf:type ao:Attribute ;
          ao:test ai:Equals ;
          ao:type ai:Operation ;
          ao:value ai:AddOperation .
-
+         
 ###########################################################################
 ### Object attributes
 

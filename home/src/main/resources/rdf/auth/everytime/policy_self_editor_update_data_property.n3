@@ -13,6 +13,7 @@ ai:SelfEditorUpdateDataPropertyPolicy rdf:type ao:Policy ;
           ao:policyKey ai:SelfEditorUpdateDataPropertyPolicyKey .
 
 ai:SelfEditorUpdateDataPropertyRuleSet rdf:type ao:Rules ;
+          ao:rule ai:AllowSelfEditorUpdateDataPropertyStatementRule ;
           ao:rule ai:AllowSelfEditorUpdateDataPropertyRule .
 
 ai:SelfEditorUpdateDataPropertyTestDatasets rdf:type ao:TestDatasets ;
@@ -31,7 +32,18 @@ ai:AllowSelfEditorUpdateDataPropertyRule rdf:type ao:Rule;
           ao:attribute ai:UpdateOperationAttribute ;
           ao:attribute ai:DataPropertyTypeAttribute ;
           ao:attribute ai:SelfEditorUpdateDataPropertyAttribute .
+
+ai:AllowSelfEditorUpdateDataPropertyStatementRule rdf:type ao:Rule;
+          ao:attribute ai:SubjectRoleEqualsSelfEditorRoleAttribute ;
+          ao:attribute ai:UpdateOperationAttribute ;
+          ao:attribute ai:DataPropertyStatementTypeAttribute ;
+          ao:attribute ai:SelfEditorUpdateDataPropertyStatementAttribute .
          
+ai:SelfEditorUpdateDataPropertyStatementAttribute rdf:type ao:Attribute ;
+         ao:test ai:Contains ;
+         ao:type ai:PredicateUri ;
+         ao:setValue ai:SelfEditorUpdateDataPropertyTestData .
+
 ai:SelfEditorUpdateDataPropertyAttribute rdf:type ao:Attribute ;
          ao:test ai:Contains ;
          ao:type ai:ObjectUri ;

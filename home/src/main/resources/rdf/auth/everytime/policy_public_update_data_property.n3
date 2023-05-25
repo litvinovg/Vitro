@@ -13,6 +13,7 @@ ai:PublicUpdateDataPropertyPolicy rdf:type ao:Policy ;
           ao:policyKey ai:PublicUpdateDataPropertyPolicyKey .
 
 ai:PublicUpdateDataPropertyRuleSet rdf:type ao:Rules ;
+          ao:rule ai:AllowPublicUpdateDataPropertyStatementRule ;
           ao:rule ai:AllowPublicUpdateDataPropertyRule .
 
 ai:PublicUpdateDataPropertyTestDatasets rdf:type ao:TestDatasets ;
@@ -31,7 +32,18 @@ ai:AllowPublicUpdateDataPropertyRule rdf:type ao:Rule;
           ao:attribute ai:UpdateOperationAttribute ;
           ao:attribute ai:DataPropertyTypeAttribute ;
           ao:attribute ai:PublicUpdateDataPropertyAttribute .
+
+ai:AllowPublicUpdateDataPropertyStatementRule rdf:type ao:Rule;
+          ao:attribute ai:SubjectRoleEqualsPublicRoleAttribute ;
+          ao:attribute ai:UpdateOperationAttribute ;
+          ao:attribute ai:DataPropertyStatementTypeAttribute ;
+          ao:attribute ai:PublicUpdateDataPropertyStatementAttribute .
          
+ai:PublicUpdateDataPropertyStatementAttribute rdf:type ao:Attribute ;
+         ao:test ai:Contains ;
+         ao:type ai:PredicateUri ;
+         ao:setValue ai:PublicUpdateDataPropertyTestData .
+
 ai:PublicUpdateDataPropertyAttribute rdf:type ao:Attribute ;
          ao:test ai:Contains ;
          ao:type ai:ObjectUri ;

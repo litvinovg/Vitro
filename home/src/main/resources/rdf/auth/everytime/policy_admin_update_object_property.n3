@@ -13,6 +13,7 @@ ai:AdminUpdateObjectPropertyPolicy rdf:type ao:Policy ;
           ao:policyKey ai:AdminUpdateObjectPropertyPolicyKey .
 
 ai:AdminUpdateObjectPropertyRuleSet rdf:type ao:Rules ;
+          ao:rule ai:AllowAdminUpdateObjectPropertyStatementRule ;
           ao:rule ai:AllowAdminUpdateObjectPropertyRule .
 
 ai:AdminUpdateObjectPropertyTestDatasets rdf:type ao:TestDatasets ;
@@ -31,7 +32,18 @@ ai:AllowAdminUpdateObjectPropertyRule rdf:type ao:Rule;
           ao:attribute ai:UpdateOperationAttribute ;
           ao:attribute ai:ObjectPropertyTypeAttribute ;
           ao:attribute ai:AdminUpdateObjectPropertyAttribute .
+
+ai:AllowAdminUpdateObjectPropertyStatementRule rdf:type ao:Rule;
+          ao:attribute ai:SubjectRoleEqualsAdminRoleAttribute ;
+          ao:attribute ai:UpdateOperationAttribute ;
+          ao:attribute ai:ObjectPropertyStatementTypeAttribute ;
+          ao:attribute ai:AdminUpdateObjectPropertyStatementAttribute .
          
+ai:AdminUpdateObjectPropertyStatementAttribute rdf:type ao:Attribute ;
+         ao:test ai:Contains ;
+         ao:type ai:PredicateUri ;
+         ao:setValue ai:AdminUpdateObjectPropertyTestData .
+
 ai:AdminUpdateObjectPropertyAttribute rdf:type ao:Attribute ;
          ao:test ai:Contains ;
          ao:type ai:ObjectUri ;

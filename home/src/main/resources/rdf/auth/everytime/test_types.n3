@@ -22,3 +22,6 @@ ai:NotOneOf rdf:type ao:Test;
          
 ai:StartsWith rdf:type ao:Test;
          ao:id "STARTS_WITH" .
+         
+ai:SparqlSelectQueryContains rdf:type ao:Test;
+         ao:id "SPARQL_SELECT_QUERY_CONTAINS" .
