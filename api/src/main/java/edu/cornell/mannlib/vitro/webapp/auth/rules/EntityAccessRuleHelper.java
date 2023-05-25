@@ -102,21 +102,16 @@ public class EntityAccessRuleHelper {
 
         if (AccessObjectType.DATA_PROPERTY_STATEMENT.equals(type)) {
             // Check resource
-            if (isModifiable(ao.getStatementSubject())) {
-                if (isModifiable(ao.getStatementPredicateUri())) {
+            if (isModifiable(ao.getStatementSubject()) && isModifiable(ao.getStatementPredicateUri())) {
                     isAuthorized = matches(ao.getStatementPredicateUri(), ear) &&
                             isAuthorizedBySparqlQuery(ao, personUris, ear);
-                }
             }
     
         } else if (AccessObjectType.OBJECT_PROPERTY_STATEMENT.equals(type)) {
-            if (isModifiable(ao.getStatementSubject()) && isModifiable(ao.getStatementObject())) {
-                if (isModifiable(ao.getStatementPredicateUri())) {
+            if (isModifiable(ao.getStatementSubject()) && isModifiable(ao.getStatementPredicateUri()) && isModifiable(ao.getStatementObject())) {
                     isAuthorized = matches(ao.getStatementPredicateUri(), ear) &&
                     isAuthorizedBySparqlQuery(ao, personUris, ear);
-                }
             }
-    
         } 
     
         if (isAuthorized) {

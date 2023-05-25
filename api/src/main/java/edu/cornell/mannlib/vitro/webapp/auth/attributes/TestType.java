@@ -3,6 +3,7 @@ package edu.cornell.mannlib.vitro.webapp.auth.attributes;
 public enum TestType {
     EQUALS,
     NOT_EQUALS,
-    CONTAINS,
-    NOT_CONTAINS
+    ONE_OF,
+    NOT_ONE_OF,
+    STARTS_WITH
 }

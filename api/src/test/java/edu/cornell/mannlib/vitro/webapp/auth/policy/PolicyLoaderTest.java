@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
 import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
+import edu.cornell.mannlib.vitro.webapp.auth.objects.DataPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.objects.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleAuthorizationRequest;
@@ -47,6 +48,8 @@ public class PolicyLoaderTest {
     public static final String EDITOR_SIMPLE_PERMISSIONS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_editor_simple_permissions.n3";
     public static final String SELF_EDITOR_SIMPLE_PERMISSIONS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_self_editor_simple_permissions.n3";
     public static final String PUBLIC_SIMPLE_PERMISSIONS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_public_simple_permissions.n3";
+    
+    public static final String NOT_MODIFIABLE_STATEMENTS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_not_modifiable_statements.n3";
     //Entity permission policies
     //Display
     public static final String ADMIN_DISPLAY_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_admin_display_object_property.n3";
@@ -599,6 +602,57 @@ public class PolicyLoaderTest {
         assertEquals(DecisionResult.INCONCLUSIVE, policy.decide(ar).getDecisionResult());
         ar.setRoleUris(Arrays.asList(PUBLIC_URI));
         assertEquals(DecisionResult.AUTHORIZED, policy.decide(ar).getDecisionResult());
+    }
+    
+    @Test
+    public void testNonModifiableStatementsPolicy() {        
+        load(NOT_MODIFIABLE_STATEMENTS_POLICY_PATH);
+        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/NotModifiableStatementsPolicy";
+        Policy policy = loader.loadPolicy(policyUri);
+        assertTrue(policy != null);
+        assertEquals(8000, policy.getPriority());
+        assertEquals(5, policy.getRules().size());
+        final AccessRule rule = policy.getRules().iterator().next();
+        assertEquals(false, rule.isAllowMatched());
+        for (AccessRule irule : policy.getRules()) {
+            assertEquals(3, irule.getAttributesCount());
+        }
+        
+        AccessObject ao = new ObjectPropertyStatementAccessObject(null, "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#Valid", null, null);
+        SimpleAuthorizationRequest ar = new SimpleAuthorizationRequest(ao, AccessOperation.DROP);
+        assertEquals(DecisionResult.UNAUTHORIZED, policy.decide(ar).getDecisionResult());
+        ao = new ObjectPropertyStatementAccessObject(null, "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime", null, null);
+        ar = new SimpleAuthorizationRequest(ao, AccessOperation.DROP);
+        assertEquals(DecisionResult.INCONCLUSIVE, policy.decide(ar).getDecisionResult());
+        
+        ao = new ObjectPropertyStatementAccessObject(null, null, new Property("http://vitro.mannlib.cornell.edu/ns/vitro/0.7#Valid"), null);
+        ar = new SimpleAuthorizationRequest(ao, AccessOperation.DROP);
+        assertEquals(DecisionResult.UNAUTHORIZED, policy.decide(ar).getDecisionResult());
+        ao = new ObjectPropertyStatementAccessObject(null, null, new Property("http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime"), null);
+        ar = new SimpleAuthorizationRequest(ao, AccessOperation.DROP);
+        assertEquals(DecisionResult.INCONCLUSIVE, policy.decide(ar).getDecisionResult());
+        
+        ao = new ObjectPropertyStatementAccessObject(null, null, null, "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#Valid");
+        ar = new SimpleAuthorizationRequest(ao, AccessOperation.DROP);
+        assertEquals(DecisionResult.UNAUTHORIZED, policy.decide(ar).getDecisionResult());
+        ao = new ObjectPropertyStatementAccessObject(null, null, null, "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime");
+        ar = new SimpleAuthorizationRequest(ao, AccessOperation.DROP);
+        assertEquals(DecisionResult.INCONCLUSIVE, policy.decide(ar).getDecisionResult());
+        
+        //Data property statement
+        ao = new DataPropertyStatementAccessObject(null, "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#Valid", null, null);
+        ar = new SimpleAuthorizationRequest(ao, AccessOperation.DROP);
+        assertEquals(DecisionResult.UNAUTHORIZED, policy.decide(ar).getDecisionResult());
+        ao = new DataPropertyStatementAccessObject(null, "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime", null, null);
+        ar = new SimpleAuthorizationRequest(ao, AccessOperation.DROP);
+        assertEquals(DecisionResult.INCONCLUSIVE, policy.decide(ar).getDecisionResult());
+        
+        ao = new DataPropertyStatementAccessObject(null, null, "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#Valid", null);
+        ar = new SimpleAuthorizationRequest(ao, AccessOperation.DROP);
+        assertEquals(DecisionResult.UNAUTHORIZED, policy.decide(ar).getDecisionResult());
+        ao = new DataPropertyStatementAccessObject(null, null, "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime", null);
+        ar = new SimpleAuthorizationRequest(ao, AccessOperation.DROP);
+        assertEquals(DecisionResult.INCONCLUSIVE, policy.decide(ar).getDecisionResult());
     }
     
     private void load(String filePath) {

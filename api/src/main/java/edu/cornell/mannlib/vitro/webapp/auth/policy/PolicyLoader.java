@@ -1,5 +1,6 @@
 package edu.cornell.mannlib.vitro.webapp.auth.policy;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Model;
 
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.AttributeFactory;
@@ -91,23 +93,22 @@ public class PolicyLoader {
           + "}\n"
           + "BIND(EXISTS{ \n"
           + "   ?attribute ao:setValue ?testData . \n"
-          + "   ?testData ai:dataValue ?value . \n"
           + "   ?dataSet ao:testData ?testData . \n"
+          + "   ?testData ai:dataValue ?value . \n"
           + "} AS ?cond1)\n"
           + "BIND(EXISTS{ \n"
           + "   ?attribute ao:value ?value . \n"
           + "} AS ?cond2)\n"
-          + "{"
+          + "{\n"
           + "   ?attribute ao:setValue ?testData . \n"
-          + "   ?testData ai:dataValue ?value . \n"
-          + "   OPTIONAL {?value ao:id ?lit_value . }\n"
           + "   ?dataSet ao:testData ?testData . \n"
-          + "}"
-          + "UNION "
-          + "{"
+          + "   ?testData ai:dataValue ?value . \n"
+          + "}\n"
+          + "UNION \n"
+          + "{\n"
           + "   ?attribute ao:value ?value . \n"
+          + "}\n"
           + "   OPTIONAL {?value ao:id ?lit_value . }\n"
-          + "}"
           + "FILTER( (?cond1 || ?cond2) && ! (?cond1 && ?cond2) )\n"
           + "} ORDER BY ?priority ?rule ?attribute";
     
@@ -152,7 +153,7 @@ public class PolicyLoader {
     }
 
     public List<String> getPolicyUris() {
-        debug("SPARQL Query to get policy uris from the graph:\n %s", POLICY_URIS_QUERY);
+        //debug("SPARQL Query to get policy uris from the graph:\n %s", POLICY_URIS_QUERY);
         Query query = QueryFactory.create(POLICY_URIS_QUERY);
         QueryExecution qexec = QueryExecutionFactory.create(query, getUserAccountsModel());
         List<String> policyUris = new LinkedList<String>();
@@ -177,7 +178,7 @@ public class PolicyLoader {
     public Policy loadPolicy(String uri) {
         ParameterizedSparqlString pss = new ParameterizedSparqlString(POLICY_QUERY);
         pss.setIri(POLICY, uri);
-        debug("SPARQL Query to get policy %s from the graph:\n %s", uri, pss.toString());
+        //debug("SPARQL Query to get policy %s from the graph:\n %s", uri, pss.toString());
         Query query = QueryFactory.create(pss.toString());
         QueryExecution qexec = QueryExecutionFactory.create(query, getUserAccountsModel());
         Set<AccessRule> rules = new HashSet<>();
@@ -185,6 +186,7 @@ public class PolicyLoader {
         try {
             ResultSet rs = qexec.execSelect();
             AccessRule rule = null;
+            //debugSelectQueryResults(rs);
             while (rs.hasNext()) {
                 QuerySolution qs = rs.next();
                 if (isInvalidPolicySolution(qs)) {
@@ -217,6 +219,13 @@ public class PolicyLoader {
         Policy policy = new Policy(uri, priority);
         policy.addRules(rules);
         return policy;
+    }
+
+    private void debugSelectQueryResults(ResultSet rs) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ResultSetFormatter.outputAsJSON(baos, rs);
+        String json = new String(baos.toByteArray());
+        debug(json);
     }
     
     private static boolean isRuleContinues(AccessRule rule, QuerySolution qs) {

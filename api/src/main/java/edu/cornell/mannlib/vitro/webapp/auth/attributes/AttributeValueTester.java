@@ -15,10 +15,12 @@ public class AttributeValueTester {
             return equals(attr, values);
         case NOT_EQUALS:
             return !equals(attr, values);
-        case CONTAINS:
+        case ONE_OF:
             return contains(attr, values);
-        case NOT_CONTAINS:
+        case NOT_ONE_OF:
             return !contains(attr, values);
+        case STARTS_WITH:
+            return startsWith(attr, values);
         default: 
             return false;
         }
@@ -43,6 +45,21 @@ public class AttributeValueTester {
         String value = values.iterator().next();
         for (String inputValue : inputValues) {
             if(value.equals(inputValue)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private static boolean startsWith(Attribute attr, String... inputValues) {
+        Set<String> values = attr.getValues();
+        final int valuesSize = values.size();
+        if(valuesSize != 1) {
+            return false;
+        }
+        String value = values.iterator().next();
+        for (String inputValue : inputValues) {
+            if(inputValue != null && inputValue.startsWith(value)){
                 return true;
             }
         }

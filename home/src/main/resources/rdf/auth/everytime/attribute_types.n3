@@ -40,6 +40,9 @@ ai:RelatesToSubjectProfile rdf:type ao:AttributeType ;
          
 ai:StatementPredicateUri rdf:type ao:AttributeType ;
          ao:id "STATEMENT_PREDICATE_URI" .
+         
+ai:StatementSubjectUri rdf:type ao:AttributeType ;
+         ao:id "STATEMENT_SUBJECT_URI" .
 
 ai:ObjectPropertyUri rdf:type ao:AttributeType ;
          ao:id "OBJECT_PROPERTY_URI" .

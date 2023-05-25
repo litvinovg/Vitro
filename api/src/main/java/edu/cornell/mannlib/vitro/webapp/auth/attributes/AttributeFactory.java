@@ -33,6 +33,9 @@ public class AttributeFactory {
         case STATEMENT_PREDICATE_URI:
             at = new StatementPredicateUriAttribute(attributeUri, value);
             break;
+        case STATEMENT_SUBJECT_URI:
+            at = new StatementSubjectUriAttribute(attributeUri, value);
+            break;
         case STATEMENT_OBJECT_URI:
             at = new StatementObjectUriAttribute(attributeUri, value);
             break;
@@ -44,19 +47,20 @@ public class AttributeFactory {
     }
 
     private static String getValue(QuerySolution qs) {
-        String value = qs.getResource(AccessRuleStore.ATTR_VALUE).getURI();
         if (!qs.contains(AccessRuleStore.LITERAL_VALUE) ||
             !qs.get(AccessRuleStore.LITERAL_VALUE).isLiteral()) {
+            String value = qs.getResource(AccessRuleStore.ATTR_VALUE).getURI();
             return value;
+        } else {
+            String value = qs.getLiteral(AccessRuleStore.LITERAL_VALUE).toString();
+            return value;    
         }
-        value = qs.getLiteral(AccessRuleStore.LITERAL_VALUE).toString();
-        return value;
     }
 
     public static void extendAttribute(Attribute attribute, QuerySolution qs) {
         String testId = qs.getLiteral("testId").getString();
-        if (TestType.CONTAINS.toString().equals(testId) ||
-            TestType.NOT_CONTAINS.toString().equals(testId)) {
+        if (TestType.ONE_OF.toString().equals(testId) ||
+            TestType.NOT_ONE_OF.toString().equals(testId)) {
             attribute.addValue(getValue(qs));
         }
     }
