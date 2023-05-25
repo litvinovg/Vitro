@@ -106,3 +106,15 @@ ai:ClassTypeAttribute rdf:type ao:Attribute ;
          ao:test ai:Equals ;
          ao:type ai:ObjectType ;
          ao:value ai:Class .
+         
+ai:ObjectUriInPersonProfileProximityAttribute rdf:type ao:Attribute ;
+         ao:test ai:SparqlSelectQueryContains ;
+         ao:type ai:ObjectUri ;
+         ao:value ai:Class .
+
+ai:SubjectUriInPersonProfileProximityAttribute rdf:type ao:Attribute ;
+         ao:test ai:SparqlSelectQueryContains ;
+         ao:type ai:SubjectUri ;
+         ao:value ai:Class .
+         
+
