@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.cornell.mannlib.vitro.webapp.auth.attributes.PersonResourceMapCache;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.QueryResultsMapCache;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroHttpServlet;
@@ -51,7 +51,7 @@ public class JsonServlet extends VitroHttpServlet {
         log.debug(LogUtils.formatRequestProperties(log, "debug", req));
 
         VitroRequest vreq = new VitroRequest(req);
-    	try(PersonResourceMapCache personResourceCache = new PersonResourceMapCache()){
+    	try(QueryResultsMapCache personResourceCache = new QueryResultsMapCache()){
 	        if (vreq.getParameter("getEntitiesByVClass") != null) {
 	            if( vreq.getParameter("resultKey") == null) {
 	                new GetEntitiesByVClass(vreq).process(resp);

@@ -32,9 +32,10 @@ public class ProximityChecker {
         return false;
     }
     private static List<String> getRelatedUris(Model model, String personUri, String queryTemplate) {
-    	HashMap<String, List<String>> personResourceMap = PersonResourceMapCache.get();
-        if (personResourceMap.containsKey(personUri)) {
-            return personResourceMap.get(personUri);
+    	HashMap<String, List<String>> queryMap = QueryResultsMapCache.get();
+        String queryMapKey = createQueryMapKey(personUri, queryTemplate);
+        if (queryMap.containsKey(queryMapKey)) {
+            return queryMap.get(queryMapKey);
         }
 
         List<String> resourceUris = new ArrayList<>();
@@ -52,8 +53,11 @@ public class ProximityChecker {
         } finally {
             queryExecution.close();
         }
-        personResourceMap.put(personUri, resourceUris);
-        PersonResourceMapCache.update(personResourceMap);
+        queryMap.put(queryMapKey, resourceUris);
+        QueryResultsMapCache.update(queryMap);
         return resourceUris;
+    }
+    private static String createQueryMapKey(String personUri, String queryTemplate) {
+        return queryTemplate + "." + personUri;
     }
 }
