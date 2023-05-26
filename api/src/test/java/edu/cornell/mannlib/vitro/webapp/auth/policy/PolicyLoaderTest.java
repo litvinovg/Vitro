@@ -151,7 +151,7 @@ public class PolicyLoaderTest {
     public void testAdminDisplayObjectPropertyPolicy() {
         load(ADMIN_DISPLAY_OBJ_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminDisplayObjectPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -159,7 +159,7 @@ public class PolicyLoaderTest {
     public void testAdminDisplayDataPropertyPolicy() {
         load(ADMIN_DISPLAY_DATA_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminDisplayDataPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -167,7 +167,7 @@ public class PolicyLoaderTest {
     public void testAdminDisplayClassPolicy() {
         load(ADMIN_DISPLAY_CLASS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminDisplayClassPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -175,7 +175,7 @@ public class PolicyLoaderTest {
     public void testCuratorDisplayObjectPropertyPolicy() {
         load(CURATOR_DISPLAY_OBJ_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorDisplayObjectPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -183,7 +183,7 @@ public class PolicyLoaderTest {
     public void testCuratorDisplayDataPropertyPolicy() {
         load(CURATOR_DISPLAY_DATA_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorDisplayDataPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -191,7 +191,7 @@ public class PolicyLoaderTest {
     public void testCuratorDisplayClassPolicy() {
         load(CURATOR_DISPLAY_CLASS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorDisplayClassPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -199,7 +199,7 @@ public class PolicyLoaderTest {
     public void testPublicDisplayObjectPropertyPolicy() {
         load(PUBLIC_DISPLAY_OBJ_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/PublicDisplayObjectPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -207,7 +207,7 @@ public class PolicyLoaderTest {
     public void testPublicDisplayDataPropertyPolicy() {
         load(PUBLIC_DISPLAY_DATA_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/PublicDisplayDataPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -215,7 +215,7 @@ public class PolicyLoaderTest {
     public void testPublicDisplayClassPolicy() {
         load(PUBLIC_DISPLAY_CLASS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/PublicDisplayClassPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -223,7 +223,7 @@ public class PolicyLoaderTest {
     public void testSelfEditorDisplayObjectPropertyPolicy() {
         load(SELF_EDITOR_DISPLAY_OBJ_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorDisplayObjectPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -231,7 +231,7 @@ public class PolicyLoaderTest {
     public void testSelfEditorDisplayDataPropertyPolicy() {
         load(SELF_EDITOR_DISPLAY_DATA_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorDisplayDataPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -239,7 +239,7 @@ public class PolicyLoaderTest {
     public void testSelfEditorDisplayClassPolicy() {
         load(SELF_EDITOR_DISPLAY_CLASS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorDisplayClassPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -247,7 +247,7 @@ public class PolicyLoaderTest {
     public void testEditorDisplayObjectPropertyPolicy() {
         load(EDITOR_DISPLAY_OBJ_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorDisplayObjectPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -255,7 +255,7 @@ public class PolicyLoaderTest {
     public void testEditorDisplayDataPropertyPolicy() {
         load(EDITOR_DISPLAY_DATA_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorDisplayDataPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -263,7 +263,7 @@ public class PolicyLoaderTest {
     public void testEditorDisplayClassPolicy() {
         load(EDITOR_DISPLAY_CLASS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorDisplayClassPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
    
@@ -271,7 +271,7 @@ public class PolicyLoaderTest {
     public void testAdminUpdateObjectPropertyPolicy() {
         load(ADMIN_UPDATE_OBJ_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminUpdateObjectPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -279,7 +279,7 @@ public class PolicyLoaderTest {
     public void testAdminUpdateDataPropertyPolicy() {
         load(ADMIN_UPDATE_DATA_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminUpdateDataPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -287,7 +287,7 @@ public class PolicyLoaderTest {
     public void testAdminUpdateClassPolicy() {
         load(ADMIN_UPDATE_CLASS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminUpdateClassPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -295,7 +295,7 @@ public class PolicyLoaderTest {
     public void testCuratorUpdateObjectPropertyPolicy() {
         load(CURATOR_UPDATE_OBJ_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorUpdateObjectPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -303,7 +303,7 @@ public class PolicyLoaderTest {
     public void testCuratorUpdateDataPropertyPolicy() {
         load(CURATOR_UPDATE_DATA_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorUpdateDataPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -311,7 +311,7 @@ public class PolicyLoaderTest {
     public void testCuratorUpdateClassPolicy() {
         load(CURATOR_UPDATE_CLASS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorUpdateClassPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -319,7 +319,7 @@ public class PolicyLoaderTest {
     public void testPublicUpdateObjectPropertyPolicy() {
         load(PUBLIC_UPDATE_OBJ_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/PublicUpdateObjectPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -327,7 +327,7 @@ public class PolicyLoaderTest {
     public void testPublicUpdateDataPropertyPolicy() {
         load(PUBLIC_UPDATE_DATA_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/PublicUpdateDataPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -335,7 +335,7 @@ public class PolicyLoaderTest {
     public void testPublicUpdateClassPolicy() {
         load(PUBLIC_UPDATE_CLASS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/PublicUpdateClassPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -343,7 +343,7 @@ public class PolicyLoaderTest {
     public void testSelfEditorUpdateObjectPropertyPolicy() {
         load(SELF_EDITOR_UPDATE_OBJ_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorUpdateObjectPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -351,7 +351,7 @@ public class PolicyLoaderTest {
     public void testSelfEditorUpdateDataPropertyPolicy() {
         load(SELF_EDITOR_UPDATE_DATA_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorUpdateDataPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -359,7 +359,7 @@ public class PolicyLoaderTest {
     public void testSelfEditorUpdateClassPolicy() {
         load(SELF_EDITOR_UPDATE_CLASS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorUpdateClassPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -367,7 +367,7 @@ public class PolicyLoaderTest {
     public void testEditorUpdateObjectPropertyPolicy() {
         load(EDITOR_UPDATE_OBJ_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorUpdateObjectPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -375,7 +375,7 @@ public class PolicyLoaderTest {
     public void testEditorUpdateDataPropertyPolicy() {
         load(EDITOR_UPDATE_DATA_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorUpdateDataPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -383,7 +383,7 @@ public class PolicyLoaderTest {
     public void testEditorUpdateClassPolicy() {
         load(EDITOR_UPDATE_CLASS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorUpdateClassPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
 
@@ -391,7 +391,7 @@ public class PolicyLoaderTest {
     public void testAdminPublishObjectPropertyPolicy() {
         load(ADMIN_PUBLISH_OBJ_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminPublishObjectPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -399,7 +399,7 @@ public class PolicyLoaderTest {
     public void testAdminPublishDataPropertyPolicy() {
         load(ADMIN_PUBLISH_DATA_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminPublishDataPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -407,7 +407,7 @@ public class PolicyLoaderTest {
     public void testAdminPublishClassPolicy() {
         load(ADMIN_PUBLISH_CLASS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminPublishClassPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -415,7 +415,7 @@ public class PolicyLoaderTest {
     public void testCuratorPublishObjectPropertyPolicy() {
         load(CURATOR_PUBLISH_OBJ_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorPublishObjectPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -423,7 +423,7 @@ public class PolicyLoaderTest {
     public void testCuratorPublishDataPropertyPolicy() {
         load(CURATOR_PUBLISH_DATA_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorPublishDataPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -432,7 +432,7 @@ public class PolicyLoaderTest {
         load(CURATOR_PUBLISH_CLASS_POLICY_PATH);
         
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorPublishClassPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -440,7 +440,7 @@ public class PolicyLoaderTest {
     public void testSelfEditorPublishObjectPropertyPolicy() {
         load(SELF_EDITOR_PUBLISH_OBJ_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorPublishObjectPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -448,7 +448,7 @@ public class PolicyLoaderTest {
     public void testSelfEditorPublishDataPropertyPolicy() {
         load(SELF_EDITOR_PUBLISH_DATA_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorPublishDataPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -456,7 +456,7 @@ public class PolicyLoaderTest {
     public void testSelfEditorPublishClassPolicy() {
         load(SELF_EDITOR_PUBLISH_CLASS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorPublishClassPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -464,7 +464,7 @@ public class PolicyLoaderTest {
     public void testEditorPublishObjectPropertyPolicy() {
         load(EDITOR_PUBLISH_OBJ_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorPublishObjectPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -472,7 +472,7 @@ public class PolicyLoaderTest {
     public void testEditorPublishDataPropertyPolicy() {
         load(EDITOR_PUBLISH_DATA_PROP_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorPublishDataPropertyPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     
@@ -480,14 +480,14 @@ public class PolicyLoaderTest {
     public void testEditorPublishClassPolicy() {
         load(EDITOR_PUBLISH_CLASS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorPublishClassPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
     }
     @Test
     public void testLoadRootUserPolicy() {        
         load(ROOT_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/RootUserPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
         assertEquals(10000, policy.getPriority());
         assertTrue(policy.getRules().size() > 0 );
@@ -500,7 +500,7 @@ public class PolicyLoaderTest {
     public void testLoadHomeMenuItemsRestrictionPolicy() {        
         load(MENU_ITEMS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/RestrictHomeMenuItemsEditingPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
         assertEquals(9000, policy.getPriority());
         assertTrue(policy.getRules().size() > 0 );
@@ -521,7 +521,7 @@ public class PolicyLoaderTest {
     public void testAdminSimplePermissionPolicy() {        
         load(ADMIN_SIMPLE_PERMISSIONS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminSimplePermissionsPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
         assertEquals(1000, policy.getPriority());
         assertEquals(1, policy.getRules().size());
@@ -540,7 +540,7 @@ public class PolicyLoaderTest {
     public void testCuratorSimplePermissionPolicy() {        
         load(CURATOR_SIMPLE_PERMISSIONS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorSimplePermissionsPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
         assertEquals(1000, policy.getPriority());
         assertEquals(1, policy.getRules().size());
@@ -559,7 +559,7 @@ public class PolicyLoaderTest {
     public void testEditorSimplePermissionPolicy() {        
         load(EDITOR_SIMPLE_PERMISSIONS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorSimplePermissionsPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
         assertEquals(1000, policy.getPriority());
         assertEquals(1, policy.getRules().size());
@@ -578,7 +578,7 @@ public class PolicyLoaderTest {
     public void testSelfEditorSimplePermissionPolicy() {        
         load(SELF_EDITOR_SIMPLE_PERMISSIONS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorSimplePermissionsPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
         assertEquals(1000, policy.getPriority());
         assertEquals(1, policy.getRules().size());
@@ -597,7 +597,7 @@ public class PolicyLoaderTest {
     public void testPublicSimplePermissionPolicy() {        
         load(PUBLIC_SIMPLE_PERMISSIONS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/PublicSimplePermissionsPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
         assertEquals(1000, policy.getPriority());
         assertEquals(1, policy.getRules().size());
@@ -616,7 +616,7 @@ public class PolicyLoaderTest {
     public void testNonModifiableStatementsPolicy() {        
         load(NOT_MODIFIABLE_STATEMENTS_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/NotModifiableStatementsPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
         assertEquals(8000, policy.getPriority());
         assertEquals(5, policy.getRules().size());
@@ -667,7 +667,7 @@ public class PolicyLoaderTest {
     public void testProximityPolicy() {        
         load(PROXIMITY_POLICY_PATH);
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/ProximityTestPolicy";
-        Policy policy = loader.loadPolicy(policyUri);
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
         assertTrue(policy.getRules().size() == 1 );
         AccessRule rule = policy.getRules().iterator().next();

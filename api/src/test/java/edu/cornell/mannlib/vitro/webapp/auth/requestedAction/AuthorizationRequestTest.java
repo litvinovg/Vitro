@@ -9,7 +9,7 @@ import org.junit.Test;
 import edu.cornell.mannlib.vitro.testing.AbstractTestClass;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.Policy;
 
 /**
  * Test the functions of the base class.

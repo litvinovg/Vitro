@@ -2,27 +2,19 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.policy;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.Policy;
 
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-
-/**
- * This is a List of Policy Objects that implements PolciyIface.  The intent
- * is to make it easy to query a list of policies for a PolicyDecision.
- *
- *  The Policy objects in the PolicyList are queried for authorization in order
- *  and return the first AUTHORIZED or UNAUTHROIZED decision.  INCONCLUSIVE
- *  or null decisions will be ignored and the next policy on the list will
- *  be queried.
- */
-public class PolicyStore extends PolicyListImpl{
+public class PolicyStore implements Policies {
     
-    private static final Log log = LogFactory.getLog(PolicyStore.class.getName());
-
+    private static final Comparator<Policy> comparator = getPolicyComparator();
     private static PolicyStore INSTANCE = new PolicyStore();
 
     private PolicyStore() {
@@ -32,29 +24,63 @@ public class PolicyStore extends PolicyListImpl{
     public static PolicyStore getInstance() {
         return INSTANCE;
     }
-    
-    /**
-     * Add the policy to the end of the list.
-     */
-    public static void addPolicy(PolicyIface policy) {
-    	if (policy == null) {
-    		return;
-    	}
-    	Policies policies = getInstance();
-    	if (!policies.contains(policy)) {
-    		policies.add(policy);
-    		log.debug("Added policy: " + policy.toString());
-    	} else {
-    		log.warn("Ignored attempt to add redundant policy.");
-    	}
+    protected List<Policy> policyList = Collections.synchronizedList(new ArrayList<Policy>());
+    protected Map<String, Policy> policyMap = Collections.synchronizedMap(new LinkedHashMap<String, Policy>());
+
+    @Override
+    public boolean contains(Policy policy) {
+        return policyList.contains(policy);
     }
 
+    @Override
+    public synchronized void add(Policy policy) {
+        if (policy == null) {
+            return;
+        }
+        Policy oldPolicy = policyMap.put(policy.getUri(), policy);
+        if (oldPolicy != null) {
+            policyList.remove(oldPolicy);
+        }
+        policyList.add(policy);
+        Collections.sort(policyList, comparator);
+    }
+
+    @Override
+    public synchronized void clear() {
+        policyList.clear();
+        policyMap.clear();
+    }
+    
     public List<String> getUris() {
         List<String> uris = new LinkedList<>();
-        for (PolicyIface policy : policies) {
+        for (Policy policy : policyList) {
             uris.add(policy.getUri());
         }
         return uris;
     }
+    
+    private static Comparator<Policy> getPolicyComparator() {
+        return new Comparator<Policy>() {
+            @Override
+            public int compare(Policy lps, Policy rps) {
+                if ( lps.getPriority() > rps.getPriority() ) {
+                    return -1;
+                } else 
+                if (lps.getPriority() > rps.getPriority()) {
+                    return 1;
+                }
+                return lps.getUri().compareTo(lps.getUri()); 
+            }
+        };
+    }
 
+    @Override
+    public List<Policy> getList() {
+        return new ArrayList<>(policyList);
+    }
+
+    @Override
+    public long size() {
+        return policyList.size();
+    }
 }

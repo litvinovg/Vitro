@@ -19,7 +19,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.Policy;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 
 /**
@@ -47,7 +47,7 @@ public class PolicyHelper_AuthorizationRequestTest {
 	// ----------------------------------------------------------------------
 
 	private void createPolicy(AccessObject... authorizedActions) {
-		PolicyStore.addPolicy(new MySimplePolicy(authorizedActions));
+		PolicyStore.getInstance().add(new MySimplePolicy(authorizedActions));
 	}
 
     /*
@@ -105,7 +105,7 @@ public class PolicyHelper_AuthorizationRequestTest {
 		// actions must be public, with public constructor
 	}
 
-	private static class MySimplePolicy implements PolicyIface {
+	private static class MySimplePolicy implements Policy {
 		private final Set<AccessObject> authorizedActions;
 
 		public MySimplePolicy(AccessObject... authorizedActions) {

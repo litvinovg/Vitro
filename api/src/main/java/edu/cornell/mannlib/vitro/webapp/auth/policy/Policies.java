@@ -1,17 +1,18 @@
 package edu.cornell.mannlib.vitro.webapp.auth.policy;
 
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
+import java.util.List;
+
+import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.Policy;
 
 public interface Policies {
 
-    public PolicyDecision decide(AuthorizationRequest ar);
+    public List<Policy> getList();
     
-    boolean contains(PolicyIface policy);
+    public boolean contains(Policy policy);
 
-    void add(PolicyIface policy);
+    public void add(Policy policy);
 
-    void clear();
-
+    public long size();
+    
+    public void clear();
 }

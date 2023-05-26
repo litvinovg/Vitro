@@ -37,7 +37,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.Policy;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 
 /**
@@ -84,7 +84,7 @@ public class PolicyHelper_ModelsTest extends AbstractTestClass {
 		req.setSession(session);
 
 		setLoggerLevel(PolicyStore.class, Level.WARN);
-		PolicyStore.addPolicy(new MySimplePolicy());
+		PolicyStore.getInstance().add(new MySimplePolicy());
 
 //		setLoggerLevel(PolicyHelper.class, Level.DEBUG);
 	}
@@ -327,7 +327,7 @@ public class PolicyHelper_ModelsTest extends AbstractTestClass {
 	 * resource, or (2) The subject is related to the primary resource by a
 	 * "friend" property statement.
 	 */
-	private class MySimplePolicy implements PolicyIface {
+	private class MySimplePolicy implements Policy {
 		@Override
 		public PolicyDecision decide(AuthorizationRequest ar) {
 	        AccessObject whatToAuth = ar.getAccessObject();

@@ -46,7 +46,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.policy.BasicPolicyDecision;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyStore;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.Policy;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
@@ -322,17 +322,17 @@ public class IndividualRdfAssemblerTest extends AbstractTestClass {
 	}
 
 	private void policyUnrestricted() {
-		PolicyStore.addPolicy(new UnrestrictedPolicy());
+		PolicyStore.getInstance().add(new UnrestrictedPolicy());
 	}
 
 	private void policyRestrictByPredicate(String... predicateUris) {
-		PolicyStore.addPolicy(new RestrictionsPolicy(predicateUris,
-				new String[0]));
+		PolicyStore.getInstance().add(new RestrictionsPolicy(predicateUris,
+        new String[0]));
 	}
 
 	private void policyRestrictByClass(String... classUris) {
-		PolicyStore.addPolicy(new RestrictionsPolicy(new String[0],
-				classUris));
+		PolicyStore.getInstance().add(new RestrictionsPolicy(new String[0],
+        classUris));
 	}
 
 	private void filterAndCompare(String message) {
@@ -432,7 +432,7 @@ public class IndividualRdfAssemblerTest extends AbstractTestClass {
 	// Helper class
 	// ----------------------------------------------------------------------
 
-	private abstract static class AbstractTestPolicy implements PolicyIface {
+	private abstract static class AbstractTestPolicy implements Policy {
 		@Override
 		public PolicyDecision decide(AuthorizationRequest ar) {
 	          AccessObject whatToAuth = ar.getAccessObject();

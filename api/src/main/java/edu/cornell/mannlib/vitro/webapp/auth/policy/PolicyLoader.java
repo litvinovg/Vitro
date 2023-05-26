@@ -143,11 +143,11 @@ public class PolicyLoader {
         List<String> policyUris = getPolicyUris();
         for (String uri : policyUris) {
             debug("Loading policy %s", uri);
-            Policy policy = loadPolicy(uri);
+            DynamicPolicy policy = loadPolicy(uri);
             if (policy != null) {
                 debug("Loaded policy %s", uri);
                 //take policy priority into account
-                PolicyStore.addPolicy(policy);
+                PolicyStore.getInstance().add(policy);
             }
         }
     }
@@ -175,7 +175,7 @@ public class PolicyLoader {
         return policyUris;
     }
     
-    public Policy loadPolicy(String uri) {
+    public DynamicPolicy loadPolicy(String uri) {
         ParameterizedSparqlString pss = new ParameterizedSparqlString(POLICY_QUERY);
         pss.setIri(POLICY, uri);
         //debug("SPARQL Query to get policy %s from the graph:\n %s", uri, pss.toString());
@@ -216,7 +216,7 @@ public class PolicyLoader {
         if (rules.isEmpty()) {
             return null;
         }
-        Policy policy = new Policy(uri, priority);
+        DynamicPolicy policy = new DynamicPolicy(uri, priority);
         policy.addRules(rules);
         return policy;
     }

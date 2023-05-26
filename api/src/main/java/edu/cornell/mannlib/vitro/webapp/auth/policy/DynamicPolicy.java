@@ -7,16 +7,15 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.Policy;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRule;
 
-public class Policy implements PolicyIface {
-    private static final Log log = LogFactory.getLog(Policy.class);
+public class DynamicPolicy implements Policy {
+    private static final Log log = LogFactory.getLog(DynamicPolicy.class);
     private String uri;
     
     @Override
@@ -39,7 +38,7 @@ public class Policy implements PolicyIface {
         rules.addAll(addition);
     }
 
-    public Policy(String uri, long priority) {
+    public DynamicPolicy(String uri, long priority) {
         this.uri = uri;
         this.priority = priority;
     }

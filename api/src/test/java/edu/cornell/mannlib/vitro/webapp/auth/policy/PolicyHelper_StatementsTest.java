@@ -27,7 +27,7 @@ import edu.cornell.mannlib.vitro.webapp.auth.objects.DataPropertyStatementAccess
 import edu.cornell.mannlib.vitro.webapp.auth.objects.ObjectPropertyStatementAccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.DecisionResult;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.Policy;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 
 /**
@@ -58,7 +58,7 @@ public class PolicyHelper_StatementsTest extends AbstractTestClass {
 		ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
 
 		setLoggerLevel(PolicyStore.class, Level.WARN);
-		PolicyStore.addPolicy(new MySimplePolicy());
+		PolicyStore.getInstance().add(new MySimplePolicy());
 	}
 
 	// ----------------------------------------------------------------------
@@ -197,7 +197,7 @@ public class PolicyHelper_StatementsTest extends AbstractTestClass {
 	// Helper classes
 	// ----------------------------------------------------------------------
 
-	private static class MySimplePolicy implements PolicyIface {
+	private static class MySimplePolicy implements Policy {
 		@Override
 		public PolicyDecision decide(AuthorizationRequest ar) {
 	        AccessObject whatToAuth = ar.getAccessObject();

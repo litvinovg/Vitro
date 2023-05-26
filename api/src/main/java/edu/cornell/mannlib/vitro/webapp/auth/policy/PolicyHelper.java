@@ -108,8 +108,7 @@ public class PolicyHelper {
         ar.setRoleUris(new ArrayList<String>(uris));
         ar.setIds(ids);
         ar.setEditorUris(new ArrayList<String>(HasAssociatedIndividual.getIndividualUris(ids)));
-	    Policies policies = PolicyStore.getInstance();
-	    PolicyDecision decision = policies.decide(ar);
+	    PolicyDecision decision = PolicyDecisionPoint.decide(ar);
 	    debug(ar, decision);
         return decision.getDecisionResult() == DecisionResult.AUTHORIZED;
 	}

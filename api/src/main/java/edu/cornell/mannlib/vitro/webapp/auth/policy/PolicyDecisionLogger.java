@@ -12,7 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import edu.cornell.mannlib.vitro.webapp.auth.identifier.IdentifierBundle;
 import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyDecision;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.PolicyIface;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.Policy;
 import edu.cornell.mannlib.vitro.webapp.utils.developer.DeveloperSettings;
 import edu.cornell.mannlib.vitro.webapp.utils.developer.Key;
 
@@ -130,7 +130,7 @@ public class PolicyDecisionLogger {
 	 * If the logger and the policy and the decision all pass the restrictions,
 	 * write to the log. A null decision is treated as inconclusive.
 	 */
-	public void log(PolicyIface policy, PolicyDecision pd) {
+	public void log(Policy policy, PolicyDecision pd) {
 		if (passesRestrictions(String.valueOf(policy), pd)) {
 			if (this.includeIdentifiers) {
 				log.info(String.format(

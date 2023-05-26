@@ -12,10 +12,14 @@ import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationReques
  * @author bdc34
  *
  */
-public interface PolicyIface  {
+public interface Policy  {
     public PolicyDecision decide(AuthorizationRequest ar);
 
     public default String getUri() {
         return "";
+    }
+    
+    public default long getPriority() {
+        return 0;
     }
 }
