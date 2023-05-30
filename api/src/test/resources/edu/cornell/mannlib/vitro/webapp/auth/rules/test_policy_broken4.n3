@@ -8,7 +8,7 @@
 @prefix ai: <https://vivoweb.org/ontology/vitro-application/auth/individual/> .
 @prefix ao: <https://vivoweb.org/ontology/vitro-application/auth/vocabulary/> .
 
-ai:BrokenPolicyBrokenTestType rdf:type ao:Policy ;
+ai:BrokenPolicyTypeId rdf:type ao:Policy ;
           ao:rules ai:BrokenTestPolicyRuleSet .
 
 ai:BrokenTestPolicyRuleSet rdf:type ao:Rules ;
@@ -19,7 +19,8 @@ ai:BrokenTestRule rdf:type ao:Rule ;
           ao:attribute ai:BrokenTestAttribute .
           
 ai:BrokenTestAttribute rdf:type ao:Attribute ;
-         ao:type ai:Operation ;
+         ao:test ai:Equals ;
+         ao:type ai:UnknownType ;
          ao:value ai:PublishOperation .
          
 ai:ValidTestAttribute rdf:type ao:Attribute ;

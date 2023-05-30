@@ -12,18 +12,13 @@ public class AccessRuleFactory {
 
     public static AccessRule createRule(QuerySolution qs) {
         AccessRule ar = new SimpleAccessRule();
-        try {
-            ar.setRuleUri(qs.getResource(AccessRuleStore.RULE).getURI());
-            ar.addAttribute(AttributeFactory.createAttribute(qs));
-            if (qs.contains("decision_id") && qs.get("decision_id").isLiteral()) {
-                String decisionId = qs.getLiteral("decision_id").getString();
-                if (decisionId.equals("DENY")) {
-                    ar.setAllowMatched(false);
-                }
+        ar.setRuleUri(qs.getResource(AccessRuleStore.RULE).getURI());
+        ar.addAttribute(AttributeFactory.createAttribute(qs));
+        if (qs.contains("decision_id") && qs.get("decision_id").isLiteral()) {
+            String decisionId = qs.getLiteral("decision_id").getString();
+            if (decisionId.equals("DENY")) {
+                ar.setAllowMatched(false);
             }
-        } catch (Exception e) {
-            log.error(e, e);
-            return null;
         }
         return ar;
     }

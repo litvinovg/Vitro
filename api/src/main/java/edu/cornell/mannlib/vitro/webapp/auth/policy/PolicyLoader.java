@@ -19,7 +19,6 @@ import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Model;
 
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.AttributeFactory;
-import edu.cornell.mannlib.vitro.webapp.auth.attributes.TestType;
 import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRule;
 import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRuleFactory;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
@@ -75,10 +74,18 @@ public class PolicyLoader {
           + "?policy ao:rules ?rules . \n"
           + "?rules ao:rule ?rule . \n"
           + "?rule ao:attribute ?attribute .\n"
-          + "?attribute ao:test ?attributeTest .\n"
-          + "?attributeTest ao:id ?testId . \n"
-          + "?attribute ao:type ?attributeType . \n"
-          + "?attributeType ao:id ?typeId . \n"
+          + "OPTIONAL {\n"
+          + "  ?attribute ao:test ?attributeTest .\n"
+          + "  OPTIONAL {\n"
+          + "    ?attributeTest ao:id ?testId . \n"
+          + "  }\n"
+          + "}"
+          + "OPTIONAL {\n"
+          + "  ?attribute ao:type ?attributeType . \n"
+          + "  OPTIONAL {\n"
+          + "    ?attributeType ao:id ?typeId . \n"
+          + "  }"
+          + "}"
           + "OPTIONAL {"
           + "   ?rule ao:decision ?decision . \n"
           + "   ?decision ao:id ?decision_id"
@@ -189,7 +196,7 @@ public class PolicyLoader {
             //debugSelectQueryResults(rs);
             while (rs.hasNext()) {
                 QuerySolution qs = rs.next();
-                if (isInvalidPolicySolution(qs)) {
+                if (isInvalidPolicySolution(uri, qs)) {
                     return null;
                 }
                 priority = qs.getLiteral("priority").getLong();
@@ -251,29 +258,29 @@ public class PolicyLoader {
         }
     }
     
-    private static boolean isInvalidPolicySolution(QuerySolution qs) {
+    private static boolean isInvalidPolicySolution(String uri, QuerySolution qs) {
         if (!qs.contains(PRIORITY) || !qs.get(PRIORITY).isLiteral()) {
-            debug("Policy solution doesn't contain priority literal");
+            debug("Policy <%s> solution doesn't contain priority literal", uri);
             return true;
         }
         if (!qs.contains("rules") || !qs.get("rules").isResource()) {
-            debug("Policy solution doesn't contain rules uri");
+            debug("Policy <%s> solution doesn't contain rules uri", uri);
             return true;
         }
         if (!qs.contains("rule") || !qs.get("rule").isResource()) {
-            debug("Policy solution doesn't contain rule uri");
+            debug("Policy <%s> solution doesn't contain rule uri", uri);
             return true;
         }
         if (!qs.contains("value")) {
-            debug("Policy solution doesn't contain value");
+            debug("Policy <%s> solution doesn't contain value", uri);
             return true;
         }
         if (!qs.contains("typeId") || !qs.get("typeId").isLiteral()) {
-            debug("Policy solution doesn't contain attribute type id");
+            debug("Policy <%s> solution doesn't contain attribute type id", uri);
             return true;
         }
         if (!qs.contains("testId") || !qs.get("testId").isLiteral()) {
-            debug("Policy solution doesn't contain attribute test id");
+            debug("Policy <%s> solution doesn't contain attribute test id", uri);
             return true;
         }
         return false;
