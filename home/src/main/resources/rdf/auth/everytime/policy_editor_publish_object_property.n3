@@ -36,7 +36,7 @@ ai:AllowEditorPublishObjectPropertyRule rdf:type ao:Rule;
 ai:AllowEditorPublishObjectPropertyStatementRule rdf:type ao:Rule;
           ao:attribute ai:SubjectRoleEqualsEditorRoleAttribute ;
           ao:attribute ai:PublishOperationAttribute ;
-          ao:attribute ai:ObjectPropertyTypeStatementAttribute ;
+          ao:attribute ai:ObjectPropertyStatementTypeAttribute ;
           ao:attribute ai:EditorPublishObjectPropertyStatementAttribute .
          
 ai:EditorPublishObjectPropertyStatementAttribute rdf:type ao:Attribute ;
