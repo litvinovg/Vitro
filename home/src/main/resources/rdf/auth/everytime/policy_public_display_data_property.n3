@@ -41,7 +41,7 @@ ai:AllowPublicDisplayDataPropertyStatementRule rdf:type ao:Rule;
          
 ai:PublicDisplayDataPropertyStatementAttribute rdf:type ao:Attribute ;
          ao:test ai:Contains ;
-         ao:type ai:PredicateUri ;
+         ao:type ai:StatementPredicateUri ;
          ao:setValue ai:PublicDisplayDataPropertyTestData .
          
 ai:PublicDisplayDataPropertyAttribute rdf:type ao:Attribute ;

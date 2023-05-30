@@ -41,7 +41,7 @@ ai:AllowPublicUpdateDataPropertyStatementRule rdf:type ao:Rule;
          
 ai:PublicUpdateDataPropertyStatementAttribute rdf:type ao:Attribute ;
          ao:test ai:Contains ;
-         ao:type ai:PredicateUri ;
+         ao:type ai:StatementPredicateUri ;
          ao:setValue ai:PublicUpdateDataPropertyTestData .
 
 ai:PublicUpdateDataPropertyAttribute rdf:type ao:Attribute ;

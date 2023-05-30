@@ -41,7 +41,7 @@ ai:AllowCuratorUpdateObjectPropertyStatementRule rdf:type ao:Rule;
          
 ai:CuratorUpdateObjectPropertyStatementAttribute rdf:type ao:Attribute ;
          ao:test ai:Contains ;
-         ao:type ai:PredicateUri ;
+         ao:type ai:StatementPredicateUri ;
          ao:setValue ai:CuratorUpdateObjectPropertyTestData .
 
 ai:CuratorUpdateObjectPropertyAttribute rdf:type ao:Attribute ;

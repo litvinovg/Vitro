@@ -41,7 +41,7 @@ ai:AllowAdminUpdateObjectPropertyStatementRule rdf:type ao:Rule;
          
 ai:AdminUpdateObjectPropertyStatementAttribute rdf:type ao:Attribute ;
          ao:test ai:Contains ;
-         ao:type ai:PredicateUri ;
+         ao:type ai:StatementPredicateUri ;
          ao:setValue ai:AdminUpdateObjectPropertyTestData .
 
 ai:AdminUpdateObjectPropertyAttribute rdf:type ao:Attribute ;

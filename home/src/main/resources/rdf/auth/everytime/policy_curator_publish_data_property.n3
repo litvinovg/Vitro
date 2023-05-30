@@ -41,7 +41,7 @@ ai:AllowCuratorPublishDataPropertyStatementRule rdf:type ao:Rule;
          
 ai:CuratorPublishDataPropertyStatementAttribute rdf:type ao:Attribute ;
          ao:test ai:Contains ;
-         ao:type ai:PredicateUri ;
+         ao:type ai:StatementPredicateUri ;
          ao:setValue ai:CuratorPublishDataPropertyTestData .
 
 ai:CuratorPublishDataPropertyAttribute rdf:type ao:Attribute ;

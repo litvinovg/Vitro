@@ -41,7 +41,7 @@ ai:AllowEditorUpdateObjectPropertyStatementRule rdf:type ao:Rule;
          
 ai:EditorUpdateObjectPropertyStatementAttribute rdf:type ao:Attribute ;
          ao:test ai:Contains ;
-         ao:type ai:PredicateUri ;
+         ao:type ai:StatementPredicateUri ;
          ao:setValue ai:EditorUpdateObjectPropertyTestData .
 
 ai:EditorUpdateObjectPropertyAttribute rdf:type ao:Attribute ;
