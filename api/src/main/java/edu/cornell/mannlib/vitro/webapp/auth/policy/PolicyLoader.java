@@ -104,6 +104,13 @@ public class PolicyLoader {
           + "   ?testData ai:dataValue ?value . \n"
           + "} AS ?cond1)\n"
           + "BIND(EXISTS{ \n"
+          + "   ?attribute ao:setValue ?testData . \n"
+          + "   ?alienDataSet ao:testData ?testData . \n"
+          + "   ?dataSets ao:testDataset ?alienDataSet . \n"
+          + "   ?testData ai:dataValue ?value . \n"
+          + "   FILTER( ?alienDataSet = ?dataSet )\n"
+          + "} AS ?hasAlienDataSet)\n"
+          + "BIND(EXISTS{ \n"
           + "   ?attribute ao:value ?value . \n"
           + "} AS ?cond2)\n"
           + "{\n"
@@ -116,7 +123,7 @@ public class PolicyLoader {
           + "   ?attribute ao:value ?value . \n"
           + "}\n"
           + "   OPTIONAL {?value ao:id ?lit_value . }\n"
-          + "FILTER( (?cond1 || ?cond2) && ! (?cond1 && ?cond2) )\n"
+          + "FILTER( (?hasAlienDataSet) || (?cond1 || ?cond2) && ! (?cond1 && ?cond2) )\n"
           + "} ORDER BY ?priority ?rule ?attribute";
     
     private Model userAccountsModel;
