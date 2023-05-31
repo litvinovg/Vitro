@@ -14,7 +14,7 @@ ai:Equals rdf:type ao:Test;
 ai:NotEquals rdf:type ao:Test;
          ao:id "NOT_EQUALS" .
          
-ai:Contains rdf:type ao:Test;
+ai:OneOf rdf:type ao:Test;
          ao:id "ONE_OF" .
          
 ai:NotOneOf rdf:type ao:Test;

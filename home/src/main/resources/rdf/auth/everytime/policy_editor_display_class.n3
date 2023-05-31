@@ -33,7 +33,7 @@ ai:AllowEditorDisplayClassRule rdf:type ao:Rule;
           ao:attribute ai:EditorDisplayClassAttribute .
          
 ai:EditorDisplayClassAttribute rdf:type ao:Attribute ;
-         ao:test ai:Contains ;
+         ao:test ai:OneOf ;
          ao:type ai:ObjectUri ;
          ao:setValue ai:EditorDisplayClassTestData .
          

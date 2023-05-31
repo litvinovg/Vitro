@@ -40,12 +40,12 @@ ai:AllowSelfEditorDisplayDataPropertyStatementRule rdf:type ao:Rule;
           ao:attribute ai:SelfEditorDisplayDataPropertyStatementAttribute .
          
 ai:SelfEditorDisplayDataPropertyStatementAttribute rdf:type ao:Attribute ;
-         ao:test ai:Contains ;
+         ao:test ai:OneOf ;
          ao:type ai:StatementPredicateUri ;
          ao:setValue ai:SelfEditorDisplayDataPropertyTestData .
          
 ai:SelfEditorDisplayDataPropertyAttribute rdf:type ao:Attribute ;
-         ao:test ai:Contains ;
+         ao:test ai:OneOf ;
          ao:type ai:ObjectUri ;
          ao:setValue ai:SelfEditorDisplayDataPropertyTestData .
          

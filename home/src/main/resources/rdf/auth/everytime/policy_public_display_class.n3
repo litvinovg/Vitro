@@ -33,7 +33,7 @@ ai:AllowPublicDisplayClassRule rdf:type ao:Rule;
           ao:attribute ai:PublicDisplayClassAttribute .
          
 ai:PublicDisplayClassAttribute rdf:type ao:Attribute ;
-         ao:test ai:Contains ;
+         ao:test ai:OneOf ;
          ao:type ai:ObjectUri ;
          ao:setValue ai:PublicDisplayClassTestData .
          

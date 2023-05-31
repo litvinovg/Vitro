@@ -40,12 +40,12 @@ ai:AllowCuratorPublishObjectPropertyStatementRule rdf:type ao:Rule;
           ao:attribute ai:CuratorPublishObjectPropertyStatementAttribute .
          
 ai:CuratorPublishObjectPropertyStatementAttribute rdf:type ao:Attribute ;
-         ao:test ai:Contains ;
+         ao:test ai:OneOf ;
          ao:type ai:StatementPredicateUri ;
          ao:setValue ai:CuratorPublishObjectPropertyTestData .
          
 ai:CuratorPublishObjectPropertyAttribute rdf:type ao:Attribute ;
-         ao:test ai:Contains ;
+         ao:test ai:OneOf ;
          ao:type ai:ObjectUri ;
          ao:setValue ai:CuratorPublishObjectPropertyTestData .
          

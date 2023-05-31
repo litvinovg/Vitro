@@ -29,7 +29,7 @@ ai:AllowCuratorSimplePermissions rdf:type ao:Rule;
         ao:attribute ai:SubjectRoleEqualsCuratorRoleAttribute .
           
 ai:PermissionNameInCuratorAllowed rdf:type ao:Attribute ;
-        ao:test ai:Contains ;
+        ao:test ai:OneOf ;
         ao:type ai:ObjectUri ;
         ao:setValue ai:CuratorSimplePermissionsTestData .
 

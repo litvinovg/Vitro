@@ -29,7 +29,7 @@ ai:AllowAdminSimplePermissions rdf:type ao:Rule;
         ao:attribute ai:SubjectRoleEqualsAdminRoleAttribute .
           
 ai:PermissionNameInAdminAllowed rdf:type ao:Attribute ;
-        ao:test ai:Contains ;
+        ao:test ai:OneOf ;
         ao:type ai:ObjectUri ;
         ao:setValue ai:AdminSimplePermissionsTestData .
 

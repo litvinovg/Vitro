@@ -40,12 +40,12 @@ ai:AllowAdminPublishObjectPropertyStatementRule rdf:type ao:Rule;
           ao:attribute ai:AdminPublishObjectPropertyStatementAttribute .
          
 ai:AdminPublishObjectPropertyStatementAttribute rdf:type ao:Attribute ;
-         ao:test ai:Contains ;
+         ao:test ai:OneOf ;
          ao:type ai:StatementPredicateUri ;
          ao:setValue ai:AdminPublishObjectPropertyTestData .
 
 ai:AdminPublishObjectPropertyAttribute rdf:type ao:Attribute ;
-         ao:test ai:Contains ;
+         ao:test ai:OneOf ;
          ao:type ai:ObjectUri ;
          ao:setValue ai:AdminPublishObjectPropertyTestData .
          
