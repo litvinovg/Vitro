@@ -97,18 +97,18 @@ ai:NotModifiableStatementsPolicyDataSet rdf:type ao:TestDataSet ;
           ao:testData ai:ProhibitedNamespaceTestData .
          
 ai:ProhibitedNamespaceExceptionsTestData rdf:type ao:TestData ;
-        ai:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#moniker> ;
-        ai:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime> ;
-        ai:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/public#mainImage> ;
-        ai:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#Link> ;
-        ai:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#primaryLink> ;
-        ai:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#additionalLink> ;
-        ai:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#linkAnchor> ;
-        ai:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#linkURL> ;
+        ao:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#moniker> ;
+        ao:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime> ;
+        ao:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/public#mainImage> ;
+        ao:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#Link> ;
+        ao:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#primaryLink> ;
+        ao:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#additionalLink> ;
+        ao:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#linkAnchor> ;
+        ao:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#linkURL> ;
         .
         
 ai:ProhibitedNamespaceTestData rdf:type ao:TestData ;
-        ai:dataValue  ai:prohibitedNamespacePrefix ; 
+        ao:dataValue  ai:prohibitedNamespacePrefix ; 
         .
         
 ai:prohibitedNamespacePrefix rdf:type ao:TestValue ;

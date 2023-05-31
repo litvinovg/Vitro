@@ -35,23 +35,23 @@ ai:PermissionNameInEditorAllowed rdf:type ao:Attribute ;
 
 ai:EditorSimplePermissionsTestData rdf:type ao:TestData ;
     # permissions for EDITOR and above.
-    ai:dataValue simplePermission:DoBackEndEditing ;
-    ai:dataValue simplePermission:SeeIndividualEditingPanel ;
-    ai:dataValue simplePermission:SeeRevisionInfo ;
-    ai:dataValue simplePermission:SeeSiteAdminPage ;
-    ai:dataValue simplePermission:UseIndividualControlPanel ;
-    ai:dataValue simplePermission:PageViewableEditor ;
+    ao:dataValue simplePermission:DoBackEndEditing ;
+    ao:dataValue simplePermission:SeeIndividualEditingPanel ;
+    ao:dataValue simplePermission:SeeRevisionInfo ;
+    ao:dataValue simplePermission:SeeSiteAdminPage ;
+    ao:dataValue simplePermission:UseIndividualControlPanel ;
+    ao:dataValue simplePermission:PageViewableEditor ;
 
     # permissions for ANY logged-in user.
-    ai:dataValue simplePermission:DoFrontEndEditing ;
-    ai:dataValue simplePermission:EditOwnAccount ;
-    ai:dataValue simplePermission:ManageOwnProxies ;
-    ai:dataValue simplePermission:QueryUserAccountsModel ;
-    ai:dataValue simplePermission:UseBasicAjaxControllers ;
-    ai:dataValue simplePermission:UseMiscellaneousPages ;
-    ai:dataValue simplePermission:PageViewableLoggedIn ;
+    ao:dataValue simplePermission:DoFrontEndEditing ;
+    ao:dataValue simplePermission:EditOwnAccount ;
+    ao:dataValue simplePermission:ManageOwnProxies ;
+    ao:dataValue simplePermission:QueryUserAccountsModel ;
+    ao:dataValue simplePermission:UseBasicAjaxControllers ;
+    ao:dataValue simplePermission:UseMiscellaneousPages ;
+    ao:dataValue simplePermission:PageViewableLoggedIn ;
 
     # permissions for ANY user, even if they are not logged in.
-    ai:dataValue simplePermission:QueryFullModel ;
-    ai:dataValue simplePermission:PageViewablePublic ;
+    ao:dataValue simplePermission:QueryFullModel ;
+    ao:dataValue simplePermission:PageViewablePublic ;
         .

@@ -16,37 +16,27 @@ ai:BrokenRuleSet rdf:type ao:Rules ;
           ao:rule ai:BrokenRule .
           
 ai:BrokenRule rdf:type ao:Rule ;
-          ao:attribute ai:BrokenSetAttribute1 ;
-          ao:attribute ai:BrokenSetAttribute2 .
+          ao:attribute ai:BrokenAttribute1 ;
+          ao:attribute ai:BrokenAttribute2 .
           
-ai:BrokenSetAttribute1 rdf:type ao:Attribute ;
-         ao:test ai:NotOneOf ;
+ai:BrokenAttribute1 rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
          ao:type ai:ObjectUri ;
          ao:setValue ai:valueSet1 .
          
-ai:BrokenSetAttribute2 rdf:type ao:Attribute ;
-         ao:test ai:NotOneOf ;
+ai:BrokenAttribute2 rdf:type ao:Attribute ;
+         ao:test ai:Equals ;
          ao:type ai:ObjectUri ;
          ao:setValue ai:valueSet2 .
 
 ai:testDataSets rdf:type ao:TestDatasets ;
-          ao:testDataset ai:testDataSet1 ;
-          ao:testDataset ai:testDataSet2 .
+          ao:testDataset ai:testDataSet1 .
 
 ai:testDataSet1 rdf:type ao:TestDataSet ;
           ao:testData ai:valueSet1 .
 
-ai:testDataSet2 rdf:type ao:TestDataSet ;
-          ao:testData ai:valueSet2 .
-
 ai:valueSet1 rdf:type ao:TestData ;
         ao:dataValue <test:value1> ;
         ao:dataValue <test:value2> ;
-        .
-        
-ai:valueSet2 rdf:type ao:TestData ;
-        ao:dataValue <test:value3> ;
-        ao:dataValue <test:value4> ;
-        .
-        
+        .        
 

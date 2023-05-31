@@ -12,7 +12,12 @@ public class AccessRuleFactory {
 
     public static AccessRule createRule(QuerySolution qs) {
         AccessRule ar = new SimpleAccessRule();
-        ar.setRuleUri(qs.getResource(AccessRuleStore.RULE).getURI());
+        String ruleUri = qs.getResource(AccessRuleStore.RULE).getURI();
+        if (qs.contains("dataSetUri")) {
+            ruleUri += "." + qs.getResource("dataSetUri").getURI();    
+        }
+
+        ar.setRuleUri(ruleUri);
         ar.addAttribute(AttributeFactory.createAttribute(qs));
         if (qs.contains("decision_id") && qs.get("decision_id").isLiteral()) {
             String decisionId = qs.getLiteral("decision_id").getString();

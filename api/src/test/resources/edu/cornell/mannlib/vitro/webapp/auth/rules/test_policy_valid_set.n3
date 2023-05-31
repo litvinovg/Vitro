@@ -22,24 +22,39 @@ ai:ValidRule rdf:type ao:Rule ;
 ai:ValidAttribute1 rdf:type ao:Attribute ;
          ao:test ai:Equals ;
          ao:type ai:ObjectUri ;
+         ao:setValue ai:valueSet3 ;
          ao:setValue ai:valueSet1 .
          
 ai:ValidAttribute2 rdf:type ao:Attribute ;
          ao:test ai:Equals ;
          ao:type ai:ObjectUri ;
+         ao:setValue ai:valueSet4 ;
          ao:setValue ai:valueSet2 .
 
 ai:testDataSets1 rdf:type ao:TestDatasets ;
+         ao:testDataset ai:testDataSet2 ;
          ao:testDataset ai:testDataSet1 .
 
 ai:testDataSet1 rdf:type ao:TestDataSet ;
          ao:testData ai:valueSet2 ;
          ao:testData ai:valueSet1 .
+         
+ai:testDataSet2 rdf:type ao:TestDataSet ;
+         ao:testData ai:valueSet3 ;
+         ao:testData ai:valueSet4 .
 
 ai:valueSet1 rdf:type ao:TestData ;
-         ai:dataValue <test:value1> ;
+         ao:dataValue <test:value1> ;
          .
         
 ai:valueSet2 rdf:type ao:TestData ;
-         ai:dataValue <test:value2> ;
+         ao:dataValue <test:value2> ;
+         .
+         
+ai:valueSet3 rdf:type ao:TestData ;
+         ao:dataValue <test:value3> ;
+         .
+        
+ai:valueSet4 rdf:type ao:TestData ;
+         ao:dataValue <test:value4> ;
          .

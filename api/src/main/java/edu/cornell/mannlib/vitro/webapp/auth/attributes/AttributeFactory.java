@@ -56,12 +56,14 @@ public class AttributeFactory {
             return value;    
         }
     }
-
-    public static void extendAttribute(Attribute attribute, QuerySolution qs) {
+ 
+    public static void extendAttribute(Attribute attribute, QuerySolution qs) throws Exception {
         String testId = qs.getLiteral("testId").getString();
         if (TestType.ONE_OF.toString().equals(testId) ||
             TestType.NOT_ONE_OF.toString().equals(testId)) {
             attribute.addValue(getValue(qs));
+            return;
         }
+        throw new Exception();
     }
 }
