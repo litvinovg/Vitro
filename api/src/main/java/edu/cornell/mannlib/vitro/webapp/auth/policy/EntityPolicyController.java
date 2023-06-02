@@ -28,13 +28,18 @@ public class EntityPolicyController {
             boolean isInDataSet = isUriInTestDataset(entityUri, og, aot, role);
             boolean isSelected = selectedSet.contains(role);
             final PolicyLoader loader = PolicyLoader.getInstance();
+            final String policyUri = loader.getPolicyUriByKey(og, aot, role);
+            if (policyUri == null) {
+                log.error(String.format("Policy wasn't found by key:\n %s\n%s\n%s", og.toString(), aot.toString(), role));
+                return;
+            }
             if (isSelected && !isInDataSet) {
                 loader.addEntityToPolicyDataSet(entityUri, aot, og, role);
-                DynamicPolicy policy = loader.loadPolicy(loader.getPolicyUriByKey(og, aot, role));
+                DynamicPolicy policy = loader.loadPolicy(policyUri);
                 PolicyStore.getInstance().add(policy);
             } else if (!isSelected && isInDataSet) {
                 loader.removeEntityFromPolicyDataSet(entityUri, aot, og, role);
-                DynamicPolicy policy = loader.loadPolicy(loader.getPolicyUriByKey(og, aot, role));
+                DynamicPolicy policy = loader.loadPolicy(policyUri);
                 PolicyStore.getInstance().add(policy);
             }
         }

@@ -148,7 +148,11 @@ public class OperationController extends BaseEditController {
                     }
                 }
                 String entityType = request.getParameter("_permissionsEntityType");
-                List<String> allRoles = buildListOfSelectableRoles(ModelAccess.on(request).getWebappDaoFactory());
+                List<PermissionSet> permissionSets = buildListOfSelectableRoles(ModelAccess.on(request).getWebappDaoFactory());
+                List<String> roleUris = new ArrayList<>();
+                for (PermissionSet permissionSet : permissionSets) {
+                    roleUris.add(permissionSet.getUri());
+                }  
                 // Get the granted permissions from the request object
                 for (OperationGroup og : OperationGroup.values()) {
                     String operationGroupName = og.toString().toLowerCase().split("_")[0];
@@ -161,7 +165,7 @@ public class OperationController extends BaseEditController {
                         if (selectedRoles == null) {
                             selectedRoles = new String[0];
                         }
-                        EntityPolicyController.updateEntityPolicy(entityUri, AccessObjectType.valueOf(entityType), og, Arrays.asList(selectedRoles), allRoles);
+                        EntityPolicyController.updateEntityPolicy(entityUri, AccessObjectType.valueOf(entityType), og, Arrays.asList(selectedRoles), roleUris);
                     }
                 }
             }

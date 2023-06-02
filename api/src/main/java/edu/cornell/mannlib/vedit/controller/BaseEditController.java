@@ -208,8 +208,12 @@ public class BaseEditController extends VitroHttpServlet {
         req.setAttribute("_permissionsEntityURI", entityURI);
 
         // Get the available permission sets
-        List<String> roleUris = buildListOfSelectableRoles(ModelAccess.on(req).getWebappDaoFactory());
-        req.setAttribute("roles", roleUris);
+        List<PermissionSet> permissionSets = buildListOfSelectableRoles(ModelAccess.on(req).getWebappDaoFactory());
+        List<String> roleUris = new ArrayList<>();
+        for (PermissionSet permissionSet : permissionSets) {
+            roleUris.add(permissionSet.getUri());
+        }  
+        req.setAttribute("roles", permissionSets);
         // If the namespace is empty (e.e. we are creating a new record)
         for (OperationGroup og : OperationGroup.values()){
             String groupName = og.toString().toLowerCase().split("_")[0];
@@ -228,7 +232,7 @@ public class BaseEditController extends VitroHttpServlet {
     /**
      * Create a list of all known PermissionSets.
      */
-    protected static List<String> buildListOfSelectableRoles(WebappDaoFactory wadf) {
+    protected static List<PermissionSet> buildListOfSelectableRoles(WebappDaoFactory wadf) {
         List<PermissionSet> permissionSets = new ArrayList<>();
 
         // Get the non-public PermissionSets.
@@ -253,10 +257,6 @@ public class BaseEditController extends VitroHttpServlet {
             }
         }
         
-        List<String> roleUris = new ArrayList<>();
-        for (PermissionSet permissionSet : permissionSets) {
-            roleUris.add(permissionSet.getUri());
-        }  
-        return roleUris;
+        return permissionSets;
     }
 }
