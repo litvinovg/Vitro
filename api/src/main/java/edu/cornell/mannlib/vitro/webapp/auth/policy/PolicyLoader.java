@@ -376,8 +376,6 @@ public class PolicyLoader {
                  log.error("statements to add/delete are empty");
                  return;
              }
-             log.error(model.size());
-             
              updateUserAccountsModel(model, isAdd);
         } catch (Exception e) {
             log.error(e, e);

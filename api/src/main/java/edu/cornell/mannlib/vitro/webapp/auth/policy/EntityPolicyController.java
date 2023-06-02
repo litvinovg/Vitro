@@ -30,7 +30,7 @@ public class EntityPolicyController {
             final PolicyLoader loader = PolicyLoader.getInstance();
             final String policyUri = loader.getPolicyUriByKey(og, aot, role);
             if (policyUri == null) {
-                log.error(String.format("Policy wasn't found by key:\n %s\n%s\n%s", og.toString(), aot.toString(), role));
+                log.error(String.format("Policy wasn't found by key:\n%s\n%s\n%s", og.toString(), aot.toString(), role));
                 return;
             }
             if (isSelected && !isInDataSet) {
