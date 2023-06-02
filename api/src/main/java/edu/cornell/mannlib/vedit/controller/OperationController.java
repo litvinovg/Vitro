@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType;
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.OperationGroup;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.EntityPolicyController;
 import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRuleStore;
 import edu.cornell.mannlib.vitro.webapp.beans.PermissionSet;
 import edu.cornell.mannlib.vitro.webapp.dao.UserAccountsDao;
@@ -146,20 +148,20 @@ public class OperationController extends BaseEditController {
                     }
                 }
                 String entityType = request.getParameter("_permissionsEntityType");
-                
+                List<String> allRoles = buildListOfSelectableRoles(ModelAccess.on(request).getWebappDaoFactory());
                 // Get the granted permissions from the request object
-                for (AccessOperation ao : operations) {
-                    String operation = ao.toString().toLowerCase();
-                    String[] roles = request.getParameterValues(operation + "Roles");
+                for (OperationGroup og : OperationGroup.values()) {
+                    String operationGroupName = og.toString().toLowerCase().split("_")[0];
+                    String[] selectedRoles = request.getParameterValues(operationGroupName + "Roles");
                     if(StringUtils.isBlank(entityUri)) {
                         log.error("EntityUri is blank");
                     } else if (StringUtils.isBlank(entityType) || !EnumUtils.isValidEnum(AccessObjectType.class, entityType)) {
                         log.error("EntityType is not valid " + entityType);
                     } else {
-                        if (roles == null) {
-                            roles = new String[0];
+                        if (selectedRoles == null) {
+                            selectedRoles = new String[0];
                         }
-                        AccessRuleStore.getInstance().updateEntityRules(entityUri, AccessObjectType.valueOf(entityType), ao, new HashSet<String>(Arrays.asList(roles)));
+                        EntityPolicyController.updateEntityPolicy(entityUri, AccessObjectType.valueOf(entityType), og, Arrays.asList(selectedRoles), allRoles);
                     }
                 }
             }
@@ -384,7 +386,6 @@ public class OperationController extends BaseEditController {
 
     private boolean SUCCESS = false;
     private boolean FAILURE = !SUCCESS;
-    private static final List<AccessOperation> operations = Arrays.asList(AccessOperation.PUBLISH, AccessOperation.UPDATE, AccessOperation.DISPLAY, AccessOperation.ADD, AccessOperation.DROP, AccessOperation.EDIT);
 
     private boolean performEdit(EditProcessObject epo, Object newObj, String action) {
     	/* do the actual edit operation */

@@ -2,7 +2,7 @@
 
 package edu.cornell.mannlib.vitro.webapp.auth.policy.bean;
 
-import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRuleStore;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.EntityPolicyController;
 import edu.cornell.mannlib.vitro.webapp.beans.Property;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,7 +24,7 @@ public class PropertyRestrictionListener implements ChangeListener {
 	@Override
 	public void doDeleted(Object oldObj, EditProcessObject epo) {
 		if (oldObj instanceof Property) {
-		    AccessRuleStore.deletedEntityEvent((Property)oldObj);
+		    EntityPolicyController.deletedEntityEvent((Property)oldObj);
 		} else {
 			log.warn("Not an instance of Property: " + oldObj);
 		}
@@ -36,7 +36,7 @@ public class PropertyRestrictionListener implements ChangeListener {
 	@Override
 	public void doInserted(Object newObj, EditProcessObject epo) {
 		if (newObj instanceof Property) {
-	        AccessRuleStore.insertedEntityEvent((Property)newObj);
+	        EntityPolicyController.insertedEntityEvent((Property)newObj);
 		} else {
 			log.warn("Not an instance of Property: " + newObj);
 		}
@@ -48,7 +48,7 @@ public class PropertyRestrictionListener implements ChangeListener {
 	@Override
 	public void doUpdated(Object oldObj, Object newObj, EditProcessObject epo) {
 		if (newObj instanceof Property) {
-	        AccessRuleStore.updatedEntityEvent(oldObj, newObj);
+	        EntityPolicyController.updatedEntityEvent(oldObj, newObj);
 
 		} else {
 			log.warn("Not instances of Property: " + oldObj

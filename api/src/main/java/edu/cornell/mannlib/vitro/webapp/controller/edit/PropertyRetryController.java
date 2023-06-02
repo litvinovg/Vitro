@@ -27,6 +27,7 @@ import edu.cornell.mannlib.vedit.util.FormUtils;
 import edu.cornell.mannlib.vedit.validator.Validator;
 import edu.cornell.mannlib.vedit.validator.impl.IntValidator;
 import edu.cornell.mannlib.vedit.validator.impl.XMLNameValidator;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.bean.PropertyRestrictionListener;
 import edu.cornell.mannlib.vitro.webapp.beans.ObjectProperty;
@@ -182,7 +183,7 @@ public class PropertyRetryController extends BaseEditController {
         request.setAttribute("title","Property Editing Form");
         request.setAttribute("_action",action);
 
-        addPermissionAttributes(request, propertyForEditing.getURI());
+        addAccessAttributes(request, propertyForEditing.getURI(), AccessObjectType.OBJECT_PROPERTY);
         setRequestAttributes(request,epo);
 
         try {

@@ -19,8 +19,9 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
-import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
-import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRuleStore;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.OperationGroup;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.EntityPolicyController;
 import edu.cornell.mannlib.vitro.webapp.beans.PermissionSet;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -202,60 +203,43 @@ public class BaseEditController extends VitroHttpServlet {
     	return(request.getContextPath() + DEFAULT_LANDING_PAGE);
     }
 
-    protected static void addPermissionAttributes(HttpServletRequest req, String permissionsEntityURI) {
+    protected static void addAccessAttributes(HttpServletRequest req, String entityURI, AccessObjectType aot) {
         // Add the permissionsEntityURI (if we are creating a new property, this will be empty)
-        req.setAttribute("_permissionsEntityURI", permissionsEntityURI);
+        req.setAttribute("_permissionsEntityURI", entityURI);
 
         // Get the available permission sets
-        List<PermissionSet> roles = buildListOfSelectableRoles(ModelAccess.on(req).getWebappDaoFactory());
-
-        // Add the permission sets to the request object
-        req.setAttribute("roles", roles);
-
+        List<String> roleUris = buildListOfSelectableRoles(ModelAccess.on(req).getWebappDaoFactory());
+        req.setAttribute("roles", roleUris);
         // If the namespace is empty (e.e. we are creating a new record)
-        if (StringUtils.isEmpty(permissionsEntityURI)) {
-            List<String> displayRoles = new ArrayList<>();
-            List<String> updateRoles = new ArrayList<>();
-            List<String> publishRoles = new ArrayList<>();
-
-            // Generate a default set of permissions (allow everything apart from public edit)
-            for (PermissionSet role : roles) {
-                if (!role.isForPublic()) {
-                    updateRoles.add(role.getUri());
-                }
-                displayRoles.add(role.getUri());
-                publishRoles.add(role.getUri());
+        for (OperationGroup og : OperationGroup.values()){
+            String groupName = og.toString().toLowerCase().split("_")[0];
+            final String attributeName = groupName + "Roles";
+            if (StringUtils.isEmpty(entityURI)) {
+                // predefined values
+                req.setAttribute(attributeName, roleUris);
+            } else {
+                // Get the permission sets that are granted permission for this entity
+                req.setAttribute(attributeName, EntityPolicyController.getGrantedRoles(entityURI, og, aot, roleUris));
             }
-
-            // Add the generated permission sets to the request object
-            req.setAttribute("displayRoles", displayRoles);
-            req.setAttribute("updateRoles",  updateRoles);
-            req.setAttribute("publishRoles", publishRoles);
-        } else {
-
-            // Get the permission sets that are granted permission for this entity
-            final AccessRuleStore ruleStore = AccessRuleStore.getInstance();
-            req.setAttribute("displayRoles", ruleStore.getGrantedRoleUris(permissionsEntityURI, AccessOperation.DISPLAY));
-            req.setAttribute("updateRoles",  ruleStore.getGrantedRoleUris(permissionsEntityURI, AccessOperation.UPDATE));
-            req.setAttribute("publishRoles", ruleStore.getGrantedRoleUris(permissionsEntityURI, AccessOperation.PUBLISH));
         }
+        
     }
 
     /**
      * Create a list of all known PermissionSets.
      */
-    private static List<PermissionSet> buildListOfSelectableRoles(WebappDaoFactory wadf) {
-        List<PermissionSet> list = new ArrayList<>();
+    protected static List<String> buildListOfSelectableRoles(WebappDaoFactory wadf) {
+        List<PermissionSet> permissionSets = new ArrayList<>();
 
         // Get the non-public PermissionSets.
         for (PermissionSet ps: wadf.getUserAccountsDao().getAllPermissionSets()) {
             if (!ps.isForPublic()) {
-                list.add(ps);
+                permissionSets.add(ps);
             }
         }
 
         // Sort the non-public PermissionSets
-        list.sort(new Comparator<PermissionSet>() {
+        permissionSets.sort(new Comparator<PermissionSet>() {
             @Override
             public int compare(PermissionSet ps1, PermissionSet ps2) {
                 return ps1.getUri().compareTo(ps2.getUri());
@@ -265,10 +249,14 @@ public class BaseEditController extends VitroHttpServlet {
         // Add the public PermissionSets.
         for (PermissionSet ps: wadf.getUserAccountsDao().getAllPermissionSets()) {
             if (ps.isForPublic()) {
-                list.add(ps);
+                permissionSets.add(ps);
             }
         }
-
-        return list;
+        
+        List<String> roleUris = new ArrayList<>();
+        for (PermissionSet permissionSet : permissionSets) {
+            roleUris.add(permissionSet.getUri());
+        }  
+        return roleUris;
     }
 }

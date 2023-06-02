@@ -30,6 +30,7 @@ import edu.cornell.mannlib.vedit.controller.BaseEditController;
 import edu.cornell.mannlib.vedit.util.FormUtils;
 import edu.cornell.mannlib.vedit.validator.Validator;
 import edu.cornell.mannlib.vedit.validator.impl.RequiredFieldValidator;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.bean.PropertyRestrictionListener;
 import edu.cornell.mannlib.vitro.webapp.beans.Datatype;
@@ -72,7 +73,7 @@ public class FauxPropertyRetryController extends BaseEditController {
 		req.setAttribute("title", "Faux Property Editing Form");
 		req.setAttribute("_action", epo.getAction());
 
-		addPermissionAttributes(req, populator.beanForEditing.getConfigUri());
+		addAccessAttributes(req, populator.beanForEditing.getConfigUri(), AccessObjectType.FAUX_PROPERTY);
 
 		setRequestAttributes(req, epo);
 

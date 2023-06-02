@@ -23,9 +23,9 @@ ai:SelfEditorDisplayDataPropertyDataset rdf:type ao:TestDataSet ;
           ao:testData ai:SelfEditorDisplayDataPropertyTestData .
           
 ai:SelfEditorDisplayDataPropertyPolicyKey rdf:type ao:PolicyKey ;
-          ao:keyObjectType ai:ObjectPropertyAccesObject ;
-          ao:keyRoleUri auth:SELF_EDITOR ;
-          ao:keyOperationGroup ai:DisplayOperationGroup .
+          ao:keyComponent ai:DataPropertyAccesObject ;
+          ao:keyComponent auth:SELF_EDITOR ;
+          ao:keyComponent ai:DisplayOperationGroup .
 
 ai:AllowSelfEditorDisplayDataPropertyRule rdf:type ao:Rule;
           ao:attribute ai:SubjectRoleEqualsSelfEditorRoleAttribute ;

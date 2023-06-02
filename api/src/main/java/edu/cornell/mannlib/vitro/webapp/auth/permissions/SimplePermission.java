@@ -2,14 +2,8 @@ package edu.cornell.mannlib.vitro.webapp.auth.permissions;
 
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType;
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessOperation;
-import edu.cornell.mannlib.vitro.webapp.auth.attributes.AttributeType;
-import edu.cornell.mannlib.vitro.webapp.auth.attributes.ObjectUriAttribute;
-import edu.cornell.mannlib.vitro.webapp.auth.attributes.OperationAttribute;
 import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObjectImpl;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleAuthorizationRequest;
-import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRule;
-import edu.cornell.mannlib.vitro.webapp.auth.rules.SimpleAccessRule;
-import edu.cornell.mannlib.vitro.webapp.auth.rules.SimpleAccessRules;
 
 public class SimplePermission {
 
@@ -69,20 +63,11 @@ public class SimplePermission {
     
     
     public SimpleAuthorizationRequest ACTION;
-    private AccessRule accessRule;
+    public static final String NS = "java:edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission#";
 
     private SimplePermission(String uri) {
-        uri = SimpleAccessRules.NS + uri;
+        uri = SimplePermission.NS + uri;
         AccessObjectImpl ao = new AccessObjectImpl(uri, AccessObjectType.NAMED_OBJECT);
         this.ACTION = new SimpleAuthorizationRequest(ao, AccessOperation.EXECUTE);
-        accessRule = new SimpleAccessRule();
-        accessRule.setObjectUri(uri);
-        accessRule.addAttribute(new ObjectUriAttribute(uri + AttributeType.OBJECT_URI, uri));
-        accessRule.addAttribute(new OperationAttribute(uri + AttributeType.OPERATION, AccessOperation.EXECUTE.toString()));
-        SimpleAccessRules.add(accessRule);
-    }
-    
-    public AccessRule getAccessRule() {
-        return accessRule;
     }
 }

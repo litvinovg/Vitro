@@ -26,6 +26,7 @@ import edu.cornell.mannlib.vedit.forwarder.impl.UrlForwarder;
 import edu.cornell.mannlib.vedit.listener.ChangeListener;
 import edu.cornell.mannlib.vedit.util.FormUtils;
 import edu.cornell.mannlib.vedit.validator.impl.XMLNameValidator;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.beans.Classes2Classes;
 import edu.cornell.mannlib.vitro.webapp.beans.VClass;
@@ -161,7 +162,7 @@ public class VclassRetryController extends BaseEditController {
         request.setAttribute("_action",action);
         request.setAttribute("unqualifiedClassName","VClass");
 
-        addPermissionAttributes(request, vclassForEditing.getURI());
+        addAccessAttributes(request, vclassForEditing.getURI(), AccessObjectType.CLASS);
         setRequestAttributes(request,epo);
 
         try {

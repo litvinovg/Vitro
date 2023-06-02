@@ -23,9 +23,9 @@ ai:EditorDisplayDataPropertyDataset rdf:type ao:TestDataSet ;
           ao:testData ai:EditorDisplayDataPropertyTestData .
           
 ai:EditorDisplayDataPropertyPolicyKey rdf:type ao:PolicyKey ;
-          ao:keyObjectType ai:ObjectPropertyAccesObject ;
-          ao:keyRoleUri auth:EDITOR ;
-          ao:keyOperationGroup ai:DisplayOperationGroup .
+          ao:keyComponent ai:DataPropertyAccesObject ;
+          ao:keyComponent auth:EDITOR ;
+          ao:keyComponent ai:DisplayOperationGroup .
 
 ai:AllowEditorDisplayDataPropertyRule rdf:type ao:Rule;
           ao:attribute ai:SubjectRoleEqualsEditorRoleAttribute ;

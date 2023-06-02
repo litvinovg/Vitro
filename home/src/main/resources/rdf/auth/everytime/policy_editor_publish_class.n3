@@ -22,9 +22,9 @@ ai:EditorPublishClassDataset rdf:type ao:TestDataSet ;
           ao:testData ai:EditorPublishClassTestData .
           
 ai:EditorPublishClassPolicyKey rdf:type ao:PolicyKey ;
-          ao:keyObjectType ai:ObjectPropertyAccesObject ;
-          ao:keyRoleUri auth:EDITOR ;
-          ao:keyOperationGroup ai:PublishOperationGroup .
+          ao:keyComponent ai:Class ;
+          ao:keyComponent auth:EDITOR ;
+          ao:keyComponent ai:PublishOperationGroup .
 
 ai:AllowEditorPublishClassRule rdf:type ao:Rule;
           ao:attribute ai:SubjectRoleEqualsEditorRoleAttribute ;

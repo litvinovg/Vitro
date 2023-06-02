@@ -130,16 +130,7 @@ ao:object rdf:type owl:ObjectProperty ;
           rdfs:domain ao:Rule ;
           rdfs:range ao:object .
           
-ao:keyObjectType rdf:type owl:ObjectProperty ;
-          rdfs:domain ao:PolicyKey ;
-          rdfs:range ao:ObjectType .
-          
-ao:keyRoleUri rdf:type owl:ObjectProperty ;
-          rdfs:domain ao:PolicyKey .
-          
-ao:keyOperationGroup rdf:type owl:ObjectProperty ;
-          rdfs:domain ao:PolicyKey ;
-          rdfs:range ao:OperationGroup .      
+ao:keyComponent rdf:type owl:ObjectProperty .
           
 ao:policyKey rdf:type owl:ObjectProperty ;
           rdfs:domain ao:Policy ;

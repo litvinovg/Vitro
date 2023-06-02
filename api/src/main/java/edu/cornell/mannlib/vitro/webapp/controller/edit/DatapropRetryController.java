@@ -25,6 +25,7 @@ import edu.cornell.mannlib.vedit.forwarder.impl.UrlForwarder;
 import edu.cornell.mannlib.vedit.util.FormUtils;
 import edu.cornell.mannlib.vedit.validator.impl.IntValidator;
 import edu.cornell.mannlib.vedit.validator.impl.XMLNameValidator;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType;
 import edu.cornell.mannlib.vitro.webapp.auth.permissions.SimplePermission;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.bean.PropertyRestrictionListener;
 import edu.cornell.mannlib.vitro.webapp.beans.DataProperty;
@@ -182,7 +183,7 @@ public class DatapropRetryController extends BaseEditController {
         request.setAttribute("_action",action);
         request.setAttribute("unqualifiedClassName","DatatypeProperty");
 
-        addPermissionAttributes(request, objectForEditing.getURI());
+        addAccessAttributes(request, objectForEditing.getURI(), AccessObjectType.DATA_PROPERTY);
         setRequestAttributes(request,epo);
 
         try {

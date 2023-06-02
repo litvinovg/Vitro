@@ -22,9 +22,9 @@ ai:SelfEditorUpdateClassDataset rdf:type ao:TestDataSet ;
           ao:testData ai:SelfEditorUpdateClassTestData .
           
 ai:SelfEditorUpdateClassPolicyKey rdf:type ao:PolicyKey ;
-          ao:keyObjectType ai:ObjectPropertyAccesObject ;
-          ao:keyRoleUri auth:SELF_EDITOR ;
-          ao:keyOperationGroup ai:UpdateOperationGroup .
+          ao:keyComponent ai:Class ;
+          ao:keyComponent auth:SELF_EDITOR ;
+          ao:keyComponent ai:UpdateOperationGroup .
 
 ai:AllowSelfEditorUpdateClassRule rdf:type ao:Rule;
           ao:attribute ai:SubjectRoleEqualsSelfEditorRoleAttribute ;

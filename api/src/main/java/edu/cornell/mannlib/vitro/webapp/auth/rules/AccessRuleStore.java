@@ -39,7 +39,6 @@ import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObject;
 import edu.cornell.mannlib.vitro.webapp.auth.objects.AccessObjectImpl;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.SimpleAuthorizationRequest;
-import edu.cornell.mannlib.vitro.webapp.beans.Property;
 import edu.cornell.mannlib.vitro.webapp.dao.jena.event.BulkUpdateEvent;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelNames;
@@ -640,20 +639,6 @@ public class AccessRuleStore {
                 + "<" + ruleUri + "> ao:attribute <" + objectUriAttribute + "> .\n"
                 + "<" + ruleUri + "> ao:attribute <" + objectTypeAttribute + "> .";
         return ttl;
-    }
-
-    public static void deletedEntityEvent(Property oldObj) {
-        log.debug("Don't delete access rule if property has been deleted " + oldObj );
-    }
-
-    public static void updatedEntityEvent(Object oldObj, Object newObj) {
-        if (oldObj instanceof Property || newObj instanceof Property) {
-            log.error("update entity event old " + oldObj + " new object " + newObj );    
-        }
-    }
-
-    public static void insertedEntityEvent(Property newObj) {
-        log.debug("Nothing to do " + newObj );
     }
 
     public List<String> getGrantedRoleUris(String entityUri, AccessOperation operation) {

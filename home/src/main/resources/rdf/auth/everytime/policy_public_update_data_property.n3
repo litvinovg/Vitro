@@ -23,9 +23,9 @@ ai:PublicUpdateDataPropertyDataset rdf:type ao:TestDataSet ;
           ao:testData ai:PublicUpdateDataPropertyTestData .
           
 ai:PublicUpdateDataPropertyPolicyKey rdf:type ao:PolicyKey ;
-          ao:keyObjectType ai:ObjectPropertyAccesObject ;
-          ao:keyRoleUri auth:PUBLIC ;
-          ao:keyOperationGroup ai:UpdateOperationGroup .
+          ao:keyComponent ai:DataPropertyAccesObject ;
+          ao:keyComponent auth:PUBLIC ;
+          ao:keyComponent ai:UpdateOperationGroup .
 
 ai:AllowPublicUpdateDataPropertyRule rdf:type ao:Rule;
           ao:attribute ai:SubjectRoleEqualsPublicRoleAttribute ;

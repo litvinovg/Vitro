@@ -22,9 +22,9 @@ ai:AdminUpdateClassDataset rdf:type ao:TestDataSet ;
           ao:testData ai:AdminUpdateClassTestData .
           
 ai:AdminUpdateClassPolicyKey rdf:type ao:PolicyKey ;
-          ao:keyObjectType ai:ObjectPropertyAccesObject ;
-          ao:keyRoleUri auth:ADMIN ;
-          ao:keyOperationGroup ai:UpdateOperationGroup .
+          ao:keyComponent ai:Class ;
+          ao:keyComponent auth:ADMIN ;
+          ao:keyComponent ai:UpdateOperationGroup .
 
 ai:AllowAdminUpdateClassRule rdf:type ao:Rule;
           ao:attribute ai:SubjectRoleEqualsAdminRoleAttribute ;

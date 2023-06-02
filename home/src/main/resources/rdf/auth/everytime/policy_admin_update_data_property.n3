@@ -23,9 +23,9 @@ ai:AdminUpdateDataPropertyDataset rdf:type ao:TestDataSet ;
           ao:testData ai:AdminUpdateDataPropertyTestData .
           
 ai:AdminUpdateDataPropertyPolicyKey rdf:type ao:PolicyKey ;
-          ao:keyObjectType ai:ObjectPropertyAccesObject ;
-          ao:keyRoleUri auth:ADMIN ;
-          ao:keyOperationGroup ai:UpdateOperationGroup .
+          ao:keyComponent ai:DataPropertyAccesObject ;
+          ao:keyComponent auth:ADMIN ;
+          ao:keyComponent ai:UpdateOperationGroup .
 
 ai:AllowAdminUpdateDataPropertyRule rdf:type ao:Rule;
           ao:attribute ai:SubjectRoleEqualsAdminRoleAttribute ;

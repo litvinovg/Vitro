@@ -10,12 +10,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import edu.cornell.mannlib.vitro.webapp.auth.policy.ifaces.Policy;
 
 public class PolicyStore implements Policies {
     
     private static final Comparator<Policy> comparator = getPolicyComparator();
     private static PolicyStore INSTANCE = new PolicyStore();
+    private static final Log log = LogFactory.getLog(PolicyStore.class);
 
     private PolicyStore() {
         INSTANCE = this;
@@ -35,6 +39,7 @@ public class PolicyStore implements Policies {
     @Override
     public synchronized void add(Policy policy) {
         if (policy == null) {
+            log.error("Policy to add is null");
             return;
         }
         Policy oldPolicy = policyMap.put(policy.getUri(), policy);

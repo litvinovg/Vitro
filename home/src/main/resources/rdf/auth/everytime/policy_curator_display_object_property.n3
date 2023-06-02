@@ -23,9 +23,9 @@ ai:CuratorDisplayObjectPropertyDataset rdf:type ao:TestDataSet ;
           ao:testData ai:CuratorDisplayObjectPropertyTestData .
           
 ai:CuratorDisplayObjectPropertyPolicyKey rdf:type ao:PolicyKey ;
-          ao:keyObjectType ai:ObjectPropertyAccesObject ;
-          ao:keyRoleUri auth:CURATOR ;
-          ao:keyOperationGroup ai:DisplayOperationGroup .
+          ao:keyComponent ai:ObjectPropertyAccesObject ;
+          ao:keyComponent auth:CURATOR ;
+          ao:keyComponent ai:DisplayOperationGroup .
 
 ai:AllowCuratorDisplayObjectPropertyRule rdf:type ao:Rule;
           ao:attribute ai:SubjectRoleEqualsAdminRoleAttribute ;

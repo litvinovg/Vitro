@@ -1,403 +1,111 @@
 package edu.cornell.mannlib.vitro.webapp.auth.policy;
 
+import static org.junit.Assert.assertFalse;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Set;
+
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.OperationGroup;
+
+@RunWith(Parameterized.class)
 public class EntityPolicyTests extends PolicyTest {
-    public static final String ADMIN_DISPLAY_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_admin_display_object_property.n3";
-    public static final String ADMIN_DISPLAY_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_admin_display_data_property.n3";
-    public static final String ADMIN_DISPLAY_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_admin_display_class.n3";
+    @org.junit.runners.Parameterized.Parameter(0)
+    public String filePath;
+    
+    @org.junit.runners.Parameterized.Parameter(1)
+    public String uri;
+    
+    @org.junit.runners.Parameterized.Parameter(2)
+    public OperationGroup group;
+    
+    @org.junit.runners.Parameterized.Parameter(3)
+    public AccessObjectType type;
+    
+    @org.junit.runners.Parameterized.Parameter(4)
+    public String roleUri;
+    
+    @org.junit.runners.Parameterized.Parameter(5)
+    public int rulesCount;
+    
+    @org.junit.runners.Parameterized.Parameter(6)
+    public int attrCount;
+    
+    @Test
+    public void testPolicy() {
+        load(filePath);
+        String policyUri =  PREFIX + uri;
+        DynamicPolicy policy = loader.loadPolicy(policyUri);
+        countRulesAndAttributes(policy, rulesCount, attrCount);
+        Set<String> values = loader.getPolicyDataSetValues(group, type, roleUri);
+        assertFalse(values.isEmpty());
+    }
+    
+    @Parameterized.Parameters
+    public static Collection<Object[]> requests() {
+        return Arrays.asList(new Object[][] {
+            { EDITOR_DISPLAY_CLASS_POLICY_PATH, "EditorDisplayClassPolicy", OperationGroup.DISPLAY_GROUP, AccessObjectType.CLASS, ROLE_EDITOR_URI, 1, 4 },
+            { EDITOR_DISPLAY_DATA_PROP_POLICY_PATH, "EditorDisplayDataPropertyPolicy", OperationGroup.DISPLAY_GROUP, AccessObjectType.DATA_PROPERTY, ROLE_EDITOR_URI, 2, 4 },
+            { EDITOR_DISPLAY_OBJ_PROP_POLICY_PATH, "EditorDisplayObjectPropertyPolicy", OperationGroup.DISPLAY_GROUP, AccessObjectType.OBJECT_PROPERTY, ROLE_EDITOR_URI, 2, 4 },
+            
+            { SELF_EDITOR_DISPLAY_CLASS_POLICY_PATH, "SelfEditorDisplayClassPolicy", OperationGroup.DISPLAY_GROUP, AccessObjectType.CLASS, ROLE_SELF_EDITOR_URI, 1, 4 },
+            { SELF_EDITOR_DISPLAY_DATA_PROP_POLICY_PATH, "SelfEditorDisplayDataPropertyPolicy", OperationGroup.DISPLAY_GROUP, AccessObjectType.DATA_PROPERTY, ROLE_SELF_EDITOR_URI, 2, 4 },
+            { SELF_EDITOR_DISPLAY_OBJ_PROP_POLICY_PATH, "SelfEditorDisplayObjectPropertyPolicy", OperationGroup.DISPLAY_GROUP, AccessObjectType.OBJECT_PROPERTY, ROLE_SELF_EDITOR_URI, 2, 4 },
 
-    public static final String CURATOR_DISPLAY_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_curator_display_object_property.n3";
-    public static final String CURATOR_DISPLAY_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_curator_display_data_property.n3";
-    public static final String CURATOR_DISPLAY_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_curator_display_class.n3";
+            { PUBLIC_DISPLAY_CLASS_POLICY_PATH, "PublicDisplayClassPolicy", OperationGroup.DISPLAY_GROUP, AccessObjectType.CLASS, ROLE_PUBLIC_URI, 1, 4 },
+            { PUBLIC_DISPLAY_DATA_PROP_POLICY_PATH, "PublicDisplayDataPropertyPolicy", OperationGroup.DISPLAY_GROUP, AccessObjectType.DATA_PROPERTY, ROLE_PUBLIC_URI, 2, 4 },
+            { PUBLIC_DISPLAY_OBJ_PROP_POLICY_PATH, "PublicDisplayObjectPropertyPolicy", OperationGroup.DISPLAY_GROUP, AccessObjectType.OBJECT_PROPERTY, ROLE_PUBLIC_URI, 2, 4 },
+            
+            { CURATOR_DISPLAY_CLASS_POLICY_PATH, "CuratorDisplayClassPolicy", OperationGroup.DISPLAY_GROUP, AccessObjectType.CLASS, ROLE_CURATOR_URI, 1, 4 },
+            { CURATOR_DISPLAY_DATA_PROP_POLICY_PATH, "CuratorDisplayDataPropertyPolicy", OperationGroup.DISPLAY_GROUP, AccessObjectType.DATA_PROPERTY, ROLE_CURATOR_URI, 2, 4 },
+            { CURATOR_DISPLAY_OBJ_PROP_POLICY_PATH, "CuratorDisplayObjectPropertyPolicy", OperationGroup.DISPLAY_GROUP, AccessObjectType.OBJECT_PROPERTY, ROLE_CURATOR_URI, 2, 4 },
+            
+            { ADMIN_DISPLAY_CLASS_POLICY_PATH, "AdminDisplayClassPolicy", OperationGroup.DISPLAY_GROUP, AccessObjectType.CLASS, ROLE_ADMIN_URI, 1, 4 },
+            { ADMIN_DISPLAY_DATA_PROP_POLICY_PATH, "AdminDisplayDataPropertyPolicy", OperationGroup.DISPLAY_GROUP, AccessObjectType.DATA_PROPERTY, ROLE_ADMIN_URI, 1, 4 },
+            { ADMIN_DISPLAY_OBJ_PROP_POLICY_PATH, "AdminDisplayObjectPropertyPolicy", OperationGroup.DISPLAY_GROUP, AccessObjectType.OBJECT_PROPERTY, ROLE_ADMIN_URI, 2, 4 },
+            
+            { EDITOR_PUBLISH_CLASS_POLICY_PATH, "EditorPublishClassPolicy", OperationGroup.PUBLISH_GROUP, AccessObjectType.CLASS, ROLE_EDITOR_URI, 1, 4 },
+            { EDITOR_PUBLISH_DATA_PROP_POLICY_PATH, "EditorPublishDataPropertyPolicy", OperationGroup.PUBLISH_GROUP, AccessObjectType.DATA_PROPERTY, ROLE_EDITOR_URI, 2, 4 },
+            { EDITOR_PUBLISH_OBJ_PROP_POLICY_PATH, "EditorPublishObjectPropertyPolicy", OperationGroup.PUBLISH_GROUP, AccessObjectType.OBJECT_PROPERTY, ROLE_EDITOR_URI, 2, 4 },
+            
+            { SELF_EDITOR_PUBLISH_CLASS_POLICY_PATH, "SelfEditorPublishClassPolicy", OperationGroup.PUBLISH_GROUP, AccessObjectType.CLASS, ROLE_SELF_EDITOR_URI, 1, 4 },
+            { SELF_EDITOR_PUBLISH_DATA_PROP_POLICY_PATH, "SelfEditorPublishDataPropertyPolicy", OperationGroup.PUBLISH_GROUP, AccessObjectType.DATA_PROPERTY, ROLE_SELF_EDITOR_URI, 2, 4 },
+            { SELF_EDITOR_PUBLISH_OBJ_PROP_POLICY_PATH, "SelfEditorPublishObjectPropertyPolicy", OperationGroup.PUBLISH_GROUP, AccessObjectType.OBJECT_PROPERTY, ROLE_SELF_EDITOR_URI, 2, 4 },
 
-    public static final String PUBLIC_DISPLAY_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_public_display_object_property.n3";
-    public static final String PUBLIC_DISPLAY_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_public_display_data_property.n3";
-    public static final String PUBLIC_DISPLAY_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_public_display_class.n3";
-    
-    public static final String SELF_EDITOR_DISPLAY_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_self_editor_display_object_property.n3";
-    public static final String SELF_EDITOR_DISPLAY_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_self_editor_display_data_property.n3";
-    public static final String SELF_EDITOR_DISPLAY_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_self_editor_display_class.n3";
-    
-    public static final String EDITOR_DISPLAY_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_editor_display_object_property.n3";
-    public static final String EDITOR_DISPLAY_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_editor_display_data_property.n3";
-    public static final String EDITOR_DISPLAY_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_editor_display_class.n3";
-    //Update
-    public static final String ADMIN_UPDATE_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_admin_update_object_property.n3";
-    public static final String ADMIN_UPDATE_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_admin_update_data_property.n3";
-    public static final String ADMIN_UPDATE_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_admin_update_class.n3";
+            { CURATOR_PUBLISH_CLASS_POLICY_PATH, "CuratorPublishClassPolicy", OperationGroup.PUBLISH_GROUP, AccessObjectType.CLASS, ROLE_CURATOR_URI, 1, 4 },
+            { CURATOR_PUBLISH_DATA_PROP_POLICY_PATH, "CuratorPublishDataPropertyPolicy", OperationGroup.PUBLISH_GROUP, AccessObjectType.DATA_PROPERTY, ROLE_CURATOR_URI, 2, 4 },
+            { CURATOR_PUBLISH_OBJ_PROP_POLICY_PATH, "CuratorPublishObjectPropertyPolicy", OperationGroup.PUBLISH_GROUP, AccessObjectType.OBJECT_PROPERTY, ROLE_CURATOR_URI, 2, 4 },
 
-    public static final String CURATOR_UPDATE_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_curator_update_object_property.n3";
-    public static final String CURATOR_UPDATE_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_curator_update_data_property.n3";
-    public static final String CURATOR_UPDATE_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_curator_update_class.n3";
+            { ADMIN_PUBLISH_CLASS_POLICY_PATH, "AdminPublishClassPolicy", OperationGroup.PUBLISH_GROUP, AccessObjectType.CLASS, ROLE_ADMIN_URI, 1, 4 },
+            { ADMIN_PUBLISH_DATA_PROP_POLICY_PATH, "AdminPublishDataPropertyPolicy", OperationGroup.PUBLISH_GROUP, AccessObjectType.DATA_PROPERTY, ROLE_ADMIN_URI, 2, 4 },
+            { ADMIN_PUBLISH_OBJ_PROP_POLICY_PATH, "AdminPublishObjectPropertyPolicy", OperationGroup.PUBLISH_GROUP, AccessObjectType.OBJECT_PROPERTY, ROLE_ADMIN_URI, 2, 4 },
+            
+            { EDITOR_UPDATE_CLASS_POLICY_PATH, "EditorUpdateClassPolicy", OperationGroup.UPDATE_GROUP, AccessObjectType.CLASS, ROLE_EDITOR_URI, 1, 4 },
+            { EDITOR_UPDATE_DATA_PROP_POLICY_PATH, "EditorUpdateDataPropertyPolicy", OperationGroup.UPDATE_GROUP, AccessObjectType.DATA_PROPERTY, ROLE_EDITOR_URI, 2, 4 },
+            { EDITOR_UPDATE_OBJ_PROP_POLICY_PATH, "EditorUpdateObjectPropertyPolicy", OperationGroup.UPDATE_GROUP, AccessObjectType.OBJECT_PROPERTY, ROLE_EDITOR_URI, 2, 4 },
+            
+            { SELF_EDITOR_UPDATE_CLASS_POLICY_PATH, "SelfEditorUpdateClassPolicy", OperationGroup.UPDATE_GROUP, AccessObjectType.CLASS, ROLE_SELF_EDITOR_URI, 1, 4 },
+            { SELF_EDITOR_UPDATE_DATA_PROP_POLICY_PATH, "SelfEditorUpdateDataPropertyPolicy", OperationGroup.UPDATE_GROUP, AccessObjectType.DATA_PROPERTY, ROLE_SELF_EDITOR_URI, 2, 4 },
+            { SELF_EDITOR_UPDATE_OBJ_PROP_POLICY_PATH, "SelfEditorUpdateObjectPropertyPolicy", OperationGroup.UPDATE_GROUP, AccessObjectType.OBJECT_PROPERTY, ROLE_SELF_EDITOR_URI, 2, 4 },
 
-    public static final String PUBLIC_UPDATE_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_public_update_object_property.n3";
-    public static final String PUBLIC_UPDATE_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_public_update_data_property.n3";
-    public static final String PUBLIC_UPDATE_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_public_update_class.n3";
-    
-    public static final String SELF_EDITOR_UPDATE_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_self_editor_update_object_property.n3";
-    public static final String SELF_EDITOR_UPDATE_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_self_editor_update_data_property.n3";
-    public static final String SELF_EDITOR_UPDATE_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_self_editor_update_class.n3";
-    
-    public static final String EDITOR_UPDATE_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_editor_update_object_property.n3";
-    public static final String EDITOR_UPDATE_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_editor_update_data_property.n3";
-    public static final String EDITOR_UPDATE_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_editor_update_class.n3"; 
-    //Publish
-    public static final String ADMIN_PUBLISH_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_admin_publish_object_property.n3";
-    public static final String ADMIN_PUBLISH_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_admin_publish_data_property.n3";
-    public static final String ADMIN_PUBLISH_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_admin_publish_class.n3";
-
-    public static final String CURATOR_PUBLISH_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_curator_publish_object_property.n3";
-    public static final String CURATOR_PUBLISH_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_curator_publish_data_property.n3";
-    public static final String CURATOR_PUBLISH_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_curator_publish_class.n3";
-
-    public static final String PUBLIC_PUBLISH_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_public_publish_object_property.n3";
-    public static final String PUBLIC_PUBLISH_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_public_publish_data_property.n3";
-    public static final String PUBLIC_PUBLISH_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_public_publish_class.n3";
-    
-    public static final String SELF_EDITOR_PUBLISH_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_self_editor_publish_object_property.n3";
-    public static final String SELF_EDITOR_PUBLISH_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_self_editor_publish_data_property.n3";
-    public static final String SELF_EDITOR_PUBLISH_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_self_editor_publish_class.n3";
-    
-    public static final String EDITOR_PUBLISH_OBJ_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_editor_publish_object_property.n3";
-    public static final String EDITOR_PUBLISH_DATA_PROP_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_editor_publish_data_property.n3";
-    public static final String EDITOR_PUBLISH_CLASS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_editor_publish_class.n3";
-    
-    @Test
-    public void testAdminDisplayObjectPropertyPolicy() {
-        load(ADMIN_DISPLAY_OBJ_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminDisplayObjectPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testAdminDisplayDataPropertyPolicy() {
-        load(ADMIN_DISPLAY_DATA_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminDisplayDataPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 1, 4);
-    }
-    
-    @Test
-    public void testAdminDisplayClassPolicy() {
-        load(ADMIN_DISPLAY_CLASS_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminDisplayClassPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 1, 4);
-    }
-    
-    @Test
-    public void testCuratorDisplayObjectPropertyPolicy() {
-        load(CURATOR_DISPLAY_OBJ_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorDisplayObjectPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testCuratorDisplayDataPropertyPolicy() {
-        load(CURATOR_DISPLAY_DATA_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorDisplayDataPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testCuratorDisplayClassPolicy() {
-        load(CURATOR_DISPLAY_CLASS_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorDisplayClassPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 1, 4);
-    }
-    
-    @Test
-    public void testPublicDisplayObjectPropertyPolicy() {
-        load(PUBLIC_DISPLAY_OBJ_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/PublicDisplayObjectPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testPublicDisplayDataPropertyPolicy() {
-        load(PUBLIC_DISPLAY_DATA_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/PublicDisplayDataPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testPublicDisplayClassPolicy() {
-        load(PUBLIC_DISPLAY_CLASS_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/PublicDisplayClassPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 1, 4);
-    }
-    
-    @Test
-    public void testSelfEditorDisplayObjectPropertyPolicy() {
-        load(SELF_EDITOR_DISPLAY_OBJ_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorDisplayObjectPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testSelfEditorDisplayDataPropertyPolicy() {
-        load(SELF_EDITOR_DISPLAY_DATA_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorDisplayDataPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testSelfEditorDisplayClassPolicy() {
-        load(SELF_EDITOR_DISPLAY_CLASS_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorDisplayClassPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 1, 4);
-    }
-    
-    @Test
-    public void testEditorDisplayObjectPropertyPolicy() {
-        load(EDITOR_DISPLAY_OBJ_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorDisplayObjectPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testEditorDisplayDataPropertyPolicy() {
-        load(EDITOR_DISPLAY_DATA_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorDisplayDataPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-
-    }
-    
-    @Test
-    public void testEditorDisplayClassPolicy() {
-        load(EDITOR_DISPLAY_CLASS_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorDisplayClassPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 1, 4);
-    }
-   
-    @Test
-    public void testAdminUpdateObjectPropertyPolicy() {
-        load(ADMIN_UPDATE_OBJ_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminUpdateObjectPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testAdminUpdateDataPropertyPolicy() {
-        load(ADMIN_UPDATE_DATA_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminUpdateDataPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testAdminUpdateClassPolicy() {
-        load(ADMIN_UPDATE_CLASS_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminUpdateClassPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 1, 4);
-    }
-    
-    @Test
-    public void testCuratorUpdateObjectPropertyPolicy() {
-        load(CURATOR_UPDATE_OBJ_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorUpdateObjectPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testCuratorUpdateDataPropertyPolicy() {
-        load(CURATOR_UPDATE_DATA_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorUpdateDataPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testCuratorUpdateClassPolicy() {
-        load(CURATOR_UPDATE_CLASS_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorUpdateClassPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 1, 4);
-    }
-    
-    @Test
-    public void testPublicUpdateObjectPropertyPolicy() {
-        load(PUBLIC_UPDATE_OBJ_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/PublicUpdateObjectPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testPublicUpdateDataPropertyPolicy() {
-        load(PUBLIC_UPDATE_DATA_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/PublicUpdateDataPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testPublicUpdateClassPolicy() {
-        load(PUBLIC_UPDATE_CLASS_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/PublicUpdateClassPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 1, 4);
-    }
-    
-    @Test
-    public void testSelfEditorUpdateObjectPropertyPolicy() {
-        load(SELF_EDITOR_UPDATE_OBJ_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorUpdateObjectPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testSelfEditorUpdateDataPropertyPolicy() {
-        load(SELF_EDITOR_UPDATE_DATA_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorUpdateDataPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testSelfEditorUpdateClassPolicy() {
-        load(SELF_EDITOR_UPDATE_CLASS_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorUpdateClassPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 1, 4);
-    }
-    
-    @Test
-    public void testEditorUpdateObjectPropertyPolicy() {
-        load(EDITOR_UPDATE_OBJ_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorUpdateObjectPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testEditorUpdateDataPropertyPolicy() {
-        load(EDITOR_UPDATE_DATA_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorUpdateDataPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testEditorUpdateClassPolicy() {
-        load(EDITOR_UPDATE_CLASS_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorUpdateClassPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 1, 4);
-    }
-
-    @Test
-    public void testAdminPublishObjectPropertyPolicy() {
-        load(ADMIN_PUBLISH_OBJ_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminPublishObjectPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testAdminPublishDataPropertyPolicy() {
-        load(ADMIN_PUBLISH_DATA_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminPublishDataPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testAdminPublishClassPolicy() {
-        load(ADMIN_PUBLISH_CLASS_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/AdminPublishClassPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 1, 4);
-    }
-    
-    @Test
-    public void testCuratorPublishObjectPropertyPolicy() {
-        load(CURATOR_PUBLISH_OBJ_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorPublishObjectPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testCuratorPublishDataPropertyPolicy() {
-        load(CURATOR_PUBLISH_DATA_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorPublishDataPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testCuratorPublishClassPolicy() {
-        load(CURATOR_PUBLISH_CLASS_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/CuratorPublishClassPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 1, 4);
-    }
-    
-    @Test
-    public void testSelfEditorPublishObjectPropertyPolicy() {
-        load(SELF_EDITOR_PUBLISH_OBJ_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorPublishObjectPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testSelfEditorPublishDataPropertyPolicy() {
-        load(SELF_EDITOR_PUBLISH_DATA_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorPublishDataPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testSelfEditorPublishClassPolicy() {
-        load(SELF_EDITOR_PUBLISH_CLASS_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/SelfEditorPublishClassPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 1, 4);
-    }
-    
-    @Test
-    public void testEditorPublishObjectPropertyPolicy() {
-        load(EDITOR_PUBLISH_OBJ_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorPublishObjectPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testEditorPublishDataPropertyPolicy() {
-        load(EDITOR_PUBLISH_DATA_PROP_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorPublishDataPropertyPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 2, 4);
-    }
-    
-    @Test
-    public void testEditorPublishClassPolicy() {
-        load(EDITOR_PUBLISH_CLASS_POLICY_PATH);
-        String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/EditorPublishClassPolicy";
-        DynamicPolicy policy = loader.loadPolicy(policyUri);
-        countRulesAndAttributes(policy, 1, 4);
+            { PUBLIC_UPDATE_CLASS_POLICY_PATH, "PublicUpdateClassPolicy", OperationGroup.UPDATE_GROUP, AccessObjectType.CLASS, ROLE_PUBLIC_URI, 1, 4 },
+            { PUBLIC_UPDATE_DATA_PROP_POLICY_PATH, "PublicUpdateDataPropertyPolicy", OperationGroup.UPDATE_GROUP, AccessObjectType.DATA_PROPERTY, ROLE_PUBLIC_URI, 2, 4 },
+            { PUBLIC_UPDATE_OBJ_PROP_POLICY_PATH, "PublicUpdateObjectPropertyPolicy", OperationGroup.UPDATE_GROUP, AccessObjectType.OBJECT_PROPERTY, ROLE_PUBLIC_URI, 2, 4 },
+            
+            { CURATOR_UPDATE_CLASS_POLICY_PATH, "CuratorUpdateClassPolicy", OperationGroup.UPDATE_GROUP, AccessObjectType.CLASS, ROLE_CURATOR_URI, 1, 4 },
+            { CURATOR_UPDATE_DATA_PROP_POLICY_PATH, "CuratorUpdateDataPropertyPolicy", OperationGroup.UPDATE_GROUP, AccessObjectType.DATA_PROPERTY, ROLE_CURATOR_URI, 2, 4 },
+            { CURATOR_UPDATE_OBJ_PROP_POLICY_PATH, "CuratorUpdateObjectPropertyPolicy", OperationGroup.UPDATE_GROUP, AccessObjectType.OBJECT_PROPERTY, ROLE_CURATOR_URI, 2, 4 },
+            
+            { ADMIN_UPDATE_CLASS_POLICY_PATH, "AdminUpdateClassPolicy", OperationGroup.UPDATE_GROUP, AccessObjectType.CLASS, ROLE_ADMIN_URI, 1, 4 },
+            { ADMIN_UPDATE_DATA_PROP_POLICY_PATH, "AdminUpdateDataPropertyPolicy", OperationGroup.UPDATE_GROUP, AccessObjectType.DATA_PROPERTY, ROLE_ADMIN_URI, 2, 4 },
+            { ADMIN_UPDATE_OBJ_PROP_POLICY_PATH, "AdminUpdateObjectPropertyPolicy", OperationGroup.UPDATE_GROUP, AccessObjectType.OBJECT_PROPERTY, ROLE_ADMIN_URI, 2, 4 },
+            
+        });
     }
     
 }

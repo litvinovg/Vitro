@@ -22,9 +22,9 @@ ai:PublicDisplayClassDataset rdf:type ao:TestDataSet ;
           ao:testData ai:PublicDisplayClassTestData .
           
 ai:PublicDisplayClassPolicyKey rdf:type ao:PolicyKey ;
-          ao:keyObjectType ai:ObjectPropertyAccesObject ;
-          ao:keyRoleUri auth:PUBLIC ;
-          ao:keyOperationGroup ai:DisplayOperationGroup .
+          ao:keyComponent ai:Class ;
+          ao:keyComponent auth:PUBLIC ;
+          ao:keyComponent ai:DisplayOperationGroup .
 
 ai:AllowPublicDisplayClassRule rdf:type ao:Rule;
           ao:attribute ai:SubjectRoleEqualsPublicRoleAttribute ;

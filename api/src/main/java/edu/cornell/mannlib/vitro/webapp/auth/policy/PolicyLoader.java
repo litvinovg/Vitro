@@ -1,6 +1,11 @@
 package edu.cornell.mannlib.vitro.webapp.auth.policy;
 
+import static edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyLoader.POLICY;
+
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -20,17 +25,24 @@ import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType;
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.AttributeFactory;
+import edu.cornell.mannlib.vitro.webapp.auth.attributes.OperationGroup;
 import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRule;
 import edu.cornell.mannlib.vitro.webapp.auth.rules.AccessRuleFactory;
+import edu.cornell.mannlib.vitro.webapp.dao.jena.event.BulkUpdateEvent;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
+import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelNames;
+import edu.cornell.mannlib.vitro.webapp.rdfservice.ChangeSet;
 import edu.cornell.mannlib.vitro.webapp.rdfservice.RDFService;
+import edu.cornell.mannlib.vitro.webapp.rdfservice.RDFServiceException;
+import edu.cornell.mannlib.vitro.webapp.rdfservice.RDFService.ModelSerializationFormat;
 import edu.cornell.mannlib.vitro.webapp.rdfservice.impl.jena.model.RDFServiceModel;
 
 public class PolicyLoader {
 
     private static final String PRIORITY = "priority";
-    private static final String POLICY = "policy";
+    public static final String POLICY = "policy";
     private static final Log log = LogFactory.getLog(PolicyLoader.class);
     private static final String POLICY_QUERY =
             "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
@@ -61,19 +73,6 @@ public class PolicyLoader {
           + "OPTIONAL {?" + POLICY + " ao:priority ?set_priority" + " . }\n"
           + "BIND(COALESCE(?set_priority, 0 ) as ?" + PRIORITY + " ) .\n"
           + "} ORDER BY ?" + PRIORITY;
-    
-    private static final String POLICY_URI_BY_KEY =
-            "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
-          + "prefix owl: <http://www.w3.org/2002/07/owl#>\n"
-          + "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
-          + "prefix xsd: <http://www.w3.org/2001/XMLSchema#>\n"
-          + "prefix auth: <http://vitro.mannlib.cornell.edu/ns/vitro/authorization#>\n"
-          + "prefix ai: <https://vivoweb.org/ontology/vitro-application/auth/individual/>\n"
-          + "prefix ao: <https://vivoweb.org/ontology/vitro-application/auth/vocabulary/>\n"
-          + "SELECT DISTINCT ?" + POLICY + " \n"
-          + "WHERE {\n"
-          + "?" + POLICY + " rdf:type ao:Policy .\n"
-          + "}";
     
     private static final String DATASET_QUERY =
             "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
@@ -168,11 +167,51 @@ public class PolicyLoader {
           + "}\n"
           + "BIND(?dataSet as ?dataSetUri)\n"
           + "} ORDER BY ?rule ?attribute";
+
     
+    private static final String policyKeyTemplatePrefix = 
+        "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
+      + "prefix owl: <http://www.w3.org/2002/07/owl#>\n"
+      + "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+      + "prefix xsd: <http://www.w3.org/2001/XMLSchema#>\n"
+      + "prefix auth: <http://vitro.mannlib.cornell.edu/ns/vitro/authorization#>\n"
+      + "prefix ai: <https://vivoweb.org/ontology/vitro-application/auth/individual/>\n"
+      + "prefix ao: <https://vivoweb.org/ontology/vitro-application/auth/vocabulary/>\n"
+      + "SELECT DISTINCT ?" + POLICY + " ?value ?valueId ( COUNT(?key) AS ?keySize ) \n"
+      + "WHERE {\n"
+      + "  ?" + POLICY + " ao:policyKey ?policyKeyUri .\n"
+      + "  ?" + POLICY + " ao:testDatasets ?testDataSets .\n"
+      + "  ?testDataSets ao:testDataset ?dataSet . \n"
+      + "  ?dataSet ao:testData ?testData . \n"
+      + "  ?testData ao:dataValue ?value . \n"
+      + "  OPTIONAL { ?value ao:id ?valueId . } \n"
+      + "  ?policyKeyUri ao:keyComponent ?key .\n";
+
+    private static final String policyKeyTemplateSuffix = "} GROUP BY ?" + POLICY + " ?value ?valueId";
+   
+    private static final String policyStatementByKeyTemplatePrefix = 
+          "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
+        + "prefix owl: <http://www.w3.org/2002/07/owl#>\n"
+        + "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+        + "prefix xsd: <http://www.w3.org/2001/XMLSchema#>\n"
+        + "prefix auth: <http://vitro.mannlib.cornell.edu/ns/vitro/authorization#>\n"
+        + "prefix ai: <https://vivoweb.org/ontology/vitro-application/auth/individual/>\n"
+        + "prefix ao: <https://vivoweb.org/ontology/vitro-application/auth/vocabulary/>\n"
+        + "CONSTRUCT { \n"
+        + "  ?testData ao:dataValue <%s> .\n"
+        + "}\n"
+        + "WHERE {\n"
+        + "  ?" + POLICY + " ao:policyKey ?policyKeyUri .\n"
+        + "  ?" + POLICY + " ao:testDatasets ?testDataSets .\n"
+        + "  ?testDataSets ao:testDataset ?dataSet . \n"
+        + "  ?dataSet ao:testData ?testData . \n";
+
+    private static final String policyStatementByKeyTemplateSuffix = "}";
+
     private Model userAccountsModel;
     private RDFService rdfService;
     private static PolicyLoader INSTANCE;
-
+    
     public static PolicyLoader getInstance() {
         return INSTANCE;
     }
@@ -180,6 +219,7 @@ public class PolicyLoader {
     private PolicyLoader(Model model) {
         if (model != null) {
             this.userAccountsModel = model;
+            this.rdfService = new RDFServiceModel(userAccountsModel);
         } else {
             this.userAccountsModel = ModelAccess.getInstance().getOntModelSelector().getUserAccountsModel();
             //this.rdfService = ModelAccess.getInstance().getRDFService(WhichService.CONFIGURATION);
@@ -254,7 +294,154 @@ public class PolicyLoader {
         policy.addRules(rules);
         return policy;
     }
+    
+    public Set<String> getPolicyDataSetValues(OperationGroup og, AccessObjectType aot, String role) {
+        Set<String> values = new HashSet<>();
+        long expectedSize = 3;
+        final String queryText = getPolicyTestValuesByKeyQuery(new String[]{role}, new String[]{og.toString(), aot.toString()});
+        debug("SPARQL Query to get policy data set values:\n %s", queryText);
+        Query query = QueryFactory.create(queryText);
+        QueryExecution qexec = QueryExecutionFactory.create(query, getUserAccountsModel());
+        try {
+            ResultSet rs = qexec.execSelect();
+            while (rs.hasNext()) {
+                QuerySolution qs = rs.next();
+                if (!qs.contains(POLICY) || 
+                    !qs.contains("keySize") || 
+                    !qs.get("keySize").isLiteral()) {
+                 continue;  
+                }
+                long keySize = qs.getLiteral("keySize").getLong();
+                if (expectedSize != keySize) {
+                    continue;
+                }
+                if (qs.contains("valueId") && qs.get("valueId").isLiteral()) {
+                    values.add(qs.getLiteral("valueId").getString());
+                } else if (qs.contains("value")) {
+                    RDFNode node = qs.get("value");
+                    if (node.isLiteral()) {
+                        values.add(node.asLiteral().toString());
+                    } else if (node.isResource()){
+                        values.add(node.asResource().getURI());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error(e, e);
+        } finally {
+            qexec.close();
+        }
+        return values;
+    }
+    
+    public String getPolicyUriByKey(OperationGroup og, AccessObjectType aot, String role) {
+        String uri = null;
+        long expectedSize = 3;
+        final String queryText = getPolicyTestValuesByKeyQuery(new String[]{role}, new String[]{og.toString(), aot.toString()});
+        debug("SPARQL Query to get policy data set values:\n %s", queryText);
+        Query query = QueryFactory.create(queryText);
+        QueryExecution qexec = QueryExecutionFactory.create(query, getUserAccountsModel());
+        try {
+            ResultSet rs = qexec.execSelect();
+            while (rs.hasNext()) {
+                QuerySolution qs = rs.next();
+                if (!qs.contains(POLICY) || 
+                    !qs.get(POLICY).isResource() ||
+                    !qs.contains("keySize") || 
+                    !qs.get("keySize").isLiteral()) {
+                 continue;  
+                }
+                long keySize = qs.getLiteral("keySize").getLong();
+                if (expectedSize != keySize) {
+                    continue;
+                }
+                return qs.getResource(POLICY).getURI();
+            }
+        } catch (Exception e) {
+            log.error(e, e);
+        } finally {
+            qexec.close();
+        }
+        return uri;
+    }
+    
+    public void modifyPolicyDataSetValue(String entityUri, OperationGroup og, AccessObjectType aot, String role, boolean isAdd) {
+        final String queryText = getPolicyDataSetValueStatementByKeyQuery(entityUri, new String[]{role}, new String[]{og.toString(), aot.toString()});
+        debug("SPARQL Query to get policy data set values:\n %s", queryText);
+        Query query = QueryFactory.create(queryText);
+        QueryExecution qexec = QueryExecutionFactory.create(query, getUserAccountsModel());
+        try {
+             Model model = qexec.execConstruct();
+             if (model.isEmpty()) {
+                 log.error("statements to add/delete are empty");
+                 return;
+             }
+             log.error(model.size());
+             
+             updateUserAccountsModel(model, isAdd);
+        } catch (Exception e) {
+            log.error(e, e);
+        } finally {
+            qexec.close();
+        }
+    }
+    
+    private void updateUserAccountsModel(Model data, boolean isAdd) {
+        try {
+            ChangeSet changeSet = makeChangeSet();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            data.write(baos, "TTL");
+            InputStream in = new ByteArrayInputStream(baos.toByteArray());
+            debug(modelToString(data, isAdd));
+            if (isAdd) {
+                changeSet.addAddition(in, ModelSerializationFormat.N3, ModelNames.USER_ACCOUNTS);    
+            } else {
+                changeSet.addRemoval(in, ModelSerializationFormat.N3, ModelNames.USER_ACCOUNTS);
+            }
+            rdfService.changeSetUpdate(changeSet);
+        } catch (RDFServiceException e) {
+            String message = modelToString(data, isAdd);
+            log.error(message);
+            log.error(e,e);
+        }
+    }
 
+    private String modelToString(Model ruleData, boolean isAdd) {
+        StringWriter sw = new StringWriter();
+        ruleData.write(sw, "TTL");
+        String message = (isAdd ? "Adding to" : "Removing from") + " user accounts model \n" + sw.toString();
+        return message;
+    }
+    
+    private static String getPolicyDataSetValueStatementByKeyQuery(String entityUri, String[] uris, String[] ids) {
+        StringBuilder query = new StringBuilder();
+        query.append(String.format(policyStatementByKeyTemplatePrefix, entityUri));
+        for (String uri : uris) {
+            query.append(String.format("  ?policyKeyUri ao:keyComponent <%s> . \n", uri));
+        }
+        int i = 0;
+        for (String id : ids) {
+            query.append(String.format("  ?policyKeyUri ao:keyComponent ?uri%d . ?uri%d ao:id \"%s\" . \n", i, i, id));
+            i++;
+        }
+        query.append(policyStatementByKeyTemplateSuffix);
+        return query.toString();
+    }
+    
+    private static String getPolicyTestValuesByKeyQuery(String[] uris, String[] ids) {
+        StringBuilder query = new StringBuilder(policyKeyTemplatePrefix);
+        for (String uri : uris) {
+            query.append(String.format("  ?policyKeyUri ao:keyComponent <%s> . \n", uri));
+        }
+        int i = 0;
+        for (String id : ids) {
+            query.append(String.format("  ?policyKeyUri ao:keyComponent ?uri%d . ?uri%d ao:id \"%s\" . \n", i, i, id));
+            i++;
+        }
+        query.append(policyKeyTemplateSuffix);
+        return query.toString();
+    }
+    
     private long getPriority(String uri) {
         //debug("SPARQL Query to get policy uris from the graph:\n %s", POLICY_URIS_QUERY);
         ParameterizedSparqlString pss = new ParameterizedSparqlString(PRIORITY_QUERY);
@@ -350,10 +537,10 @@ public class PolicyLoader {
         }
     }
 
-    private List<String> getDataSetNames(String uri) {
+    private List<String> getDataSetNames(String policyUri) {
         List<String> result = new ArrayList<>();
         ParameterizedSparqlString pss = new ParameterizedSparqlString(DATASET_QUERY);
-        pss.setIri(POLICY, uri);
+        pss.setIri(POLICY, policyUri);
         Query query = QueryFactory.create(pss.toString());
         QueryExecution qexec = QueryExecutionFactory.create(query, getUserAccountsModel());
         try {
@@ -375,6 +562,7 @@ public class PolicyLoader {
         return result;
     }
 
+    
     private void debugSelectQueryResults(ResultSet rs) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ResultSetFormatter.outputAsJSON(baos, rs);
@@ -437,5 +625,20 @@ public class PolicyLoader {
         if (log.isDebugEnabled()) {
             log.error(String.format(template, objects ));
         }
+    }
+
+    public void addEntityToPolicyDataSet(String entityUri, AccessObjectType aot, OperationGroup og, String role) {
+        modifyPolicyDataSetValue(entityUri, og, aot, role, true);
+    }
+
+    public void removeEntityFromPolicyDataSet(String entityUri, AccessObjectType aot, OperationGroup og, String role) {
+        modifyPolicyDataSetValue(entityUri, og, aot, role, false);
+    }
+    
+    private ChangeSet makeChangeSet() {
+        ChangeSet cs = rdfService.manufactureChangeSet();
+        cs.addPreChangeEvent(new BulkUpdateEvent(null, true));
+        cs.addPostChangeEvent(new BulkUpdateEvent(null, false));
+        return cs;
     }
 }

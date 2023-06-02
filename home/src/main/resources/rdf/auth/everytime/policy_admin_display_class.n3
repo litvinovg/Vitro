@@ -22,9 +22,9 @@ ai:AdminDisplayClassDataset rdf:type ao:TestDataSet ;
           ao:testData ai:AdminDisplayClassTestData .
           
 ai:AdminDisplayClassPolicyKey rdf:type ao:PolicyKey ;
-          ao:keyObjectType ai:ObjectPropertyAccesObject ;
-          ao:keyRoleUri auth:ADMIN ;
-          ao:keyOperationGroup ai:DisplayOperationGroup .
+          ao:keyComponent ai:Class ;
+          ao:keyComponent auth:ADMIN ;
+          ao:keyComponent ai:DisplayOperationGroup .
 
 ai:AllowAdminDisplayClassRule rdf:type ao:Rule;
           ao:attribute ai:SubjectRoleEqualsAdminRoleAttribute ;
