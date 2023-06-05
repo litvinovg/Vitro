@@ -1,7 +1,5 @@
 package edu.cornell.mannlib.vitro.webapp.auth.policy;
 
-import static edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyLoader.POLICY;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -183,8 +181,9 @@ public class PolicyLoader {
       + "  ?" + POLICY + " ao:testDatasets ?testDataSets .\n"
       + "  ?testDataSets ao:testDataset ?dataSet . \n"
       + "  ?dataSet ao:testData ?testData . \n"
-      + "  ?testData ao:dataValue ?value . \n"
-      + "  OPTIONAL { ?value ao:id ?valueId . } \n"
+      + "  OPTIONAL { ?testData ao:dataValue ?value . \n"
+      + "    OPTIONAL { ?value ao:id ?valueId . } \n"
+      + "  }"
       + "  ?policyKeyUri ao:keyComponent ?key .\n";
 
     private static final String policyKeyTemplateSuffix = "} GROUP BY ?" + POLICY + " ?value ?valueId";

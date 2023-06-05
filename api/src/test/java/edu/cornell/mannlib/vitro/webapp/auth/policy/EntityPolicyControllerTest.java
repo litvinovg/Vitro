@@ -17,7 +17,9 @@ public class EntityPolicyControllerTest extends PolicyTest {
     public void testGetGrantedRoles() {
         load(ADMIN_DISPLAY_CLASS_POLICY_PATH);
         load(SELF_EDITOR_DISPLAY_CLASS_POLICY_PATH);
-        List<String> roles = EntityPolicyController.getGrantedRoles("http://purl.org/ontology/bibo/Book", OperationGroup.DISPLAY_GROUP, AccessObjectType.CLASS, ROLE_LIST);
+        List<String> allowedRoles = Arrays.asList(ROLE_ADMIN_URI, ROLE_SELF_EDITOR_URI);
+        EntityPolicyController.updateEntityPolicy("test:newClass", AccessObjectType.CLASS, OperationGroup.DISPLAY_GROUP, allowedRoles, ROLE_LIST);
+        List<String> roles = EntityPolicyController.getGrantedRoles("test:newClass", OperationGroup.DISPLAY_GROUP, AccessObjectType.CLASS, ROLE_LIST);
         assertEquals(2, roles.size());
         roles.contains(ROLE_ADMIN_URI);
         roles.contains(ROLE_EDITOR_URI);

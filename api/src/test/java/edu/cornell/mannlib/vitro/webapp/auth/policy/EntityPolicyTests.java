@@ -40,6 +40,7 @@ public class EntityPolicyTests extends PolicyTest {
     public void testPolicy() {
         load(filePath);
         String policyUri =  PREFIX + uri;
+        EntityPolicyController.updateEntityPolicy("test:entity", type, group, Arrays.asList(roleUri), ROLE_LIST);
         DynamicPolicy policy = loader.loadPolicy(policyUri);
         countRulesAndAttributes(policy, rulesCount, attrCount);
         Set<String> values = loader.getPolicyDataSetValues(group, type, roleUri);
