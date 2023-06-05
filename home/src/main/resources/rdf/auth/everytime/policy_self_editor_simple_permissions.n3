@@ -34,16 +34,4 @@ ai:PermissionNameInSelfEditorAllowed rdf:type ao:Attribute ;
         ao:setValue ai:SelfEditorSimplePermissionsTestData .
 
 ai:SelfEditorSimplePermissionsTestData rdf:type ao:TestData ;
-        # permissions for ANY logged-in user.
-        ao:dataValue simplePermission:DoFrontEndEditing ;
-        ao:dataValue simplePermission:EditOwnAccount ;
-        ao:dataValue simplePermission:ManageOwnProxies ;
-        ao:dataValue simplePermission:QueryUserAccountsModel ;
-        ao:dataValue simplePermission:UseBasicAjaxControllers ;
-        ao:dataValue simplePermission:UseMiscellaneousPages ;
-        ao:dataValue simplePermission:PageViewableLoggedIn ;
-
-        # permissions for ANY user, even if they are not logged in.
-        ao:dataValue simplePermission:QueryFullModel ;
-	ao:dataValue simplePermission:PageViewablePublic ;
         .

@@ -97,19 +97,8 @@ ai:NotModifiableStatementsPolicyDataSet rdf:type ao:TestDataSet ;
           ao:testData ai:ProhibitedNamespaceTestData .
          
 ai:ProhibitedNamespaceExceptionsTestData rdf:type ao:TestData ;
-        ao:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#moniker> ;
-        ao:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime> ;
-        ao:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/public#mainImage> ;
-        ao:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#Link> ;
-        ao:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#primaryLink> ;
-        ao:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#additionalLink> ;
-        ao:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#linkAnchor> ;
-        ao:dataValue <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#linkURL> ;
         .
         
 ai:ProhibitedNamespaceTestData rdf:type ao:TestData ;
-        ao:dataValue  ai:prohibitedNamespacePrefix ; 
         .
         
-ai:prohibitedNamespacePrefix rdf:type ao:TestValue ;
-        ao:id "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#" ;

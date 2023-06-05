@@ -16,11 +16,13 @@ import edu.cornell.mannlib.vitro.webapp.beans.Property;
 
 public class NonModifiableStatementsPolicyTest extends PolicyTest{
 
-    public static final String NOT_MODIFIABLE_STATEMENTS_POLICY_PATH = USER_ACCOUNTS_HOME + "policy_not_modifiable_statements.n3";
+    public static final String NOT_MODIFIABLE_STATEMENTS_POLICY_PATH = "policy_not_modifiable_statements";
     
     @Test
     public void testNonModifiableStatementsPolicy() {        
-        load(NOT_MODIFIABLE_STATEMENTS_POLICY_PATH);
+        load(USER_ACCOUNTS_HOME_EVERYTIME + NOT_MODIFIABLE_STATEMENTS_POLICY_PATH + EXT);
+        load(USER_ACCOUNTS_HOME_FIRSTTIME + NOT_MODIFIABLE_STATEMENTS_POLICY_PATH + DATASET + EXT);
+
         String policyUri = "https://vivoweb.org/ontology/vitro-application/auth/individual/NotModifiableStatementsPolicy";
         DynamicPolicy policy = loader.loadPolicy(policyUri);
         assertTrue(policy != null);
