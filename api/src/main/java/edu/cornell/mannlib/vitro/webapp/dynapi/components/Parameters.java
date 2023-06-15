@@ -14,6 +14,10 @@ public class Parameters implements Removable {
 	public Parameters() {
 		params = new HashMap<String, Parameter>();
 	}
+	
+    public Parameters(Parameters inputParams) {
+        params = new HashMap<String, Parameter>(inputParams.params);
+    }
 
 	public void add(Parameter param) {
 		params.put(param.getName(), param);

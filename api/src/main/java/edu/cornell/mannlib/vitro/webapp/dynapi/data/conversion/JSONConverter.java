@@ -259,7 +259,8 @@ public class JSONConverter {
 
 	private static JsonSchema getInputSchema(Procedure procedure, String resourceId) throws ConversionException {
 		String serializedSchema = procedure.getInputSerializedSchema();
-		Parameters params = procedure.getInputParams();
+		Parameters params = new Parameters(procedure.getInputParams());
+		params.removeAll(procedure.getOptionalParams());
 		JsonNode nativeSchema = deserializeSchema(serializedSchema);
 		if (nativeSchema != null) {
 			JsonSchema jsonSchema = factory.getSchema(nativeSchema);
