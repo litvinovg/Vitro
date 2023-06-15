@@ -65,13 +65,15 @@ public class JSONConverter {
 		if (!messages.isEmpty()) {
 			validationFailed(jsonRequest, messages);
 		}
-		Parameters required = procedure.getInputParams();
+		Parameters requiredParams = new Parameters(procedure.getInputParams());
+        Parameters optionalParams = procedure.getOptionalParams();
+		requiredParams.removeAll(optionalParams);
 		ReadContext ctx = JsonPath.using(jsonPathConfig).parse(jsonRequest.toString());
-		for (String name : required.getNames()) {
-			Parameter param = required.get(name);
+		for (String name : requiredParams.getNames()) {
+			Parameter param = requiredParams.get(name);
 			readParam(dataStore, ctx, name, param, procedure);
 		}
-		Parameters optional = procedure.getOptionalParams();
+        Parameters optional = optionalParams;
 		for (String name : optional.getNames()) {
             Parameter param = optional.get(name);
             readOptionalParam(dataStore, ctx, name, param, procedure);

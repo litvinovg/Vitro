@@ -22,12 +22,15 @@ public class FormDataConverter {
     private static final Log log = LogFactory.getLog(FormDataConverter.class);
 	private static ObjectMapper mapper = new ObjectMapper();
 
-	public static void convert(HttpServletRequest request, Procedure procedure, DataStore dataStore) throws ConversionException {
-		Parameters required = procedure.getInputParams();
-		Map<String, String[]> received = request.getParameterMap();
-		convertRequiredParams(dataStore, required, received);
-		convertOptionalParams(dataStore, procedure.getOptionalParams(), received);
-	}
+    public static void convert(HttpServletRequest request, Procedure procedure, DataStore dataStore)
+            throws ConversionException {
+        Parameters required = new Parameters(procedure.getInputParams());
+        Parameters optionalParams = procedure.getOptionalParams();
+        required.removeAll(optionalParams);
+        Map<String, String[]> received = request.getParameterMap();
+        convertRequiredParams(dataStore, required, received);
+        convertOptionalParams(dataStore, optionalParams, received);
+    }
 
 	private static void convertOptionalParams(DataStore dataStore, Parameters optional, Map<String, String[]> received) {
         for (String name : optional.getNames()) {
