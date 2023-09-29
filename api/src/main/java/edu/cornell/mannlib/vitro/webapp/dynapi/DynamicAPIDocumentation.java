@@ -618,7 +618,7 @@ public class DynamicAPIDocumentation {
         PathParameter pathParameter = new PathParameter();
 
         pathParameter.setName(RESTEndpoint.RESOURCE_ID);
-        pathParameter.description("Base64 encoded URI of the resource");
+        pathParameter.description("Percent encoded URI of the resource");
         StringSchema schema = new StringSchema();
         pathParameter.schema(schema);
 

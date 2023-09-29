@@ -8,6 +8,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +25,7 @@ import edu.cornell.mannlib.vitro.webapp.dynapi.request.ApiRequestPath.RequestTyp
 public class RequestPathTest {
 
     private String resourceId = "https://scholars.institution.edu/individual/n1f9d4ddc";
-    private String encodedResourceId = Base64.getEncoder().encodeToString(resourceId.getBytes());
+    private String encodedResourceId = getEncodedResourceId(resourceId);
 
     @Mock
     private HttpServletRequest request;
@@ -164,6 +166,16 @@ public class RequestPathTest {
         when(request.getPathInfo()).thenReturn("/3/2/1");
 
         assertFalse(ApiRequestPath.from(request).isValid());
+    }
+    
+    private static String getEncodedResourceId(String decodedId) {
+        String encodedId = "";
+        try {
+            encodedId = java.net.URLEncoder.encode(decodedId, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return encodedId;
     }
 
 }

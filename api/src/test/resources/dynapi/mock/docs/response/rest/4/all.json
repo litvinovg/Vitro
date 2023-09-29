@@ -457,7 +457,7 @@
       "parameters" : [ {
         "name" : "resource_id",
         "in" : "path",
-        "description" : "Base64 encoded URI of the resource",
+        "description" : "Percent encoded URI of the resource",
         "required" : true,
         "schema" : {
           "type" : "string"
@@ -972,7 +972,7 @@
       "parameters" : [ {
         "name" : "resource_id",
         "in" : "path",
-        "description" : "Base64 encoded URI of the resource",
+        "description" : "Percent encoded URI of the resource",
         "required" : true,
         "schema" : {
           "type" : "string"
@@ -1487,7 +1487,7 @@
       "parameters" : [ {
         "name" : "resource_id",
         "in" : "path",
-        "description" : "Base64 encoded URI of the resource",
+        "description" : "Percent encoded URI of the resource",
         "required" : true,
         "schema" : {
           "type" : "string"
@@ -2002,7 +2002,7 @@
       "parameters" : [ {
         "name" : "resource_id",
         "in" : "path",
-        "description" : "Base64 encoded URI of the resource",
+        "description" : "Percent encoded URI of the resource",
         "required" : true,
         "schema" : {
           "type" : "string"
@@ -2517,7 +2517,7 @@
       "parameters" : [ {
         "name" : "resource_id",
         "in" : "path",
-        "description" : "Base64 encoded URI of the resource",
+        "description" : "Percent encoded URI of the resource",
         "required" : true,
         "schema" : {
           "type" : "string"
@@ -3032,7 +3032,7 @@
       "parameters" : [ {
         "name" : "resource_id",
         "in" : "path",
-        "description" : "Base64 encoded URI of the resource",
+        "description" : "Percent encoded URI of the resource",
         "required" : true,
         "schema" : {
           "type" : "string"
@@ -3547,7 +3547,7 @@
       "parameters" : [ {
         "name" : "resource_id",
         "in" : "path",
-        "description" : "Base64 encoded URI of the resource",
+        "description" : "Percent encoded URI of the resource",
         "required" : true,
         "schema" : {
           "type" : "string"
@@ -4062,7 +4062,7 @@
       "parameters" : [ {
         "name" : "resource_id",
         "in" : "path",
-        "description" : "Base64 encoded URI of the resource",
+        "description" : "Percent encoded URI of the resource",
         "required" : true,
         "schema" : {
           "type" : "string"

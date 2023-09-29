@@ -3,14 +3,18 @@ package edu.cornell.mannlib.vitro.webapp.dynapi.request;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
-import java.util.Base64;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class ApiRequestPath {
 
+    public static final Log log = LogFactory.getLog(ApiRequestPath.class);
     public static final String API_SERVLET_PATH = "/api";
     public static final String RPC_SERVLET_PATH = API_SERVLET_PATH + "/rpc";
     public static final String REST_SERVLET_PATH = API_SERVLET_PATH + "/rest";
@@ -80,7 +84,14 @@ public class ApiRequestPath {
     }
 
     private String decode(String pathParameter) {
-        return new String(Base64.getDecoder().decode(pathParameter.split(":")[1]));
+        String encodedId = pathParameter.split(":")[1];
+        String decodedId = "";
+        try {
+            decodedId = java.net.URLDecoder.decode(encodedId, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            log.error(e, e);
+        }
+        return decodedId;
     }
 
     public RequestType getType() {
