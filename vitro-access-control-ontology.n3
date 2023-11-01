@@ -176,6 +176,11 @@ access:rule a owl:ObjectProperty ;
     rdfs:domain access:Rules ;
     rdfs:range access:Rule .
 
+access:dataSetKey a owl:ObjectProperty ;
+    rdfs:label "data set key"@en-US ;
+    rdfs:domain access:PolicyDataSet ;
+    rdfs:range access:DataSetKey .
+
 access:dataSetKeyTemplate a owl:ObjectProperty ;
     rdfs:label "data set key template"@en-US ;
     rdfs:domain access:DataSetTemplate ;
