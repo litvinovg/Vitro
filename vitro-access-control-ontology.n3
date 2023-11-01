@@ -148,7 +148,7 @@ access:policyDataSets a owl:ObjectProperty ;
 
 access:policyDataSet a owl:ObjectProperty ;
     rdfs:label "policy data set"@en-US ;
-    rdfs:domain access:PolicyDataSet ;
+    rdfs:domain access:PolicyDataSets ;
     rdfs:range access:PolicyDataSet .
 
 access:containerType a owl:ObjectProperty ;
