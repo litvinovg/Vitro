@@ -138,7 +138,7 @@ access:decision a owl:ObjectProperty ;
 
 access:rules a owl:ObjectProperty ;
     rdfs:label "rules"@en-US ;
-    rdfs:domain access:Policy ;
+    rdfs:domain [ a owl:Class ; owl:unionOf  ( access:Policy access:PolicyTemplate ) ] ;
     rdfs:range access:Rules .
 
 access:policyDataSets a owl:ObjectProperty ;
