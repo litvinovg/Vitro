@@ -144,6 +144,11 @@ access:rules a owl:ObjectProperty ;
 access:policyDataSets a owl:ObjectProperty ;
     rdfs:label "policy data sets"@en-US ;
     rdfs:domain [ a owl:Class ; owl:unionOf  ( access:Policy access:PolicyTemplate ) ] ;
+    rdfs:range access:PolicyDataSets .
+
+access:policyDataSet a owl:ObjectProperty ;
+    rdfs:label "policy data set"@en-US ;
+    rdfs:domain access:PolicyDataSet ;
     rdfs:range access:PolicyDataSet .
 
 access:containerType a owl:ObjectProperty ;
