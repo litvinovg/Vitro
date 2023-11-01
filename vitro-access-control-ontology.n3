@@ -23,17 +23,11 @@ access:PolicyDataSet a owl:Class ;
 access:ValueContainer a owl:Class ;
     rdfs:label "Value container"@en-US .
 
-access:Value a owl:Class ;
-    rdfs:label "Value"@en-US .
-
 access:Rule a owl:Class ;
     rdfs:label "Access rule"@en-US .
 
 access:Rules a owl:Class ;
     rdfs:label "Access rule set"@en-US .
-
-access:PolicyKey a owl:Class ;
-    rdfs:label "Policy key"@en-US .
 
 access:Check a owl:Class ;
     rdfs:label "Access rule check"@en-US .
@@ -44,17 +38,11 @@ access:Operator a owl:Class ;
 access:Operation a owl:Class ;
     rdfs:label "Operation"@en-US .
 
-access:OperationGroup a owl:Class ;
-    rdfs:label "Operation group"@en-US .
-
 access:ObjectType a owl:Class ;
     rdfs:label "Object type"@en-US .
 
 access:SubjectType a owl:Class ;
     rdfs:label "Subject type"@en-US .
-
-access:AccesObject a owl:Class ;
-    rdfs:label "Access object"@en-US .
 
 access:Attribute a owl:Class ;
     rdfs:label "Attribute"@en-US .
@@ -88,7 +76,7 @@ access:id a owl:DatatypeProperty ,
 access:priority a owl:DatatypeProperty ,
     owl:FunctionalProperty ;
     rdfs:range xsd:integer ;
-    rdfs:domain [ a owl:Class ; owl:unionOf  ( access:Policy access:PolicyDataSet ) ] ;
+    rdfs:domain [ a owl:Class ; owl:unionOf  ( access:Policy access:PolicyTemplate access:PolicyDataSet ) ] ;
     rdfs:label "priority"@en-US . 
 
 ### Object properties
@@ -155,7 +143,7 @@ access:rules a owl:ObjectProperty ;
 
 access:policyDataSets a owl:ObjectProperty ;
     rdfs:label "policy data sets"@en-US ;
-    rdfs:domain access:Policy ;
+    rdfs:domain [ a owl:Class ; owl:unionOf  ( access:Policy access:PolicyTemplate ) ] ;
     rdfs:range access:PolicyDataSet .
 
 access:containerType a owl:ObjectProperty ;
