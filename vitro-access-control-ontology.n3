@@ -161,6 +161,16 @@ access:rule a owl:ObjectProperty ;
     rdfs:domain access:Rules ;
     rdfs:range access:Rule .
 
+access:dataSetKeyTemplate a owl:ObjectProperty ;
+    rdfs:label "data set key template"@en-US ;
+    rdfs:domain access:DataSetTemplate ;
+    rdfs:range access:DataSetKeyTemplate .
+
+access:policyDataSetTemplate a owl:ObjectProperty ;
+    rdfs:label "policy data set template"@en-US ;
+    rdfs:domain access:PolicyDataSets ;
+    rdfs:range access:DataSetTemplate .
+
 access:keyComponent a owl:ObjectProperty ;
     rdfs:domain [ a owl:Class ; owl:unionOf ( access:DataSetKeyTemplate access:DataSetKey ) ] ;
     rdfs:label "key component"@en-US .
