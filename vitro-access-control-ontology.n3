@@ -91,10 +91,20 @@ access:value a owl:ObjectProperty ;
     rdfs:domain access:ValueContainer .
 #range any uri
 
+access:operator a owl:ObjectProperty ;
+    rdfs:label "operator"@en-US ;
+    rdfs:domain access:Check ;
+    rdfs:range access:Operator .
+
+access:attribute  a owl:ObjectProperty ;
+    rdfs:label "attribute"@en-US ;
+    rdfs:domain access:Check ;
+    rdfs:range access:Attribute .
+
 access:values a owl:ObjectProperty ;
     rdfs:label "values"@en-US ;
-    rdfs:range access:AttributeValueSet ;
-    rdfs:domain access:Check .
+    rdfs:domain access:Check ;
+    rdfs:range access:AttributeValueSet .
 
 access:defaultValue a owl:ObjectProperty ;
     rdfs:label "default template value"@en-US ;
