@@ -71,6 +71,8 @@ public class FreemarkerConfigurationImpl extends Configuration {
 	private static final String ATTRIBUTE_NAME = RequestBasedInformation.class
 			.getName();
 
+	public static final String DISABLE_DATA_GETTERS_RUN = "disableDataGettersRun";
+	
 	private final ThreadLocal<WeakReference<HttpServletRequest>> reqRef = new ThreadLocal<>();
 
 	void setRequestInfo(HttpServletRequest req) {
@@ -162,9 +164,17 @@ public class FreemarkerConfigurationImpl extends Configuration {
 					+ template.getName() + "'. No environment.");
 			return template;
 		}
+                if (isDataGettersRetrieveDisabled(env)) {
+                	return template;
+                }
 
 		retrieveAndRunDataGetters(env, template.getName());
 		return template;
+	}
+
+	private boolean isDataGettersRetrieveDisabled(Environment env) {
+		Object disableDataGetters = env.getCustomAttribute(DISABLE_DATA_GETTERS_RUN);
+		return disableDataGetters != null && Boolean.valueOf(disableDataGetters.toString());
 	}
 
 	/**
