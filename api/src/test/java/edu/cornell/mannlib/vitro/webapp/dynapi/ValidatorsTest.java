@@ -6,8 +6,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.junit.Test;
-
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.Parameter;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.validators.IsInteger;
 import edu.cornell.mannlib.vitro.webapp.dynapi.components.validators.IsNotBlank;
@@ -20,6 +18,7 @@ import edu.cornell.mannlib.vitro.webapp.dynapi.data.TestView;
 import edu.cornell.mannlib.vitro.webapp.dynapi.data.types.ImplementationConfig;
 import edu.cornell.mannlib.vitro.webapp.dynapi.data.types.ImplementationType;
 import edu.cornell.mannlib.vitro.webapp.dynapi.data.types.ParameterType;
+import org.junit.Test;
 
 public class ValidatorsTest {
 
@@ -129,31 +128,31 @@ public class ValidatorsTest {
         String[] values3 = { "uns.ac.rs" };
         assertFalse(validator1.isValid(fieldName, createData(values3)));
     }
-    
+
     public Data createData(Object input) throws Exception {
-    	Parameter param = new Parameter();
-    	ParameterType paramType = new ParameterType();
-    	
-    	ImplementationType implType = new ImplementationType();
-    	paramType.setImplementationType(implType);
-    	Data data = new Data(param);
-    	if (input instanceof String[]) {
-			implType.setClassName(ArrayList.class.getCanonicalName());
-			TestView.setObject(data, Arrays.asList((String[])input));
-    	} else {
-    		
-			implType.setClassName(String.class.getCanonicalName());
-			ImplementationConfig config = new ImplementationConfig();
-			
-			config.setClassName(String.class.getCanonicalName());
-			config.setMethodArguments("");
-			config.setMethodName("toString");
-			config.setStaticMethod(false);
-			implType.setSerializationConfig(config);
-			TestView.setObject(data,input);
-    	}
-    	param.setType(paramType);
-		return data;
+        Parameter param = new Parameter();
+        ParameterType paramType = new ParameterType();
+
+        ImplementationType implType = new ImplementationType();
+        paramType.setImplementationType(implType);
+        Data data = new Data(param);
+        if (input instanceof String[]) {
+            implType.setClassName(ArrayList.class.getCanonicalName());
+            TestView.setObject(data, Arrays.asList((String[]) input));
+        } else {
+
+            implType.setClassName(String.class.getCanonicalName());
+            ImplementationConfig config = new ImplementationConfig();
+
+            config.setClassName(String.class.getCanonicalName());
+            config.setMethodArguments("");
+            config.setMethodName("toString");
+            config.setStaticMethod(false);
+            implType.setSerializationConfig(config);
+            TestView.setObject(data, input);
+        }
+        param.setType(paramType);
+        return data;
     }
 
 }

@@ -2,14 +2,13 @@ package edu.cornell.mannlib.vitro.webapp.dynapi.components.validators;
 
 import java.util.List;
 
-import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import edu.cornell.mannlib.vitro.webapp.dynapi.data.ArrayView;
 import edu.cornell.mannlib.vitro.webapp.dynapi.data.Data;
 import edu.cornell.mannlib.vitro.webapp.dynapi.data.SimpleDataView;
 import edu.cornell.mannlib.vitro.webapp.utils.configuration.Property;
+import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class NumericRangeValidator extends IsNotBlank {
 
@@ -42,24 +41,34 @@ public class NumericRangeValidator extends IsNotBlank {
         if (!super.isValid(name, data)) {
             return false;
         }
-        
+
         if (data.getParam().isArray()) {
-    		List array = ArrayView.getArray(data);
-			for (Object value : array) {
-				if (!isInRange(value.toString())) {
-	                log.debug("Length of " + name + " is not in range [" + ((minValue != null) ? minValue : " ") + "-"
-	                        + ((maxValue != null) ? maxValue : " ") + "].");
-	                return false;
-	            }
-			}
-    	} else {
-    		if (!isInRange(SimpleDataView.getStringRepresentation(data))) {
-    			log.debug("Length of " + name + " is not in range [" + ((minValue != null) ? minValue : " ") + "-"
-                        + ((maxValue != null) ? maxValue : " ") + "].");
+            List array = ArrayView.getArray(data);
+            for (Object value : array) {
+                if (!isInRange(value.toString())) {
+                    log.debug("Length of " +
+                            name +
+                            " is not in range [" +
+                            ((minValue != null) ? minValue : " ") +
+                            "-" +
+                            ((maxValue != null) ? maxValue : " ") +
+                            "].");
+                    return false;
+                }
+            }
+        } else {
+            if (!isInRange(SimpleDataView.getStringRepresentation(data))) {
+                log.debug("Length of " +
+                        name +
+                        " is not in range [" +
+                        ((minValue != null) ? minValue : " ") +
+                        "-" +
+                        ((maxValue != null) ? maxValue : " ") +
+                        "].");
                 return false;
-    		}
-    		
-    	}
+            }
+
+        }
         return true;
     }
 
