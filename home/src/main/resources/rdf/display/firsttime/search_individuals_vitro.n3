@@ -37,6 +37,7 @@
         vitro-search:sortField     :field_label_sort ;
         vitro-search:hasFallback   :sort_name_raw_desc ;
         vitro-search:isAscending   false ;
+        vitro-search:display       true ;
         vitro-search:id            "titledesc" .
 
 :sort_title_asc  a                 vitro-search:Sort ;
@@ -44,6 +45,7 @@
         vitro-search:isAscending   true ;
         vitro-search:hasFallback   :sort_name_raw_asc ;
         vitro-search:order         30 ;
+        vitro-search:display       true ;
         vitro-search:id            "titleasc" .
 
 :sort_name_raw_desc  a             vitro-search:Sort ;
@@ -60,6 +62,7 @@
 
 :sort_by_relevance a                vitro-search:Sort ;
         vitro-search:sortField     :field_score ;
+        vitro-search:display       true ;
         vitro-search:id            "relevance" .
 
 :field_score
