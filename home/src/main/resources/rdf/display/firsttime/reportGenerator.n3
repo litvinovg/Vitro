@@ -6,7 +6,7 @@ default:report-generator-dg
     a   <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.FixedHTMLDataGetter> ;
     <http://vitro.mannlib.cornell.edu/ontologies/display/1.1#htmlValue>
         """
-        <iframe id="indexFrame" src="/vivo/rep/index.html" style="width: 100%; height: 100vh; border: none;"></iframe>
+        <iframe id="indexFrame" src="./webjars/rep/index.html" style="width: 100%; height: 100vh; border: none;"></iframe>
 
         <!-- Add the following JavaScript code within a script tag -->
         <script>
