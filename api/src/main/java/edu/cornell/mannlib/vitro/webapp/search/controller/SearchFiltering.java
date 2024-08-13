@@ -3,6 +3,7 @@ package edu.cornell.mannlib.vitro.webapp.search.controller;
 import static edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary.ROLE_PUBLIC_URI;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
@@ -123,7 +124,8 @@ public class SearchFiltering {
             + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
             + "PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>\n"
             + "PREFIX search: <https://vivoweb.org/ontology/vitro-search#> \n"
-            + "SELECT ( STR(?sort_label) as ?label ) ?id ?searchField ?multilingual ?isAsc ?sort_order \n"
+            + "SELECT ( STR(?sort_label) as ?label ) ?id ?searchField " +
+            "?multilingual ?isAsc ?sort_order ?fallback ?display\n"
             + "WHERE {\n"
             + "    ?sort rdf:type search:Sort . \n"
             + "    ?sort rdfs:label ?sort_label .\n"
@@ -142,16 +144,21 @@ public class SearchFiltering {
             + "        ?sort search:isAscending ?f_ord  .\n"
             + "        BIND(?f_ord as ?f_order) .\n"
             + "    }\n"
+            + "    OPTIONAL {\n"
+            + "        ?sort search:hasFallback/search:id ?fallback .\n"
+            + "    }\n"
             + "    OPTIONAL{ "
             + "        ?sort search:order ?s_order .\n"
             + "        BIND(?s_order as ?sort_order_found).\n"
             + "    }\n"
+            + "    OPTIONAL {?sort search:display ?display }\n"
             + "    BIND(coalesce(?sort_order_found, 0) as ?sort_order)\n"
             + "    BIND(COALESCE(?f_order, false) as ?isAsc)\n"
             + "    BIND(COALESCE(?bind_multilingual, false) as ?multilingual)\n"
             + "} ORDER BY ?sort_order ?label ";
 
-    public static void addFiltersToQuery(VitroRequest vreq, SearchQuery query, Map<String, SearchFilter> filterById) {
+    protected static void addFiltersToQuery(VitroRequest vreq, SearchQuery query,
+            Map<String, SearchFilter> filterById) {
         Enumeration<String> paramNames = vreq.getParameterNames();
         while (paramNames.hasMoreElements()) {
             String paramFilterName = paramNames.nextElement();
@@ -174,8 +181,11 @@ public class SearchFiltering {
 
             }
         }
-        for (String filterId : filterById.keySet()) {
-            SearchFilter searchFilter = filterById.get(filterId);
+        addPreconfiguredFiltersToQuery(query, filterById.values());
+    }
+
+    public static void addPreconfiguredFiltersToQuery(SearchQuery query, Collection<SearchFilter> collection) {
+        for (SearchFilter searchFilter : collection) {
             if (searchFilter.isInput()) {
                 SearchFiltering.addInputFilter(query, searchFilter);
             } else if (searchFilter.isRange()) {
@@ -217,11 +227,19 @@ public class SearchFiltering {
         return requestFilters;
     }
 
-    public static Map<String, SearchFilter> readFilterConfigurations(VitroRequest vreq) {
+    public static Map<String, SearchFilter> readFilterConfigurations(Set<String> currentRoles, VitroRequest vreq) {
         long startTime = System.nanoTime();
 
         Map<String, SearchFilter> filtersByField = new LinkedHashMap<>();
-        Model model = ModelAccess.on(vreq).getOntModelSelector().getDisplayModel();
+        Model model;
+        if (vreq != null) {
+            model = ModelAccess.on(vreq).getOntModelSelector().getDisplayModel();
+        } else {
+            model = ModelAccess.getInstance().getOntModelSelector().getDisplayModel();
+        }
+        if (model == null) {
+            return filtersByField;
+        }
         model.enterCriticalSection(Lock.READ);
         try {
             Query facetQuery = QueryFactory.create(FILTER_QUERY);
@@ -240,7 +258,7 @@ public class SearchFiltering {
                 if (filtersByField.containsKey(resultFieldName)) {
                     filter = filtersByField.get(resultFieldName);
                 } else {
-                    filter = createSearchFilter(vreq, filtersByField, solution, resultFilterId, resultFieldName);
+                    filter = createSearchFilter(filtersByField, solution, resultFilterId, resultFieldName);
                 }
                 if (solution.get("value_id") == null) {
                     continue;
@@ -258,7 +276,6 @@ public class SearchFiltering {
                 RDFNode role = solution.get("role");
                 if (role != null && role.isResource()) {
                     String roleUri = role.asResource().getURI();
-                    Set<String> currentRoles = getCurrentUserRoles(vreq);
                     if (currentRoles.contains(roleUri)) {
                         value.setDefault(true);
                     }
@@ -270,15 +287,12 @@ public class SearchFiltering {
         if (log.isDebugEnabled()) {
             log.debug(getSpentTime(startTime) + "ms spent after FILTER QUERY request.");
         }
-        Map<String, List<String>> requestFilters = getRequestFilters(vreq);
-        if (log.isDebugEnabled()) {
-            log.debug(getSpentTime(startTime) + "ms spent after getRequestFilters.");
-        }
-        setSelectedFilters(filtersByField, requestFilters);
-        if (log.isDebugEnabled()) {
-            log.debug(getSpentTime(startTime) + "ms spent after setSelectedFilters.");
-        }
         return sortFilters(filtersByField);
+    }
+
+    public static void addDefaultFilters(SearchQuery query, Set<String> currentRoles) {
+        Map<String, SearchFilter> filtersByField = SearchFiltering.readFilterConfigurations(currentRoles, null);
+        SearchFiltering.addPreconfiguredFiltersToQuery( query, filtersByField.values());
     }
 
     public static Map<String, SearchFilter> sortFilters(Map<String, SearchFilter> filters) {
@@ -359,13 +373,10 @@ public class SearchFiltering {
                 }
                 String field = searchFieldNode == null ? "" : searchFieldNode.toString();
                 String id = idNode == null ? "" : idNode.toString();
-                String label = solution.get("label").toString();
+                String label = solution.get("label").asLiteral().getLexicalForm();
 
-                SortConfiguration config = null;
-                if (sortConfigurations.containsKey(id)) {
-                    config = sortConfigurations.get(id);
-                } else {
-                    config = new SortConfiguration(id, label, field);
+                if (!sortConfigurations.containsKey(id)) {
+                    SortConfiguration config = new SortConfiguration(id, label, field);
 
                     RDFNode multilingual = solution.get("multilingual");
                     if (multilingual != null) {
@@ -375,10 +386,17 @@ public class SearchFiltering {
                     if (isAsc != null) {
                         config.setAscOrder(isAsc.asLiteral().getBoolean());
                     }
-
+                    RDFNode fallback = solution.get("fallback");
+                    if (fallback != null && fallback.isLiteral()) {
+                        config.setFallback(fallback.asLiteral().toString());
+                    }
                     RDFNode order = solution.get("sort_order");
                     if (order != null) {
                         config.setOrder(order.asLiteral().getInt());
+                    }
+                    RDFNode display = solution.get("display");
+                    if (display != null) {
+                        config.setDisplay(display.asLiteral().getBoolean());
                     }
                     sortConfigurations.put(id, config);
                 }
@@ -389,7 +407,7 @@ public class SearchFiltering {
         return sortConfigurations;
     }
 
-    private static SearchFilter createSearchFilter(VitroRequest vreq, Map<String, SearchFilter> filtersByField,
+    private static SearchFilter createSearchFilter(Map<String, SearchFilter> filtersByField,
             QuerySolution solution, String resultFilterId, String resultFieldName) {
         SearchFilter filter;
         filter = new SearchFilter(resultFilterId);
@@ -436,10 +454,6 @@ public class SearchFiltering {
         if (moreLimit != null && moreLimit.isLiteral()) {
             filter.setMoreLimit(moreLimit.asLiteral().getInt());
         }
-
-        filter.setInputText(getFilterInputText(vreq, resultFilterId));
-        filter.setRangeValues(getFilterRangeText(vreq, resultFilterId));
-
         return filter;
     }
 
@@ -465,7 +479,7 @@ public class SearchFiltering {
         }
     }
 
-    private static String getFilterInputText(VitroRequest vreq, String name) {
+    static String getFilterInputText(VitroRequest vreq, String name) {
         if (PagedSearchController.PARAM_QUERY_TEXT.equals(name)) {
             return PagedSearchController.getQueryText(vreq);
         }
@@ -476,7 +490,7 @@ public class SearchFiltering {
         return "";
     }
 
-    private static String getFilterRangeText(VitroRequest vreq, String name) {
+    static String getFilterRangeText(VitroRequest vreq, String name) {
         String[] values = vreq.getParameterValues(SearchFiltering.FILTER_RANGE + name);
         if (values != null && values.length > 0) {
             return values[0];
@@ -484,7 +498,7 @@ public class SearchFiltering {
         return "";
     }
 
-    private static void setSelectedFilters(Map<String, SearchFilter> filtersByField,
+    public static void setSelectedFilters(Map<String, SearchFilter> filtersByField,
             Map<String, List<String>> requestFilters) {
         for (SearchFilter filter : filtersByField.values()) {
             if (requestFilters.containsKey(filter.getId())) {
@@ -502,7 +516,7 @@ public class SearchFiltering {
         }
     }
 
-    private static Set<String> getCurrentUserRoles(VitroRequest vreq) {
+    public static Set<String> getCurrentUserRoles(VitroRequest vreq) {
         UserAccount user = LoginStatusBean.getCurrentUser(vreq);
         if (user == null) {
             return Collections.singleton(ROLE_PUBLIC_URI);
@@ -557,7 +571,7 @@ public class SearchFiltering {
         }
     }
 
-    static Map<String, SearchFilter> getFiltersById(Map<String, SearchFilter> filtersByField) {
+    public static Map<String, SearchFilter> getFiltersById(Map<String, SearchFilter> filtersByField) {
         Map<String, SearchFilter> filtersById =
                 filtersByField.values().stream().collect(Collectors.toMap(SearchFilter::getId, Function.identity()));
         return filtersById;
