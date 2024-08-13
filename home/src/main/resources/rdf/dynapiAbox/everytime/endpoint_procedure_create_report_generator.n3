@@ -41,7 +41,7 @@
         	dynapi:name                         ?report_generator_name ;
         	dynapi:description                  ?report_generator_description ;
         	dynapi:hasFirstStep                 ?current_step_uri ;
-                dynapi:providesParameter            ?report_param_uri .
+            dynapi:providesParameter            ?report_param_uri .
         
 	?report_param_uri
 		a                                   dynapi:Parameter ;
@@ -361,7 +361,7 @@
         
 <https://vivoweb.org/procedure/add_report_generator_select_query/get_graph_name/step>
         a                                   dynapi:OperationalStep ;
-        dynapi:hasNextStep                  <https://vivoweb.org/procedure/add_report_generator_select_query/get_graph_uri/step> ;
+        dynapi:hasNextStep                  <https://vivoweb.org/procedure/add_report_generator_select_query/conditional_step> ;
         dynapi:hasOperation                 <https://vivoweb.org/procedure/add_report_generator_select_query/get_graph_name/operation> .
         
 <https://vivoweb.org/procedure/add_report_generator_select_query/get_graph_name/operation>
@@ -369,6 +369,30 @@
         dynapi:targetContainer              <https://vivoweb.org/procedure/get_select_from_container/parameter/container_select_item> ;
         dynapi:requiresParameter            <https://vivoweb.org/procedure/create_report/parameter/graph_key> ;
         dynapi:providesParameter            <https://vivoweb.org/procedure/create_report/parameter/graph_name> .       
+
+#IF CONTAINER CONTAINS GRAPH NAME, then USE it, else provide DEFAULT QUERY GRAPH URI
+
+<https://vivoweb.org/procedure/add_report_generator_select_query/conditional_step>
+        a                                   dynapi:ConditionalStep ;
+        dynapi:nextIfSatisfied              <https://vivoweb.org/procedure/add_report_generator_select_query/get_graph_uri/step> ;
+        dynapi:nextIfNotSatisfied           <https://vivoweb.org/procedure/add_report_generator_select_query/condition_not_satisfied_step> ;     
+        dynapi:hasCondition                 <https://vivoweb.org/procedure/add_report_generator_select_query/condition_container_contains> .
+
+<https://vivoweb.org/procedure/add_report_generator_select_query/condition_container_contains> 
+        a                                   dynapi:ConditionContainerContains ;
+        dynapi:targetContainer              <https://vivoweb.org/procedure/create_report/parameter/container/query_graph_names> ;
+        dynapi:requiresParameter            <https://vivoweb.org/procedure/create_report/parameter/graph_name> .
+
+<https://vivoweb.org/procedure/add_report_generator_select_query/condition_not_satisfied_step>
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  <https://vivoweb.org/procedure/report_generator_select_query_fill_in/step> ;
+        dynapi:hasOperation                 <https://vivoweb.org/procedure/add_report_generator_select_query/assignDefaultGraphUri> .
+        
+<https://vivoweb.org/procedure/add_report_generator_select_query/assignDefaultGraphUri>
+        a                                   dynapi:AssignOperation ;
+        dynapi:assignableParameter          <https://vivoweb.org/procedure/create_report/parameter/default_graph_parameter_uri> ;
+        dynapi:targetParameter              <https://vivoweb.org/procedure/create_report/parameter/graph_parameter_uri> .
+
 
 <https://vivoweb.org/procedure/add_report_generator_select_query/get_graph_uri/step>
         a                                   dynapi:OperationalStep ;
@@ -680,6 +704,13 @@
         dynapi:defaultValue                 "https://vivoweb.org/procedure/report_generator/graph_parameter/,java_uuid_number" ;
         dynapi:isInternal                   "true"^^xsd:boolean ;
         dynapi:hasType                      <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/type/generated-uri> .
+
+<https://vivoweb.org/procedure/create_report/parameter/default_graph_parameter_uri>
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "default_graph_parameter_uri" ;
+        dynapi:defaultValue                 "https://vivoweb.org/ontology/vitro-dynamic-api/model/full_union" ;
+        dynapi:isInternal                   "true"^^xsd:boolean ;
+        dynapi:hasType                      <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/type/uri> .
 
 <https://vivoweb.org/procedure/create_report/parameter/data_source_parameter_uri>
         a                                   dynapi:Parameter ;
