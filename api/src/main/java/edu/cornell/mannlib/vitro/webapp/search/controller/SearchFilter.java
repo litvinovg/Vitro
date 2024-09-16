@@ -48,8 +48,8 @@ public class SearchFilter {
     private String rangeText = "";
     private String rangeInput = "";
     private boolean hidden = false;
-	private Locale locale;
-	private boolean multilingual;
+    private Locale locale;
+    private boolean multilingual;
 
     public String getRangeInput() {
         return rangeInput;
@@ -89,9 +89,9 @@ public class SearchFilter {
     }
 
     public String getField() {
-    	if (multilingual) {
-    		return locale.toLanguageTag() + field;
-    	}
+        if (multilingual) {
+            return locale.toLanguageTag() + field;
+        }
         return field;
     }
 
@@ -277,8 +277,8 @@ public class SearchFilter {
     public void sortValues() {
         List<Entry<String, FilterValue>> list = new LinkedList<>(values.entrySet());
         list.sort(new FilterValueComparator());
-        values = list.stream()
-                .collect(Collectors.toMap(Entry::getKey, Entry::getValue, (a, b) -> b, LinkedHashMap::new));
+        values = list.stream().collect(Collectors.toMap(Entry::getKey, Entry::getValue, (a, b) -> b,
+                LinkedHashMap::new));
     }
 
     public boolean isPublic() {
@@ -293,13 +293,13 @@ public class SearchFilter {
         public int compare(Entry<String, FilterValue> obj1, Entry<String, FilterValue> obj2) {
             FilterValue first = obj1.getValue();
             FilterValue second = obj2.getValue();
-            //sort by order first
+            // sort by order first
             int result = first.getOrder().compareTo(second.getOrder());
             if (result == 0) {
                 // order are equal, sort by name
                 result = first.getName().toLowerCase().compareTo(second.getName().toLowerCase());
                 if (result == 0) {
-                    //names are equal, sort by id
+                    // names are equal, sort by id
                     result = first.getId().toLowerCase().compareTo(second.getId().toLowerCase());
                 }
                 if (reverseFacetOrder) {
@@ -344,9 +344,9 @@ public class SearchFilter {
         this.moreLimit = moreLimit;
     }
 
-	public void setMulitlingual(boolean multilingual) {
-		this.multilingual = multilingual;
-	}
+    public void setMulitlingual(boolean multilingual) {
+        this.multilingual = multilingual;
+    }
 
     public void setReverseFacetOrder(boolean reverseFacetOrder) {
         this.reverseFacetOrder = reverseFacetOrder;

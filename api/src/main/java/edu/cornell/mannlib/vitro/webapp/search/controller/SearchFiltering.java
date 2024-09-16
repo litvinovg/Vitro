@@ -165,17 +165,17 @@ public class SearchFiltering {
 
     protected static void addFiltersToQuery(SearchQuery query, Map<String, SearchFilter> filters) {
         for (SearchFilter searchFilter : filters.values()) {
-		    if (searchFilter.isInput()) {
-		        SearchFiltering.addInputFilter(query, searchFilter);
-		    } else if (searchFilter.isRange()) {
-		        SearchFiltering.addRangeFilter(query, searchFilter);
-		    }
-		    for (FilterValue fv : searchFilter.getValues().values()) {
-		        if (fv.isDefault() || fv.getSelected()) {
-		            query.addFilterQuery(searchFilter.getField() + ":\"" + fv.getId() + "\"");
-		        }
-		    }
-		}
+            if (searchFilter.isInput()) {
+                SearchFiltering.addInputFilter(query, searchFilter);
+            } else if (searchFilter.isRange()) {
+                SearchFiltering.addRangeFilter(query, searchFilter);
+            }
+            for (FilterValue fv : searchFilter.getValues().values()) {
+                if (fv.isDefault() || fv.getSelected()) {
+                    query.addFilterQuery(searchFilter.getField() + ":\"" + fv.getId() + "\"");
+                }
+            }
+        }
     }
 
     public static Map<String, List<String>> getRequestFilters(VitroRequest vreq) {
@@ -203,16 +203,16 @@ public class SearchFiltering {
             }
             if (paramFilterName.startsWith(SearchFiltering.FILTER_RANGE)) {
                 String[] values = vreq.getParameterValues(paramFilterName);
-            	if (values != null && values.length > 0) {
-            		String filterId = paramFilterName.replace(SearchFiltering.FILTER_RANGE, "");
-            		requestFilters.put(filterId, new LinkedList<String>(Arrays.asList(values[0])));
+                if (values != null && values.length > 0) {
+                    String filterId = paramFilterName.replace(SearchFiltering.FILTER_RANGE, "");
+                    requestFilters.put(filterId, new LinkedList<String>(Arrays.asList(values[0])));
                 }
             }
             if (paramFilterName.startsWith(SearchFiltering.FILTER_INPUT_PREFIX)) {
                 String[] values = vreq.getParameterValues(paramFilterName);
-            	if (values != null && values.length > 0) {
-            		String filterId = paramFilterName.replace(SearchFiltering.FILTER_INPUT_PREFIX, "");
-            		requestFilters.put(filterId, new LinkedList<String>(Arrays.asList(values[0])));
+                if (values != null && values.length > 0) {
+                    String filterId = paramFilterName.replace(SearchFiltering.FILTER_INPUT_PREFIX, "");
+                    requestFilters.put(filterId, new LinkedList<String>(Arrays.asList(values[0])));
                 }
             }
         }
@@ -249,7 +249,8 @@ public class SearchFiltering {
                 if (filtersByField.containsKey(resultFieldName)) {
                     filter = filtersByField.get(resultFieldName);
                 } else {
-                    filter = createSearchFilter(filtersByField, solution, resultFilterId, resultFieldName, vreq.getLocale());
+                    filter = createSearchFilter(filtersByField, solution, resultFilterId, resultFieldName, vreq
+                            .getLocale());
                 }
                 filter.setMulitlingual(solution.get("multilingual").asLiteral().getBoolean());
                 if (solution.get("value_id") == null) {
@@ -285,17 +286,17 @@ public class SearchFiltering {
     public static void addDefaultFilters(SearchQuery query, Set<String> currentRoles) {
         Map<String, SearchFilter> filtersByField = SearchFiltering.readFilterConfigurations(currentRoles, null);
         for (SearchFilter searchFilter : filtersByField.values()) {
-		    if (searchFilter.isInput()) {
-		        SearchFiltering.addInputFilter(query, searchFilter);
-		    } else if (searchFilter.isRange()) {
-		        SearchFiltering.addRangeFilter(query, searchFilter);
-		    }
-		    for (FilterValue fv : searchFilter.getValues().values()) {
-		        if (fv.isDefault() || fv.getSelected()) {
-		            query.addFilterQuery(searchFilter.getField() + ":\"" + fv.getId() + "\"");
-		        }
-		    }
-		}
+            if (searchFilter.isInput()) {
+                SearchFiltering.addInputFilter(query, searchFilter);
+            } else if (searchFilter.isRange()) {
+                SearchFiltering.addRangeFilter(query, searchFilter);
+            }
+            for (FilterValue fv : searchFilter.getValues().values()) {
+                if (fv.isDefault() || fv.getSelected()) {
+                    query.addFilterQuery(searchFilter.getField() + ":\"" + fv.getId() + "\"");
+                }
+            }
+        }
     }
 
     public static Map<String, SearchFilter> sortFilters(Map<String, SearchFilter> filters) {
@@ -505,26 +506,25 @@ public class SearchFiltering {
         return "";
     }
 
-    public static void setSelectedFilters(Map<String, SearchFilter> filters,
-            Map<String, List<String>> requestFilters) {
+    public static void setSelectedFilters(Map<String, SearchFilter> filters, Map<String, List<String>> requestFilters) {
         for (SearchFilter filter : filters.values()) {
             if (requestFilters.containsKey(filter.getId())) {
                 List<String> requestValues = requestFilters.get(filter.getId());
                 if (!SearchFiltering.isEmptyValues(requestValues)) {
                     filter.setSelected(true);
                     if (filter.isRange()) {
-                         filter.setRangeValues(requestValues.iterator().next());
+                        filter.setRangeValues(requestValues.iterator().next());
                     } else if (filter.isInput()) {
-                   	 	filter.setInputText(requestValues.iterator().next());
+                        filter.setInputText(requestValues.iterator().next());
                     } else {
-                    	for (String requestValue : requestValues) {
+                        for (String requestValue : requestValues) {
                             if (filter.getValues().containsKey(requestValue)) {
                                 FilterValue value = filter.getValue(requestValue);
                                 value.setSelected(true);
                             } else {
-                            	FilterValue value = new FilterValue(requestValue);
-                            	value.setSelected(true);
-                            	filter.addValue(value);
+                                FilterValue value = new FilterValue(requestValue);
+                                value.setSelected(true);
+                                filter.addValue(value);
                             }
                         }
                     }
