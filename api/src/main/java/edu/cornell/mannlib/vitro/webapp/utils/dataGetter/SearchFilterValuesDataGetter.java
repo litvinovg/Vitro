@@ -12,9 +12,6 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 
 import com.google.common.base.Optional;
-import com.ibm.icu.text.UnicodeSet;
-import com.ibm.icu.util.LocaleData;
-import com.ibm.icu.util.ULocale;
 import edu.cornell.mannlib.vitro.webapp.config.ConfigurationProperties;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.dao.DisplayVocabulary;
@@ -73,8 +70,6 @@ public class SearchFilterValuesDataGetter extends DataGetterBase implements Data
         responseMap.put("searchFilter", this.searchFilter);
         responseMap.put("bodyTemplate", defaultTemplate);
         responseMap.put("languageAware", isLanguageAwarenessEnabled());
-        ULocale uLocale = ULocale.forLocale(vreq.getLocale());
-        responseMap.put("alphabet", LocaleData.getExemplarSet(uLocale, UnicodeSet.CASE));
         return responseMap;
     }
 
