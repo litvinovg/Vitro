@@ -17,7 +17,7 @@
  <section id="searchFilterValues" class="contentSectionContainer">
     <section id="selectContentType" name="selectContentType" ${selectFilterStyle} role="region">
 
-        <label for="selectSearchFilter">${i18n().select_search_filter}<span class="requiredHint"> *</span></label>
+        <label for="selectSearchFilter">${i18n().select_search_filter_to_browse}<span class="requiredHint"> *</span></label>
         <select name="selectSearchFilter" id="selectSearchFilter" role="combobox">
             <option value="-1" role="option">${i18n().select_one}</option>
             <#list searchFilters as filter>
@@ -32,7 +32,7 @@
 </section>
 <script>
     var i18nStringsBrowseSearchFilters = {
-        browseSearchFilter: '${i18n().search_filter_values?js_string}',
+        browseSearchFilter: '${i18n().browse_search_filter_facets?js_string}',
         allCapitalized: '${i18n().all_capitalized?js_string}',
         supplySearchFilter: '${i18n().supply_search_filer?js_string}'
     };

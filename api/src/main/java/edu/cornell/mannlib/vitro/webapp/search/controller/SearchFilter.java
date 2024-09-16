@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -48,7 +49,7 @@ public class SearchFilter {
     private String rangeText = "";
     private String rangeInput = "";
     private boolean hidden = false;
-    private Locale locale;
+    private Optional<Locale> locale;
     private boolean multilingual;
 
     public String getRangeInput() {
@@ -63,7 +64,7 @@ public class SearchFilter {
         return rangeText;
     }
 
-    public SearchFilter(String id, Locale locale) {
+    public SearchFilter(String id, Optional<Locale> locale) {
         this.id = id;
         this.locale = locale;
     }
@@ -90,7 +91,11 @@ public class SearchFilter {
 
     public String getField() {
         if (multilingual) {
-            return locale.toLanguageTag() + field;
+            if (locale.isPresent()) {
+                return locale.get().toLanguageTag() + field;
+            } else {
+                return Locale.getDefault().toLanguageTag() + field;
+            }
         }
         return field;
     }

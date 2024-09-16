@@ -6454,3 +6454,20 @@ uil-data:browse_results_alphabetical_index.Vitro
         uil:hasKey       "browse_results_alphabetical_index" ;
         uil:hasPackage   "Vitro-languages" .
 
+uil-data:browse_search_filter_facets.Vitro
+        rdf:type         owl:NamedIndividual ;
+        rdf:type         uil:UILabel ;
+        rdfs:label       "Отображение результатов поискового фильтра"@ru-RU ;
+        uil:hasApp       "Vitro" ;
+        uil:hasKey       "browse_search_filter_facets" ;
+        uil:hasPackage   "Vitro-languages" .
+
+uil-data:select_search_filter_to_browse.Vitro
+        rdf:type         owl:NamedIndividual ;
+        rdf:type         uil:UILabel ;
+        rdfs:label       "Выберите фильтр"@ru-RU ;
+        uil:hasApp       "Vitro" ;
+        uil:hasKey       "select_search_filter_to_browse" ;
+        uil:hasPackage   "Vitro-languages" .
+
+

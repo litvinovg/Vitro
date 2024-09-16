@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -249,8 +250,8 @@ public class SearchFiltering {
                 if (filtersByField.containsKey(resultFieldName)) {
                     filter = filtersByField.get(resultFieldName);
                 } else {
-                    filter = createSearchFilter(filtersByField, solution, resultFilterId, resultFieldName, vreq
-                            .getLocale());
+                    Optional<Locale> locale = vreq != null ? Optional.of(vreq.getLocale()) : Optional.empty();
+                    filter = createSearchFilter(filtersByField, solution, resultFilterId, resultFieldName, locale);
                 }
                 filter.setMulitlingual(solution.get("multilingual").asLiteral().getBoolean());
                 if (solution.get("value_id") == null) {
@@ -412,7 +413,7 @@ public class SearchFiltering {
     }
 
     private static SearchFilter createSearchFilter(Map<String, SearchFilter> filtersByField,
-            QuerySolution solution, String resultFilterId, String resultFieldName, Locale locale) {
+            QuerySolution solution, String resultFilterId, String resultFieldName, Optional<Locale> locale) {
         SearchFilter filter;
         filter = new SearchFilter(resultFilterId, locale);
         filtersByField.put(resultFieldName, filter);
