@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import edu.cornell.mannlib.vitro.webapp.config.ContextPath;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.PageController;
 import edu.cornell.mannlib.vitro.webapp.dao.PageDao;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
@@ -64,7 +64,7 @@ public class PageRoutingFilter implements Filter{
         HttpServletResponse response = (HttpServletResponse) arg1;
         HttpServletRequest req = (HttpServletRequest) arg0;
 
-        String path = req.getRequestURI().substring(req.getContextPath().length());
+        String path = req.getRequestURI().substring(ContextPath.getPath(req).length());
 
         // check for first part of path
         // ex. /hats/superHat -> /hats
