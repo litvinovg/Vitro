@@ -130,12 +130,12 @@ public class PagedSearchController extends FreemarkerHttpServlet {
 
     @Override
     protected ResponseValues processRequest(VitroRequest vreq) {
-    	Map<String, List<String>> requestFilters = SearchFiltering.getRequestFilters(vreq);
+        Map<String, List<String>> requestFilters = SearchFiltering.getRequestFilters(vreq);
         return process(vreq, requestFilters);
     }
- 
-	public static ResponseValues process(VitroRequest vreq, Map<String, List<String>> requestFilters) {
-		// There may be other non-html formats in the future
+
+    public static ResponseValues process(VitroRequest vreq, Map<String, List<String>> requestFilters) {
+        // There may be other non-html formats in the future
         Format format = getFormat(vreq);
         boolean wasXmlRequested = Format.XML == format;
         boolean wasCSVRequested = Format.CSV == format;
@@ -176,12 +176,12 @@ public class PagedSearchController extends FreemarkerHttpServlet {
             if (log.isDebugEnabled()) {
                 log.debug(getSpentTime(startTime) + "ms spent before get sort configurations.");
             }
-            
-        	SearchFiltering.setSelectedFilters(filterConfigurationsByField, requestFilters);
+
+            SearchFiltering.setSelectedFilters(filterConfigurationsByField, requestFilters);
             if (log.isDebugEnabled()) {
                 log.debug(getSpentTime(startTime) + "ms spent after setSelectedFilters.");
-            }	
-            
+            }
+
             Map<String, SortConfiguration> sortConfigurations = SearchFiltering.getSortConfigurations(vreq);
             if (log.isDebugEnabled()) {
                 log.debug(getSpentTime(startTime) + "ms spent before get query configurations.");
@@ -307,7 +307,7 @@ public class PagedSearchController extends FreemarkerHttpServlet {
         } catch (Throwable e) {
             return doSearchError(e, format);
         }
-	}
+    }
 
     private static long getSpentTime(long startTime) {
         return (System.nanoTime() - startTime) / 1000000;
@@ -453,7 +453,7 @@ public class PagedSearchController extends FreemarkerHttpServlet {
 
         SearchFiltering.addFacetFieldsToQuery(filters, query);
 
-    	SearchFiltering.addFiltersToQuery(query, filters);	
+        SearchFiltering.addFiltersToQuery(query, filters);
 
         log.debug("Query = " + query.toString());
         return query;
