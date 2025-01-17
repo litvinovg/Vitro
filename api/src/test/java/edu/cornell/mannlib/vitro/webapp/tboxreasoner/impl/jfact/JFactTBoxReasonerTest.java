@@ -1,5 +1,7 @@
 package edu.cornell.mannlib.vitro.webapp.tboxreasoner.impl.jfact;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.StringReader;
 
 import org.apache.jena.ontology.OntModel;
@@ -34,7 +36,8 @@ public class JFactTBoxReasonerTest {
 			"         \r\n" + 
 			"         rdfs:subClassOf [ rdf:type owl:Class ;\r\n" + 
 			"                           owl:intersectionOf ( <http://vivo.mydomain.edu/individual/class_a>\r\n" + 
-			"                                                <http://vivo.mydomain.edu/individual/class_b>\r\n" + 
+			"                                                <http://vivo.mydomain.edu/individual/class_b>\r\n" +
+			"                                                <http://vivo.mydomain.edu/individual/class_c>\r\n" + 
 			"                                              )\r\n" + 
 			"                         ] .\r\n" + 
 			"\r\n" + 
@@ -92,6 +95,7 @@ public class JFactTBoxReasonerTest {
 		JenaModelUtils.removeWithBlankNodesAsVariables(subtractions, tboxAssertions.getBaseModel());
 		tboxAssertions.getBaseModel().notifyEvent(new EditEvent(null, false));
 		waitForTBoxReasoning(driver);
+		assertTrue(tboxAssertions.getBaseModel().isEmpty());
 		// Confirm that no statements related to classes a, b or c remain in the
 		// TBox union model.  (The inference model may not be completely empty, because
 		// the reasoner may supply unrelated triples related to OWL and RDFS vocabulary.)
