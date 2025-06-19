@@ -174,6 +174,12 @@
     rdfs:range [ a owl:Class ; owl:unionOf  ( :AttributeType :AttributeValuePattern ) ] ;
     rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueSet :ValueSetTemplate ) ] .
 
+:isDefaultForNewElements a owl:DataProperty ,
+    owl:FunctionalProperty ;
+    rdfs:label "Is default for new elements"@en-US ;
+    rdfs:range xsd:boolean ;
+    rdfs:domain [ a owl:Class ; owl:unionOf ( :ValueSet :ValueSetTemplate ) ] .
+
 :values a owl:ObjectProperty ;
     rdfs:comment "Multiple values";
     rdfs:label "values"@en-US ;

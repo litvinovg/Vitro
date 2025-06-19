@@ -375,6 +375,7 @@
     access:containsElementsOfType access-individual:Class .
 
 :AdminDisplayClassValueSet a access:ValueSet ;
+    access:isDefaultForNewElements true ;
     access:containsElementsOfType access-individual:Class .
 
 :AdminUpdateClassValueSet a access:ValueSet ;

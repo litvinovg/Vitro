@@ -2164,6 +2164,7 @@
 :CuratorEditObjectPropertyValueSet a access:ValueSet ;
     access:containsElementsOfType access-individual:ObjectProperty .
 :AdminEditObjectPropertyValueSet a access:ValueSet ;
+    access:isDefaultForNewElements true ;
     access:containsElementsOfType access-individual:ObjectProperty .
 
 :PublicDisplayObjectPropertyValueSet a access:ValueSet ;
@@ -2173,6 +2174,7 @@
 :CuratorDisplayObjectPropertyValueSet a access:ValueSet ;
     access:containsElementsOfType access-individual:ObjectProperty .
 :AdminDisplayObjectPropertyValueSet a access:ValueSet ;
+    access:isDefaultForNewElements true ;
     access:containsElementsOfType access-individual:ObjectProperty .
 
 :PublicDisplayDataPropertyValueSet a access:ValueSet ;
@@ -2182,6 +2184,7 @@
 :CuratorDisplayDataPropertyValueSet a access:ValueSet ;
     access:containsElementsOfType access-individual:DataProperty .
 :AdminDisplayDataPropertyValueSet a access:ValueSet ;
+    access:isDefaultForNewElements true ;
     access:containsElementsOfType access-individual:DataProperty .
 
 :PublicDisplayFauxObjectPropertyValueSet a access:ValueSet ;

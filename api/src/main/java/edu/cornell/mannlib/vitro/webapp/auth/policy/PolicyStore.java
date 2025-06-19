@@ -32,8 +32,8 @@ public class PolicyStore implements Policies {
     protected Map<String, Policy> policyMap = new ConcurrentHashMap<>();
 
     @Override
-    public boolean contains(Policy policy) {
-        return policyList.contains(policy);
+    public boolean contains(String uri) {
+        return policyMap.containsKey(uri);
     }
 
     @Override

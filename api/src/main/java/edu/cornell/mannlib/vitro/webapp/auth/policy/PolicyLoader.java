@@ -376,6 +376,48 @@ public class PolicyLoader {
         }
     }
 
+
+    public void loadInactivePolicies() {
+        List<String> policyUris = getPolicyUris();
+        PolicyStore store = PolicyStore.getInstance();
+        for (String uri : policyUris) {
+            if (store.contains(uri)) {
+                continue;
+            }
+            Set<DynamicPolicy> policies = new HashSet<>();
+            List<String> dataSetNames = getDataSetNames(uri);
+            if (dataSetNames.isEmpty()) {
+                Map<String, AccessRule> rules = new HashMap<>();
+                try {
+                    loadRulesWithoutDataSet(uri, rules);
+                } catch (Exception e) {
+                    log.info(String.format("Policy '%s' failed to load ", uri));
+                    log.debug(e, e);
+                }
+                if (!rules.isEmpty()) {
+                    long priority = getPriority(uri);
+                    DynamicPolicy policy = new DynamicPolicy(uri, priority);
+                    policy.addRules(rules.values());
+                    policies.add(policy);
+                }
+            } else {
+                for (String dataSetName : dataSetNames) {
+                    if (store.contains(dataSetName)) {
+                        continue;
+                    }
+                    DynamicPolicy policy = loadPolicyFromTemplateDataSet(dataSetName);
+                    if (policy != null) {
+                        policies.add(policy);
+                    }
+                }
+            }
+            for (DynamicPolicy policy : policies) {
+                store.add(policy);
+                log.info("Loaded policy " + policy.getUri());
+            }
+        }
+    }
+
     public List<String> getPolicyUris() {
         debug("SPARQL Query to get policy uris from the graph:\n %s", POLICY_QUERY);
         List<String> policyUris = new LinkedList<String>();

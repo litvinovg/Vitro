@@ -10,7 +10,7 @@ public interface Policies {
 
     List<Policy> getList();
 
-    boolean contains(Policy policy);
+    boolean contains(String uri);
 
     void add(Policy policy);
 
