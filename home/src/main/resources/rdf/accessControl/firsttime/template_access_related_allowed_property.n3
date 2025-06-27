@@ -209,18 +209,26 @@
     .
 
 :SelfEditorDisplayObjectPropertyValueSet a access:ValueSet ;
+    access:isDefaultForNewElements true ;
     access:containsElementsOfType access-individual:ObjectProperty .
 :SelfEditorDisplayDataPropertyValueSet a access:ValueSet ;
+    access:isDefaultForNewElements true ;
     access:containsElementsOfType access-individual:DataProperty .
 :SelfEditorDisplayFauxObjectPropertyValueSet a access:ValueSet ;
+    access:isDefaultForNewElements true ;
     access:containsElementsOfType access-individual:FauxObjectProperty .
 :SelfEditorDisplayFauxDataPropertyValueSet a access:ValueSet ;
+    access:isDefaultForNewElements true ;
     access:containsElementsOfType access-individual:FauxDataProperty .
 :SelfEditorPublishObjectPropertyValueSet a access:ValueSet ;
+    access:isDefaultForNewElements true ;
     access:containsElementsOfType access-individual:ObjectProperty .
 :SelfEditorPublishDataPropertyValueSet a access:ValueSet ;
+    access:isDefaultForNewElements true ;
     access:containsElementsOfType access-individual:DataProperty .
 :SelfEditorPublishFauxObjectPropertyValueSet a access:ValueSet ;
+    access:isDefaultForNewElements true ;
     access:containsElementsOfType access-individual:FauxObjectProperty .
 :SelfEditorPublishFauxDataPropertyValueSet a access:ValueSet ;
+    access:isDefaultForNewElements true ;
     access:containsElementsOfType access-individual:FauxDataProperty .

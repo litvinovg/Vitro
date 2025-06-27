@@ -327,6 +327,7 @@ public class PolicyLoader {
             + "  ?valueSet a access:ValueSet .\n"
             + "  ?valueSet access:containsElementsOfType ?setElementsType .\n"
             + "  ?valueSet access:value ?newRoleUri .\n"
+            + "  ?valueSet access:isDefaultForNewElements ?isDefault .\n"
             + "  ?valueSet access:value ?dataValue ."
             + "}\n"
             + "WHERE {\n"
@@ -339,6 +340,9 @@ public class PolicyLoader {
             + "    OPTIONAL {\n"
             + "      FILTER ( str(?setElementsType) = 'https://vivoweb.org/ontology/vitro-application/auth/individual/SubjectRole' )\n"
             + "      BIND(?role as ?newRoleUri)\n"
+            + "    }"
+            + "    OPTIONAL {\n"
+            + "      ?valueSetTemplateUri access:isDefaultForNewElements ?isDefault .\n"
             + "    }"
             + "  }"
             + "}\n";
