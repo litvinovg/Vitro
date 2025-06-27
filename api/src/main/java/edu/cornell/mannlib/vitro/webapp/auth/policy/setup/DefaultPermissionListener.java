@@ -1,17 +1,22 @@
 package edu.cornell.mannlib.vitro.webapp.auth.policy.setup;
 
+import static edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType.CLASS;
+import static edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType.DATA_PROPERTY;
+import static edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType.OBJECT_PROPERTY;
 import static edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary.AUTH_VOCABULARY_PREFIX;
+import static edu.cornell.mannlib.vitro.webapp.modelaccess.ModelNames.ACCESS_CONTROL;
 import static java.lang.String.format;
+import static org.apache.jena.vocabulary.OWL.Class;
+import static org.apache.jena.vocabulary.OWL.DatatypeProperty;
+import static org.apache.jena.vocabulary.OWL.ObjectProperty;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.cornell.mannlib.vitro.webapp.auth.attributes.AccessObjectType;
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.AttributeValueSet;
 import edu.cornell.mannlib.vitro.webapp.auth.attributes.AttributeValueSetRegistry;
 import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyLoader;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
-import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelNames;
 import edu.cornell.mannlib.vitro.webapp.utils.sparql.SparqlQueryUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,9 +41,9 @@ public class DefaultPermissionListener extends GraphListenerBase {
     private static final Log log = LogFactory.getLog(DefaultPermissionListener.class);
     private static Map<String, String> typesMap = new HashMap<>() {
         {
-            put(OWL.Class.getURI(), AccessObjectType.CLASS.toString());
-            put(OWL.DatatypeProperty.getURI(), AccessObjectType.DATA_PROPERTY.toString());
-            put(OWL.ObjectProperty.getURI(), AccessObjectType.OBJECT_PROPERTY.toString());
+            put(Class.getURI(), CLASS.toString());
+            put(DatatypeProperty.getURI(), DATA_PROPERTY.toString());
+            put(ObjectProperty.getURI(), OBJECT_PROPERTY.toString());
         }
     };
     private static final String QUERY = "" +
@@ -52,12 +57,16 @@ public class DefaultPermissionListener extends GraphListenerBase {
             "}";
     @Override
     protected void addEvent(Triple triple) {
-        if (!triple.getPredicate().hasURI(RDF.type.getURI()) || !triple.getSubject().isURI() || !(triple.getObject()
-                .hasURI(OWL.Class.getURI()) || triple.getObject().hasURI(OWL.DatatypeProperty.getURI()) || triple
-                        .getObject().hasURI(OWL.ObjectProperty.getURI()))) {
+        if (!triple.getPredicate().hasURI(RDF.type.getURI()) || !triple.getSubject().isURI() ||
+                !(
+                        triple.getObject().hasURI(OWL.Class.getURI()) ||
+                        triple.getObject().hasURI(DatatypeProperty.getURI()) ||
+                        triple.getObject().hasURI(ObjectProperty.getURI())
+                 )
+            ) {
             return;
         }
-        OntModel acModel = ModelAccess.getInstance().getOntModel(ModelNames.ACCESS_CONTROL);
+        OntModel acModel = ModelAccess.getInstance().getOntModel(ACCESS_CONTROL);
         if (acModel.containsResource(ResourceFactory.createResource(triple.getSubject().getURI()))) {
             return;
         }
@@ -65,7 +74,7 @@ public class DefaultPermissionListener extends GraphListenerBase {
     }
 
     private void addToAttributeValueSets(String uri, String type) {
-        OntModel acModel = ModelAccess.getInstance().getOntModel(ModelNames.ACCESS_CONTROL);
+        OntModel acModel = ModelAccess.getInstance().getOntModel(ACCESS_CONTROL);
         ParameterizedSparqlString pss = new ParameterizedSparqlString(QUERY);
         pss.setLiteral("type", type);
         Query query = SparqlQueryUtils.create(pss.toString());
