@@ -1,6 +1,7 @@
 package edu.cornell.mannlib.vitro.webapp.auth.policy.setup;
 
 import static edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary.AUTH_VOCABULARY_PREFIX;
+import static java.lang.String.format;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,9 +62,6 @@ public class DefaultPermissionListener extends GraphListenerBase {
             return;
         }
         addToAttributeValueSets(triple.getSubject().getURI(), typesMap.get(triple.getObject().getURI()));
-        //find all ValueSets with applicable type and add new URI to set, update in-memory value sets.
-        log.error(String.format("Create permissions for type %s, uri %s", triple.getObject().getURI(), triple
-                .getSubject().getURI()));
     }
 
     private void addToAttributeValueSets(String uri, String type) {
@@ -77,7 +75,7 @@ public class DefaultPermissionListener extends GraphListenerBase {
             while (resultSet.hasNext()) {
                 QuerySolution qs = resultSet.nextSolution();
                 Resource valueSet = qs.getResource("valueSet");
-                log.error("Found target value set " + valueSet.getURI());
+                log.debug(format("Found target value set %s for uri %s of type %s", valueSet.getURI(), uri, type));
                 AttributeValueSet avs = AttributeValueSetRegistry.getInstance().get(valueSet.getURI());
                 if (avs == null) {
                     updateValueSetGraph(uri, acModel, valueSet);
