@@ -2,11 +2,15 @@
 
 package edu.cornell.library.scholars.webapp.controller.api.distribute.rdf;
 
+import static edu.cornell.library.scholars.webapp.controller.api.distribute.rdf.graphbuilder.GraphBuilderUtilities.isLanguageFilteringDisabledForRequest;
+import static edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess.LanguageOption.LANGUAGE_AWARE;
+import static edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess.LanguageOption.LANGUAGE_NEUTRAL;
 import static edu.cornell.mannlib.vitro.webapp.utils.sparqlrunner.SparqlQueryRunner.createSelectQueryContext;
 
 import java.io.OutputStream;
 
 import edu.cornell.library.scholars.webapp.controller.api.distribute.DataDistributorContext;
+import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess.LanguageOption;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.RequestModelAccess;
 import edu.cornell.mannlib.vitro.webapp.rdfservice.RDFService.ResultFormat;
 import edu.cornell.mannlib.vitro.webapp.utils.configuration.Property;
@@ -93,7 +97,8 @@ public class SelectFromContentDistributor extends AbstractSparqlBindingDistribut
     public void writeOutput(OutputStream output) throws DataDistributorException {
         QueryHolder boundQuery = binder.bindValuesToQuery(uriBindingNames, literalBindingNames,
                 new QueryHolder(rawQuery));
-        createSelectQueryContext(this.models.getRDFService(), boundQuery).execute().writeToOutput(output,
+        LanguageOption option = isLanguageFilteringDisabledForRequest(ddContext) ? LANGUAGE_NEUTRAL : LANGUAGE_AWARE;
+        createSelectQueryContext(models.getRDFService(option), boundQuery).execute().writeToOutput(output,
                 ResultFormat.valueOf(resultFormat));
     }
 
