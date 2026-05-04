@@ -7,7 +7,10 @@ import static edu.cornell.mannlib.vitro.webapp.utils.sparqlrunner.SparqlQueryRun
 import java.io.OutputStream;
 
 import edu.cornell.library.scholars.webapp.controller.api.distribute.DataDistributorContext;
+import edu.cornell.library.scholars.webapp.controller.api.distribute.rdf.graphbuilder.GraphBuilderUtilities;
+import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.RequestModelAccess;
+import edu.cornell.mannlib.vitro.webapp.rdfservice.RDFService;
 import edu.cornell.mannlib.vitro.webapp.rdfservice.RDFService.ResultFormat;
 import edu.cornell.mannlib.vitro.webapp.utils.configuration.Property;
 import edu.cornell.mannlib.vitro.webapp.utils.sparqlrunner.QueryHolder;
@@ -93,7 +96,14 @@ public class SelectFromContentDistributor extends AbstractSparqlBindingDistribut
     public void writeOutput(OutputStream output) throws DataDistributorException {
         QueryHolder boundQuery = binder.bindValuesToQuery(uriBindingNames, literalBindingNames,
                 new QueryHolder(rawQuery));
-        createSelectQueryContext(this.models.getRDFService(), boundQuery).execute().writeToOutput(output,
+        RDFService rdfService;
+        if (GraphBuilderUtilities.isLanguageFilteringDisabledForRequest(ddContext)) {
+            rdfService = ModelAccess.getInstance().getRDFService();
+        } else {
+            rdfService = this.models.getRDFService();
+        }
+        
+        createSelectQueryContext(rdfService, boundQuery).execute().writeToOutput(output,
                 ResultFormat.valueOf(resultFormat));
     }
 
