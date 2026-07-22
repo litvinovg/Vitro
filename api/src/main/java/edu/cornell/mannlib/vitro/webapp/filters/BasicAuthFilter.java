@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.cornell.mannlib.vitro.webapp.auth.checks.UserOnThread;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
+import edu.cornell.mannlib.vitro.webapp.config.ConfigurationProperties;
 import edu.cornell.mannlib.vitro.webapp.controller.authenticate.Authenticator;
 import edu.cornell.mannlib.vitro.webapp.controller.authenticate.Authenticator.LoginNotPermitted;
 import org.apache.commons.logging.Log;
@@ -28,6 +29,8 @@ import org.apache.commons.logging.LogFactory;
 @WebFilter(filterName = "Basic Authentication filter", urlPatterns = {"/*"})
 public class BasicAuthFilter implements Filter {
 
+    private static final String PROPERTY_NAME = "authentication.basic";
+    private static final String ENABLED = "enabled";
     private static final String UNAUTHORIZED_ACCESS = "Unauthorized access.";
     private static final Log log = LogFactory.getLog(BasicAuthFilter.class);
 
@@ -37,7 +40,8 @@ public class BasicAuthFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
         String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Basic ")) {
+        boolean isDisabled = !isEnabled();
+        if (isDisabled || authHeader == null || !authHeader.startsWith("Basic ")) {
             chain.doFilter(request, response);
             return;
         }
@@ -70,6 +74,10 @@ public class BasicAuthFilter implements Filter {
             log.error(e, e);
             response.sendError(SC_BAD_REQUEST, UNAUTHORIZED_ACCESS);
         }
+    }
+
+    private boolean isEnabled() {
+        return ENABLED.equalsIgnoreCase(ConfigurationProperties.getInstance().getProperty(PROPERTY_NAME));
     }
 
     @Override
