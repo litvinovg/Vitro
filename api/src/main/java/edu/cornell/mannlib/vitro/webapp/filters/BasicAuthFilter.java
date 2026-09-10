@@ -1,6 +1,7 @@
 package edu.cornell.mannlib.vitro.webapp.filters;
 
 import static edu.cornell.mannlib.vedit.beans.LoginStatusBean.AuthenticationSource.INTERNAL;
+import static java.lang.String.format;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 
@@ -26,7 +27,7 @@ import edu.cornell.mannlib.vitro.webapp.controller.authenticate.Authenticator.Lo
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-@WebFilter(filterName = "Basic Authentication filter", urlPatterns = {"/*"})
+@WebFilter(filterName = "Basic Authentication filter", urlPatterns = { "/*" })
 public class BasicAuthFilter implements Filter {
 
     private static final String PROPERTY_NAME = "authentication.basic";
@@ -49,26 +50,26 @@ public class BasicAuthFilter implements Filter {
             String base64 = authHeader.substring(6).trim();
             String credentials = new String(Base64.getDecoder().decode(base64), StandardCharsets.UTF_8);
             String[] values = credentials.split(":", 2);
-            if ((values.length == 2)) {
-                String username = values[0];
-                String password = values[1];
-                Authenticator authenticator = Authenticator.getInstance(request);
-                UserAccount user = authenticator.getAccountForInternalAuth(username);
-                if (user != null && authenticator.isUserPermittedToLogin(user)
-                        && authenticator.isCurrentPasswordArgon2(user, password)) {
-                    try (UserOnThread uot = new UserOnThread(user.getUri())) {
-                        try {
-                            authenticator.recordLoginAgainstUserAccount(user, INTERNAL);
-                        } catch (LoginNotPermitted e) {
-                            throw e;
-                        }
-                    }
-                    chain.doFilter(request, response);
-                    return;
-                } else {
-                    response.sendError(SC_FORBIDDEN, UNAUTHORIZED_ACCESS);
-                    return;
+            if ((values.length != 2)) {
+                throw new IllegalArgumentException(
+                        format("Expected 2 arguments: username and password, received %d", values.length));
+            }
+            String username = values[0];
+            String password = values[1];
+            Authenticator authenticator = Authenticator.getInstance(request);
+            UserAccount user = authenticator.getAccountForInternalAuth(username);
+            if (user != null && authenticator.isUserPermittedToLogin(user)
+                    && authenticator.isCurrentPasswordArgon2(user, password)) {
+                try (UserOnThread uot = new UserOnThread(user.getUri())) {
+                    authenticator.recordLoginAgainstUserAccount(user, INTERNAL);
+                } catch (LoginNotPermitted e) {
+                    throw e;
                 }
+                chain.doFilter(request, response);
+                return;
+            } else {
+                response.sendError(SC_FORBIDDEN, UNAUTHORIZED_ACCESS);
+                return;
             }
         } catch (IllegalArgumentException | LoginNotPermitted e) {
             log.error(e, e);
