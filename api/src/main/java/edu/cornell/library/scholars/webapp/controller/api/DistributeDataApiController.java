@@ -143,9 +143,13 @@ public class DistributeDataApiController extends VitroApiServlet {
         } catch (NotAuthorizedException e) {
             resp.setContentType(TEXT_PLAIN.getMediaType());
             if (LoginStatusBean.getCurrentUser(req) == null) {
-                do401Unauthorized(resp, new OutputStreamWriter(outputStream, UTF_8));
+                try (OutputStreamWriter writer = new OutputStreamWriter(outputStream, UTF_8)) {
+                    do401Unauthorized(resp, writer);
+                }
             } else {
-                do403Forbidden(resp, new OutputStreamWriter(outputStream, UTF_8));
+                try (OutputStreamWriter writer = new OutputStreamWriter(outputStream, UTF_8)) {
+                    do403Forbidden(resp, writer);
+                }
             }
         } catch (Exception e) {
             log.error("Failed to execute the DataDistributor", e);
